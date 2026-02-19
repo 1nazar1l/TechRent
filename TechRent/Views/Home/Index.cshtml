@@ -1,0 +1,62 @@
+﻿@model IEnumerable<TechRent.Models.Entities.Equipment>
+
+@{
+    ViewData["Title"] = "Главная";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Добро пожаловать в TechRent</h1>
+    <p>Платформа аренды строительного оборудования</p>
+</div>
+
+<hr />
+
+<h2>Наше оборудование</h2>
+
+@if (!Model.Any())
+{
+    <p>Оборудование временно отсутствует</p>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var item in Model)
+        {
+            <div class="col">
+                <div class="card h-100">
+                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                    {
+                        <img src="@item.ImageUrl" class="card-img-top" alt="@item.Name" style="height: 200px; object-fit: cover;">
+                    }
+                    else
+                    {
+                        <div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
+                            Нет фото
+                        </div>
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Name</h5>
+                        <p class="card-text">@item.Description</p>
+                        <p class="card-text">
+                            <strong>Тип:</strong> @item.Type<br />
+                            <strong>Цена:</strong> @item.PricePerDay.ToString("C")/день<br />
+                            <strong>Залог:</strong> @item.Deposit.ToString("C")<br />
+                            <strong>Доступно:</strong> @item.AvailableQuantity шт.
+                        </p>
+                        @if (item.IsAvailable)
+                        {
+                            <span class="badge bg-success">В наличии</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Нет в наличии</span>
+                        }
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
