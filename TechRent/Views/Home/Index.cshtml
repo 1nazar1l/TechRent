@@ -1,62 +1,533 @@
-﻿@model IEnumerable<TechRent.Models.Entities.Equipment>
-
-@{
+﻿@{
+    Layout = null;  // ВООБЩЕ БЕЗ ШАБЛОНА
     ViewData["Title"] = "Главная";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Добро пожаловать в TechRent</h1>
-    <p>Платформа аренды строительного оборудования</p>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TECHRENT - Construction Equipment Rental</title>
 
-<hr />
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 
-<h2>Наше оборудование</h2>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/index.css" />
+</head>
+<body data-theme="light">
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="site-header">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <span class="material-symbols-outlined">precision_manufacturing</span>
+                </div>
+                <h2 class="logo-text">TECHRENT</h2>
+            </div>
 
-@if (!Model.Any())
-{
-    <p>Оборудование временно отсутствует</p>
-}
-else
-{
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        @foreach (var item in Model)
-        {
-            <div class="col">
-                <div class="card h-100">
-                    @if (!string.IsNullOrEmpty(item.ImageUrl))
-                    {
-                        <img src="@item.ImageUrl" class="card-img-top" alt="@item.Name" style="height: 200px; object-fit: cover;">
-                    }
-                    else
-                    {
-                        <div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
-                            Нет фото
-                        </div>
-                    }
-                    <div class="card-body">
-                        <h5 class="card-title">@item.Name</h5>
-                        <p class="card-text">@item.Description</p>
-                        <p class="card-text">
-                            <strong>Тип:</strong> @item.Type<br />
-                            <strong>Цена:</strong> @item.PricePerDay.ToString("C")/день<br />
-                            <strong>Залог:</strong> @item.Deposit.ToString("C")<br />
-                            <strong>Доступно:</strong> @item.AvailableQuantity шт.
-                        </p>
-                        @if (item.IsAvailable)
-                        {
-                            <span class="badge bg-success">В наличии</span>
-                        }
-                        else
-                        {
-                            <span class="badge bg-danger">Нет в наличии</span>
-                        }
+            <nav class="main-nav">
+                <a href="#" class="nav-link">Catalog</a>
+                <a href="#" class="nav-link">How to Rent</a>
+                <a href="#" class="nav-link">Pricing</a>
+                <a href="#" class="nav-link">For Suppliers</a>
+                <a href="#" class="nav-link">Support</a>
+            </nav>
+
+            <div class="header-actions">
+                <button class="icon-button" onclick="toggleTheme()" id="theme-toggle">
+                    <span class="material-symbols-outlined" id="theme-icon">light_mode</span>
+                </button>
+                <a class="icon-button" href="/Identity/Account/Register">
+                    <span class="material-symbols-outlined">person</span>
+                </a>
+                <button class="cart-button">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                    <span class="cart-badge"></span>
+                </button>
+                <button class="mobile-menu-button icon-button">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero-section" style='background-image: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.85)), url("https://lh3.googleusercontent.com/aida-public/AB6AXuAiyPSmWrRWtNQgmoevRsKItl86Qo_KSq4dSrM2Jmi23O5LUlWr1s1GcidzcqJLTbtX2yf5nvFOdBgnsZBcL48jxpXCcL5_gEukPCuZB1NrzouxiLnkH11CyB4vR95TNdGBk7SR0F4QwletoRPay8uDolRSc6pEfVNNoN6oH3UM6iujbAB1BuUAzO4z0WIbgpnofGFDNEkqBqjwOfZLbw4jnxOOFVdP8Jnuz25lm3USr8gfGoRlcA8Rr-qSEqduvf-f-3mqfp3yo38");'>
+            <div class="hero-content">
+                <div class="live-badge">
+                    <span class="live-dot"></span>
+                    <span class="live-text">Live Inventory Updated</span>
+                </div>
+
+                <h1 class="hero-title">
+                    Rent Equipment Without Downtime. <span class="highlight">Delivered</span> to Your Site in 2 Hours.
+                </h1>
+
+                <p class="hero-description">
+                    Access over 5,000 active listings from trusted suppliers. Instant booking, transparent pricing, and guaranteed delivery times.
+                </p>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-wrapper">
+                <div class="search-container">
+                    <!-- What field -->
+                    <div class="search-field">
+                        <label class="field-label">
+                            <span class="label-text">What</span>
+                            <div class="field-input-wrapper">
+                                <span class="field-icon material-symbols-outlined">search</span>
+                                <input class="field-input" type="text" placeholder="Excavator, Drill, Lift...">
+                            </div>
+                        </label>
                     </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Подробнее</a>
+
+                    <!-- When field -->
+                    <div class="search-field">
+                        <label class="field-label">
+                            <span class="label-text">When</span>
+                            <div class="field-input-wrapper">
+                                <span class="field-icon material-symbols-outlined">calendar_month</span>
+                                <input class="field-input" type="text" placeholder="Add dates">
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- Where field -->
+                    <div class="search-field">
+                        <label class="field-label">
+                            <span class="label-text">Where</span>
+                            <div class="field-input-wrapper">
+                                <span class="field-icon material-symbols-outlined">location_on</span>
+                                <input class="field-input" type="text" placeholder="Zip code or City">
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- Search Button -->
+                    <button class="search-button">
+                        Find Gear
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <main class="content-container">
+            <!-- Popular Categories -->
+            <section class="mb-20">
+                <div class="section-title-wrapper">
+                    <h2 class="section-title">Popular Categories</h2>
+                    <a href="#" class="view-all-link">
+                        View all categories
+                        <span class="material-symbols-outlined">arrow_forward</span>
+                    </a>
+                </div>
+
+                <div class="categories-grid">
+                    <!-- Category 1 -->
+                    <a href="#" class="category-card">
+                        <div class="category-circle">
+                            <span class="category-icon material-symbols-outlined">agriculture</span>
+                        </div>
+                        <span class="category-name">Earthmoving</span>
+                    </a>
+
+                    <!-- Category 2 -->
+                    <a href="#" class="category-card">
+                        <div class="category-circle">
+                            <span class="category-icon material-symbols-outlined">foundation</span>
+                        </div>
+                        <span class="category-name">Concrete</span>
+                    </a>
+
+                    <!-- Category 3 -->
+                    <a href="#" class="category-card">
+                        <div class="category-circle">
+                            <span class="category-icon material-symbols-outlined">construction</span>
+                        </div>
+                        <span class="category-name">Power Tools</span>
+                    </a>
+
+                    <!-- Category 4 -->
+                    <a href="#" class="category-card">
+                        <div class="category-circle">
+                            <span class="category-icon material-symbols-outlined">forklift</span>
+                        </div>
+                        <span class="category-name">Aerial Lifts</span>
+                    </a>
+
+                    <!-- Category 5 -->
+                    <a href="#" class="category-card">
+                        <div class="category-circle">
+                            <span class="category-icon material-symbols-outlined">wb_incandescent</span>
+                        </div>
+                        <span class="category-name">Lighting</span>
+                    </a>
+
+                    <!-- Category 6 -->
+                    <a href="#" class="category-card">
+                        <div class="category-circle">
+                            <span class="category-icon material-symbols-outlined">grid_view</span>
+                        </div>
+                        <span class="category-name">All Categories</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- How It Works -->
+            <section class="how-it-works-section">
+                <div class="section-header">
+                    <h2 class="section-title">How TechRent Works</h2>
+                    <p class="section-subtitle">Get your equipment in 4 simple steps</p>
+                </div>
+
+                <div class="steps-container">
+                    <!-- Connector Line -->
+                    <div class="connector-line"></div>
+
+                    <!-- Step 1 -->
+                    <div class="step-card">
+                        <div class="step-icon-wrapper">
+                            <span class="step-icon material-symbols-outlined">search</span>
+                        </div>
+                        <h3 class="step-title">1. Select Gear</h3>
+                        <p class="step-description">Browse thousands of tools and heavy machinery available near you.</p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="step-card">
+                        <div class="step-icon-wrapper">
+                            <span class="step-icon material-symbols-outlined">calendar_today</span>
+                        </div>
+                        <h3 class="step-title">2. Choose Dates</h3>
+                        <p class="step-description">Select your rental period. Flexible hourly, daily, or weekly rates.</p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="step-card">
+                        <div class="step-icon-wrapper">
+                            <span class="step-icon material-symbols-outlined">verified_user</span>
+                        </div>
+                        <h3 class="step-title">3. Instant Verify</h3>
+                        <p class="step-description">Secure online verification and payment. No paperwork headaches.</p>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="step-card">
+                        <div class="step-icon-wrapper">
+                            <span class="step-icon material-symbols-outlined">local_shipping</span>
+                        </div>
+                        <h3 class="step-title">4. Site Delivery</h3>
+                        <p class="step-description">Equipment delivered to your job site within 2 hours or scheduled time.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Popular Products -->
+            <section class="mb-20">
+                <div class="products-header">
+                    <div class="products-title-wrapper">
+                        <h2 class="section-title">Popular Now</h2>
+                        <p class="products-subtitle">Top-rated equipment rented by professionals this week.</p>
+                    </div>
+
+                    <div class="navigation-buttons">
+                        <button class="nav-button">
+                            <span class="material-symbols-outlined">chevron_left</span>
+                        </button>
+                        <button class="nav-button">
+                            <span class="material-symbols-outlined">chevron_right</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="products-grid">
+                    <!-- Product Card 1 -->
+                    <article class="product-card">
+                        <div class="product-image-wrapper">
+                            <div class="product-badge">
+                                <span class="badge badge-available">Available Now</span>
+                            </div>
+                            <img class="product-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDElI86uOySEnnst5vrcss9D3vD6-WcTKk_rtuwbatm9JHnQ4Z_A-WwdhJdEVHxOnQ7Y-ZJC7se5xhK5ZOY8QuYyIZpXnQ0ODCoc4tsnXMUFFkxGukfgL8YjM7B1_sG40xk-Pa4sjHqz13uw1tzGmavYrvSU3nWRgZo-qc58HCBQp5xu92XgPN2bJ-baJNCkZ46bmjsMBbZLbY9xHbL41gWrCq9taQemtTE-cotVPpQoCcK6T8JuCSsIMNxKeycxbN6qMd7vbc7MRw" alt="Concrete Mixer">
+                            <button class="favorite-button">
+                                <span class="material-symbols-outlined">favorite</span>
+                            </button>
+                        </div>
+
+                        <div class="product-details">
+                            <div class="rating">
+                                <span class="star-icon material-symbols-outlined">star</span>
+                                <span class="rating-value">4.8</span>
+                                <span class="rating-count">(120)</span>
+                            </div>
+
+                            <h3 class="product-name">Profi 220L Concrete Mixer</h3>
+
+                            <div class="product-footer">
+                                <div class="price-wrapper">
+                                    <span class="price-label">From</span>
+                                    <span class="price">$45<span class="price-period">/day</span></span>
+                                </div>
+                                <button class="add-to-cart-button">
+                                    <span class="material-symbols-outlined">add</span>
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Product Card 2 -->
+                    <article class="product-card">
+                        <div class="product-image-wrapper">
+                            <div class="product-badge">
+                                <span class="badge badge-available">Available Now</span>
+                            </div>
+                            <img class="product-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEMOPc7mhr4O843N-TqtFpWY_0ZYxVKltiVNM-zTidD2b2K005f78XGhI68jCHJMpOWqQqGv8X8WOLJoVrMhdsA5SPWy2lIZp0VLg0BCdmD6-FMlIGOgLHLXPbTWIFBj_4w8KHh7XNjHtBDdl4Jxbihzx3DQ-OBOcQx1do026wpngvVyT7MPGJ5pefxVTlsfiL8tqwQUxWd6SccWUIL_8lEjXtuSjBJ3l41nrQNSqXNcTPJyoTQiaIzrzSKjWo4423L8vgyReW4oA" alt="Mini Excavator">
+                            <button class="favorite-button">
+                                <span class="material-symbols-outlined">favorite</span>
+                            </button>
+                        </div>
+
+                        <div class="product-details">
+                            <div class="rating">
+                                <span class="star-icon material-symbols-outlined">star</span>
+                                <span class="rating-value">4.9</span>
+                                <span class="rating-count">(85)</span>
+                            </div>
+
+                            <h3 class="product-name">CAT Mini Excavator 1.5T</h3>
+
+                            <div class="product-footer">
+                                <div class="price-wrapper">
+                                    <span class="price-label">From</span>
+                                    <span class="price">$180<span class="price-period">/day</span></span>
+                                </div>
+                                <button class="add-to-cart-button">
+                                    <span class="material-symbols-outlined">add</span>
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Product Card 3 -->
+                    <article class="product-card">
+                        <div class="product-image-wrapper">
+                            <div class="product-badge">
+                                <span class="badge badge-lowstock">Low Stock</span>
+                            </div>
+                            <img class="product-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfAoVQjKgG8FFXGA3MrNVxI8YKqhu8DVQQUkg1wTCcqjeFuzFJ3yVgRR-DsT1q-f93derXuxSoDAXy7G0-cG910JTyrGSd0EkRZWuTa2h9P6NDVfH1d6yUn1gQMScSufsSUh3MzNLqstBmQWlXDTOkT_W4xcZ16hgCuNPKNg2Iepyy8ZXOu8QxWgQne0mRS3STGfGsBg2IdqLIvEow9hUGMcAu6kHKiWjmorMQuWI_0hN14VBgIt16dAgtRNVzSXmtRbGl_T-Jlts" alt="Jackhammer">
+                            <button class="favorite-button">
+                                <span class="material-symbols-outlined">favorite</span>
+                            </button>
+                        </div>
+
+                        <div class="product-details">
+                            <div class="rating">
+                                <span class="star-icon material-symbols-outlined">star</span>
+                                <span class="rating-value">4.7</span>
+                                <span class="rating-count">(42)</span>
+                            </div>
+
+                            <h3 class="product-name">Hilti TE 1000 Jackhammer</h3>
+
+                            <div class="product-footer">
+                                <div class="price-wrapper">
+                                    <span class="price-label">From</span>
+                                    <span class="price">$65<span class="price-period">/day</span></span>
+                                </div>
+                                <button class="add-to-cart-button">
+                                    <span class="material-symbols-outlined">add</span>
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Product Card 4 -->
+                    <article class="product-card">
+                        <div class="product-image-wrapper">
+                            <div class="product-badge">
+                                <span class="badge badge-available">Available Now</span>
+                            </div>
+                            <img class="product-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgsjFZoiw1SVdfhpca9AQn9h9-hkmwDEP5s5ziJEczVcvQXZexgf4VBH7jsFb95-oLN2_8krB-EtQxF161C8KiNzCuT11CGM6PTBQz_ZR3KFmHtUHUxwrHY42_k9QB5w4F9u7dzcjVmdNXv5W80BVQa9aNv_ftjOjlA4xiACzfZZKtH9sGPyQ212AMnPDD2cdfZAsjyf0-72oNzrzdZMsOWvIkRBmIdUu7RnLFtw5C6q7raqCd6gCTZ1PgRx_iOjsP5cY98RZQm0g" alt="Scissor Lift">
+                            <button class="favorite-button">
+                                <span class="material-symbols-outlined">favorite</span>
+                            </button>
+                        </div>
+
+                        <div class="product-details">
+                            <div class="rating">
+                                <span class="star-icon material-symbols-outlined">star</span>
+                                <span class="rating-value">5.0</span>
+                                <span class="rating-count">(18)</span>
+                            </div>
+
+                            <h3 class="product-name">Genie Scissor Lift 19ft</h3>
+
+                            <div class="product-footer">
+                                <div class="price-wrapper">
+                                    <span class="price-label">From</span>
+                                    <span class="price">$110<span class="price-period">/day</span></span>
+                                </div>
+                                <button class="add-to-cart-button">
+                                    <span class="material-symbols-outlined">add</span>
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Two Column Section: Delivery & Testimonials -->
+            <div class="two-column-grid">
+                <!-- Delivery Calculator -->
+                <div class="delivery-card">
+                    <div class="delivery-background">
+                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKVUj6uDZIfB_mAF6RkwQXq2rO--OQRigfBCeyWCj6Yjo_o08WKzoIH3smRDbVCRhyptOiAr48pS3DXULlD0dkaGfpSka0LtrHYEdts-gJ-bs7-W2X5xVLgcyEma-UFhadOPAIfv5I2aCq4bmotKH5K1ON3vAVMfL4WFRRH_-GqbEdQN9mwe3C3YxkW_HKf9JATryZ8CRAbPaGVUlgmTM9yeMoc6-HF2jsm9M0TuJHqOZ5nfRSrpF42SWr77JHxQX5eKzSwPvu8nk" alt="Map">
+                        <div class="delivery-gradient"></div>
+                    </div>
+
+                    <div class="delivery-content">
+                        <h3 class="delivery-title">Check Delivery to Site</h3>
+                        <p class="delivery-text">Enter your site address to check real-time availability and calculate exact delivery fees.</p>
+
+                        <div class="address-input-wrapper">
+                            <input class="address-input" type="text" placeholder="Enter delivery address">
+                            <button class="address-submit">
+                                <span class="material-symbols-outlined">arrow_forward</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="drivers-info">
+                        <div class="drivers-avatars">
+                            <img class="driver-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9ut4cNnjxzUstTLxH-qy72qYk6kh5UmGmrWGfFqbzMhCEhZAtB9pH_8R-L5MjRGKZOdGEvZ8DAmtlWVAOxlmJK2sO6E-0Xm1OYUWBgH4fScoTP-9NUcwBSDGafFmqFWe6NmyEp0QO6SCJO_98ZzSEXAbV2H5TQA-VtZmIGvpEPcR49ngCKyih87X1SyQoFonbaBt5C_0PhKpIM5mmdmQQPc4-yr0TqqrMVd3LvMgKDsm_IjJcVioBN3fdiejR98xWeHK3Nm177pA" alt="Driver">
+                            <img class="driver-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq0U_qTtCzsk9nCTTeNC3ZQ1czXraCKDj9s5ArIJUZJBBILNOb9A_Mw0p4S0W-k5fU8oJkdJJWN4-R6hKOfZDs7I5z3-90P-14MEDkXINZAKgL_OnqPs_1SmMaMZDJOH2RD81EeyQ0x-eUvOZ9XyVRFtG-_jn1QtUqPttwPkzdvB-PexyMnGEyZ8jpUOU2ThjywqTXkdaCsl8LBk8OSfFEPOUvLL6H4XnJyVgS02Cg6Zi2PhpUj3y8ZRFydBXV9T1dUd1z6GPJ2Po" alt="Driver">
+                            <div class="drivers-count">+24</div>
+                        </div>
+                        <div class="drivers-text">
+                            <span class="drivers-highlight">26 Drivers</span> active nearby
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial -->
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <h3 class="testimonial-title">Trusted by Pros</h3>
+                        <div class="testimonial-rating">
+                            <span class="material-symbols-outlined">star</span>
+                            <span class="material-symbols-outlined">star</span>
+                            <span class="material-symbols-outlined">star</span>
+                            <span class="material-symbols-outlined">star</span>
+                            <span class="material-symbols-outlined">star_half</span>
+                        </div>
+                    </div>
+
+                    <blockquote class="testimonial-text">
+                        "TechRent saved our project timeline. The excavator arrived in under 90 minutes, exactly as described. The transparent pricing is a game changer for contractors."
+                    </blockquote>
+
+                    <div class="testimonial-author">
+                        <img class="author-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxvoStbK06kDy0GJBAarhTQ-xUkA6kEGOBxfgmRBUnPXJiih22jZLN8z3x4G0KcT5vg-lvP5dmEL3UtRuY7c37xdxOzeuVMmqoDVHY5GejH2TAQ3cSfnSI-Dv6COT43uxgay5IlnQH6XD0nnOIms31eqbaOfLM4ppHSAkG0gbYJerwqxWJrH_gN6-FHVtRjZMIKLJA_Ljvq9Zh4b00AfeJPwaYZ_SVmPrVKgIn6V53EwgOSdtx9WuSuR59VBUj0t3dt8nuBqpbgyY" alt="User Avatar">
+                        <div>
+                            <div class="author-name">Michael Torres</div>
+                            <div class="author-title">Site Manager, ConstructCo</div>
+                        </div>
+                        <div class="author-company">
+                            <div class="company-logo">
+                                <span class="material-symbols-outlined">apartment</span> BUILD
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        }
+
+            <!-- CTA Section -->
+            <section class="cta-section">
+                <h2 class="cta-title">Ready to Start Your Project?</h2>
+                <p class="cta-text">Join 10,000+ contractors who trust TechRent for their equipment needs. No hidden fees, ever.</p>
+                <div class="cta-buttons">
+                    <button class="button-primary-light">Browse Equipment</button>
+                    <button class="button-outline-light">Become a Supplier</button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="site-footer">
+            <div class="content-container">
+                <div class="footer-grid">
+                    <!-- About Section -->
+                    <div class="footer-about">
+                        <div class="footer-logo">
+                            <span class="footer-logo-icon material-symbols-outlined">precision_manufacturing</span>
+                            <span class="footer-logo-text">TECHRENT</span>
+                        </div>
+                        <p class="footer-description">
+                            The modern way to rent construction equipment. Fast, reliable, and transparent.
+                        </p>
+                        <div class="social-links">
+                            <a href="#" class="social-link"><span class="material-symbols-outlined">public</span></a>
+                            <a href="#" class="social-link"><span class="material-symbols-outlined">mail</span></a>
+                            <a href="#" class="social-link"><span class="material-symbols-outlined">call</span></a>
+                        </div>
+                    </div>
+
+                    <!-- Platform Links -->
+                    <div>
+                        <h4 class="footer-heading">Platform</h4>
+                        <ul class="footer-links">
+                            <li><a href="#" class="footer-link">Browse Catalog</a></li>
+                            <li><a href="#" class="footer-link">How it Works</a></li>
+                            <li><a href="#" class="footer-link">Pricing</a></li>
+                            <li><a href="#" class="footer-link">For Suppliers</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Support Links -->
+                    <div>
+                        <h4 class="footer-heading">Support</h4>
+                        <ul class="footer-links">
+                            <li><a href="#" class="footer-link">Help Center</a></li>
+                            <li><a href="#" class="footer-link">Terms of Service</a></li>
+                            <li><a href="#" class="footer-link">Privacy Policy</a></li>
+                            <li><a href="#" class="footer-link">Contact Us</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Categories -->
+                    <div>
+                        <h4 class="footer-heading">Categories</h4>
+                        <ul class="footer-links">
+                            <li><a href="#" class="footer-link">Earthmoving</a></li>
+                            <li><a href="#" class="footer-link">Aerial Lifts</a></li>
+                            <li><a href="#" class="footer-link">Power Tools</a></li>
+                            <li><a href="#" class="footer-link">Material Handling</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Footer Bottom -->
+                <div class="footer-bottom">
+                    <p class="copyright">© 2023 TechRent Inc. All rights reserved.</p>
+                    <div class="legal-links">
+                        <a href="#" class="legal-link">Privacy</a>
+                        <a href="#" class="legal-link">Terms</a>
+                        <a href="#" class="legal-link">Cookies</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
-}
+    <!-- Подключаем стандартные скрипты -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script src="~/js/base.js"></script>
+</body>
+</html>
