@@ -13,6 +13,7 @@
     <!-- Google Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link href="~/css/base.css" rel="stylesheet" />
     <link href="~/css/catalog.css" rel="stylesheet" />
 </head>
 <body data-theme="light">
@@ -47,19 +48,9 @@
                     <span class="material-symbols-outlined" id="theme-icon">light_mode</span>
                 </button>
 
-                <!-- Notifications -->
-                <button class="notification-button">
-                    <span class="material-symbols-outlined">notifications</span>
-                    <span class="notification-dot"></span>
-                </button>
-
-                <!-- User Menu -->
-                <button class="user-button">
+                <a class="icon-button" href="/Identity/Account/Register">
                     <span class="material-symbols-outlined">person</span>
-                    <div class="user-avatar">
-                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxVPeva6icKM5_MAY6T9bV9xQo2ueWbdBEU9OTeLR5c7zsmJGlIqtwnLnFnnGQsYeP-XjW-idGgNmapkbChIMtdFthAwcOEdl381M9aOG3kOLw64-rH76pUnQzjgLpvzFmOwTzVYBN4a7p3pVRLcFLP0erbiQrFYErUMulRBg-BE2XSXH5VeGOqNgiLX0qsx1emHfGYNFA7P5PjHu81iZqyfm4-NLlxc18NuaVVnxDiXobGmD8LZTZjpsIPF1yyidfCLTluiIsn8s" alt="User Avatar">
-                    </div>
-                </button>
+                </a>
 
                 <!-- Cart -->
                 <button class="cart-button">
@@ -507,6 +498,72 @@
                 </div>
             </div>
         </main>
+
+        <footer class="site-footer">
+            <div class="content-container">
+                <div class="footer-grid">
+                    <!-- About Section -->
+                    <div class="footer-about">
+                        <div class="footer-logo">
+                            <span class="footer-logo-icon material-symbols-outlined">precision_manufacturing</span>
+                            <span class="footer-logo-text">TECHRENT</span>
+                        </div>
+                        <p class="footer-description">
+                            The modern way to rent construction equipment. Fast, reliable, and transparent.
+                        </p>
+                        <div class="social-links">
+                            <a href="#" class="social-link"><span class="material-symbols-outlined">public</span></a>
+                            <a href="#" class="social-link"><span class="material-symbols-outlined">mail</span></a>
+                            <a href="#" class="social-link"><span class="material-symbols-outlined">call</span></a>
+                        </div>
+                    </div>
+
+                    <!-- Platform Links -->
+                    <div>
+                        <h4 class="footer-heading">Platform</h4>
+                        <ul class="footer-links">
+                            <li><a href="#" class="footer-link">Browse Catalog</a></li>
+                            <li><a href="#" class="footer-link">How it Works</a></li>
+                            <li><a href="#" class="footer-link">Pricing</a></li>
+                            <li><a href="#" class="footer-link">For Suppliers</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Support Links -->
+                    <div>
+                        <h4 class="footer-heading">Support</h4>
+                        <ul class="footer-links">
+                            <li><a href="#" class="footer-link">Help Center</a></li>
+                            <li><a href="#" class="footer-link">Terms of Service</a></li>
+                            <li><a href="#" class="footer-link">Privacy Policy</a></li>
+                            <li><a href="#" class="footer-link">Contact Us</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Categories -->
+                    <div>
+                        <h4 class="footer-heading">Categories</h4>
+                        <ul class="footer-links">
+                            <li><a href="#" class="footer-link">Earthmoving</a></li>
+                            <li><a href="#" class="footer-link">Aerial Lifts</a></li>
+                            <li><a href="#" class="footer-link">Power Tools</a></li>
+                            <li><a href="#" class="footer-link">Material Handling</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Footer Bottom -->
+                <div class="footer-bottom">
+                    <p class="copyright">© 2023 TechRent Inc. All rights reserved.</p>
+                    <div class="legal-links">
+                        <a href="#" class="legal-link">Privacy</a>
+                        <a href="#" class="legal-link">Terms</a>
+                        <a href="#" class="legal-link">Cookies</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
     </div>
 
     <script src="~/js/base.js"></script>
