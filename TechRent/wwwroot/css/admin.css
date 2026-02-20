@@ -1,0 +1,723 @@
+﻿/* ===== Admin Page Styles ===== */
+
+/* Page Header */
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.add-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+    .add-button:hover {
+        background-color: #e05e0e;
+    }
+
+    .add-button .material-symbols-outlined {
+        font-size: 1.25rem;
+    }
+
+/* Admin Layout */
+.admin-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+@media (min-width: 1024px) {
+    .admin-layout {
+        flex-direction: row;
+    }
+}
+
+/* Filters Sidebar */
+.admin-filters {
+    width: 100%;
+    flex-shrink: 0;
+    background-color: var(--surface);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    height: fit-content;
+}
+
+@media (min-width: 1024px) {
+    .admin-filters {
+        width: 280px;
+    }
+}
+
+.filters-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1rem;
+}
+
+.filters-title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+}
+
+.reset-button {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--primary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+    .reset-button:hover {
+        opacity: 0.8;
+    }
+
+.filters-group {
+    margin-bottom: 1.5rem;
+}
+
+    .filters-group:last-child {
+        margin-bottom: 0;
+    }
+
+.filter-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+}
+
+/* Select Filter */
+.filter-select {
+    position: relative;
+    width: 100%;
+}
+
+.filter-select-input {
+    width: 100%;
+    padding: 0.625rem 2rem 0.625rem 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border);
+    background-color: var(--surface);
+    color: var(--text);
+    font-size: 0.875rem;
+    appearance: none;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+    .filter-select-input:focus {
+        border-color: var(--primary);
+    }
+
+.filter-select-icon {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
+    font-size: 1.25rem;
+}
+
+/* Table Section */
+.table-section {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Table Toolbar */
+.table-toolbar {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    background-color: var(--surface);
+    padding: 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--border);
+}
+
+@media (min-width: 640px) {
+    .table-toolbar {
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+.results {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.results-number {
+    font-weight: 600;
+}
+
+.results-text {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.table-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+@media (min-width: 640px) {
+    .table-controls {
+        width: auto;
+    }
+}
+
+.export-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+/* Table Wrapper with Horizontal Scroll */
+.table-wrapper {
+    overflow-x: auto;
+    border-radius: 0.75rem;
+    border: 1px solid var(--border);
+    background-color: var(--surface);
+    margin-bottom: 1.5rem;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Admin Table */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1200px;
+    font-size: 0.875rem;
+}
+
+    .admin-table th {
+        text-align: left;
+        padding: 1rem 1rem;
+        background-color: var(--surface);
+        color: var(--text-muted);
+        font-weight: 600;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-bottom: 1px solid var(--border);
+        white-space: nowrap;
+    }
+
+    .admin-table td {
+        padding: 1rem 1rem;
+        border-bottom: 1px solid var(--border);
+        color: var(--text);
+        vertical-align: middle;
+    }
+
+    .admin-table tbody tr:hover {
+        background-color: var(--hover);
+    }
+
+    .admin-table tbody tr.inactive-row {
+        opacity: 0.7;
+    }
+
+/* Table Cells */
+.checkbox-cell {
+    width: 40px;
+    text-align: center;
+}
+
+.id-cell {
+    font-weight: 500;
+    color: var(--text-muted);
+    font-size: 0.8125rem;
+}
+
+.image-cell {
+    width: 50px;
+}
+
+.table-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 0.375rem;
+    overflow: hidden;
+    background-color: #f1f5f9;
+}
+
+    .table-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+.name-cell {
+    min-width: 200px;
+}
+
+.cell-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+    .cell-content strong {
+        font-weight: 600;
+        color: var(--text);
+    }
+
+.cell-description {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.price-cell {
+    font-weight: 600;
+    color: var(--primary);
+    white-space: nowrap;
+}
+
+/* Stock Badges */
+.stock-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.stock-available {
+    background-color: rgba(34, 197, 94, 0.1);
+    color: #16a34a;
+    border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+[data-theme="dark"] .stock-available {
+    color: #4ade80;
+}
+
+.stock-low {
+    background-color: rgba(249, 115, 22, 0.1);
+    color: #ea580c;
+    border: 1px solid rgba(249, 115, 22, 0.2);
+}
+
+[data-theme="dark"] .stock-low {
+    color: #fb923c;
+}
+
+.stock-out {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: #dc2626;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+[data-theme="dark"] .stock-out {
+    color: #f87171;
+}
+
+/* Status Badges */
+.status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.status-active {
+    background-color: rgba(34, 197, 94, 0.1);
+    color: #16a34a;
+    border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+[data-theme="dark"] .status-active {
+    color: #4ade80;
+}
+
+.status-inactive {
+    background-color: rgba(100, 116, 139, 0.1);
+    color: #64748b;
+    border: 1px solid rgba(100, 116, 139, 0.2);
+}
+
+/* Rating Cell */
+.rating-cell .rating {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    white-space: nowrap;
+}
+
+.rating-cell .star-icon {
+    color: #fbbf24;
+    font-size: 1rem;
+}
+
+/* Actions Cell */
+.actions-cell {
+    white-space: nowrap;
+}
+
+.action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.action-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 0.375rem;
+    border: 1px solid var(--border);
+    background-color: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+    .action-button:hover {
+        background-color: var(--hover);
+        color: var(--text);
+    }
+
+.edit-button:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.delete-button:hover {
+    border-color: #dc2626;
+    color: #dc2626;
+}
+
+.view-button:hover {
+    border-color: var(--text);
+    color: var(--text);
+}
+
+/* Checkbox styling (reuse from catalog) */
+.checkbox-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-input {
+    width: 1rem;
+    height: 1rem;
+    appearance: none;
+    border-radius: 0.25rem;
+    border: 1px solid var(--text-muted);
+    background-color: transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+    .checkbox-input:checked {
+        border-color: var(--primary);
+        background-color: var(--primary);
+    }
+
+.checkbox-check {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.875rem;
+    color: white;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+}
+
+.checkbox-input:checked ~ .checkbox-check {
+    opacity: 1;
+}
+
+/* Sort field */
+.sort-field {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sort-label {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+.sort-select {
+    background-color: transparent;
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    padding: 0.375rem 1.5rem 0.375rem 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text);
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.25rem center;
+    background-size: 1rem;
+}
+
+    .sort-select option {
+        background-color: var(--surface);
+    }
+
+.divider {
+    height: 1rem;
+    width: 1px;
+    background-color: var(--border);
+}
+
+/* Price inputs (reuse) */
+.price-inputs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.price-field {
+    position: relative;
+    flex: 1;
+}
+
+.price-currency {
+    position: absolute;
+    left: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+.price-input {
+    width: 100%;
+    border-radius: 0.375rem;
+    border: 1px solid var(--border);
+    background-color: var(--surface);
+    padding: 0.5rem 0.5rem 0.5rem 1.25rem;
+    font-size: 0.75rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+    .price-input:focus {
+        border-color: var(--primary);
+    }
+
+.price-separator {
+    color: var(--text-muted);
+}
+
+/* Toggle switch (reuse) */
+.toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.toggle-text {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    transition: color 0.2s;
+}
+
+.toggle:hover .toggle-text {
+    color: var(--text);
+}
+
+.toggle-switch {
+    position: relative;
+    width: 2.75rem;
+    height: 1.5rem;
+    background-color: #334155;
+    border-radius: 9999px;
+    transition: background-color 0.2s;
+}
+
+.toggle-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+    .toggle-input:checked + .toggle-switch {
+        background-color: var(--primary);
+    }
+
+.toggle-switch::after {
+    content: '';
+    position: absolute;
+    top: 1.2px;
+    left: 1.5px;
+    width: 1.25rem;
+    height: 1.25rem;
+    background-color: white;
+    border: 1px solid #d1d5db;
+    border-radius: 50%;
+    transition: transform 0.2s;
+}
+
+.toggle-input:checked + .toggle-switch::after {
+    transform: translateX(1.25rem);
+    border-color: white;
+}
+
+/* Pagination (reuse from catalog) */
+.pagination {
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination-list {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    list-style: none;
+}
+
+.pagination-link {
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+}
+
+    .pagination-link:hover {
+        background-color: var(--surface);
+        color: var(--text);
+        border-color: var(--border);
+    }
+
+.pagination-link-active {
+    background-color: var(--primary);
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    color: white;
+}
+
+.pagination-ellipsis {
+    padding: 0 0.5rem;
+    color: var(--text-muted);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* Filter search (reuse from catalog) */
+.filter-search {
+    position: relative;
+}
+
+.filter-search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 1.125rem;
+}
+
+.filter-search-input {
+    width: 100%;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border);
+    background-color: var(--surface);
+    padding: 0.625rem 0.75rem 0.625rem 2.25rem;
+    font-size: 0.875rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+    .filter-search-input::placeholder {
+        color: var(--text-muted);
+    }
+
+    .filter-search-input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 1px var(--primary);
+    }
+
+/* Checkbox list (reuse from catalog) */
+.checkbox-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+}
+
+.checkbox-text {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    transition: color 0.2s;
+}
+
+.checkbox-item:hover .checkbox-text {
+    color: var(--text);
+}
