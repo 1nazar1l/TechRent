@@ -1,0 +1,514 @@
+﻿@{
+    Layout = null;  // ВООБЩЕ БЕЗ ШАБЛОНА
+    ViewData["Title"] = "Каталог";
+}
+
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TECHRENT - Equipment Catalog</title>
+
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link href="~/css/catalog.css" rel="stylesheet" />
+</head>
+<body data-theme="light">
+    <div class="site-wrapper">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <a asp-controller="Home" asp-action="Index" class="logo">
+                    <div class="logo-icon">
+                        <span class="material-symbols-outlined">precision_manufacturing</span>
+                    </div>
+                    <h2 class="logo-text">TECHRENT</h2>
+                </a>
+
+                <nav class="nav">
+                    <a href="#" class="nav-link nav-link-active">Catalog</a>
+                    <a href="#" class="nav-link">Projects</a>
+                    <a href="#" class="nav-link">About Us</a>
+                    <a href="#" class="nav-link">Contact</a>
+                </nav>
+            </div>
+
+            <div class="header-actions">
+                <!-- Search -->
+                <div class="search">
+                    <span class="search-icon material-symbols-outlined">search</span>
+                    <input type="text" class="search-input" placeholder="Search...">
+                </div>
+
+                <!-- Theme Toggle -->
+                <button class="icon-button" onclick="toggleTheme()" id="theme-toggle">
+                    <span class="material-symbols-outlined" id="theme-icon">light_mode</span>
+                </button>
+
+                <!-- Notifications -->
+                <button class="notification-button">
+                    <span class="material-symbols-outlined">notifications</span>
+                    <span class="notification-dot"></span>
+                </button>
+
+                <!-- User Menu -->
+                <button class="user-button">
+                    <span class="material-symbols-outlined">person</span>
+                    <div class="user-avatar">
+                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxVPeva6icKM5_MAY6T9bV9xQo2ueWbdBEU9OTeLR5c7zsmJGlIqtwnLnFnnGQsYeP-XjW-idGgNmapkbChIMtdFthAwcOEdl381M9aOG3kOLw64-rH76pUnQzjgLpvzFmOwTzVYBN4a7p3pVRLcFLP0erbiQrFYErUMulRBg-BE2XSXH5VeGOqNgiLX0qsx1emHfGYNFA7P5PjHu81iZqyfm4-NLlxc18NuaVVnxDiXobGmD8LZTZjpsIPF1yyidfCLTluiIsn8s" alt="User Avatar">
+                    </div>
+                </button>
+
+                <!-- Cart -->
+                <button class="cart-button">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                    <span class="cart-badge"></span>
+                </button>
+
+                <!-- Mobile Menu -->
+                <button class="mobile-menu-button icon-button">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="wrapper">
+                <!-- Breadcrumb & Title -->
+                <div class="breadcrumb">
+                    <a href="#" class="breadcrumb-link">Home</a>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                    <span class="breadcrumb-current">Catalog</span>
+                </div>
+                <h1 class="page-title">Equipment Catalog</h1>
+                <p class="page-description">Browse our premium selection of construction machinery.</p>
+
+                <!-- Catalog -->
+                <div class="catalog">
+                    <!-- Filters Sidebar -->
+                    <aside class="filters">
+                        <div class="filters-header">
+                            <h2 class="filters-title">Filters</h2>
+                            <button class="reset-button">Reset All</button>
+                        </div>
+
+                        <!-- Search Filter -->
+                        <div class="filters-group">
+                            <label class="filter-label">Keywords</label>
+                            <div class="filter-search">
+                                <span class="filter-search-icon material-symbols-outlined">search</span>
+                                <input type="text" class="filter-search-input" placeholder="Model, ID, or Type">
+                            </div>
+                        </div>
+
+                        <!-- Categories -->
+                        <div class="filters-group">
+                            <label class="filter-label">Category</label>
+                            <div class="checkbox-list">
+                                <label class="checkbox-item">
+                                    <span class="checkbox-box">
+                                        <input type="checkbox" class="checkbox-input" checked>
+                                        <span class="checkbox-check material-symbols-outlined">check</span>
+                                    </span>
+                                    <span class="checkbox-text">Earthmoving (45)</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <span class="checkbox-box">
+                                        <input type="checkbox" class="checkbox-input">
+                                        <span class="checkbox-check material-symbols-outlined">check</span>
+                                    </span>
+                                    <span class="checkbox-text">Aerial Lifts (32)</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <span class="checkbox-box">
+                                        <input type="checkbox" class="checkbox-input">
+                                        <span class="checkbox-check material-symbols-outlined">check</span>
+                                    </span>
+                                    <span class="checkbox-text">Compaction (12)</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <span class="checkbox-box">
+                                        <input type="checkbox" class="checkbox-input">
+                                        <span class="checkbox-check material-symbols-outlined">check</span>
+                                    </span>
+                                    <span class="checkbox-text">Material Handling (28)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Price Range -->
+                        <div class="filters-group">
+                            <label class="filter-label">Daily Rate</label>
+                            <div class="price-slider">
+                                <div class="slider">
+                                    <div class="slider-track"></div>
+                                    <div class="slider-fill"></div>
+                                    <div class="slider-handle slider-handle-left"></div>
+                                    <div class="slider-handle slider-handle-right"></div>
+                                </div>
+                                <div class="price-inputs">
+                                    <div class="price-field">
+                                        <span class="price-currency">$</span>
+                                        <input type="number" class="price-input" value="100">
+                                    </div>
+                                    <span class="price-separator">-</span>
+                                    <div class="price-field">
+                                        <span class="price-currency">$</span>
+                                        <input type="number" class="price-input" value="950">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Drive Type -->
+                        <div class="filters-group">
+                            <label class="filter-label">Drive Type</label>
+                            <div class="drive-buttons">
+                                <button class="drive-button">2WD</button>
+                                <button class="drive-button drive-button-active">4WD</button>
+                                <button class="drive-button">Tracks</button>
+                            </div>
+                        </div>
+
+                        <!-- Availability -->
+                        <div class="filters-group">
+                            <label class="toggle">
+                                <span class="toggle-text">In Stock Only</span>
+                                <div class="relative">
+                                    <input type="checkbox" class="toggle-input">
+                                    <div class="toggle-switch"></div>
+                                </div>
+                            </label>
+                        </div>
+                    </aside>
+
+                    <!-- Products Section -->
+                    <section class="products">
+                        <!-- Toolbar -->
+                        <div class="toolbar">
+                            <div class="results">
+                                <span class="results-number">124</span>
+                                <span class="results-text">items found</span>
+                            </div>
+
+                            <div class="sort">
+                                <div class="sort-field">
+                                    <span class="sort-label">Sort by:</span>
+                                    <select class="sort-select">
+                                        <option>Recommended</option>
+                                        <option>Price: Low to High</option>
+                                        <option>Price: High to Low</option>
+                                        <option>Newest</option>
+                                    </select>
+                                </div>
+
+                                <div class="divider"></div>
+
+                                <div class="view-toggle">
+                                    <button class="view-button view-button-active">
+                                        <span class="material-symbols-outlined">grid_view</span>
+                                    </button>
+                                    <button class="view-button">
+                                        <span class="material-symbols-outlined">view_list</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Products Grid -->
+                        <div class="products-grid">
+                            <!-- Product Card 1 -->
+                            <article class="product-card">
+                                <div class="product-badge">
+                                    <span class="badge badge-available">Available</span>
+                                </div>
+                                <button class="favorite-button">
+                                    <span class="material-symbols-outlined">favorite</span>
+                                </button>
+                                <div class="product-image">
+                                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXVl4LMzze5_xCRMiGtgyedniiQY4nSsjfaBFO0opclPVBQIEU6fpZPe3X6ZEXJz8VOYSnGcytPF_y4weBUp8NJU_qRu0zXAA50r7BKy_maxnYy-8F5uuUiPM0HyIcXMPzPiSeRM2v-EGXpskUq1JBQNo72jArWs1l8OPBALQUwNADQFhxdMsSvqAazPX3SmiAc6ZIyhFLRFcZ-wyk903p4yRf45tvXegJbFycMBcEh24BoP1Wvr7K8FqeRvyAYM6AoYcs3wuexP4" alt="Excavator">
+                                    <div class="image-overlay"></div>
+                                </div>
+                                <div class="product-details">
+                                    <div class="product-header">
+                                        <h3 class="product-title">CAT 305 Mini Excavator</h3>
+                                        <p class="product-description">Compact radius design for tight spaces.</p>
+                                    </div>
+                                    <div class="specs">
+                                        <div class="spec">
+                                            <span class="spec-icon material-symbols-outlined">fitness_center</span>
+                                            <span>11,000 lbs</span>
+                                        </div>
+                                        <div class="spec">
+                                            <span class="spec-icon material-symbols-outlined">settings</span>
+                                            <span>45 HP</span>
+                                        </div>
+                                        <div class="spec">
+                                            <span class="spec-icon material-symbols-outlined">expand</span>
+                                            <span>12.5 ft Dig</span>
+                                        </div>
+                                        <div class="spec">
+                                            <span class="spec-icon material-symbols-outlined">local_gas_station</span>
+                                            <span>Diesel</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-footer">
+                                        <div class="price">
+                                            <span class="price-label">Daily Rate</span>
+                                            <span class="price-value">$350<span class="price-period">/day</span></span>
+                                        </div>
+                                        <button class="book-button">Book Now</button>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <!-- Product Card 2 -->
+                            <article class="product-card">
+                                <div class="product-badge">
+                                    <span class="badge badge-popular">Popular</span>
+                                </div>
+                                <button class="favorite-button">
+                                    <span class="material-symbols-outlined">favorite</span>
+                                </button>
+                                <div class="product-image">
+                                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7rTbYJv6ucvXnPyCaV-uptPw_9b_vknoMiaN5Yzuir_Y1gZPM27jDedAMJns6L2S2WAw8sAIn484zAgcg7kZA1W_odCRY5K642xQanAmgR43-pYV6Jyd5fGMo1nD6Wb0vSnlydel58UjS_Ea-YfcH72CzNO6HJrN3ijeHojuw7_ewsjK9awOal5ASmNcHJ9X1iIwIqB71pbNIVffPDjPwCiHo3h3ckjCUaozocDRzln76OAHppfe4tAgK7U2tH2Ab3KSQr1ZGDB4" alt="Scissor Lift">
+                                    <div class="image-overlay"></div>
+                                </div>
+                                <div class="product-details">
+                                    <div class="product-header">
+                                        <h3 class="product-title">JLG 1930ES Scissor Lift</h3>
+                                        <p class="product-description">Electric drive, indoor use friendly.</p>
+                                    </div>
+                                    <div class="specs">
+                                        <div class="spec">
+                                            <span class="spec-icon material-symbols-outlined">straighten</span>
+                                            <span>19 ft Height</span>
+                                        </div>
+                                        <div class="spec">
+                                            <span class="spec-icon material-symbols-outlined">bolt</span>
+                                            <span>Electric</span>
+                                        </div>
+                                        <div class="spec">
+                                            <span class="spec-icon material-symbols-outlined">scale</span>
+                                            <span>500 lbs Cap</span>
+                                        </div>
+                                        <div class="spec">
+                                            <span class="spec-icon material-symbols-outlined">width</span>
+                                            <span>30 in Wide</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-footer">
+                                        <div class="price">
+                                            <span class="price-label">Daily Rate</span>
+                                            <span class="price-value">$120<span class="price-period">/day</span></span>
+                                        </div>
+                                        <button class="book-button">Book Now</button>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <!-- Product Card 3 -->
+                            <article class="product-card">
+                                <div class="product-badge">
+                                    <span class="badge badge-lowstock">Low Stock</span>
+                                </div>
+                                <button class="favorite-button">
+                                    <span class="material-symbols-outlined">favorite</span>
+                                </button>
+                                <div class="product-image">
+                                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfIPUE2n_BWqZOqydtrgilJ-sq41hXlwXUc5e2iQeiW-yBrBm15Tis6nclF75D05TlftvyFAOvaihMfbyoPCxhFHaGL2UACC0xAEpyeSTlYg9WxAdk_6nu5L5sUDNaHB_EKFjAgXq0lAoiCVF8hXrHPzPytou0tAle5m2_TsUU1-T_UDCK1Rw3Gu0QwQW8DdBwMocP52VcwR-UzwvtbhVDVzBjM1JgozuLgncm9kWmCruWnM4qPImwZhNJ3FDMh53MSfa3F3lDoe4" alt="Skid Steer">
+                                    <div class="image-overlay"></div>
+                                </div>
+                                <div class="product-details">
+                                    <div class="product-header">
+                                        <h3 class="product-title">Bobcat S70 Skid Steer</h3>
+                                        <p class="product-description">Versatile loader for small jobs.</p>
+                                    </div>
+                                    <div class="specs">
+                                        <div class="spec">
+                                            <span class="spec-icon material-symbols-outlined">fitness_center</span>
+                                            <span>2,800 lbs</span>
+                                        </div>
+                                        <div class="spec">
+                                            <span class="spec-icon material-symbols-outlined">settings</span>
+                                            <span>23.5 HP</span>
+                                        </div>
+                                        <div class="spec">
+                                            <span class="spec-icon material-symbols-outlined">scale</span>
+                                            <span>700 lbs ROC</span>
+                                        </div>
+                                        <div class="spec">
+                                            <span class="spec-icon material-symbols-outlined">local_gas_station</span>
+                                            <span>Diesel</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-footer">
+                                        <div class="price">
+                                            <span class="price-label">Daily Rate</span>
+                                            <span class="price-value">$220<span class="price-period">/day</span></span>
+                                        </div>
+                                        <button class="book-button">Book Now</button>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <!-- Product Card 4 -->
+                            <article class="product-card">
+                                <button class="favorite-button">
+                                    <span class="material-symbols-outlined">favorite</span>
+                                </button>
+                                <div class="product-image">
+                                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuC57EqyGbCY2kwl50e3bAhUr0V0nsQlr8Nw3KgWPSFtwfrItBjZ1oO51-JQMkAOYtGpTG_5LFM7TDmoVQA9Q22Fk2jiFBRjjKE4PcuJBNgrMYoVqpv9cRus5R9M7D55hEJxoUD66gn6Oyt5BCbrAWCNcyW2wdYuIcwX4WhOW-nAaQ78B7N7GyJ_Qt5sPim8ySwlTuxwAX3lvAr_v5XQDTkUK3LKPB3DOGQyvM4cG5aCZBl8JkBH23iXw0D0lyMuR8qRaagItn4MxvI" alt="Forklift">
+                                    <div class="image-overlay"></div>
+                                </div>
+                                <div class="product-details">
+                                    <div class="product-header">
+                                        <h3 class="product-title">Toyota 8FGU25 Forklift</h3>
+                                        <p class="product-description">Pneumatic tire, LPG powered.</p>
+                                    </div>
+                                    <div class="specs">
+                                        <div class="spec">
+                                            <span class="spec-icon material-symbols-outlined">fitness_center</span>
+                                            <span>5,000 lbs Cap</span>
+                                        </div>
+                                        <div class="spec">
+                                            <span class="spec-icon material-symbols-outlined">expand_less</span>
+                                            <span>189 in Lift</span>
+                                        </div>
+                                        <div class="spec">
+                                            <span class="spec-icon material-symbols-outlined">local_shipping</span>
+                                            <span>Outdoor/Indoor</span>
+                                        </div>
+                                        <div class="spec">
+                                            <span class="spec-icon material-symbols-outlined">local_gas_station</span>
+                                            <span>LPG</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-footer">
+                                        <div class="price">
+                                            <span class="price-label">Daily Rate</span>
+                                            <span class="price-value">$185<span class="price-period">/day</span></span>
+                                        </div>
+                                        <button class="book-button">Book Now</button>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <!-- Product Card 5 -->
+                            <article class="product-card">
+                                <div class="product-badge">
+                                    <span class="badge badge-available">Available</span>
+                                </div>
+                                <button class="favorite-button">
+                                    <span class="material-symbols-outlined">favorite</span>
+                                </button>
+                                <div class="product-image">
+                                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFDJcxBCEq1RlzbZEICaCIxJ7irDFK8l5h75s0tgfKe0FExvzXazXE8UcRtqkN4FVaFrWx1wQVdCDdEYLTNvSoKKrTo6Ifb52oo1br0fcrVQtyWse04L9xOulcF0KwqB_VffQdRNmeHmYnOxKL4yNaV1Nr9UwnwjP6JaE0xtZrUixtxeo0qQmNxhrg7WbPrcgC0PkAwm7Mv-s9pt6HWB9zzQl9fp98UlH9SM1YuSwkF_wfMRlSj-goUula4_YGUANMJ5SjtbCdV0A" alt="Concrete Mixer">
+                                    <div class="image-overlay"></div>
+                                </div>
+                                <div class="product-details">
+                                    <div class="product-header">
+                                        <h3 class="product-title">Portable Cement Mixer</h3>
+                                        <p class="product-description">9 cu. ft. capacity, gas powered.</p>
+                                    </div>
+                                    <div class="specs">
+                                        <div class="spec">
+                                            <span class="spec-icon material-symbols-outlined">recycling</span>
+                                            <span>9 cu. ft.</span>
+                                        </div>
+                                        <div class="spec">
+                                            <span class="spec-icon material-symbols-outlined">settings</span>
+                                            <span>8 HP Honda</span>
+                                        </div>
+                                        <div class="spec">
+                                            <span class="spec-icon material-symbols-outlined">tire_repair</span>
+                                            <span>Towable</span>
+                                        </div>
+                                        <div class="spec">
+                                            <span class="spec-icon material-symbols-outlined">local_gas_station</span>
+                                            <span>Gas</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-footer">
+                                        <div class="price">
+                                            <span class="price-label">Daily Rate</span>
+                                            <span class="price-value">$65<span class="price-period">/day</span></span>
+                                        </div>
+                                        <button class="book-button">Book Now</button>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <!-- Product Card 6 -->
+                            <article class="product-card">
+                                <button class="favorite-button">
+                                    <span class="material-symbols-outlined">favorite</span>
+                                </button>
+                                <div class="product-image">
+                                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmwMH4ZWSVTiYJbmjU1BcvO1kEL5kGNfA9yA2kaIkjfETmNFgvSDQvM4bZXfMxtxSWCrnXUhYhOVmGT_9IgWCwr8PE0gF5sYOJyKT-iUzGCT3ekXzmzG7_Xex82AhJ7EupeD7vq2zFQxNYT9w8b1L-RdNvs18T7IZraNCGc-ESd6XsxvJ6HyINlWINrMK5YEzcZc3X8lyZhRDeAj_xKmcnp49YmvMXQ9YblL99W44EfFgiAoTn_neFCdC3qCiafownENXLOmKBBt0" alt="Generator">
+                                    <div class="image-overlay"></div>
+                                </div>
+                                <div class="product-details">
+                                    <div class="product-header">
+                                        <h3 class="product-title">Magnum Mobile Generator</h3>
+                                        <p class="product-description">20kW towable diesel generator.</p>
+                                    </div>
+                                    <div class="specs">
+                                        <div class="spec">
+                                            <span class="spec-icon material-symbols-outlined">bolt</span>
+                                            <span>20 kW</span>
+                                        </div>
+                                        <div class="spec">
+                                            <span class="spec-icon material-symbols-outlined">power</span>
+                                            <span>1 Phase / 3 Phase</span>
+                                        </div>
+                                        <div class="spec">
+                                            <span class="spec-icon material-symbols-outlined">volume_off</span>
+                                            <span>Silent Run</span>
+                                        </div>
+                                        <div class="spec">
+                                            <span class="spec-icon material-symbols-outlined">local_gas_station</span>
+                                            <span>Diesel</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-footer">
+                                        <div class="price">
+                                            <span class="price-label">Daily Rate</span>
+                                            <span class="price-value">$145<span class="price-period">/day</span></span>
+                                        </div>
+                                        <button class="book-button">Book Now</button>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="pagination">
+                            <nav class="pagination-list">
+                                <a href="#" class="pagination-link">
+                                    <span class="sr-only">Previous</span>
+                                    <span class="material-symbols-outlined">chevron_left</span>
+                                </a>
+                                <a href="#" class="pagination-link pagination-link-active">1</a>
+                                <a href="#" class="pagination-link">2</a>
+                                <a href="#" class="pagination-link">3</a>
+                                <span class="pagination-ellipsis">...</span>
+                                <a href="#" class="pagination-link">8</a>
+                                <a href="#" class="pagination-link">
+                                    <span class="sr-only">Next</span>
+                                    <span class="material-symbols-outlined">chevron_right</span>
+                                </a>
+                            </nav>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="~/js/base.js"></script>
+</body>
+</html>

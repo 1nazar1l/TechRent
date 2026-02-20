@@ -23,15 +23,15 @@
     <div class="page-wrapper">
         <!-- Header -->
         <header class="site-header">
-            <div class="logo-area">
+            <a asp-controller="Home" asp-action="Index"  class="logo-area">
                 <div class="logo-icon">
                     <span class="material-symbols-outlined">precision_manufacturing</span>
                 </div>
                 <h2 class="logo-text">TECHRENT</h2>
-            </div>
+            </a>
 
             <nav class="main-nav">
-                <a href="#" class="nav-link">Catalog</a>
+                <a asp-controller="Equipment" asp-action="Index" class="nav-link">Catalog</a>
                 <a href="#" class="nav-link">How to Rent</a>
                 <a href="#" class="nav-link">Pricing</a>
                 <a href="#" class="nav-link">For Suppliers</a>
