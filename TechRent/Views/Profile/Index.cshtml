@@ -1,0 +1,298 @@
+﻿@{
+    Layout = null;
+    ViewData["Title"] = "My Bookings - TECHRENT";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TECHRENT - My Bookings</title>
+
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link href="~/css/base.css" rel="stylesheet" />
+    <link href="~/css/profile.css" rel="stylesheet" />
+</head>
+<body data-theme="light">
+    <div class="site-wrapper">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <a asp-controller="Home" asp-action="Index" class="logo">
+                    <div class="logo-icon">
+                        <span class="material-symbols-outlined">precision_manufacturing</span>
+                    </div>
+                    <h2 class="logo-text">TECHRENT</h2>
+                </a>
+
+                <nav class="nav">
+                    <a href="#" class="nav-link">Catalog</a>
+                    <a href="#" class="nav-link">Projects</a>
+                    <a href="#" class="nav-link">About Us</a>
+                    <a href="#" class="nav-link">Contact</a>
+                </nav>
+            </div>
+
+            <div class="header-actions">
+                <!-- Search -->
+                <div class="search">
+                    <span class="search-icon material-symbols-outlined">search</span>
+                    <input type="text" class="search-input" placeholder="Search...">
+                </div>
+
+                <!-- Theme Toggle -->
+                <button class="icon-button" onclick="toggleTheme()" id="theme-toggle">
+                    <span class="material-symbols-outlined" id="theme-icon">light_mode</span>
+                </button>
+
+                <a class="icon-button" href="/Identity/Account/Register">
+                    <span class="material-symbols-outlined">person</span>
+                </a>
+
+                <!-- Cart -->
+                <button class="cart-button">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                    <span class="cart-badge"></span>
+                </button>
+
+                <!-- Mobile Menu -->
+                <button class="mobile-menu-button icon-button">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="profile-layout">
+            <!-- Sidebar -->
+            <aside class="profile-sidebar">
+                <div class="sidebar-content">
+                    <!-- Logo (mobile visible) -->
+                    <div class="sidebar-logo">
+                        <div class="logo-icon">
+                            <span class="material-symbols-outlined">precision_manufacturing</span>
+                        </div>
+                        <h2 class="logo-text">TECHRENT</h2>
+                    </div>
+
+                    <!-- Navigation -->
+                    <nav class="sidebar-nav">
+                        <a href="#" class="sidebar-link active">
+                            <span class="material-symbols-outlined">calendar_month</span>
+                            <span>My Bookings</span>
+                        </a>
+                        <a href="#" class="sidebar-link">
+                            <span class="material-symbols-outlined">attach_money</span>
+                            <span>Finances</span>
+                        </a>
+                        <a href="#" class="sidebar-link">
+                            <span class="material-symbols-outlined">favorite</span>
+                            <span>Favorites</span>
+                        </a>
+                        <a href="#" class="sidebar-link">
+                            <span class="material-symbols-outlined">settings</span>
+                            <span>Settings</span>
+                        </a>
+                    </nav>
+
+                    <!-- User Profile & Logout -->
+                    <div class="sidebar-footer">
+                        <div class="user-info">
+                            <div class="user-avatar">
+                                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcRa0JJk0QYb0VmiqBZdtOG35EiMytBQAPFSYz0A-lsChWmjoHhaFx-JoeLP0ivtVBOQ1ZP9GaX_8CEnFtEQQsAhKIdyCNj6zCqfH5RzWJo0AHpinbT51JirZF9kuBSOplcZZrZloJic4uKrEdwyfJKu-2vvRZLtEAdsUUhUfpFebGwxL-_YxkzNUo2xaKVLB-hQnXc1OxD6YnCd0-Dn2aaopOrcDA0e628SuW8mG8Wrk1pgs-kAelK6Qxkk2bhNDwBMxXKAPj6Zk" alt="User Avatar">
+                            </div>
+                            <div class="user-details">
+                                <p class="user-name">Alexander</p>
+                                <p class="user-badge">Pro Member</p>
+                            </div>
+                        </div>
+                        <button class="logout-button">
+                            <span class="material-symbols-outlined">logout</span>
+                            Log Out
+                        </button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="profile-content">
+                <div class="profile-container">
+                    <!-- Page Header -->
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">My Bookings</h1>
+                            <p class="page-description">Manage your active rentals and view history.</p>
+                        </div>
+                        <button class="export-button">
+                            <span class="material-symbols-outlined">download</span>
+                            Export Report
+                        </button>
+                    </div>
+
+                    <!-- Active Rental Section -->
+                    <section class="active-rental">
+                        <div class="section-header">
+                            <h2 class="section-title">
+                                <span class="active-dot"></span>
+                                Active Rental
+                            </h2>
+                        </div>
+
+                        <div class="active-card">
+                            <!-- Alert Banner -->
+                            <div class="alert-banner">
+                                <span class="material-symbols-outlined">alarm</span>
+                                <span class="alert-text">1 day left! Return by May 20</span>
+                            </div>
+
+                            <div class="active-content">
+                                <!-- Image -->
+                                <div class="active-image">
+                                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMxFWi-7ufhizbKynqVbbaC0ons-FvZx53FCAerXfgEYXzqULqu9QwEKwNILcVol1tbYZb3uB4S8HqIYrCTqYSD_cRxmqR0MZa0rla81MhXOqvfuGrKPpyswOEh-c8R3a8KiPLGdeMCCMKqjXSESr00wY3stQ3GfgZBEas5DRzfWAKoaVILnuHZrUE7FvdMY7EEkOGykJFkb4gOfkWGFlRpH19Kab3qzxNYxxq8yNvNJ3m8sR1Xk9lep0hSIEzMm9EpNk7yPViJP8" alt="Concrete Mixer X200">
+                                </div>
+
+                                <!-- Content -->
+                                <div class="active-details">
+                                    <div class="active-info">
+                                        <div class="active-header">
+                                            <span class="status-badge status-active">On Site</span>
+                                            <span class="booking-id">ID: #TR-8821</span>
+                                        </div>
+                                        <h3 class="active-title">Concrete Mixer X200</h3>
+                                        <p class="active-description">Heavy-duty portable mixer, 5 cu. ft. capacity</p>
+
+                                        <div class="booking-dates">
+                                            <div class="date-item">
+                                                <span class="date-label">Start Date</span>
+                                                <span class="date-value">May 15, 2024</span>
+                                            </div>
+                                            <div class="date-item">
+                                                <span class="date-label">End Date</span>
+                                                <span class="date-value highlight">May 20, 2024</span>
+                                            </div>
+                                            <div class="date-item">
+                                                <span class="date-label">Daily Rate</span>
+                                                <span class="date-value">$45.00</span>
+                                            </div>
+                                            <div class="date-item">
+                                                <span class="date-label">Total</span>
+                                                <span class="date-value">$225.00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="active-actions">
+                                        <button class="button-primary">
+                                            <span class="material-symbols-outlined">update</span>
+                                            Extend Rental
+                                        </button>
+                                        <button class="button-secondary">
+                                            <span class="material-symbols-outlined">support_agent</span>
+                                            Contact Support
+                                        </button>
+                                        <button class="button-secondary">
+                                            <span class="material-symbols-outlined">receipt_long</span>
+                                            Receipt
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Two Column Grid -->
+                    <div class="two-column-section">
+                        <!-- Upcoming Bookings -->
+                        <section class="upcoming-section">
+                            <h2 class="section-title">Upcoming Bookings</h2>
+                            <div class="bookings-list">
+                                <!-- Upcoming Item 1 -->
+                                <div class="booking-item">
+                                    <div class="booking-item-image">
+                                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-Gyb9NibZKrsMCMBKwka5tm4akSxnWUXFptpYHr0iYNiHUuEtXA-e1P-6WYupJM0wkLomnYtrTIMuPoS4X5gYb3PNcMHnQz_CRLbKh11X0zoMaQPMaa85_7jeE8KPTHZt_RfsAuZLDpTS8B3E9Dk0YKR5_ZCsYfh-RD_I7irCRTeVwb81h57wREXjrYQXf5CHmM9bsCy7btz-MfmyCJ7jN3RiIViut7Qq7Un9xHw7ZEnihoInuNIh7am4ibtnGlyyklWfopOp698" alt="Scaffolding Set">
+                                    </div>
+                                    <div class="booking-item-content">
+                                        <h4 class="booking-item-title">Scaffolding Set (20ft)</h4>
+                                        <p class="booking-item-meta">Starts Jun 01 • 3 Days</p>
+                                    </div>
+                                    <button class="booking-item-arrow">
+                                        <span class="material-symbols-outlined">chevron_right</span>
+                                    </button>
+                                </div>
+
+                                <!-- Upcoming Item 2 -->
+                                <div class="booking-item">
+                                    <div class="booking-item-image">
+                                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDwtPYKwao-V8y7O-xGdqpRF4V93sy4RbyCtK9Vqs07bRG3hyH51iWex2FRV6QKnKtKCScjsypzFiYGBf2rNFswGJ82fa1v19o-4XqNGFke2xFDpy_lPMDh-AdSE6KtK4rBikwht-9688_vZ2KPPUHyy9fmcHrWukFKRPt9gZrnSYifKlTwYdhLFF4-CX4IGkupixSD6QRMln0lpDJ78-ojIcqwKLEelp6HVvduzhrc8Kx2jqxmnWi3ElLbpTl1dFmtsaNhuc22ro" alt="Portable Generator">
+                                    </div>
+                                    <div class="booking-item-content">
+                                        <h4 class="booking-item-title">Portable Generator 5000W</h4>
+                                        <p class="booking-item-meta">Starts Jun 15 • 7 Days</p>
+                                    </div>
+                                    <button class="booking-item-arrow">
+                                        <span class="material-symbols-outlined">chevron_right</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Rental History -->
+                        <section class="history-section">
+                            <div class="section-header">
+                                <h2 class="section-title">Rental History</h2>
+                                <a href="#" class="view-all-link">View All</a>
+                            </div>
+                            <div class="history-list">
+                                <!-- History Item 1 -->
+                                <div class="history-item">
+                                    <div class="history-item-image">
+                                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJqImrmmsrwNKF-k6i5sGBh66oN9jm4HJj34kJEA9UabsDb9ymVVITydCCRMb-Otwy1i_TsaGXZdKJyPggSr_Ncqllw7neEUdMhdRn0ylRMlTR0CLBjFFGoZmTAGUl3ZpqutgfTIQz-q7I5xZbp6LR6ZmvJkc-CaiJr5dUMCRv3Yfk5TB1_v670kiGiZXjUa55ddvXOpR8ewofetK3mOJCxga1KDBIDP9GbQQCgrEjD6vHelTpHBc3qZUNGY7JgHtEdCXa7cfDWBY" alt="Heavy Duty Drill">
+                                    </div>
+                                    <div class="history-item-content">
+                                        <div>
+                                            <h4 class="history-item-title">Heavy Duty Drill</h4>
+                                            <p class="history-item-meta">Returned Apr 10</p>
+                                        </div>
+                                        <div class="history-item-right">
+                                            <span class="history-item-price">$45.00</span>
+                                            <span class="payment-status paid">
+                                                <span class="material-symbols-outlined">check_circle</span>
+                                                Paid
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- History Item 2 -->
+                                <div class="history-item">
+                                    <div class="history-item-image">
+                                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFiAxjTN3EoDf8z1qIKdMVx0VekARABUrtBQRV8Kl-fblAqQlvlDLVAxHfSoa08Vkze54jod1ltxFdSJt2B8sQQNdvdNE49AE6Y0zGK6L8wffspxfU9QL74Am5Lx3iN8MtyQhccpYLIwtI_BAGeSdY0rVFae4FYpRrH9OCESLHaUKtsAEL3eOCnm2Iq39cVxcFDazLdzn6XjhYuIlKD-5JwUaT4e6w25qNA6yCudHJfsUo259NouFBXnxtwBaAGe4lwuqVfkT6Vac" alt="Pressure Washer">
+                                    </div>
+                                    <div class="history-item-content">
+                                        <div>
+                                            <h4 class="history-item-title">Pressure Washer 3000PSI</h4>
+                                            <p class="history-item-meta">Returned Mar 22</p>
+                                        </div>
+                                        <div class="history-item-right">
+                                            <span class="history-item-price">$85.00</span>
+                                            <span class="payment-status paid">
+                                                <span class="material-symbols-outlined">check_circle</span>
+                                                Paid
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="~/js/base.js"></script>
+</body>
+</html>

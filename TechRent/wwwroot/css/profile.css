@@ -1,0 +1,650 @@
+﻿/* ===== profile.css - стили только для страницы профиля ===== */
+
+/* Profile Layout */
+.profile-layout {
+    display: flex;
+    min-height: calc(100vh - 72px); /* Высота header'а */
+    background-color: var(--background-light);
+}
+
+/* ===== Sidebar ===== */
+.profile-sidebar {
+    display: none;
+    width: 280px;
+    flex-shrink: 0;
+    border-right: 1px solid var(--border);
+    background-color: var(--surface);
+    padding: 1.5rem 0;
+}
+
+@media (min-width: 1024px) {
+    .profile-sidebar {
+        display: block;
+    }
+}
+
+.sidebar-content {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+}
+
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    padding: 0 0.5rem;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+    .sidebar-link:hover {
+        background-color: var(--hover);
+        color: var(--text);
+    }
+
+    .sidebar-link.active {
+        background-color: rgba(var(--primary-rgb), 0.1);
+        color: var(--primary);
+        font-weight: 500;
+    }
+
+    .sidebar-link .material-symbols-outlined {
+        font-size: 1.25rem;
+    }
+
+.sidebar-footer {
+    margin-top: auto;
+    padding-top: 1rem;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding: 0 0.5rem;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: var(--hover);
+}
+
+    .user-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+.user-details {
+    flex: 1;
+}
+
+.user-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.125rem;
+}
+
+.user-badge {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.logout-button {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+    .logout-button:hover {
+        background-color: var(--hover);
+        color: var(--text);
+    }
+
+    .logout-button .material-symbols-outlined {
+        font-size: 1.25rem;
+    }
+
+/* ===== Main Content ===== */
+.profile-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem 1rem;
+}
+
+@media (min-width: 640px) {
+    .profile-content {
+        padding: 2rem 1.5rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .profile-content {
+        padding: 2rem;
+    }
+}
+
+.profile-container {
+    max-width: 1024px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Page Header */
+.page-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+@media (min-width: 768px) {
+    .page-header {
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
+    }
+}
+
+.export-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border);
+    background-color: var(--surface);
+    color: var(--text);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 1px 3px 0 var(--shadow);
+    transition: all 0.2s;
+}
+
+    .export-button:hover {
+        background-color: var(--hover);
+    }
+
+    .export-button .material-symbols-outlined {
+        font-size: 1.25rem;
+    }
+
+/* Section Header */
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+}
+
+.active-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background-color: var(--primary);
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Active Rental Card */
+.active-rental {
+    margin-bottom: 1rem;
+}
+
+.active-card {
+    overflow: hidden;
+    border-radius: 0.75rem;
+    background-color: var(--surface);
+    box-shadow: 0 1px 3px 0 var(--shadow);
+    border: 1px solid var(--border);
+}
+
+.alert-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: var(--primary);
+    padding: 0.75rem 1.5rem;
+    color: white;
+}
+
+    .alert-banner .material-symbols-outlined {
+        font-size: 1.25rem;
+    }
+
+.alert-text {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.active-content {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 1024px) {
+    .active-content {
+        flex-direction: row;
+    }
+}
+
+.active-image {
+    width: 100%;
+    height: 256px;
+    background-color: var(--hover);
+}
+
+@media (min-width: 1024px) {
+    .active-image {
+        width: 384px;
+        height: auto;
+    }
+}
+
+.active-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.active-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+    .active-details {
+        padding: 2rem;
+    }
+}
+
+.active-info {
+    margin-bottom: 1.5rem;
+}
+
+.active-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.625rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.status-active {
+    background-color: rgba(34, 197, 94, 0.1);
+    color: #16a34a;
+}
+
+.booking-id {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.active-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.active-description {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+}
+
+.booking-dates {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+}
+
+@media (min-width: 640px) {
+    .booking-dates {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.date-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.date-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+}
+
+.date-value {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+    .date-value.highlight {
+        color: var(--primary);
+    }
+
+.active-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.button-primary {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    background-color: var(--primary);
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 1px 3px 0 var(--shadow);
+    transition: all 0.2s;
+}
+
+    .button-primary:hover {
+        background-color: #e05e0e;
+    }
+
+.button-secondary {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    background-color: transparent;
+    color: var(--text);
+    font-size: 0.875rem;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+    .button-secondary:hover {
+        background-color: var(--hover);
+    }
+
+@media (min-width: 640px) {
+    .button-primary,
+    .button-secondary {
+        flex: none;
+        min-width: 160px;
+    }
+}
+
+/* Two Column Section */
+.two-column-section {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (min-width: 1024px) {
+    .two-column-section {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Upcoming Bookings */
+.bookings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.booking-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background-color: var(--surface);
+    box-shadow: 0 1px 3px 0 var(--shadow);
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+}
+
+    .booking-item:hover {
+        border-color: rgba(var(--primary-rgb), 0.2);
+    }
+
+.booking-item-image {
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: 0.375rem;
+    background-color: var(--hover);
+}
+
+    .booking-item-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+.booking-item-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.booking-item-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color 0.2s;
+}
+
+.booking-item:hover .booking-item-title {
+    color: var(--primary);
+}
+
+.booking-item-meta {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.booking-item-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+    .booking-item-arrow:hover {
+        background-color: var(--hover);
+        color: var(--text);
+    }
+
+/* Rental History */
+.history-section .section-header {
+    margin-bottom: 1rem;
+}
+
+.view-all-link {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--primary);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+    .view-all-link:hover {
+        color: #e05e0e;
+    }
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background-color: rgba(var(--surface-rgb), 0.5);
+    border: 1px solid transparent;
+    transition: all 0.2s;
+}
+
+    .history-item:hover {
+        background-color: var(--hover);
+    }
+
+.history-item-image {
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: 0.375rem;
+    background-color: var(--surface);
+}
+
+    .history-item-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: grayscale(100%);
+    }
+
+.history-item-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 0;
+}
+
+.history-item-title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 0.125rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.history-item-meta {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.history-item-right {
+    text-align: right;
+    margin-left: 1rem;
+}
+
+.history-item-price {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.125rem;
+}
+
+.payment-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+}
+
+    .payment-status.paid {
+        color: #16a34a;
+    }
+
+    .payment-status .material-symbols-outlined {
+        font-size: 0.875rem;
+    }
