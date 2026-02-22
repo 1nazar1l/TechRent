@@ -15,7 +15,7 @@
 
         <div class="page-header">
             <h1 class="page-title">Categories Management</h1>
-            <button class="add-button">
+            <button class="add-button" onclick="location.href='@Url.Action("CreateCategory", "Admin")'">
                 <span class="material-symbols-outlined">add</span>
                 Add New Category
             </button>
@@ -170,8 +170,11 @@
                                     </td>
                                     <td class="actions-cell">
                                         <div class="action-buttons">
-                                            <button class="action-button view-button" title="View Equipment" onclick="location.href='@Url.Action("Index", "Admin", new { categoryId = item.Id })'">
-                                                <span class="material-symbols-outlined">visibility</span>
+                                            <button class="action-button edit-button" title="Edit" onclick="location.href='@Url.Action("EditCategory", "Admin", new { id = item.Id })'">
+                                                <span class="material-symbols-outlined">edit</span>
+                                            </button>
+                                            <button class="action-button delete-button" title="Delete" onclick="location.href='@Url.Action("DeleteCategory", "Admin", new { id = item.Id })'">
+                                                <span class="material-symbols-outlined">delete</span>
                                             </button>
                                         </div>
                                     </td>

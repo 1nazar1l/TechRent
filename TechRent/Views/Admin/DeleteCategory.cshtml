@@ -1,0 +1,95 @@
+﻿@model TechRent.Models.Entities.Category
+@{
+    ViewData["Title"] = "Delete Category";
+    ViewData["css"] = "admin";
+}
+
+<main class="main-content">
+    <div class="wrapper">
+        <div class="breadcrumb">
+            <a asp-action="Categories" class="breadcrumb-link">Admin</a>
+            <span class="material-symbols-outlined">chevron_right</span>
+            <span class="breadcrumb-current">Delete Category</span>
+        </div>
+
+        <div class="delete-container">
+            <div class="delete-card" style="max-width: 500px;">
+                <div class="delete-icon">
+                    <span class="material-symbols-outlined" style="font-size: 48px; color: #ef4444;">warning</span>
+                </div>
+
+                <h1 class="delete-title">Delete Category</h1>
+
+                <p class="delete-text">
+                    Are you sure you want to delete category <strong>"@Model.Name"</strong>?
+                    This action cannot be undone.
+                </p>
+
+                @if (Model.Equipments != null && Model.Equipments.Any())
+                {
+                    <div class="delete-warning" style="background: #fee2e2; border: 1px solid #fecaca; border-radius: 12px; padding: 16px; margin-bottom: 24px; color: #991b1b;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                            <span class="material-symbols-outlined">error</span>
+                            <strong>Warning:</strong>
+                        </div>
+                        <p>This category contains @Model.Equipments.Count equipment item(s). You must reassign or delete them first.</p>
+                    </div>
+                }
+
+                <div class="delete-details">
+                    <div class="detail-item">
+                        <span class="detail-label">ID:</span>
+                        <span class="detail-value">#@Model.Id.ToString("D3")</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Name:</span>
+                        <span class="detail-value">@Model.Name</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Display Order:</span>
+                        <span class="detail-value">@Model.DisplayOrder</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Equipment Count:</span>
+                        <span class="detail-value">@(Model.Equipments?.Count ?? 0)</span>
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model.Description))
+                    {
+                        <div class="detail-item">
+                            <span class="detail-label">Description:</span>
+                            <span class="detail-value">@Model.Description</span>
+                        </div>
+                    }
+                </div>
+
+                @if (Model.Equipments != null && Model.Equipments.Any())
+                {
+                    <div class="delete-actions">
+                        <a asp-action="Categories" class="delete-button-cancel" style="justify-content: center;">
+                            <span class="material-symbols-outlined">arrow_back</span>
+                            Back to Categories
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <form asp-action="DeleteCategory" method="post">
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="delete-actions">
+                            <button type="submit" class="delete-button-confirm">
+                                <span class="material-symbols-outlined">delete</span>
+                                Delete Permanently
+                            </button>
+
+                            <a asp-action="Categories" class="delete-button-cancel">
+                                <span class="material-symbols-outlined">close</span>
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+</main>
