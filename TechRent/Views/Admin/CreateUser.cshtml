@@ -1,0 +1,100 @@
+﻿@using Microsoft.AspNetCore.Identity
+@{
+    ViewData["Title"] = "Create User";
+    ViewData["css"] = "admin";
+}
+
+@{
+    var allRoles = new[] { "User", "Admin" };
+}
+
+<main class="main-content">
+    <div class="wrapper">
+        <div class="breadcrumb">
+            <a asp-action="Users" class="breadcrumb-link">Admin</a>
+            <span class="material-symbols-outlined">chevron_right</span>
+            <span class="breadcrumb-current">Create User</span>
+        </div>
+
+        <div class="form-container">
+            <div class="form-card" style="max-width: 600px;">
+                <div class="form-header">
+                    <h1 class="form-title">Create New User</h1>
+                    <p class="form-subtitle">Add a new user to the system</p>
+                </div>
+
+                <form asp-action="CreateUser" method="post" class="edit-form">
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-input" placeholder="Enter email address" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Username</label>
+                        <input type="text" name="username" class="form-input" placeholder="Enter username" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password" class="form-input" placeholder="Enter password" required />
+                        <small class="form-text text-muted" style="display: block; margin-top: 4px; color: #64748b;">
+                            Password must be at least 6 characters long and contain at least one number, one uppercase letter, and one lowercase letter.
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Confirm Password</label>
+                        <input type="password" name="confirmPassword" class="form-input" placeholder="Confirm password" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" name="phoneNumber" class="form-input" placeholder="Enter phone number (optional)" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Role</label>
+                        <select name="role" class="form-select">
+                            @foreach (var role in allRoles)
+                            {
+                                <option value="@role" selected="@(role == "User" ? "selected" : null)">@role</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="toggle" style="justify-content: space-between; width: 100%;">
+                            <span class="toggle-text">Email Confirmed</span>
+                            <div class="relative">
+                                <input type="checkbox" class="toggle-input" name="emailConfirmed" value="true" />
+                                <div class="toggle-switch"></div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="toggle" style="justify-content: space-between; width: 100%;">
+                            <span class="toggle-text">Phone Number Confirmed</span>
+                            <div class="relative">
+                                <input type="checkbox" class="toggle-input" name="phoneNumberConfirmed" value="true" />
+                                <div class="toggle-switch"></div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="save-button">
+                            <span class="material-symbols-outlined">add</span>
+                            Create User
+                        </button>
+
+                        <a asp-action="Users" class="cancel-button">
+                            <span class="material-symbols-outlined">close</span>
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>

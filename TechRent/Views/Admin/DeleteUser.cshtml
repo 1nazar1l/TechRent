@@ -1,0 +1,123 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IdentityUser
+@{
+    ViewData["Title"] = "Delete User";
+    ViewData["css"] = "admin";
+}
+
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    var roles = await UserManager.GetRolesAsync(Model);
+    var roleName = roles.FirstOrDefault() ?? "User";
+    var currentUserId = UserManager.GetUserId(User);
+}
+
+<main class="main-content">
+    <div class="wrapper">
+        <div class="breadcrumb">
+            <a asp-action="Users" class="breadcrumb-link">Admin</a>
+            <span class="material-symbols-outlined">chevron_right</span>
+            <span class="breadcrumb-current">Delete User</span>
+        </div>
+
+        <div class="delete-container">
+            <div class="delete-card" style="max-width: 500px;">
+                <div class="delete-icon">
+                    <span class="material-symbols-outlined" style="font-size: 48px; color: #ef4444;">warning</span>
+                </div>
+
+                <h1 class="delete-title">Delete User</h1>
+
+                <p class="delete-text">
+                    Are you sure you want to delete user <strong>"@Model.Email"</strong>?
+                    This action cannot be undone.
+                </p>
+
+                @if (Model.Id == currentUserId)
+                {
+                    <div class="delete-warning" style="background: #fee2e2; border: 1px solid #fecaca; border-radius: 12px; padding: 16px; margin-bottom: 24px; color: #991b1b;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                            <span class="material-symbols-outlined">error</span>
+                            <strong>Warning:</strong>
+                        </div>
+                        <p>You cannot delete your own account while logged in.</p>
+                    </div>
+                }
+
+                <div class="delete-details">
+                    <div class="detail-item">
+                        <span class="detail-label">ID:</span>
+                        <span class="detail-value">@Model.Id.Substring(0, Math.Min(8, Model.Id.Length))...</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Email:</span>
+                        <span class="detail-value">@Model.Email</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Username:</span>
+                        <span class="detail-value">@Model.UserName</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Role:</span>
+                        <span class="detail-value">
+                            @if (roleName == "Admin")
+                            {
+                                <span class="status-badge status-active">@roleName</span>
+                            }
+                            else
+                            {
+                                <span class="stock-badge stock-available">@roleName</span>
+                            }
+                        </span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Email Confirmed:</span>
+                        <span class="detail-value">
+                            @if (Model.EmailConfirmed)
+                            {
+                                <span class="status-badge status-active">Yes</span>
+                            }
+                            else
+                            {
+                                <span class="status-badge status-inactive">No</span>
+                            }
+                        </span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Phone:</span>
+                        <span class="detail-value">@(!string.IsNullOrEmpty(Model.PhoneNumber) ? Model.PhoneNumber : "—")</span>
+                    </div>
+                </div>
+
+                @if (Model.Id == currentUserId)
+                {
+                    <div class="delete-actions">
+                        <a asp-action="Users" class="delete-button-cancel" style="justify-content: center;">
+                            <span class="material-symbols-outlined">arrow_back</span>
+                            Back to Users
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <form asp-action="DeleteUser" method="post">
+                        <input type="hidden" name="id" value="@Model.Id" />
+
+                        <div class="delete-actions">
+                            <button type="submit" class="delete-button-confirm">
+                                <span class="material-symbols-outlined">delete</span>
+                                Delete Permanently
+                            </button>
+
+                            <a asp-action="Users" class="delete-button-cancel">
+                                <span class="material-symbols-outlined">close</span>
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+</main>

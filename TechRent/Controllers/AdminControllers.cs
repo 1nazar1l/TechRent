@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using TechRent.Data;
 using TechRent.Models.Entities;
 
@@ -9,10 +10,12 @@ namespace TechRent.Controllers
     public class AdminController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public AdminController(ApplicationDbContext context)
+        public AdminController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Equipment
@@ -269,6 +272,153 @@ namespace TechRent.Controllers
             }
 
             return RedirectToAction(nameof(Categories));
+        }
+
+        // GET: Admin/Users
+        public async Task<IActionResult> Users()
+        {
+            var users = await _context.Users.ToListAsync();
+            return View(users);
+        }
+
+        // GET: Admin/EditUser/5
+        public async Task<IActionResult> EditUser(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+
+        // POST: Admin/EditUser/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditUser(string id, string phoneNumber, string role,
+            string emailConfirmed, string phoneNumberConfirmed, string twoFactorEnabled)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            // Update basic info - проверяем значение "true" от чекбокса
+            user.PhoneNumber = phoneNumber;
+            user.EmailConfirmed = emailConfirmed == "true";
+            user.PhoneNumberConfirmed = phoneNumberConfirmed == "true";
+            user.TwoFactorEnabled = twoFactorEnabled == "true";
+
+            var updateResult = await _userManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
+            {
+                foreach (var error in updateResult.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return View(user);
+            }
+
+            // Update role
+            var currentRoles = await _userManager.GetRolesAsync(user);
+            await _userManager.RemoveFromRolesAsync(user, currentRoles);
+            await _userManager.AddToRoleAsync(user, role);
+
+            return RedirectToAction(nameof(Users));
+        }
+
+        // GET: Admin/DeleteUser/5
+        public async Task<IActionResult> DeleteUser(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+
+        // POST: Admin/DeleteUser/5
+        [HttpPost, ActionName("DeleteUser")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteUserConfirmed(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            // Check if user is trying to delete themselves
+            var currentUserId = _userManager.GetUserId(User);
+            if (user.Id == currentUserId)
+            {
+                TempData["Error"] = "You cannot delete your own account.";
+                return RedirectToAction(nameof(Users));
+            }
+
+            var result = await _userManager.DeleteAsync(user);
+            if (!result.Succeeded)
+            {
+                TempData["Error"] = "Error deleting user.";
+            }
+
+            return RedirectToAction(nameof(Users));
+        }
+
+        // GET: Admin/CreateUser
+        public IActionResult CreateUser()
+        {
+            return View();
+        }
+
+        // POST: Admin/CreateUser
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateUser(string email, string username, string password,
+            string confirmPassword, string phoneNumber, string role, bool emailConfirmed, bool phoneNumberConfirmed)
+        {
+            if (password != confirmPassword)
+            {
+                ModelState.AddModelError(string.Empty, "Passwords do not match.");
+                return View();
+            }
+
+            var user = new IdentityUser
+            {
+                UserName = username,
+                Email = email,
+                PhoneNumber = phoneNumber,
+                EmailConfirmed = emailConfirmed,
+                PhoneNumberConfirmed = phoneNumberConfirmed
+            };
+
+            var result = await _userManager.CreateAsync(user, password);
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, role);
+                return RedirectToAction(nameof(Users));
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return View();
         }
     }
 }

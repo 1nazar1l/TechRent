@@ -1,0 +1,254 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
+@model IEnumerable<IdentityUser>
+@{
+    ViewData["Title"] = "Users Management";
+    ViewData["css"] = "admin";
+}
+
+@inject UserManager<IdentityUser> UserManager
+
+<main class="main-content">
+    <div class="wrapper">
+        <!-- Breadcrumb & Title -->
+        <div class="breadcrumb">
+            <a href="#" class="breadcrumb-link">Admin</a>
+            <span class="material-symbols-outlined">chevron_right</span>
+            <span class="breadcrumb-current">Users Management</span>
+        </div>
+
+        <div class="page-header">
+            <h1 class="page-title">Users Management</h1>
+            <button class="add-button" onclick="location.href='@Url.Action("CreateUser", "Admin")'">
+                <span class="material-symbols-outlined">add</span>
+                Add New User
+            </button>
+        </div>
+
+        <!-- Admin Layout -->
+        <div class="admin-layout">
+            <!-- Filters Sidebar -->
+            <aside class="admin-filters">
+                <div class="filters-header">
+                    <h2 class="filters-title">Filters</h2>
+                    <button class="reset-button">Reset All</button>
+                </div>
+
+                <!-- Search Filter -->
+                <div class="filters-group">
+                    <label class="filter-label">Search</label>
+                    <div class="filter-search">
+                        <span class="filter-search-icon material-symbols-outlined">search</span>
+                        <input type="text" class="filter-search-input" placeholder="Email or username...">
+                    </div>
+                </div>
+
+                <!-- Role Filter -->
+                <div class="filters-group">
+                    <label class="filter-label">Role</label>
+                    <div class="filter-select">
+                        <select class="filter-select-input">
+                            <option>All Roles</option>
+                            <option>Admin</option>
+                            <option>User</option>
+                        </select>
+                        <span class="filter-select-icon material-symbols-outlined">expand_more</span>
+                    </div>
+                </div>
+
+                <!-- Email Confirmed Filter -->
+                <div class="filters-group">
+                    <label class="filter-label">Email Status</label>
+                    <div class="checkbox-list">
+                        <label class="checkbox-item">
+                            <span class="checkbox-box">
+                                <input type="checkbox" class="checkbox-input" checked>
+                                <span class="checkbox-check material-symbols-outlined">check</span>
+                            </span>
+                            <span class="checkbox-text">Confirmed</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <span class="checkbox-box">
+                                <input type="checkbox" class="checkbox-input">
+                                <span class="checkbox-check material-symbols-outlined">check</span>
+                            </span>
+                            <span class="checkbox-text">Not confirmed</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Phone Number Filter -->
+                <div class="filters-group">
+                    <label class="filter-label">Phone</label>
+                    <div class="checkbox-list">
+                        <label class="checkbox-item">
+                            <span class="checkbox-box">
+                                <input type="checkbox" class="checkbox-input" checked>
+                                <span class="checkbox-check material-symbols-outlined">check</span>
+                            </span>
+                            <span class="checkbox-text">Has phone</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <span class="checkbox-box">
+                                <input type="checkbox" class="checkbox-input">
+                                <span class="checkbox-check material-symbols-outlined">check</span>
+                            </span>
+                            <span class="checkbox-text">No phone</span>
+                        </label>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Table Section -->
+            <section class="table-section">
+                <!-- Toolbar -->
+                <div class="table-toolbar">
+                    <div class="results">
+                        <span class="results-number">@Model.Count()</span>
+                        <span class="results-text">users total</span>
+                    </div>
+
+                    <div class="table-controls">
+                        <div class="sort-field">
+                            <span class="sort-label">Show:</span>
+                            <select class="sort-select">
+                                <option>10 items</option>
+                                <option>25 items</option>
+                                <option>50 items</option>
+                                <option>100 items</option>
+                            </select>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <div class="export-buttons">
+                            <button class="icon-button" title="Export CSV">
+                                <span class="material-symbols-outlined">download</span>
+                            </button>
+                            <button class="icon-button" title="Print">
+                                <span class="material-symbols-outlined">print</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table Wrapper -->
+                <div class="table-wrapper">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th class="checkbox-cell">
+                                    <label class="checkbox-box">
+                                        <input type="checkbox" class="checkbox-input" id="select-all">
+                                        <span class="checkbox-check material-symbols-outlined">check</span>
+                                    </label>
+                                </th>
+                                <th>ID</th>
+                                <th>Email</th>
+                                <th>Username</th>
+                                <th>Phone</th>
+                                <th>Role</th>
+                                <th>Email Confirmed</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                var roles = await UserManager.GetRolesAsync(item);
+                                var roleName = roles.FirstOrDefault() ?? "User";
+
+                                <tr>
+                                    <td class="checkbox-cell">
+                                        <label class="checkbox-box">
+                                            <input type="checkbox" class="checkbox-input">
+                                            <span class="checkbox-check material-symbols-outlined">check</span>
+                                        </label>
+                                    </td>
+                                    <td class="id-cell">@item.Id.Substring(0, Math.Min(8, item.Id.Length))...</td>
+                                    <td class="name-cell">
+                                        <div class="cell-content">
+                                            <strong>@item.Email</strong>
+                                        </div>
+                                    </td>
+                                    <td>@item.UserName</td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.PhoneNumber))
+                                        {
+                                            <span>@item.PhoneNumber</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">—</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (roleName == "Admin")
+                                        {
+                                            <span class="status-badge status-active">@roleName</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="stock-badge stock-available">@roleName</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.EmailConfirmed)
+                                        {
+                                            <span class="status-badge status-active">Confirmed</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="status-badge status-inactive">Not confirmed</span>
+                                        }
+                                    </td>
+                                    <td class="actions-cell">
+                                        <div class="action-buttons">
+                                            <button class="action-button edit-button" title="Edit" onclick="location.href='@Url.Action("EditUser", "Admin", new { id = item.Id })'">
+                                                <span class="material-symbols-outlined">edit</span>
+                                            </button>
+                                            <button class="action-button delete-button" title="Delete" onclick="location.href='@Url.Action("DeleteUser", "Admin", new { id = item.Id })'">
+                                                <span class="material-symbols-outlined">delete</span>
+                                            </button>
+                                            <button class="action-button view-button" title="View Details">
+                                                <span class="material-symbols-outlined">visibility</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <nav class="pagination-list">
+                        <a href="#" class="pagination-link">
+                            <span class="sr-only">Previous</span>
+                            <span class="material-symbols-outlined">chevron_left</span>
+                        </a>
+                        <a href="#" class="pagination-link pagination-link-active">1</a>
+                        <a href="#" class="pagination-link">2</a>
+                        <a href="#" class="pagination-link">3</a>
+                        <a href="#" class="pagination-link">4</a>
+                        <a href="#" class="pagination-link">5</a>
+                        <span class="pagination-ellipsis">...</span>
+                        <a href="#" class="pagination-link">12</a>
+                        <a href="#" class="pagination-link">
+                            <span class="sr-only">Next</span>
+                            <span class="material-symbols-outlined">chevron_right</span>
+                        </a>
+                    </nav>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+
+<style>
+    .text-muted {
+        color: #94a3b8;
+        font-style: italic;
+    }
+</style>
