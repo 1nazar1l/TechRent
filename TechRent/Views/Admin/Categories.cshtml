@@ -1,6 +1,6 @@
-﻿@model IEnumerable<TechRent.Models.Entities.Equipment>
+﻿@model IEnumerable<TechRent.Models.Entities.Category>
 @{
-    ViewData["Title"] = "Админ панель";
+    ViewData["Title"] = "Categories Management";
     ViewData["css"] = "admin";
 }
 
@@ -10,15 +10,11 @@
         <div class="breadcrumb">
             <a href="#" class="breadcrumb-link">Admin</a>
             <span class="material-symbols-outlined">chevron_right</span>
-            <span class="breadcrumb-current">Equipment Management</span>
+            <span class="breadcrumb-current">Categories Management</span>
         </div>
 
         <div class="page-header">
-            <h1 class="page-title">Equipment Management</h1>
-            <button class="add-button">
-                <span class="material-symbols-outlined">add</span>
-                Add New Equipment
-            </button>
+            <h1 class="page-title">Categories Management</h1>
         </div>
 
         <!-- Admin Layout -->
@@ -35,79 +31,43 @@
                     <label class="filter-label">Search</label>
                     <div class="filter-search">
                         <span class="filter-search-icon material-symbols-outlined">search</span>
-                        <input type="text" class="filter-search-input" placeholder="Name, ID, category...">
+                        <input type="text" class="filter-search-input" placeholder="Category name...">
                     </div>
                 </div>
 
-                <!-- Category Filter -->
+                <!-- Display Order Range -->
                 <div class="filters-group">
-                    <label class="filter-label">Category</label>
-                    <div class="filter-select">
-                        <select class="filter-select-input">
-                            <option>All Categories</option>
-                            <option>Earthmoving</option>
-                            <option>Aerial Lifts</option>
-                            <option>Compaction</option>
-                            <option>Material Handling</option>
-                            <option>Power Tools</option>
-                        </select>
-                        <span class="filter-select-icon material-symbols-outlined">expand_more</span>
+                    <label class="filter-label">Display Order</label>
+                    <div class="price-inputs">
+                        <div class="price-field">
+                            <input type="number" class="price-input" value="0" placeholder="Min">
+                        </div>
+                        <span class="price-separator">-</span>
+                        <div class="price-field">
+                            <input type="number" class="price-input" value="100" placeholder="Max">
+                        </div>
                     </div>
                 </div>
 
-                <!-- Status Filter -->
+                <!-- Equipment Count Filter -->
                 <div class="filters-group">
-                    <label class="filter-label">Status</label>
+                    <label class="filter-label">Equipment Count</label>
                     <div class="checkbox-list">
                         <label class="checkbox-item">
                             <span class="checkbox-box">
                                 <input type="checkbox" class="checkbox-input" checked>
                                 <span class="checkbox-check material-symbols-outlined">check</span>
                             </span>
-                            <span class="checkbox-text">Available</span>
+                            <span class="checkbox-text">Has equipment</span>
                         </label>
                         <label class="checkbox-item">
                             <span class="checkbox-box">
                                 <input type="checkbox" class="checkbox-input">
                                 <span class="checkbox-check material-symbols-outlined">check</span>
                             </span>
-                            <span class="checkbox-text">Low Stock</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <span class="checkbox-box">
-                                <input type="checkbox" class="checkbox-input">
-                                <span class="checkbox-check material-symbols-outlined">check</span>
-                            </span>
-                            <span class="checkbox-text">Out of Stock</span>
+                            <span class="checkbox-text">Empty categories</span>
                         </label>
                     </div>
-                </div>
-
-                <!-- Price Range -->
-                <div class="filters-group">
-                    <label class="filter-label">Price Range ($)</label>
-                    <div class="price-inputs">
-                        <div class="price-field">
-                            <span class="price-currency">$</span>
-                            <input type="number" class="price-input" value="0" placeholder="Min">
-                        </div>
-                        <span class="price-separator">-</span>
-                        <div class="price-field">
-                            <span class="price-currency">$</span>
-                            <input type="number" class="price-input" value="1000" placeholder="Max">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Availability Toggle -->
-                <div class="filters-group">
-                    <label class="toggle">
-                        <span class="toggle-text">Show only in stock</span>
-                        <div class="relative">
-                            <input type="checkbox" class="toggle-input">
-                            <div class="toggle-switch"></div>
-                        </div>
-                    </label>
                 </div>
             </aside>
 
@@ -117,7 +77,7 @@
                 <div class="table-toolbar">
                     <div class="results">
                         <span class="results-number">@Model.Count()</span>
-                        <span class="results-text">items total</span>
+                        <span class="results-text">categories total</span>
                     </div>
 
                     <div class="table-controls">
@@ -144,7 +104,7 @@
                     </div>
                 </div>
 
-                <!-- Table Wrapper with horizontal scroll -->
+                <!-- Table Wrapper -->
                 <div class="table-wrapper">
                     <table class="admin-table">
                         <thead>
@@ -156,20 +116,17 @@
                                     </label>
                                 </th>
                                 <th>ID</th>
-                                <th>Image</th>
                                 <th>Name</th>
-                                <th>Category</th>
-                                <th>Price/day</th>
-                                <th>Stock</th>
-                                <th>Status</th>
-                                <th>Rating</th>
+                                <th>Description</th>
+                                <th>Display Order</th>
+                                <th>Equipment Count</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr class="@(item.AvailableQuantity == 0 ? "inactive-row" : "")">
+                                <tr class="@(item.Equipments == null || !item.Equipments.Any() ? "inactive-row" : "")">
                                     <td class="checkbox-cell">
                                         <label class="checkbox-box">
                                             <input type="checkbox" class="checkbox-input">
@@ -177,68 +134,39 @@
                                         </label>
                                     </td>
                                     <td class="id-cell">#@item.Id.ToString("D3")</td>
-                                    <td class="image-cell">
-                                        <div class="table-image">
-                                            @if (!string.IsNullOrEmpty(item.ImageUrl))
-                                            {
-                                                <img src="@item.ImageUrl" alt="@item.Name">
-                                            }
-                                            else
-                                            {
-                                                <div class="no-image">No image</div>
-                                            }
-                                        </div>
-                                    </td>
                                     <td class="name-cell">
                                         <div class="cell-content">
                                             <strong>@item.Name</strong>
-                                            @if (!string.IsNullOrEmpty(item.Description))
-                                            {
-                                                <span class="cell-description">@item.Description</span>
-                                            }
                                         </div>
                                     </td>
-                                    <td>@item.Category?.Name</td>
-                                    <td class="price-cell">$@item.PricePerDay.ToString("F0")</td>
-                                    <td class="stock-cell">
-                                        @if (item.AvailableQuantity > 5)
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.Description))
                                         {
-                                            <span class="stock-badge stock-available">@item.AvailableQuantity in stock</span>
-                                        }
-                                        else if (item.AvailableQuantity > 0)
-                                        {
-                                            <span class="stock-badge stock-low">@item.AvailableQuantity in stock</span>
+                                            <span>@item.Description</span>
                                         }
                                         else
                                         {
-                                            <span class="stock-badge stock-out">0 in stock</span>
+                                            <span class="text-muted">—</span>
                                         }
                                     </td>
-                                    <td class="status-cell">
-                                        @if (item.IsAvailable)
+                                    <td>
+                                        <span class="badge" style="background: #e2e8f0; color: #1e293b; padding: 4px 8px; border-radius: 20px;">
+                                            @item.DisplayOrder
+                                        </span>
+                                    </td>
+                                    <td>
+                                        @if (item.Equipments != null && item.Equipments.Any())
                                         {
-                                            <span class="status-badge status-active">Active</span>
+                                            <span class="stock-badge stock-available">@item.Equipments.Count items</span>
                                         }
                                         else
                                         {
-                                            <span class="status-badge status-inactive">Inactive</span>
+                                            <span class="stock-badge stock-out">No equipment</span>
                                         }
-                                    </td>
-                                    <td class="rating-cell">
-                                        <div class="rating">
-                                            <span class="star-icon material-symbols-outlined">star</span>
-                                            <span>-</span>
-                                        </div>
                                     </td>
                                     <td class="actions-cell">
                                         <div class="action-buttons">
-                                            <button class="action-button edit-button" title="Edit" onclick="location.href='@Url.Action("Edit", "Admin", new { id = item.Id })'">
-                                                <span class="material-symbols-outlined">edit</span>
-                                            </button>
-                                            <button class="action-button delete-button" title="Delete" onclick="location.href='@Url.Action("Delete", "Admin", new { id = item.Id })'">
-                                                <span class="material-symbols-outlined">delete</span>
-                                            </button>
-                                            <button class="action-button view-button" title="View">
+                                            <button class="action-button view-button" title="View Equipment" onclick="location.href='@Url.Action("Index", "Admin", new { categoryId = item.Id })'">
                                                 <span class="material-symbols-outlined">visibility</span>
                                             </button>
                                         </div>
@@ -273,3 +201,10 @@
         </div>
     </div>
 </main>
+
+<style>
+    .text-muted {
+        color: #94a3b8;
+        font-style: italic;
+    }
+</style>

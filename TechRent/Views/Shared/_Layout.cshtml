@@ -18,9 +18,49 @@
 <body data-theme="light">
     <div class="site-wrapper">
         <header class="header">
-            @if (Convert.ToString(ViewData["nav_pos"]) == "left")
+            @if (Convert.ToString(ViewData["css"]) == "admin")
             {
-                <div class="header-left">
+                <a asp-controller="Home" asp-action="Index" class="logo-area">
+                    <div class="logo-icon">
+                        <span class="material-symbols-outlined">precision_manufacturing</span>
+                    </div>
+                    <h2 class="logo-text">TECHRENT</h2>
+                </a>
+
+                <nav class="main-nav">
+                    <a asp-controller="Admin" asp-action="Index" class="nav-link">Equipment</a>
+                    <a asp-controller="Admin" asp-action="Categories" class="nav-link">Categories</a>
+                    <a href="#" class="nav-link">Users</a>
+                    <a href="#" class="nav-link">Reviews</a>
+                </nav>
+            }
+            else
+            {
+                @if (Convert.ToString(ViewData["nav_pos"]) == "left")
+                {
+                    <div class="header-left">
+                        <a asp-controller="Home" asp-action="Index" class="logo-area">
+                            <div class="logo-icon">
+                                <span class="material-symbols-outlined">precision_manufacturing</span>
+                            </div>
+                            <h2 class="logo-text">TECHRENT</h2>
+                        </a>
+
+                        <nav class="main-nav">
+                            <a asp-controller="Equipment" asp-action="Index" class="nav-link">Catalog</a>
+                            <a href="#" class="nav-link">How to Rent</a>
+                            <a href="#" class="nav-link">Pricing</a>
+                            <a href="#" class="nav-link">For Suppliers</a>
+                            <a href="#" class="nav-link">Support</a>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-controller="Admin" asp-action="Index" class="nav-link">Admin</a>
+                            }
+                        </nav>
+                    </div>
+                }
+                else
+                {
                     <a asp-controller="Home" asp-action="Index" class="logo-area">
                         <div class="logo-icon">
                             <span class="material-symbols-outlined">precision_manufacturing</span>
@@ -39,28 +79,7 @@
                             <a asp-controller="Admin" asp-action="Index" class="nav-link">Admin</a>
                         }
                     </nav>
-                </div>
-            }
-            else
-            {
-                <a asp-controller="Home" asp-action="Index" class="logo-area">
-                    <div class="logo-icon">
-                        <span class="material-symbols-outlined">precision_manufacturing</span>
-                    </div>
-                    <h2 class="logo-text">TECHRENT</h2>
-                </a>
-
-                <nav class="main-nav">
-                    <a asp-controller="Equipment" asp-action="Index" class="nav-link">Catalog</a>
-                    <a href="#" class="nav-link">How to Rent</a>
-                    <a href="#" class="nav-link">Pricing</a>
-                    <a href="#" class="nav-link">For Suppliers</a>
-                    <a href="#" class="nav-link">Support</a>
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <a asp-controller="Admin" asp-action="Index" class="nav-link">Admin</a>
-                    }
-                </nav>
+                }
             }
 
             <div class="header-actions">

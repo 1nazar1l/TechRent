@@ -32,18 +32,11 @@
                             </div>
 
                             <div class="form-group">
-                                <label asp-for="Type" class="form-label"></label>
-                                <select asp-for="Type" class="form-select">
+                                <label asp-for="CategoryId" class="form-label">Category</label>
+                                <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.Categories">
                                     <option value="">Select category</option>
-                                    <option value="Earthmoving">Earthmoving</option>
-                                    <option value="Aerial Lifts">Aerial Lifts</option>
-                                    <option value="Compaction">Compaction</option>
-                                    <option value="Material Handling">Material Handling</option>
-                                    <option value="Power Tools">Power Tools</option>
-                                    <option value="Concrete">Concrete</option>
-                                    <option value="Lighting">Lighting</option>
                                 </select>
-                                <span asp-validation-for="Type" class="text-danger"></span>
+                                <span asp-validation-for="CategoryId" class="text-danger"></span>
                             </div>
 
                             <div class="form-group">

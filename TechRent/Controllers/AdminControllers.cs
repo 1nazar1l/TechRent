@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using TechRent.Data;
 using TechRent.Models.Entities;
 
@@ -17,7 +18,9 @@ namespace TechRent.Controllers
         // GET: Equipment
         public async Task<IActionResult> Index()
         {
-            var equipment = await _context.Equipments.ToListAsync();
+            var equipment = await _context.Equipments
+                .Include(e => e.Category) // Добавить для загрузки категории
+                .ToListAsync();
             return View(equipment);
         }
 
@@ -30,6 +33,7 @@ namespace TechRent.Controllers
             }
 
             var equipment = await _context.Equipments
+                .Include(e => e.Category) // Добавить для загрузки категории
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (equipment == null)
@@ -63,11 +67,16 @@ namespace TechRent.Controllers
                 return NotFound();
             }
 
-            var equipment = await _context.Equipments.FindAsync(id);
+            var equipment = await _context.Equipments
+                .Include(e => e.Category)
+                .FirstOrDefaultAsync(e => e.Id == id);
+
             if (equipment == null)
             {
                 return NotFound();
             }
+
+            ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", equipment.CategoryId);
             return View(equipment);
         }
 
@@ -101,12 +110,46 @@ namespace TechRent.Controllers
                     }
                 }
             }
+
+            ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", equipment.CategoryId);
+            return View(equipment);
+        }
+
+        // GET: Admin/Create
+        public IActionResult Create()
+        {
+            ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name");
+            return View();
+        }
+
+        // POST: Admin/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Equipment equipment)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(equipment);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
+            ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", equipment.CategoryId);
             return View(equipment);
         }
 
         private bool EquipmentExists(int id)
         {
             return _context.Equipments.Any(e => e.Id == id);
+        }
+
+        // GET: Admin/Categories
+        public async Task<IActionResult> Categories()
+        {
+            var categories = await _context.Categories
+                .Include(c => c.Equipments)
+                .ToListAsync();
+            return View(categories);
         }
     }
 }

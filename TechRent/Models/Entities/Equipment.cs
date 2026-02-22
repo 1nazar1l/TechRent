@@ -10,9 +10,13 @@ namespace TechRent.Models.Entities
         [Display(Name = "Название")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Тип обязателен")]
-        [Display(Name = "Тип оборудования")]
-        public string Type { get; set; } // "Бетономешалка", "Леса", "Инструмент"
+        // Внешний ключ для категории
+        [Display(Name = "Категория")]
+        public int CategoryId { get; set; }
+
+        // Навигационное свойство для категории
+        [Display(Name = "Категория")]
+        public Category? Category { get; set; }
 
         [Display(Name = "Описание")]
         public string? Description { get; set; }

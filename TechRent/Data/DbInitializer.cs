@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using TechRent.Models.Entities;
 
 namespace TechRent.Data
@@ -60,15 +61,68 @@ namespace TechRent.Data
                 }
             }
 
-            // 4. Добавляем тестовое оборудование, если таблица пуста
+            // 4. Добавляем категории, если таблица пуста
+            if (!context.Categories.Any())
+            {
+                var categories = new List<Category>
+                {
+                    new Category
+                    {
+                        Name = "Бетономешалки",
+                        Description = "Бетономешалки различных объемов для строительных работ",
+                        DisplayOrder = 1
+                    },
+                    new Category
+                    {
+                        Name = "Электроинструмент",
+                        Description = "Перфораторы, дрели, шуруповерты и другой электроинструмент",
+                        DisplayOrder = 2
+                    },
+                    new Category
+                    {
+                        Name = "Леса и опалубка",
+                        Description = "Строительные леса, опалубка для монолитных работ",
+                        DisplayOrder = 3
+                    },
+                    new Category
+                    {
+                        Name = "Компрессоры",
+                        Description = "Воздушные компрессоры для различных задач",
+                        DisplayOrder = 4
+                    },
+                    new Category
+                    {
+                        Name = "Сварочное оборудование",
+                        Description = "Сварочные аппараты и комплектующие",
+                        DisplayOrder = 5
+                    },
+                    new Category
+                    {
+                        Name = "Измерительные приборы",
+                        Description = "Нивелиры, теодолиты, дальномеры",
+                        DisplayOrder = 6
+                    }
+                };
+
+                context.Categories.AddRange(categories);
+                await context.SaveChangesAsync();
+            }
+
+            // 5. Добавляем тестовое оборудование, если таблица пуста
             if (!context.Equipments.Any())
             {
+                // Получаем категории для привязки
+                var concreteCategory = await context.Categories.FirstOrDefaultAsync(c => c.Name == "Бетономешалки");
+                var toolsCategory = await context.Categories.FirstOrDefaultAsync(c => c.Name == "Электроинструмент");
+                var scaffoldingCategory = await context.Categories.FirstOrDefaultAsync(c => c.Name == "Леса и опалубка");
+                var compressorsCategory = await context.Categories.FirstOrDefaultAsync(c => c.Name == "Компрессоры");
+
                 var equipments = new List<Equipment>
                 {
                     new Equipment
                     {
                         Name = "Бетономешалка 150л",
-                        Type = "Бетономешалки",
+                        CategoryId = concreteCategory?.Id ?? 1,
                         Description = "Профессиональная бетономешалка объемом 150 литров. Идеально подходит для строительных работ.",
                         PricePerDay = 1500,
                         Deposit = 5000,
@@ -78,7 +132,7 @@ namespace TechRent.Data
                     new Equipment
                     {
                         Name = "Перфоратор Bosch",
-                        Type = "Электроинструмент",
+                        CategoryId = toolsCategory?.Id ?? 2,
                         Description = "Мощный перфоратор с функцией отбойника. В комплекте набор буров.",
                         PricePerDay = 800,
                         Deposit = 3000,
@@ -88,7 +142,7 @@ namespace TechRent.Data
                     new Equipment
                     {
                         Name = "Строительные леса",
-                        Type = "Леса и опалубка",
+                        CategoryId = scaffoldingCategory?.Id ?? 3,
                         Description = "Комплект строительных лесов высотой 5м. Включает все необходимые элементы.",
                         PricePerDay = 2500,
                         Deposit = 10000,
@@ -98,7 +152,7 @@ namespace TechRent.Data
                     new Equipment
                     {
                         Name = "Шуруповерт Makita",
-                        Type = "Электроинструмент",
+                        CategoryId = toolsCategory?.Id ?? 2,
                         Description = "Аккумуляторный шуруповерт с двумя аккумуляторами в комплекте.",
                         PricePerDay = 600,
                         Deposit = 2500,
@@ -108,7 +162,7 @@ namespace TechRent.Data
                     new Equipment
                     {
                         Name = "Компрессор воздушный",
-                        Type = "Компрессоры",
+                        CategoryId = compressorsCategory?.Id ?? 4,
                         Description = "Воздушный компрессор для покраски и пневмоинструмента.",
                         PricePerDay = 1200,
                         Deposit = 4000,
@@ -120,7 +174,7 @@ namespace TechRent.Data
                 context.Equipments.AddRange(equipments);
                 await context.SaveChangesAsync();
 
-                // 5. Добавляем тестовые отзывы (привязываем к первому пользователю)
+                // 6. Добавляем тестовые отзывы (привязываем к первому пользователю)
                 var user = await userManager.FindByEmailAsync(userEmail);
                 if (user != null)
                 {

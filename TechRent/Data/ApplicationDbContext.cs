@@ -17,6 +17,7 @@ namespace TechRent.Data
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Delivery> Deliveries { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<Category> Categories { get; set; } // Добавить эту строку
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -58,6 +59,13 @@ namespace TechRent.Data
                 .WithMany(e => e.Reviews)
                 .HasForeignKey(r => r.EquipmentId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // Настройка связи между Equipment и Category
+            modelBuilder.Entity<Equipment>()
+                .HasOne(e => e.Category)
+                .WithMany(c => c.Equipments)
+                .HasForeignKey(e => e.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict); // Запрещаем удаление категории, если есть оборудование
         }
     }
 }
