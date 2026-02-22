@@ -70,9 +70,9 @@ namespace TechRent.Data
                         Name = "Бетономешалка 150л",
                         Type = "Бетономешалки",
                         Description = "Профессиональная бетономешалка объемом 150 литров. Идеально подходит для строительных работ.",
-                        PricePerDay = 1500m,
-                        Deposit = 5000m,
-                        ImageUrl = "/images/betonomeshalka.jpg",
+                        PricePerDay = 1500,
+                        Deposit = 5000,
+                        ImageUrl = "/Images/Equipment/betonomeshalka.jpg",
                         AvailableQuantity = 3
                     },
                     new Equipment
@@ -80,9 +80,9 @@ namespace TechRent.Data
                         Name = "Перфоратор Bosch",
                         Type = "Электроинструмент",
                         Description = "Мощный перфоратор с функцией отбойника. В комплекте набор буров.",
-                        PricePerDay = 800m,
-                        Deposit = 3000m,
-                        ImageUrl = "/images/perforator.jpg",
+                        PricePerDay = 800,
+                        Deposit = 3000,
+                        ImageUrl = "/Images/Equipment/perforator.jpg",
                         AvailableQuantity = 5
                     },
                     new Equipment
@@ -90,9 +90,9 @@ namespace TechRent.Data
                         Name = "Строительные леса",
                         Type = "Леса и опалубка",
                         Description = "Комплект строительных лесов высотой 5м. Включает все необходимые элементы.",
-                        PricePerDay = 2500m,
-                        Deposit = 10000m,
-                        ImageUrl = "/images/lesa.jpg",
+                        PricePerDay = 2500,
+                        Deposit = 10000,
+                        ImageUrl = "/Images/Equipment/lesa.jpg",
                         AvailableQuantity = 2
                     },
                     new Equipment
@@ -100,9 +100,9 @@ namespace TechRent.Data
                         Name = "Шуруповерт Makita",
                         Type = "Электроинструмент",
                         Description = "Аккумуляторный шуруповерт с двумя аккумуляторами в комплекте.",
-                        PricePerDay = 600m,
-                        Deposit = 2500m,
-                        ImageUrl = "/images/shurupovert.jpg",
+                        PricePerDay = 600,
+                        Deposit = 2500,
+                        ImageUrl = "/Images/Equipment/shurupovert.jpg",
                         AvailableQuantity = 4
                     },
                     new Equipment
@@ -110,9 +110,9 @@ namespace TechRent.Data
                         Name = "Компрессор воздушный",
                         Type = "Компрессоры",
                         Description = "Воздушный компрессор для покраски и пневмоинструмента.",
-                        PricePerDay = 1200m,
-                        Deposit = 4000m,
-                        ImageUrl = "/images/kompressor.jpg",
+                        PricePerDay = 1200,
+                        Deposit = 4000,
+                        ImageUrl = "/Images/Equipment/kompressor.jpg",
                         AvailableQuantity = 2
                     }
                 };

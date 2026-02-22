@@ -721,3 +721,354 @@
 .checkbox-item:hover .checkbox-text {
     color: var(--text);
 }
+
+
+.no-image {
+    width: 60px;
+    height: 60px;
+    background: #f1f5f9;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: #64748b;
+}
+
+.cell-description {
+    font-size: 12px;
+    color: #64748b;
+    display: block;
+    margin-top: 2px;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
+
+/*Delete.html*/
+
+.delete-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 200px);
+    padding: 40px 20px;
+}
+
+.delete-card {
+    background: white;
+    border-radius: 24px;
+    padding: 48px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
+}
+
+.delete-icon {
+    margin-bottom: 24px;
+}
+
+.delete-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 16px;
+}
+
+.delete-text {
+    color: #64748b;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.delete-image {
+    margin-bottom: 24px;
+}
+
+.delete-details {
+    background: #f8fafc;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 32px;
+    text-align: left;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+    .detail-item:last-child {
+        border-bottom: none;
+    }
+
+.detail-label {
+    color: #64748b;
+    font-weight: 500;
+}
+
+.detail-value {
+    color: #1e293b;
+    font-weight: 600;
+}
+
+.delete-actions {
+    display: flex;
+    gap: 12px;
+    flex-direction: column;
+}
+
+.delete-button-confirm {
+    background: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 40px;
+    padding: 16px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background 0.2s;
+    width: 100%;
+}
+
+    .delete-button-confirm:hover {
+        background: #dc2626;
+    }
+
+.delete-button-cancel {
+    background: #f1f5f9;
+    color: #1e293b;
+    text-decoration: none;
+    border-radius: 40px;
+    padding: 16px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background 0.2s;
+}
+
+    .delete-button-cancel:hover {
+        background: #e2e8f0;
+    }
+
+/*Edit.html*/
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.form-card {
+    background: white;
+    border-radius: 24px;
+    padding: 48px;
+    max-width: 1000px;
+    width: 100%;
+    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
+}
+
+.form-header {
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+.form-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 8px;
+}
+
+.form-subtitle {
+    color: #64748b;
+    font-size: 16px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-bottom: 32px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 8px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 15px;
+    transition: all 0.2s;
+    background: white;
+}
+
+    .form-input:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+    }
+
+.form-select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 15px;
+    background: white;
+    cursor: pointer;
+}
+
+    .form-select:focus {
+        outline: none;
+        border-color: #3b82f6;
+    }
+
+.form-textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 15px;
+    resize: vertical;
+    min-height: 100px;
+    font-family: inherit;
+}
+
+    .form-textarea:focus {
+        outline: none;
+        border-color: #3b82f6;
+    }
+
+.price-input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.price-currency {
+    position: absolute;
+    left: 16px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.price-input {
+    padding-left: 32px;
+}
+
+.image-preview {
+    margin-top: 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+}
+
+.preview-img {
+    max-width: 100%;
+    max-height: 150px;
+    border-radius: 8px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    padding-top: 24px;
+    border-top: 2px solid #e2e8f0;
+}
+
+.save-button {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 40px;
+    padding: 14px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s;
+}
+
+    .save-button:hover {
+        background: #2563eb;
+    }
+
+.cancel-button {
+    background: #f1f5f9;
+    color: #1e293b;
+    text-decoration: none;
+    border-radius: 40px;
+    padding: 14px 32px;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s;
+}
+
+    .cancel-button:hover {
+        background: #e2e8f0;
+    }
+
+.text-danger {
+    color: #ef4444;
+    font-size: 13px;
+    margin-top: 4px;
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .form-card {
+        padding: 32px 20px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .save-button, .cancel-button {
+        width: 100%;
+        justify-content: center;
+    }
+}

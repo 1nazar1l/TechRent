@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\Identity\Pages\" />
+    <Folder Include="wwwroot\Images\Equipment\" />
   </ItemGroup>
 
 </Project>

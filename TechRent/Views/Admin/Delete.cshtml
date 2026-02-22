@@ -1,0 +1,72 @@
+﻿@model TechRent.Models.Entities.Equipment
+@{
+    ViewData["Title"] = "Delete Equipment";
+    ViewData["css"] = "admin";
+}
+
+<main class="main-content">
+    <div class="wrapper">
+        <div class="breadcrumb">
+            <a asp-action="Index" class="breadcrumb-link">Admin</a>
+            <span class="material-symbols-outlined">chevron_right</span>
+            <span class="breadcrumb-current">Delete Equipment</span>
+        </div>
+
+        <div class="delete-container">
+            <div class="delete-card">
+                <div class="delete-icon">
+                    <span class="material-symbols-outlined" style="font-size: 48px; color: #ef4444;">warning</span>
+                </div>
+
+                <h1 class="delete-title">Delete Equipment</h1>
+
+                <p class="delete-text">
+                    Are you sure you want to delete <strong>"@Model.Name"</strong>?
+                    This action cannot be undone.
+                </p>
+
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <div class="delete-image">
+                        <img src="@Model.ImageUrl" alt="@Model.Name" style="max-width: 200px; border-radius: 8px;">
+                    </div>
+                }
+
+                <div class="delete-details">
+                    <div class="detail-item">
+                        <span class="detail-label">ID:</span>
+                        <span class="detail-value">#@Model.Id.ToString("D3")</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Type:</span>
+                        <span class="detail-value">@Model.Type</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Price:</span>
+                        <span class="detail-value">$@Model.PricePerDay/day</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Stock:</span>
+                        <span class="detail-value">@Model.AvailableQuantity units</span>
+                    </div>
+                </div>
+
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="delete-actions">
+                        <button type="submit" class="delete-button-confirm">
+                            <span class="material-symbols-outlined">delete</span>
+                            Delete Permanently
+                        </button>
+
+                        <a asp-action="Index" class="delete-button-cancel">
+                            <span class="material-symbols-outlined">close</span>
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>

@@ -19,13 +19,13 @@ namespace TechRent.Models.Entities
 
         [Required(ErrorMessage = "Цена обязательна")]
         [Display(Name = "Цена за день")]
-        [Range(0.01, double.MaxValue, ErrorMessage = "Цена должна быть больше 0")]
-        public decimal PricePerDay { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "Цена должна быть больше 0")]
+        public int PricePerDay { get; set; }
 
         [Required(ErrorMessage = "Залог обязателен")]
         [Display(Name = "Залог")]
-        [Range(0, double.MaxValue)]
-        public decimal Deposit { get; set; }
+        [Range(0, int.MaxValue)]
+        public int Deposit { get; set; }
 
         [Display(Name = "Изображение (URL)")]
         public string? ImageUrl { get; set; }
