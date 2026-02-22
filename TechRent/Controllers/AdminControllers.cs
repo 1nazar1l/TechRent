@@ -19,14 +19,115 @@ namespace TechRent.Controllers
         }
 
         // GET: Equipment
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+            string searchString = "",
+            int? categoryId = null,
+            bool? availableOnly = null,
+            bool? lowStockOnly = null,
+            bool? outOfStockOnly = null,
+            decimal? minPrice = null,
+            decimal? maxPrice = null,
+            string rating = "",
+            int page = 1,
+            int pageSize = 10)
         {
-            var equipment = await _context.Equipments
+            var equipmentQuery = _context.Equipments
                 .Include(e => e.Category)
-                .Include(e => e.Reviews) // Добавить для загрузки отзывов
+                .Include(e => e.Reviews)
+                .AsQueryable();
+
+            // Search filter
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                searchString = searchString.ToLower();
+                equipmentQuery = equipmentQuery.Where(e =>
+                    e.Name.ToLower().Contains(searchString) ||
+                    e.Id.ToString().Contains(searchString) ||
+                    (e.Category != null && e.Category.Name.ToLower().Contains(searchString)));
+            }
+
+            // Category filter
+            if (categoryId.HasValue && categoryId.Value > 0)
+            {
+                equipmentQuery = equipmentQuery.Where(e => e.CategoryId == categoryId);
+            }
+
+            // Price range filter
+            if (minPrice.HasValue)
+            {
+                equipmentQuery = equipmentQuery.Where(e => e.PricePerDay >= minPrice);
+            }
+            if (maxPrice.HasValue)
+            {
+                equipmentQuery = equipmentQuery.Where(e => e.PricePerDay <= maxPrice);
+            }
+
+            // Stock status filters
+            if (availableOnly == true)
+            {
+                equipmentQuery = equipmentQuery.Where(e => e.AvailableQuantity > 0);
+            }
+            if (lowStockOnly == true)
+            {
+                equipmentQuery = equipmentQuery.Where(e => e.AvailableQuantity > 0 && e.AvailableQuantity <= 5);
+            }
+            if (outOfStockOnly == true)
+            {
+                equipmentQuery = equipmentQuery.Where(e => e.AvailableQuantity == 0);
+            }
+
+            // Rating filter
+            if (!string.IsNullOrEmpty(rating))
+            {
+                switch (rating)
+                {
+                    case "5stars":
+                        equipmentQuery = equipmentQuery.Where(e =>
+                            e.Reviews != null && e.Reviews.Any() &&
+                            e.Reviews.Average(r => r.Rating) >= 4.5);
+                        break;
+                    case "4+stars":
+                        equipmentQuery = equipmentQuery.Where(e =>
+                            e.Reviews != null && e.Reviews.Any() &&
+                            e.Reviews.Average(r => r.Rating) >= 4);
+                        break;
+                    case "3+stars":
+                        equipmentQuery = equipmentQuery.Where(e =>
+                            e.Reviews != null && e.Reviews.Any() &&
+                            e.Reviews.Average(r => r.Rating) >= 3);
+                        break;
+                    case "2+stars":
+                        equipmentQuery = equipmentQuery.Where(e =>
+                            e.Reviews != null && e.Reviews.Any() &&
+                            e.Reviews.Average(r => r.Rating) >= 2);
+                        break;
+                }
+            }
+
+            // Get total count for pagination
+            var totalItems = await equipmentQuery.CountAsync();
+
+            // Apply pagination
+            var equipment = await equipmentQuery
+                .OrderBy(e => e.Id)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
 
+            // Store filter values in ViewBag for the view
+            ViewBag.SearchString = searchString;
+            ViewBag.SelectedCategoryId = categoryId;
+            ViewBag.AvailableOnly = availableOnly;
+            ViewBag.LowStockOnly = lowStockOnly;
+            ViewBag.OutOfStockOnly = outOfStockOnly;
+            ViewBag.MinPrice = minPrice;
+            ViewBag.MaxPrice = maxPrice;
+            ViewBag.SelectedRating = rating;
+            ViewBag.CurrentPage = page;
+            ViewBag.PageSize = pageSize;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
             ViewBag.Categories = await _context.Categories.ToListAsync();
+
             return View(equipment);
         }
 

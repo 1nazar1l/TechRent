@@ -27,104 +27,116 @@
             <aside class="admin-filters">
                 <div class="filters-header">
                     <h2 class="filters-title">Filters</h2>
-                    <button class="reset-button">Reset All</button>
+                    <button class="reset-button" onclick="location.href='@Url.Action("Index")'">Reset All</button>
                 </div>
 
-                <!-- Search Filter -->
-                <div class="filters-group">
-                    <label class="filter-label">Search</label>
-                    <div class="filter-search">
-                        <span class="filter-search-icon material-symbols-outlined">search</span>
-                        <input type="text" class="filter-search-input" placeholder="Name, ID, category...">
-                    </div>
-                </div>
-
-                <!-- Category Filter -->
-                <div class="filters-group">
-                    <label class="filter-label">Category</label>
-                    <div class="filter-select">
-                        <select class="filter-select-input">
-                            <option>All Categories</option>
-                            @foreach (var category in ViewBag.Categories)
-                            {
-                                <option value="@category.Name">@category.Name</option>
-                            }
-                        </select>
-                        <span class="filter-select-icon material-symbols-outlined">expand_more</span>
-                    </div>
-                </div>
-
-                <!-- Status Filter -->
-                <div class="filters-group">
-                    <label class="filter-label">Status</label>
-                    <div class="checkbox-list">
-                        <label class="checkbox-item">
-                            <span class="checkbox-box">
-                                <input type="checkbox" class="checkbox-input" checked>
-                                <span class="checkbox-check material-symbols-outlined">check</span>
-                            </span>
-                            <span class="checkbox-text">Available</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <span class="checkbox-box">
-                                <input type="checkbox" class="checkbox-input">
-                                <span class="checkbox-check material-symbols-outlined">check</span>
-                            </span>
-                            <span class="checkbox-text">Low Stock</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <span class="checkbox-box">
-                                <input type="checkbox" class="checkbox-input">
-                                <span class="checkbox-check material-symbols-outlined">check</span>
-                            </span>
-                            <span class="checkbox-text">Out of Stock</span>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Price Range -->
-                <div class="filters-group">
-                    <label class="filter-label">Price Range ($)</label>
-                    <div class="price-inputs">
-                        <div class="price-field">
-                            <span class="price-currency">$</span>
-                            <input type="number" class="price-input" value="0" placeholder="Min">
-                        </div>
-                        <span class="price-separator">-</span>
-                        <div class="price-field">
-                            <span class="price-currency">$</span>
-                            <input type="number" class="price-input" value="1000" placeholder="Max">
+                <form method="get" id="filterForm">
+                    <!-- Search Filter -->
+                    <div class="filters-group">
+                        <label class="filter-label">Search</label>
+                        <div class="filter-search">
+                            <span class="filter-search-icon material-symbols-outlined">search</span>
+                            <input type="text" name="searchString" class="filter-search-input" placeholder="Name, ID, category..." value="@ViewBag.SearchString">
                         </div>
                     </div>
-                </div>
 
-                <!-- Rating Filter -->
-                <div class="filters-group">
-                    <label class="filter-label">Minimum Rating</label>
-                    <div class="filter-select">
-                        <select class="filter-select-input">
-                            <option>All ratings</option>
-                            <option>5 stars</option>
-                            <option>4+ stars</option>
-                            <option>3+ stars</option>
-                            <option>2+ stars</option>
-                        </select>
-                        <span class="filter-select-icon material-symbols-outlined">expand_more</span>
-                    </div>
-                </div>
-
-                <!-- Availability Toggle -->
-                <div class="filters-group">
-                    <label class="toggle">
-                        <span class="toggle-text">Show only in stock</span>
-                        <div class="relative">
-                            <input type="checkbox" class="toggle-input">
-                            <div class="toggle-switch"></div>
+                    <!-- Category Filter -->
+                    <div class="filters-group">
+                        <label class="filter-label">Category</label>
+                        <div class="filter-select">
+                            <select name="categoryId" class="filter-select-input" onchange="document.getElementById('filterForm').submit()">
+                                <option value="">All Categories</option>
+                                @foreach (var category in ViewBag.Categories)
+                                {
+                                    if (ViewBag.SelectedCategoryId == category.Id)
+                                    {
+                                        <option value="@category.Id" selected>@category.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@category.Id">@category.Name</option>
+                                    }
+                                }
+                            </select>
+                            <span class="filter-select-icon material-symbols-outlined">expand_more</span>
                         </div>
-                    </label>
-                </div>
+                    </div>
+
+                    <!-- Status Filter -->
+                    <div class="filters-group">
+                        <label class="filter-label">Status</label>
+                        <div class="checkbox-list">
+                            <label class="checkbox-item">
+                                <span class="checkbox-box">
+                                    <input type="checkbox" name="availableOnly" class="checkbox-input" value="true" @(ViewBag.AvailableOnly == true ? "checked" : "") onchange="document.getElementById('filterForm').submit()">
+                                    <span class="checkbox-check material-symbols-outlined">check</span>
+                                </span>
+                                <span class="checkbox-text">Available</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <span class="checkbox-box">
+                                    <input type="checkbox" name="lowStockOnly" class="checkbox-input" value="true" @(ViewBag.LowStockOnly == true ? "checked" : "") onchange="document.getElementById('filterForm').submit()">
+                                    <span class="checkbox-check material-symbols-outlined">check</span>
+                                </span>
+                                <span class="checkbox-text">Low Stock</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <span class="checkbox-box">
+                                    <input type="checkbox" name="outOfStockOnly" class="checkbox-input" value="true" @(ViewBag.OutOfStockOnly == true ? "checked" : "") onchange="document.getElementById('filterForm').submit()">
+                                    <span class="checkbox-check material-symbols-outlined">check</span>
+                                </span>
+                                <span class="checkbox-text">Out of Stock</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Price Range -->
+                    <div class="filters-group">
+                        <label class="filter-label">Price Range ($)</label>
+                        <div class="price-inputs">
+                            <div class="price-field">
+                                <span class="price-currency">$</span>
+                                <input type="number" name="minPrice" class="price-input" value="@ViewBag.MinPrice" placeholder="Min" onchange="document.getElementById('filterForm').submit()">
+                            </div>
+                            <span class="price-separator">-</span>
+                            <div class="price-field">
+                                <span class="price-currency">$</span>
+                                <input type="number" name="maxPrice" class="price-input" value="@ViewBag.MaxPrice" placeholder="Max" onchange="document.getElementById('filterForm').submit()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rating Filter -->
+                    <div class="filters-group">
+                        <label class="filter-label">Minimum Rating</label>
+                        <div class="filter-select">
+                            <select name="rating" class="filter-select-input" onchange="document.getElementById('filterForm').submit()">
+                                <option value="" selected="@(string.IsNullOrEmpty(ViewBag.SelectedRating))">All ratings</option>
+                                <option value="5stars" selected="@(ViewBag.SelectedRating == "5stars")">5 stars</option>
+                                <option value="4+stars" selected="@(ViewBag.SelectedRating == "4+stars")">4+ stars</option>
+                                <option value="3+stars" selected="@(ViewBag.SelectedRating == "3+stars")">3+ stars</option>
+                                <option value="2+stars" selected="@(ViewBag.SelectedRating == "2+stars")">2+ stars</option>
+                            </select>
+                            <span class="filter-select-icon material-symbols-outlined">expand_more</span>
+                        </div>
+                    </div>
+
+                    <!-- Availability Toggle -->
+                    <div class="filters-group">
+                        <label class="toggle">
+                            <span class="toggle-text">Show only in stock</span>
+                            <div class="relative">
+                                <input type="checkbox" name="availableOnly" class="toggle-input" value="true" @(ViewBag.AvailableOnly == true ? "checked" : "") onchange="document.getElementById('filterForm').submit()">
+                                <div class="toggle-switch"></div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- Hidden fields for pagination -->
+                    <input type="hidden" name="page" value="1" />
+                    <input type="hidden" name="pageSize" value="@ViewBag.PageSize" />
+                </form>
             </aside>
-
             <!-- Table Section -->
             <section class="table-section">
                 <!-- Toolbar -->
@@ -137,13 +149,22 @@
                     <div class="table-controls">
                         <div class="sort-field">
                             <span class="sort-label">Show:</span>
-                            <select class="sort-select">
-                                <option>10 items</option>
-                                <option>25 items</option>
-                                <option>50 items</option>
-                                <option>100 items</option>
+                            <select class="sort-select" onchange="changePageSize(this.value)">
+                                <option value="10" selected="@(ViewBag.PageSize == 10)">10 items</option>
+                                <option value="25" selected="@(ViewBag.PageSize == 25)">25 items</option>
+                                <option value="50" selected="@(ViewBag.PageSize == 50)">50 items</option>
+                                <option value="100" selected="@(ViewBag.PageSize == 100)">100 items</option>
                             </select>
                         </div>
+
+                        <script>
+                            function changePageSize(pageSize) {
+                                var url = new URL(window.location.href);
+                                url.searchParams.set('pageSize', pageSize);
+                                url.searchParams.set('page', 1);
+                                window.location.href = url.toString();
+                            }
+                        </script>
 
                         <div class="divider"></div>
 
@@ -195,7 +216,7 @@
                                             <span class="checkbox-check material-symbols-outlined">check</span>
                                         </label>
                                     </td>
-                                    <td class="id-cell">#@item.Id.ToString("D3")</td>
+                                    <td class="id-cell">@item.Id.ToString()</td>
                                     <td class="image-cell">
                                         <div class="table-image">
                                             @if (!string.IsNullOrEmpty(item.ImageUrl))
@@ -281,21 +302,66 @@
                 <!-- Pagination -->
                 <div class="pagination">
                     <nav class="pagination-list">
-                        <a href="#" class="pagination-link">
-                            <span class="sr-only">Previous</span>
-                            <span class="material-symbols-outlined">chevron_left</span>
-                        </a>
-                        <a href="#" class="pagination-link pagination-link-active">1</a>
-                        <a href="#" class="pagination-link">2</a>
-                        <a href="#" class="pagination-link">3</a>
-                        <a href="#" class="pagination-link">4</a>
-                        <a href="#" class="pagination-link">5</a>
-                        <span class="pagination-ellipsis">...</span>
-                        <a href="#" class="pagination-link">12</a>
-                        <a href="#" class="pagination-link">
-                            <span class="sr-only">Next</span>
-                            <span class="material-symbols-outlined">chevron_right</span>
-                        </a>
+                        @if (ViewBag.CurrentPage > 1)
+                        {
+                            <a href="@Url.Action("Index", new { 
+                                page = ViewBag.CurrentPage - 1, 
+                                pageSize = ViewBag.PageSize,
+                                searchString = ViewBag.SearchString,
+                                categoryId = ViewBag.SelectedCategoryId,
+                                availableOnly = ViewBag.AvailableOnly,
+                                lowStockOnly = ViewBag.LowStockOnly,
+                                outOfStockOnly = ViewBag.OutOfStockOnly,
+                                minPrice = ViewBag.MinPrice,
+                                maxPrice = ViewBag.MaxPrice,
+                                rating = ViewBag.SelectedRating
+                            })" class="pagination-link">
+                                <span class="sr-only">Previous</span>
+                                <span class="material-symbols-outlined">chevron_left</span>
+                            </a>
+                        }
+
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            if (i == ViewBag.CurrentPage)
+                            {
+                                <a href="#" class="pagination-link pagination-link-active">@i</a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Index", new { 
+                                    page = i, 
+                                    pageSize = ViewBag.PageSize,
+                                    searchString = ViewBag.SearchString,
+                                    categoryId = ViewBag.SelectedCategoryId,
+                                    availableOnly = ViewBag.AvailableOnly,
+                                    lowStockOnly = ViewBag.LowStockOnly,
+                                    outOfStockOnly = ViewBag.OutOfStockOnly,
+                                    minPrice = ViewBag.MinPrice,
+                                    maxPrice = ViewBag.MaxPrice,
+                                    rating = ViewBag.SelectedRating
+                                })" class="pagination-link">@i</a>
+                            }
+                        }
+
+                        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                        {
+                            <a href="@Url.Action("Index", new { 
+                                page = ViewBag.CurrentPage + 1, 
+                                pageSize = ViewBag.PageSize,
+                                searchString = ViewBag.SearchString,
+                                categoryId = ViewBag.SelectedCategoryId,
+                                availableOnly = ViewBag.AvailableOnly,
+                                lowStockOnly = ViewBag.LowStockOnly,
+                                outOfStockOnly = ViewBag.OutOfStockOnly,
+                                minPrice = ViewBag.MinPrice,
+                                maxPrice = ViewBag.MaxPrice,
+                                rating = ViewBag.SelectedRating
+                            })" class="pagination-link">
+                                <span class="sr-only">Next</span>
+                                <span class="material-symbols-outlined">chevron_right</span>
+                            </a>
+                        }
                     </nav>
                 </div>
             </section>
