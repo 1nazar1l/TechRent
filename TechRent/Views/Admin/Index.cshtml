@@ -44,18 +44,11 @@
                     <div class="filters-group">
                         <label class="filter-label">Category</label>
                         <div class="filter-select">
-                            <select name="categoryId" class="filter-select-input" onchange="document.getElementById('filterForm').submit()">
-                                <option value="">All Categories</option>
+                            <select name="categoryId" class="filter-select-input">
+                                <option value="" selected="@(ViewBag.SelectedCategoryId == null)">All Categories</option>
                                 @foreach (var category in ViewBag.Categories)
                                 {
-                                    if (ViewBag.SelectedCategoryId == category.Id)
-                                    {
-                                        <option value="@category.Id" selected>@category.Name</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@category.Id">@category.Name</option>
-                                    }
+                                    <option value="@category.Id" selected="@(ViewBag.SelectedCategoryId == category.Id)">@category.Name</option>
                                 }
                             </select>
                             <span class="filter-select-icon material-symbols-outlined">expand_more</span>
@@ -68,21 +61,21 @@
                         <div class="checkbox-list">
                             <label class="checkbox-item">
                                 <span class="checkbox-box">
-                                    <input type="checkbox" name="availableOnly" class="checkbox-input" value="true" @(ViewBag.AvailableOnly == true ? "checked" : "") onchange="document.getElementById('filterForm').submit()">
+                                    <input type="checkbox" name="availableOnly" class="checkbox-input" value="true" @(ViewBag.AvailableOnly == true ? "checked" : "")>
                                     <span class="checkbox-check material-symbols-outlined">check</span>
                                 </span>
                                 <span class="checkbox-text">Available</span>
                             </label>
                             <label class="checkbox-item">
                                 <span class="checkbox-box">
-                                    <input type="checkbox" name="lowStockOnly" class="checkbox-input" value="true" @(ViewBag.LowStockOnly == true ? "checked" : "") onchange="document.getElementById('filterForm').submit()">
+                                    <input type="checkbox" name="lowStockOnly" class="checkbox-input" value="true" @(ViewBag.LowStockOnly == true ? "checked" : "")>
                                     <span class="checkbox-check material-symbols-outlined">check</span>
                                 </span>
                                 <span class="checkbox-text">Low Stock</span>
                             </label>
                             <label class="checkbox-item">
                                 <span class="checkbox-box">
-                                    <input type="checkbox" name="outOfStockOnly" class="checkbox-input" value="true" @(ViewBag.OutOfStockOnly == true ? "checked" : "") onchange="document.getElementById('filterForm').submit()">
+                                    <input type="checkbox" name="outOfStockOnly" class="checkbox-input" value="true" @(ViewBag.OutOfStockOnly == true ? "checked" : "")>
                                     <span class="checkbox-check material-symbols-outlined">check</span>
                                 </span>
                                 <span class="checkbox-text">Out of Stock</span>
@@ -96,12 +89,12 @@
                         <div class="price-inputs">
                             <div class="price-field">
                                 <span class="price-currency">$</span>
-                                <input type="number" name="minPrice" class="price-input" value="@ViewBag.MinPrice" placeholder="Min" onchange="document.getElementById('filterForm').submit()">
+                                <input type="number" name="minPrice" class="price-input" value="@ViewBag.MinPrice" placeholder="Min">
                             </div>
                             <span class="price-separator">-</span>
                             <div class="price-field">
                                 <span class="price-currency">$</span>
-                                <input type="number" name="maxPrice" class="price-input" value="@ViewBag.MaxPrice" placeholder="Max" onchange="document.getElementById('filterForm').submit()">
+                                <input type="number" name="maxPrice" class="price-input" value="@ViewBag.MaxPrice" placeholder="Max">
                             </div>
                         </div>
                     </div>
@@ -110,7 +103,7 @@
                     <div class="filters-group">
                         <label class="filter-label">Minimum Rating</label>
                         <div class="filter-select">
-                            <select name="rating" class="filter-select-input" onchange="document.getElementById('filterForm').submit()">
+                            <select name="rating" class="filter-select-input">
                                 <option value="" selected="@(string.IsNullOrEmpty(ViewBag.SelectedRating))">All ratings</option>
                                 <option value="5stars" selected="@(ViewBag.SelectedRating == "5stars")">5 stars</option>
                                 <option value="4+stars" selected="@(ViewBag.SelectedRating == "4+stars")">4+ stars</option>
@@ -126,7 +119,7 @@
                         <label class="toggle">
                             <span class="toggle-text">Show only in stock</span>
                             <div class="relative">
-                                <input type="checkbox" name="availableOnly" class="toggle-input" value="true" @(ViewBag.AvailableOnly == true ? "checked" : "") onchange="document.getElementById('filterForm').submit()">
+                                <input type="checkbox" name="availableOnly" class="toggle-input" value="true" @(ViewBag.AvailableOnly == true ? "checked" : "")>
                                 <div class="toggle-switch"></div>
                             </div>
                         </label>
@@ -135,6 +128,12 @@
                     <!-- Hidden fields for pagination -->
                     <input type="hidden" name="page" value="1" />
                     <input type="hidden" name="pageSize" value="@ViewBag.PageSize" />
+
+                    <!-- Submit button -->
+                    <button type="submit" class="save-button" style="width: 100%; margin-top: 16px; justify-content: center;">
+                        <span class="material-symbols-outlined">filter_alt</span>
+                        Apply Filters
+                    </button>
                 </form>
             </aside>
             <!-- Table Section -->

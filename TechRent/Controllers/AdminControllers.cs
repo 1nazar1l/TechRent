@@ -251,11 +251,70 @@ namespace TechRent.Controllers
         }
 
         // GET: Admin/Categories
-        public async Task<IActionResult> Categories()
+        public async Task<IActionResult> Categories(
+            string searchString = "",
+            int? minDisplayOrder = null,
+            int? maxDisplayOrder = null,
+            bool? hasEquipment = null,
+            bool? emptyCategories = null,
+            int page = 1,
+            int pageSize = 10)
         {
-            var categories = await _context.Categories
+            var categoriesQuery = _context.Categories
                 .Include(c => c.Equipments)
+                .AsQueryable();
+
+            // Search filter
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                searchString = searchString.ToLower();
+                categoriesQuery = categoriesQuery.Where(c =>
+                    c.Name.ToLower().Contains(searchString) ||
+                    c.Id.ToString().Contains(searchString) ||
+                    (c.Description != null && c.Description.ToLower().Contains(searchString)));
+            }
+
+            // Display order range filter
+            if (minDisplayOrder.HasValue)
+            {
+                categoriesQuery = categoriesQuery.Where(c => c.DisplayOrder >= minDisplayOrder);
+            }
+            if (maxDisplayOrder.HasValue)
+            {
+                categoriesQuery = categoriesQuery.Where(c => c.DisplayOrder <= maxDisplayOrder);
+            }
+
+            // Equipment count filters
+            if (hasEquipment == true)
+            {
+                categoriesQuery = categoriesQuery.Where(c => c.Equipments != null && c.Equipments.Any());
+            }
+            if (emptyCategories == true)
+            {
+                categoriesQuery = categoriesQuery.Where(c => c.Equipments == null || !c.Equipments.Any());
+            }
+
+            // Get total count for pagination
+            var totalItems = await categoriesQuery.CountAsync();
+
+            // Apply pagination
+            var categories = await categoriesQuery
+                .OrderBy(c => c.DisplayOrder)
+                .ThenBy(c => c.Name)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
+
+            // Store filter values in ViewBag for the view
+            ViewBag.SearchString = searchString;
+            ViewBag.MinDisplayOrder = minDisplayOrder;
+            ViewBag.MaxDisplayOrder = maxDisplayOrder;
+            ViewBag.HasEquipment = hasEquipment;
+            ViewBag.EmptyCategories = emptyCategories;
+            ViewBag.CurrentPage = page;
+            ViewBag.PageSize = pageSize;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
             return View(categories);
         }
 

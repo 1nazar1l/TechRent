@@ -27,52 +27,64 @@
             <aside class="admin-filters">
                 <div class="filters-header">
                     <h2 class="filters-title">Filters</h2>
-                    <button class="reset-button">Reset All</button>
+                    <button class="reset-button" onclick="location.href='@Url.Action("Categories")'">Reset All</button>
                 </div>
 
-                <!-- Search Filter -->
-                <div class="filters-group">
-                    <label class="filter-label">Search</label>
-                    <div class="filter-search">
-                        <span class="filter-search-icon material-symbols-outlined">search</span>
-                        <input type="text" class="filter-search-input" placeholder="Category name...">
-                    </div>
-                </div>
-
-                <!-- Display Order Range -->
-                <div class="filters-group">
-                    <label class="filter-label">Display Order</label>
-                    <div class="price-inputs">
-                        <div class="price-field">
-                            <input type="number" class="price-input" value="0" placeholder="Min">
-                        </div>
-                        <span class="price-separator">-</span>
-                        <div class="price-field">
-                            <input type="number" class="price-input" value="100" placeholder="Max">
+                <form method="get" id="filterForm">
+                    <!-- Search Filter -->
+                    <div class="filters-group">
+                        <label class="filter-label">Search</label>
+                        <div class="filter-search">
+                            <span class="filter-search-icon material-symbols-outlined">search</span>
+                            <input type="text" name="searchString" class="filter-search-input" placeholder="Category name..." value="@ViewBag.SearchString">
                         </div>
                     </div>
-                </div>
 
-                <!-- Equipment Count Filter -->
-                <div class="filters-group">
-                    <label class="filter-label">Equipment Count</label>
-                    <div class="checkbox-list">
-                        <label class="checkbox-item">
-                            <span class="checkbox-box">
-                                <input type="checkbox" class="checkbox-input" checked>
-                                <span class="checkbox-check material-symbols-outlined">check</span>
-                            </span>
-                            <span class="checkbox-text">Has equipment</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <span class="checkbox-box">
-                                <input type="checkbox" class="checkbox-input">
-                                <span class="checkbox-check material-symbols-outlined">check</span>
-                            </span>
-                            <span class="checkbox-text">Empty categories</span>
-                        </label>
+                    <!-- Display Order Range -->
+                    <div class="filters-group">
+                        <label class="filter-label">Display Order</label>
+                        <div class="price-inputs">
+                            <div class="price-field">
+                                <input type="number" name="minDisplayOrder" class="price-input" value="@ViewBag.MinDisplayOrder" placeholder="Min">
+                            </div>
+                            <span class="price-separator">-</span>
+                            <div class="price-field">
+                                <input type="number" name="maxDisplayOrder" class="price-input" value="@ViewBag.MaxDisplayOrder" placeholder="Max">
+                            </div>
+                        </div>
                     </div>
-                </div>
+
+                    <!-- Equipment Count Filter -->
+                    <div class="filters-group">
+                        <label class="filter-label">Equipment Count</label>
+                        <div class="checkbox-list">
+                            <label class="checkbox-item">
+                                <span class="checkbox-box">
+                                    <input type="checkbox" name="hasEquipment" class="checkbox-input" value="true" @(ViewBag.HasEquipment == true ? "checked" : "")>
+                                    <span class="checkbox-check material-symbols-outlined">check</span>
+                                </span>
+                                <span class="checkbox-text">Has equipment</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <span class="checkbox-box">
+                                    <input type="checkbox" name="emptyCategories" class="checkbox-input" value="true" @(ViewBag.EmptyCategories == true ? "checked" : "")>
+                                    <span class="checkbox-check material-symbols-outlined">check</span>
+                                </span>
+                                <span class="checkbox-text">Empty categories</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Hidden fields for pagination -->
+                    <input type="hidden" name="page" value="1" />
+                    <input type="hidden" name="pageSize" value="@ViewBag.PageSize" />
+
+                    <!-- Submit button -->
+                    <button type="submit" class="save-button" style="width: 100%; margin-top: 16px; justify-content: center;">
+                        <span class="material-symbols-outlined">filter_alt</span>
+                        Apply Filters
+                    </button>
+                </form>
             </aside>
 
             <!-- Table Section -->
@@ -87,11 +99,11 @@
                     <div class="table-controls">
                         <div class="sort-field">
                             <span class="sort-label">Show:</span>
-                            <select class="sort-select">
-                                <option>10 items</option>
-                                <option>25 items</option>
-                                <option>50 items</option>
-                                <option>100 items</option>
+                            <select class="sort-select" onchange="changePageSize(this.value)">
+                                <option value="10" selected="@(ViewBag.PageSize == 10)">10 items</option>
+                                <option value="25" selected="@(ViewBag.PageSize == 25)">25 items</option>
+                                <option value="50" selected="@(ViewBag.PageSize == 50)">50 items</option>
+                                <option value="100" selected="@(ViewBag.PageSize == 100)">100 items</option>
                             </select>
                         </div>
 
@@ -137,7 +149,7 @@
                                             <span class="checkbox-check material-symbols-outlined">check</span>
                                         </label>
                                     </td>
-                                    <td class="id-cell">#@item.Id.ToString("D3")</td>
+                                    <td class="id-cell">#@item.Id.ToString()</td>
                                     <td class="name-cell">
                                         <div class="cell-content">
                                             <strong>@item.Name</strong>
@@ -176,6 +188,9 @@
                                             <button class="action-button delete-button" title="Delete" onclick="location.href='@Url.Action("DeleteCategory", "Admin", new { id = item.Id })'">
                                                 <span class="material-symbols-outlined">delete</span>
                                             </button>
+                                            <button class="action-button view-button" title="View Equipment" onclick="location.href='@Url.Action("Index", "Admin", new { categoryId = item.Id })'">
+                                                <span class="material-symbols-outlined">visibility</span>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -187,21 +202,57 @@
                 <!-- Pagination -->
                 <div class="pagination">
                     <nav class="pagination-list">
-                        <a href="#" class="pagination-link">
-                            <span class="sr-only">Previous</span>
-                            <span class="material-symbols-outlined">chevron_left</span>
-                        </a>
-                        <a href="#" class="pagination-link pagination-link-active">1</a>
-                        <a href="#" class="pagination-link">2</a>
-                        <a href="#" class="pagination-link">3</a>
-                        <a href="#" class="pagination-link">4</a>
-                        <a href="#" class="pagination-link">5</a>
-                        <span class="pagination-ellipsis">...</span>
-                        <a href="#" class="pagination-link">12</a>
-                        <a href="#" class="pagination-link">
-                            <span class="sr-only">Next</span>
-                            <span class="material-symbols-outlined">chevron_right</span>
-                        </a>
+                        @if (ViewBag.CurrentPage > 1)
+                        {
+                            <a href="@Url.Action("Categories", new { 
+                                page = ViewBag.CurrentPage - 1, 
+                                pageSize = ViewBag.PageSize,
+                                searchString = ViewBag.SearchString,
+                                minDisplayOrder = ViewBag.MinDisplayOrder,
+                                maxDisplayOrder = ViewBag.MaxDisplayOrder,
+                                hasEquipment = ViewBag.HasEquipment,
+                                emptyCategories = ViewBag.EmptyCategories
+                            })" class="pagination-link">
+                                <span class="sr-only">Previous</span>
+                                <span class="material-symbols-outlined">chevron_left</span>
+                            </a>
+                        }
+
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            if (i == ViewBag.CurrentPage)
+                            {
+                                <a href="#" class="pagination-link pagination-link-active">@i</a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Categories", new { 
+                                    page = i, 
+                                    pageSize = ViewBag.PageSize,
+                                    searchString = ViewBag.SearchString,
+                                    minDisplayOrder = ViewBag.MinDisplayOrder,
+                                    maxDisplayOrder = ViewBag.MaxDisplayOrder,
+                                    hasEquipment = ViewBag.HasEquipment,
+                                    emptyCategories = ViewBag.EmptyCategories
+                                })" class="pagination-link">@i</a>
+                            }
+                        }
+
+                        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                        {
+                            <a href="@Url.Action("Categories", new { 
+                                page = ViewBag.CurrentPage + 1, 
+                                pageSize = ViewBag.PageSize,
+                                searchString = ViewBag.SearchString,
+                                minDisplayOrder = ViewBag.MinDisplayOrder,
+                                maxDisplayOrder = ViewBag.MaxDisplayOrder,
+                                hasEquipment = ViewBag.HasEquipment,
+                                emptyCategories = ViewBag.EmptyCategories
+                            })" class="pagination-link">
+                                <span class="sr-only">Next</span>
+                                <span class="material-symbols-outlined">chevron_right</span>
+                            </a>
+                        }
                     </nav>
                 </div>
             </section>
@@ -215,3 +266,12 @@
         font-style: italic;
     }
 </style>
+
+<script>
+    function changePageSize(pageSize) {
+        var url = new URL(window.location.href);
+        url.searchParams.set('pageSize', pageSize);
+        url.searchParams.set('page', 1);
+        window.location.href = url.toString();
+    }
+</script>
