@@ -1,449 +1,318 @@
 ﻿@{
-    Layout = null;
-    ViewData["Title"] = "Profi 220 Concrete Mixer - TECHRENT";
+    ViewData["Title"] = "Товар";
+    ViewData["css"] = "product";
+    ViewData["nav_pos"] = "left";
+    ViewData["header"] = "with_search";
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profi 220 Concrete Mixer - TECHRENT</title>
+<main class="main-content">
+    <div class="product-container">
+        <!-- Breadcrumbs -->
+        <nav class="breadcrumb">
+            <a href="#" class="breadcrumb-link">Home</a>
+            <span class="material-symbols-outlined">chevron_right</span>
+            <a href="#" class="breadcrumb-link">Heavy Equipment</a>
+            <span class="material-symbols-outlined">chevron_right</span>
+            <span class="breadcrumb-current">Concrete Mixers</span>
+        </nav>
 
-    <!-- Google Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-    <link href="~/css/base.css" rel="stylesheet" />
-    <link href="~/css/product.css" rel="stylesheet" />
-</head>
-<body data-theme="light">
-    <div class="site-wrapper">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-left">
-                <a asp-controller="Home" asp-action="Index" class="logo">
-                    <div class="logo-icon">
-                        <span class="material-symbols-outlined">precision_manufacturing</span>
+        <div class="product-layout">
+            <!-- Left Column: Gallery -->
+            <div class="product-gallery">
+                <!-- Main Image -->
+                <div class="gallery-main">
+                    <div class="gallery-main-image">
+                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaB9llZhxerRuE2Mq2SgiA8Wq-ON13EQ8cSQcsEtI4eZNfd0ooodBOzhceJ5GCg0qeHS1UKoFXbItCYOXasgHquVuGXXP3i31cLaa6zjS_kkd5qYlk1wVEwIzZ-zkeoUvKcSzrqnMldmIGTxBrOBWPpQHpo2pLODz_S0NUlJcAfrqEMKluEJtAmOXT_6EEG5_qWJRSFrRFJeomYrt_JaMXvMGYLhrsdifJ40MRPUDs-7B_gTvBRGyF4OoMtfT5uFzCqmoN9x1zTgI" alt="Profi 220 Concrete Mixer">
                     </div>
-                    <h2 class="logo-text">TECHRENT</h2>
-                </a>
-
-                <nav class="nav">
-                    <a href="#" class="nav-link nav-link-active">Catalog</a>
-                    <a href="#" class="nav-link">Projects</a>
-                    <a href="#" class="nav-link">About Us</a>
-                    <a href="#" class="nav-link">Contact</a>
-                </nav>
-            </div>
-
-            <div class="header-actions">
-                <!-- Search -->
-                <div class="search">
-                    <span class="search-icon material-symbols-outlined">search</span>
-                    <input type="text" class="search-input" placeholder="Search...">
+                    <div class="gallery-badge">
+                        <span class="badge badge-popular">BEST SELLER</span>
+                    </div>
                 </div>
 
-                <!-- Theme Toggle -->
-                <button class="icon-button" onclick="toggleTheme()" id="theme-toggle">
-                    <span class="material-symbols-outlined" id="theme-icon">light_mode</span>
-                </button>
-
-                <a class="icon-button" href="/Identity/Account/Register">
-                    <span class="material-symbols-outlined">person</span>
-                </a>
-
-                <!-- Cart -->
-                <button class="cart-button">
-                    <span class="material-symbols-outlined">shopping_cart</span>
-                    <span class="cart-badge"></span>
-                </button>
-
-                <!-- Mobile Menu -->
-                <button class="mobile-menu-button icon-button">
-                    <span class="material-symbols-outlined">menu</span>
-                </button>
+                <!-- Thumbnails -->
+                <div class="gallery-thumbnails">
+                    <button class="thumbnail active">
+                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-9baHOvWLSlsMJWooLi27cEZqp65kPQ2mNRu4wFzF0qm0FiaP-paAocgO5roMPbKuI-L_ZAwgq5awQ8gXGmK4ardjsVlbH4xiFRg-G3g2dtvRjXwfeyvAMGtFJrLwBcIjJU-YrCvvMyAg2XtocnKuaWxwMbxlzAh1QGMojm9-0P6OzZAebJzz9MKiec4LP23CnltuoPNXqGV0A6rdr_0l4xfZnD7Mq7ASFu8cYB81g1CSd5it1_Pf5lEMYuSpWIjNSO1WbuTs9P0" alt="Side view">
+                    </button>
+                    <button class="thumbnail">
+                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeObW-zheat2Jubwcgdsg3Nhf8i5pP5REVRqOBEZzZNehk0gvr-A5VPIwFR34lxE6jHKc7ESZtBcaytX9U20jkwET2lw7ATSloXOQHsOq25K5daATE3MMJ_oBApJPal27KP8lJPSSTMXuvidE6fXXNobOQKUs_-MKKI0z7u_K5zLa7aemgdjGSUH_oBMvtjP3_Damo0NEShq_xbNLesCdivxO7c1ZkbKflD-v0xLwpo-ZBa8ujWGGQWSuZxAD8WAZJ9deop5iJ3H0" alt="Drum detail">
+                    </button>
+                    <button class="thumbnail">
+                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiGk91_0MfOAFdSpkYWrYHPEHzbvnkKJUNvViDK6QkCS9jiq7QZ4RxWuP4yGYyxOCELaxivc2rrKWbMpSLkcZUwlT3UjfB0o-NU8RlYvrKIHSF17WV4JePSapO8S54-wnyWSkDDgMcsihuCsbmhhxW2IGsfLao4rto2FEP7apni2TLu-IQlBmjI4bSuDlzOakeEGgfGHknFUUTt6E16i6Ug1aDO7mT6lQFGnAzEVUcmNO6715v1bH99mdBNzCza4ufU5ckvk2YsMI" alt="Control panel">
+                    </button>
+                    <button class="thumbnail video-thumbnail">
+                        <span class="material-symbols-outlined">play_circle</span>
+                    </button>
+                </div>
             </div>
-        </header>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <div class="product-container">
-                <!-- Breadcrumbs -->
-                <nav class="breadcrumb">
-                    <a href="#" class="breadcrumb-link">Home</a>
-                    <span class="material-symbols-outlined">chevron_right</span>
-                    <a href="#" class="breadcrumb-link">Heavy Equipment</a>
-                    <span class="material-symbols-outlined">chevron_right</span>
-                    <span class="breadcrumb-current">Concrete Mixers</span>
-                </nav>
-
-                <div class="product-layout">
-                    <!-- Left Column: Gallery -->
-                    <div class="product-gallery">
-                        <!-- Main Image -->
-                        <div class="gallery-main">
-                            <div class="gallery-main-image">
-                                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaB9llZhxerRuE2Mq2SgiA8Wq-ON13EQ8cSQcsEtI4eZNfd0ooodBOzhceJ5GCg0qeHS1UKoFXbItCYOXasgHquVuGXXP3i31cLaa6zjS_kkd5qYlk1wVEwIzZ-zkeoUvKcSzrqnMldmIGTxBrOBWPpQHpo2pLODz_S0NUlJcAfrqEMKluEJtAmOXT_6EEG5_qWJRSFrRFJeomYrt_JaMXvMGYLhrsdifJ40MRPUDs-7B_gTvBRGyF4OoMtfT5uFzCqmoN9x1zTgI" alt="Profi 220 Concrete Mixer">
-                            </div>
-                            <div class="gallery-badge">
-                                <span class="badge badge-popular">BEST SELLER</span>
+            <!-- Right Column: Booking Panel -->
+            <div class="booking-panel">
+                <div class="booking-card">
+                    <!-- Header Info -->
+                    <div class="booking-header">
+                        <div>
+                            <h1 class="product-title-large">Profi 220 Concrete Mixer</h1>
+                            <div class="product-meta">
+                                <span class="sku">SKU: CR-220-MX</span>
+                                <span class="separator">|</span>
+                                <div class="rating">
+                                    <span class="star-icon material-symbols-outlined">star</span>
+                                    <span class="rating-value">4.8</span>
+                                    <span class="rating-count">(124 reviews)</span>
+                                </div>
                             </div>
                         </div>
+                        <button class="favorite-button-large">
+                            <span class="material-symbols-outlined">favorite</span>
+                        </button>
+                    </div>
 
-                        <!-- Thumbnails -->
-                        <div class="gallery-thumbnails">
-                            <button class="thumbnail active">
-                                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-9baHOvWLSlsMJWooLi27cEZqp65kPQ2mNRu4wFzF0qm0FiaP-paAocgO5roMPbKuI-L_ZAwgq5awQ8gXGmK4ardjsVlbH4xiFRg-G3g2dtvRjXwfeyvAMGtFJrLwBcIjJU-YrCvvMyAg2XtocnKuaWxwMbxlzAh1QGMojm9-0P6OzZAebJzz9MKiec4LP23CnltuoPNXqGV0A6rdr_0l4xfZnD7Mq7ASFu8cYB81g1CSd5it1_Pf5lEMYuSpWIjNSO1WbuTs9P0" alt="Side view">
-                            </button>
-                            <button class="thumbnail">
-                                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeObW-zheat2Jubwcgdsg3Nhf8i5pP5REVRqOBEZzZNehk0gvr-A5VPIwFR34lxE6jHKc7ESZtBcaytX9U20jkwET2lw7ATSloXOQHsOq25K5daATE3MMJ_oBApJPal27KP8lJPSSTMXuvidE6fXXNobOQKUs_-MKKI0z7u_K5zLa7aemgdjGSUH_oBMvtjP3_Damo0NEShq_xbNLesCdivxO7c1ZkbKflD-v0xLwpo-ZBa8ujWGGQWSuZxAD8WAZJ9deop5iJ3H0" alt="Drum detail">
-                            </button>
-                            <button class="thumbnail">
-                                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiGk91_0MfOAFdSpkYWrYHPEHzbvnkKJUNvViDK6QkCS9jiq7QZ4RxWuP4yGYyxOCELaxivc2rrKWbMpSLkcZUwlT3UjfB0o-NU8RlYvrKIHSF17WV4JePSapO8S54-wnyWSkDDgMcsihuCsbmhhxW2IGsfLao4rto2FEP7apni2TLu-IQlBmjI4bSuDlzOakeEGgfGHknFUUTt6E16i6Ug1aDO7mT6lQFGnAzEVUcmNO6715v1bH99mdBNzCza4ufU5ckvk2YsMI" alt="Control panel">
-                            </button>
-                            <button class="thumbnail video-thumbnail">
-                                <span class="material-symbols-outlined">play_circle</span>
-                            </button>
+                    <!-- Price -->
+                    <div class="price-section">
+                        <div class="price-large">
+                            <span class="currency">₹</span>
+                            <span class="amount">2,500</span>
+                            <span class="period">/ day</span>
+                        </div>
+                        <p class="price-note">Free cancellation up to 24h before pickup</p>
+                    </div>
+
+                    <!-- Deposit Card -->
+                    <div class="deposit-card">
+                        <div class="deposit-icon">
+                            <span class="material-symbols-outlined">lock</span>
+                        </div>
+                        <div class="deposit-info">
+                            <p class="deposit-title">Refundable Deposit: ₹10,000</p>
+                            <p class="deposit-note">Held on card, released upon return.</p>
                         </div>
                     </div>
 
-                    <!-- Right Column: Booking Panel -->
-                    <div class="booking-panel">
-                        <div class="booking-card">
-                            <!-- Header Info -->
-                            <div class="booking-header">
-                                <div>
-                                    <h1 class="product-title-large">Profi 220 Concrete Mixer</h1>
-                                    <div class="product-meta">
-                                        <span class="sku">SKU: CR-220-MX</span>
-                                        <span class="separator">|</span>
-                                        <div class="rating">
-                                            <span class="star-icon material-symbols-outlined">star</span>
-                                            <span class="rating-value">4.8</span>
-                                            <span class="rating-count">(124 reviews)</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button class="favorite-button-large">
-                                    <span class="material-symbols-outlined">favorite</span>
+                    <!-- Date Selection -->
+                    <div class="date-section">
+                        <label class="date-label">Select Rental Dates</label>
+                        <div class="calendar">
+                            <!-- Calendar Header -->
+                            <div class="calendar-header">
+                                <button class="calendar-nav">
+                                    <span class="material-symbols-outlined">chevron_left</span>
+                                </button>
+                                <span class="calendar-month">October 2023</span>
+                                <button class="calendar-nav">
+                                    <span class="material-symbols-outlined">chevron_right</span>
                                 </button>
                             </div>
 
-                            <!-- Price -->
-                            <div class="price-section">
-                                <div class="price-large">
-                                    <span class="currency">₹</span>
-                                    <span class="amount">2,500</span>
-                                    <span class="period">/ day</span>
-                                </div>
-                                <p class="price-note">Free cancellation up to 24h before pickup</p>
-                            </div>
+                            <!-- Calendar Grid -->
+                            <div class="calendar-grid">
+                                <span class="weekday">Su</span>
+                                <span class="weekday">Mo</span>
+                                <span class="weekday">Tu</span>
+                                <span class="weekday">We</span>
+                                <span class="weekday">Th</span>
+                                <span class="weekday">Fr</span>
+                                <span class="weekday">Sa</span>
 
-                            <!-- Deposit Card -->
-                            <div class="deposit-card">
-                                <div class="deposit-icon">
-                                    <span class="material-symbols-outlined">lock</span>
-                                </div>
-                                <div class="deposit-info">
-                                    <p class="deposit-title">Refundable Deposit: ₹10,000</p>
-                                    <p class="deposit-note">Held on card, released upon return.</p>
-                                </div>
-                            </div>
+                                <!-- Empty cells -->
+                                <span></span><span></span>
 
-                            <!-- Date Selection -->
-                            <div class="date-section">
-                                <label class="date-label">Select Rental Dates</label>
-                                <div class="calendar">
-                                    <!-- Calendar Header -->
-                                    <div class="calendar-header">
-                                        <button class="calendar-nav">
-                                            <span class="material-symbols-outlined">chevron_left</span>
-                                        </button>
-                                        <span class="calendar-month">October 2023</span>
-                                        <button class="calendar-nav">
-                                            <span class="material-symbols-outlined">chevron_right</span>
-                                        </button>
-                                    </div>
-
-                                    <!-- Calendar Grid -->
-                                    <div class="calendar-grid">
-                                        <span class="weekday">Su</span>
-                                        <span class="weekday">Mo</span>
-                                        <span class="weekday">Tu</span>
-                                        <span class="weekday">We</span>
-                                        <span class="weekday">Th</span>
-                                        <span class="weekday">Fr</span>
-                                        <span class="weekday">Sa</span>
-
-                                        <!-- Empty cells -->
-                                        <span></span><span></span>
-
-                                        <!-- Days -->
-                                        <span class="day disabled">1</span>
-                                        <span class="day disabled">2</span>
-                                        <span class="day">3</span>
-                                        <span class="day">4</span>
-                                        <span class="day">5</span>
-                                        <span class="day selected-start">6</span>
-                                        <span class="day selected">7</span>
-                                        <span class="day selected-end">8</span>
-                                        <span class="day">9</span>
-                                        <span class="day">10</span>
-                                        <span class="day">11</span>
-                                        <span class="day">12</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Calculation -->
-                            <div class="calculation">
-                                <div class="calculation-row">
-                                    <span>₹2,500 x 3 days</span>
-                                    <span>₹7,500</span>
-                                </div>
-                                <div class="calculation-row">
-                                    <span>Service Fee</span>
-                                    <span>₹250</span>
-                                </div>
-                                <div class="calculation-row total">
-                                    <span>Total Due Now</span>
-                                    <span class="total-amount">₹17,750</span>
-                                </div>
-                                <p class="calculation-note">(Includes ₹10,000 refundable deposit)</p>
-                            </div>
-
-                            <!-- Actions -->
-                            <div class="booking-actions">
-                                <button class="checkout-button">
-                                    <span>Proceed to Checkout</span>
-                                    <span class="material-symbols-outlined">arrow_forward</span>
-                                </button>
-                                <div class="payment-badges">
-                                    <div class="payment-badge">
-                                        <span class="material-symbols-outlined">verified_user</span>
-                                        Secure Payment
-                                    </div>
-                                    <div class="payment-badge">
-                                        <span class="material-symbols-outlined">bolt</span>
-                                        Instant Confirm
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Details Tabs Section -->
-                <div class="details-section">
-                    <!-- Tab Headers -->
-                    <div class="tabs-header">
-                        <button class="tab-button active">Description</button>
-                        <button class="tab-button">Specifications</button>
-                        <button class="tab-button">Rental Terms</button>
-                        <button class="tab-button">Reviews (124)</button>
-                    </div>
-
-                    <!-- Tab Content -->
-                    <div class="tab-content">
-                        <!-- Description Tab -->
-                        <div class="description-tab active">
-                            <h3 class="tab-title">About the Profi 220</h3>
-                            <p class="tab-text">
-                                The Profi 220 Concrete Mixer is designed for professional construction sites and demanding DIY projects. With a robust 1000W motor and a generous 220-liter drum capacity, it handles large batches of concrete, mortar, or stucco with ease. Its reinforced steel frame ensures stability even on uneven terrain, while the large rubber wheels allow for easy maneuverability.
-                            </p>
-                            <p class="tab-text">
-                                Features a specialized tipping wheel for controlled pouring and a safety lock system to prevent accidental tipping. Perfect for foundations, driveways, and wall construction.
-                            </p>
-                        </div>
-
-                        <!-- Specifications Tab (hidden by default) -->
-                        <div class="specifications-tab">
-                            <h3 class="tab-title">Technical Specifications</h3>
-                            <div class="specs-grid">
-                                <div class="spec-row">
-                                    <span class="spec-label">Drum Volume</span>
-                                    <span class="spec-value">220 Liters</span>
-                                </div>
-                                <div class="spec-row">
-                                    <span class="spec-label">Power Output</span>
-                                    <span class="spec-value">1000 W</span>
-                                </div>
-                                <div class="spec-row">
-                                    <span class="spec-label">Voltage</span>
-                                    <span class="spec-value">230 V / 50 Hz</span>
-                                </div>
-                                <div class="spec-row">
-                                    <span class="spec-label">Weight</span>
-                                    <span class="spec-value">65 kg</span>
-                                </div>
-                                <div class="spec-row">
-                                    <span class="spec-label">Dimensions (LxWxH)</span>
-                                    <span class="spec-value">120 x 70 x 135 cm</span>
-                                </div>
-                                <div class="spec-row">
-                                    <span class="spec-label">Drum Speed</span>
-                                    <span class="spec-value">28 rpm</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Rental Terms Tab (hidden by default) -->
-                        <div class="terms-tab">
-                            <h3 class="tab-title">Rental Terms</h3>
-                            <ul class="terms-list">
-                                <li>Minimum rental period: 1 day</li>
-                                <li>Free cancellation up to 24 hours before pickup</li>
-                                <li>Late returns subject to additional daily fee</li>
-                                <li>Equipment must be returned clean and in working condition</li>
-                                <li>Operator must be 18+ years of age</li>
-                                <li>Valid ID and security deposit required</li>
-                            </ul>
-                        </div>
-
-                        <!-- Reviews Tab (hidden by default) -->
-                        <div class="reviews-tab">
-                            <h3 class="tab-title">Customer Reviews</h3>
-                            <div class="reviews-summary">
-                                <div class="average-rating">
-                                    <span class="big-rating">4.8</span>
-                                    <div class="rating">
-                                        <span class="star-icon material-symbols-outlined">star</span>
-                                        <span class="star-icon material-symbols-outlined">star</span>
-                                        <span class="star-icon material-symbols-outlined">star</span>
-                                        <span class="star-icon material-symbols-outlined">star</span>
-                                        <span class="star-icon material-symbols-outlined">star_half</span>
-                                    </div>
-                                    <span class="total-reviews">Based on 124 reviews</span>
-                                </div>
-                            </div>
-
-                            <!-- Sample Reviews -->
-                            <div class="reviews-list">
-                                <div class="review-item">
-                                    <div class="review-header">
-                                        <div class="reviewer-info">
-                                            <span class="reviewer-name">John D.</span>
-                                            <span class="review-date">October 15, 2023</span>
-                                        </div>
-                                        <div class="rating">
-                                            <span class="star-icon material-symbols-outlined">star</span>
-                                            <span class="star-icon material-symbols-outlined">star</span>
-                                            <span class="star-icon material-symbols-outlined">star</span>
-                                            <span class="star-icon material-symbols-outlined">star</span>
-                                            <span class="star-icon material-symbols-outlined">star</span>
-                                        </div>
-                                    </div>
-                                    <p class="review-text">Great machine, worked perfectly for our foundation pour. Will rent again.</p>
-                                </div>
-                                <div class="review-item">
-                                    <div class="review-header">
-                                        <div class="reviewer-info">
-                                            <span class="reviewer-name">Sarah M.</span>
-                                            <span class="review-date">October 2, 2023</span>
-                                        </div>
-                                        <div class="rating">
-                                            <span class="star-icon material-symbols-outlined">star</span>
-                                            <span class="star-icon material-symbols-outlined">star</span>
-                                            <span class="star-icon material-symbols-outlined">star</span>
-                                            <span class="star-icon material-symbols-outlined">star</span>
-                                            <span class="star-icon material-symbols-outlined">star_half</span>
-                                        </div>
-                                    </div>
-                                    <p class="review-text">Solid mixer, easy to maneuver around the site. The delivery was on time.</p>
-                                </div>
+                                <!-- Days -->
+                                <span class="day disabled">1</span>
+                                <span class="day disabled">2</span>
+                                <span class="day">3</span>
+                                <span class="day">4</span>
+                                <span class="day">5</span>
+                                <span class="day selected-start">6</span>
+                                <span class="day selected">7</span>
+                                <span class="day selected-end">8</span>
+                                <span class="day">9</span>
+                                <span class="day">10</span>
+                                <span class="day">11</span>
+                                <span class="day">12</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Included Accessories -->
-                    <div class="accessories-section">
-                        <h4 class="accessories-title">Included with rental</h4>
-                        <div class="accessories-list">
-                            <span class="accessory-tag">
-                                <span class="material-symbols-outlined">extension</span>
-                                Extension Cord (10m)
-                            </span>
-                            <span class="accessory-tag">
-                                <span class="material-symbols-outlined">cleaning_services</span>
-                                Cleaning Kit
-                            </span>
-                            <span class="accessory-tag">
-                                <span class="material-symbols-outlined">menu_book</span>
-                                User Manual
-                            </span>
+                    <!-- Calculation -->
+                    <div class="calculation">
+                        <div class="calculation-row">
+                            <span>₹2,500 x 3 days</span>
+                            <span>₹7,500</span>
+                        </div>
+                        <div class="calculation-row">
+                            <span>Service Fee</span>
+                            <span>₹250</span>
+                        </div>
+                        <div class="calculation-row total">
+                            <span>Total Due Now</span>
+                            <span class="total-amount">₹17,750</span>
+                        </div>
+                        <p class="calculation-note">(Includes ₹10,000 refundable deposit)</p>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="booking-actions">
+                        <button class="checkout-button">
+                            <span>Proceed to Checkout</span>
+                            <span class="material-symbols-outlined">arrow_forward</span>
+                        </button>
+                        <div class="payment-badges">
+                            <div class="payment-badge">
+                                <span class="material-symbols-outlined">verified_user</span>
+                                Secure Payment
+                            </div>
+                            <div class="payment-badge">
+                                <span class="material-symbols-outlined">bolt</span>
+                                Instant Confirm
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
 
-        <!-- Footer -->
-        <footer class="site-footer">
-            <div class="content-container">
-                <div class="footer-grid">
-                    <!-- About Section -->
-                    <div class="footer-about">
-                        <div class="footer-logo">
-                            <span class="footer-logo-icon material-symbols-outlined">precision_manufacturing</span>
-                            <span class="footer-logo-text">TECHRENT</span>
+        <!-- Details Tabs Section -->
+        <div class="details-section">
+            <!-- Tab Headers -->
+            <div class="tabs-header">
+                <button class="tab-button active">Description</button>
+                <button class="tab-button">Specifications</button>
+                <button class="tab-button">Rental Terms</button>
+                <button class="tab-button">Reviews (124)</button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content">
+                <!-- Description Tab -->
+                <div class="description-tab active">
+                    <h3 class="tab-title">About the Profi 220</h3>
+                    <p class="tab-text">
+                        The Profi 220 Concrete Mixer is designed for professional construction sites and demanding DIY projects. With a robust 1000W motor and a generous 220-liter drum capacity, it handles large batches of concrete, mortar, or stucco with ease. Its reinforced steel frame ensures stability even on uneven terrain, while the large rubber wheels allow for easy maneuverability.
+                    </p>
+                    <p class="tab-text">
+                        Features a specialized tipping wheel for controlled pouring and a safety lock system to prevent accidental tipping. Perfect for foundations, driveways, and wall construction.
+                    </p>
+                </div>
+
+                <!-- Specifications Tab (hidden by default) -->
+                <div class="specifications-tab">
+                    <h3 class="tab-title">Technical Specifications</h3>
+                    <div class="specs-grid">
+                        <div class="spec-row">
+                            <span class="spec-label">Drum Volume</span>
+                            <span class="spec-value">220 Liters</span>
                         </div>
-                        <p class="footer-description">
-                            The modern way to rent construction equipment. Fast, reliable, and transparent.
-                        </p>
-                        <div class="social-links">
-                            <a href="#" class="social-link"><span class="material-symbols-outlined">public</span></a>
-                            <a href="#" class="social-link"><span class="material-symbols-outlined">mail</span></a>
-                            <a href="#" class="social-link"><span class="material-symbols-outlined">call</span></a>
+                        <div class="spec-row">
+                            <span class="spec-label">Power Output</span>
+                            <span class="spec-value">1000 W</span>
                         </div>
-                    </div>
-
-                    <!-- Platform Links -->
-                    <div>
-                        <h4 class="footer-heading">Platform</h4>
-                        <ul class="footer-links">
-                            <li><a href="#" class="footer-link">Browse Catalog</a></li>
-                            <li><a href="#" class="footer-link">How it Works</a></li>
-                            <li><a href="#" class="footer-link">Pricing</a></li>
-                            <li><a href="#" class="footer-link">For Suppliers</a></li>
-                        </ul>
-                    </div>
-
-                    <!-- Support Links -->
-                    <div>
-                        <h4 class="footer-heading">Support</h4>
-                        <ul class="footer-links">
-                            <li><a href="#" class="footer-link">Help Center</a></li>
-                            <li><a href="#" class="footer-link">Terms of Service</a></li>
-                            <li><a href="#" class="footer-link">Privacy Policy</a></li>
-                            <li><a href="#" class="footer-link">Contact Us</a></li>
-                        </ul>
-                    </div>
-
-                    <!-- Categories -->
-                    <div>
-                        <h4 class="footer-heading">Categories</h4>
-                        <ul class="footer-links">
-                            <li><a href="#" class="footer-link">Earthmoving</a></li>
-                            <li><a href="#" class="footer-link">Aerial Lifts</a></li>
-                            <li><a href="#" class="footer-link">Power Tools</a></li>
-                            <li><a href="#" class="footer-link">Material Handling</a></li>
-                        </ul>
+                        <div class="spec-row">
+                            <span class="spec-label">Voltage</span>
+                            <span class="spec-value">230 V / 50 Hz</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Weight</span>
+                            <span class="spec-value">65 kg</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Dimensions (LxWxH)</span>
+                            <span class="spec-value">120 x 70 x 135 cm</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Drum Speed</span>
+                            <span class="spec-value">28 rpm</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Footer Bottom -->
-                <div class="footer-bottom">
-                    <p class="copyright">© 2023 TechRent Inc. All rights reserved.</p>
-                    <div class="legal-links">
-                        <a href="#" class="legal-link">Privacy</a>
-                        <a href="#" class="legal-link">Terms</a>
-                        <a href="#" class="legal-link">Contact</a>
+                <!-- Rental Terms Tab (hidden by default) -->
+                <div class="terms-tab">
+                    <h3 class="tab-title">Rental Terms</h3>
+                    <ul class="terms-list">
+                        <li>Minimum rental period: 1 day</li>
+                        <li>Free cancellation up to 24 hours before pickup</li>
+                        <li>Late returns subject to additional daily fee</li>
+                        <li>Equipment must be returned clean and in working condition</li>
+                        <li>Operator must be 18+ years of age</li>
+                        <li>Valid ID and security deposit required</li>
+                    </ul>
+                </div>
+
+                <!-- Reviews Tab (hidden by default) -->
+                <div class="reviews-tab">
+                    <h3 class="tab-title">Customer Reviews</h3>
+                    <div class="reviews-summary">
+                        <div class="average-rating">
+                            <span class="big-rating">4.8</span>
+                            <div class="rating">
+                                <span class="star-icon material-symbols-outlined">star</span>
+                                <span class="star-icon material-symbols-outlined">star</span>
+                                <span class="star-icon material-symbols-outlined">star</span>
+                                <span class="star-icon material-symbols-outlined">star</span>
+                                <span class="star-icon material-symbols-outlined">star_half</span>
+                            </div>
+                            <span class="total-reviews">Based on 124 reviews</span>
+                        </div>
+                    </div>
+
+                    <!-- Sample Reviews -->
+                    <div class="reviews-list">
+                        <div class="review-item">
+                            <div class="review-header">
+                                <div class="reviewer-info">
+                                    <span class="reviewer-name">John D.</span>
+                                    <span class="review-date">October 15, 2023</span>
+                                </div>
+                                <div class="rating">
+                                    <span class="star-icon material-symbols-outlined">star</span>
+                                    <span class="star-icon material-symbols-outlined">star</span>
+                                    <span class="star-icon material-symbols-outlined">star</span>
+                                    <span class="star-icon material-symbols-outlined">star</span>
+                                    <span class="star-icon material-symbols-outlined">star</span>
+                                </div>
+                            </div>
+                            <p class="review-text">Great machine, worked perfectly for our foundation pour. Will rent again.</p>
+                        </div>
+                        <div class="review-item">
+                            <div class="review-header">
+                                <div class="reviewer-info">
+                                    <span class="reviewer-name">Sarah M.</span>
+                                    <span class="review-date">October 2, 2023</span>
+                                </div>
+                                <div class="rating">
+                                    <span class="star-icon material-symbols-outlined">star</span>
+                                    <span class="star-icon material-symbols-outlined">star</span>
+                                    <span class="star-icon material-symbols-outlined">star</span>
+                                    <span class="star-icon material-symbols-outlined">star</span>
+                                    <span class="star-icon material-symbols-outlined">star_half</span>
+                                </div>
+                            </div>
+                            <p class="review-text">Solid mixer, easy to maneuver around the site. The delivery was on time.</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </footer>
+
+            <!-- Included Accessories -->
+            <div class="accessories-section">
+                <h4 class="accessories-title">Included with rental</h4>
+                <div class="accessories-list">
+                    <span class="accessory-tag">
+                        <span class="material-symbols-outlined">extension</span>
+                        Extension Cord (10m)
+                    </span>
+                    <span class="accessory-tag">
+                        <span class="material-symbols-outlined">cleaning_services</span>
+                        Cleaning Kit
+                    </span>
+                    <span class="accessory-tag">
+                        <span class="material-symbols-outlined">menu_book</span>
+                        User Manual
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
+</main>
 
-    <script src="~/js/base.js"></script>
-</body>
-</html>

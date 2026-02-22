@@ -1,52 +1,168 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - TechRent</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TechRent</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Конфиденциальность</a>
-                        </li>
-                    </ul>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
 
-                    <!-- ЭТОТ ПАРЦИАЛ ДОБАВЛЯЕТ КНОПКИ ВХОДА/РЕГИСТРАЦИИ -->
-                    <partial name="_LoginPartial" />
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/base.css" />
+    <link rel="stylesheet" href="~/css/@(ViewData["css"]).css" />
+</head>
+<body data-theme="light">
+    <div class="site-wrapper">
+        <header class="header">
+            @if (Convert.ToString(ViewData["nav_pos"]) == "left")
+            {
+                <div class="header-left">
+                    <a asp-controller="Home" asp-action="Index" class="logo-area">
+                        <div class="logo-icon">
+                            <span class="material-symbols-outlined">precision_manufacturing</span>
+                        </div>
+                        <h2 class="logo-text">TECHRENT</h2>
+                    </a>
+
+                    <nav class="main-nav">
+                        <a asp-controller="Equipment" asp-action="Index" class="nav-link">Catalog</a>
+                        <a href="#" class="nav-link">How to Rent</a>
+                        <a href="#" class="nav-link">Pricing</a>
+                        <a href="#" class="nav-link">For Suppliers</a>
+                        <a href="#" class="nav-link">Support</a>
+                    </nav>
+                </div>
+            }
+            else
+            {
+                <a asp-controller="Home" asp-action="Index" class="logo-area">
+                    <div class="logo-icon">
+                        <span class="material-symbols-outlined">precision_manufacturing</span>
+                    </div>
+                    <h2 class="logo-text">TECHRENT</h2>
+                </a>
+
+                <nav class="main-nav">
+                    <a asp-controller="Equipment" asp-action="Index" class="nav-link">Catalog</a>
+                    <a href="#" class="nav-link">How to Rent</a>
+                    <a href="#" class="nav-link">Pricing</a>
+                    <a href="#" class="nav-link">For Suppliers</a>
+                    <a href="#" class="nav-link">Support</a>
+                </nav>
+            }
+
+            <div class="header-actions">
+                @if (Convert.ToString(ViewData["header"]) == "with_search")
+                {
+                    <div class="search">
+                        <span class="search-icon material-symbols-outlined">search</span>
+                        <input type="text" class="search-input" placeholder="Search...">
+                    </div>
+                }
+
+                <button class="icon-button" onclick="toggleTheme()" id="theme-toggle">
+                    <span class="material-symbols-outlined" id="theme-icon">light_mode</span>
+                </button>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a class="icon-button" asp-controller="Profile" asp-action="Index">
+                        <span class="material-symbols-outlined">person</span>
+                    </a>
+                }
+                else
+                {
+                    <a class="icon-button" asp-area="Identity" asp-page="/Account/Register">
+                        <span class="material-symbols-outlined">person</span>
+                    </a>
+                }
+                <button class="cart-button">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                    <span class="cart-badge"></span>
+                </button>
+                <button class="mobile-menu-button icon-button">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+            </div>
+        </header>
+
+        @RenderBody()
+
+        <footer class="site-footer">
+            <div class="content-container">
+                <div class="footer-grid">
+                    <!-- About Section -->
+                    <div class="footer-about">
+                        <div class="footer-logo">
+                            <span class="footer-logo-icon material-symbols-outlined">precision_manufacturing</span>
+                            <span class="footer-logo-text">TECHRENT</span>
+                        </div>
+                        <p class="footer-description">
+                            The modern way to rent construction equipment. Fast, reliable, and transparent.
+                        </p>
+                        <div class="social-links">
+                            <a href="#" class="social-link"><span class="material-symbols-outlined">public</span></a>
+                            <a href="#" class="social-link"><span class="material-symbols-outlined">mail</span></a>
+                            <a href="#" class="social-link"><span class="material-symbols-outlined">call</span></a>
+                        </div>
+                    </div>
+
+                    <!-- Platform Links -->
+                    <div>
+                        <h4 class="footer-heading">Platform</h4>
+                        <ul class="footer-links">
+                            <li><a href="#" class="footer-link">Browse Catalog</a></li>
+                            <li><a href="#" class="footer-link">How it Works</a></li>
+                            <li><a href="#" class="footer-link">Pricing</a></li>
+                            <li><a href="#" class="footer-link">For Suppliers</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Support Links -->
+                    <div>
+                        <h4 class="footer-heading">Support</h4>
+                        <ul class="footer-links">
+                            <li><a href="#" class="footer-link">Help Center</a></li>
+                            <li><a href="#" class="footer-link">Terms of Service</a></li>
+                            <li><a href="#" class="footer-link">Privacy Policy</a></li>
+                            <li><a href="#" class="footer-link">Contact Us</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Categories -->
+                    <div>
+                        <h4 class="footer-heading">Categories</h4>
+                        <ul class="footer-links">
+                            <li><a href="#" class="footer-link">Earthmoving</a></li>
+                            <li><a href="#" class="footer-link">Aerial Lifts</a></li>
+                            <li><a href="#" class="footer-link">Power Tools</a></li>
+                            <li><a href="#" class="footer-link">Material Handling</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Footer Bottom -->
+                <div class="footer-bottom">
+                    <p class="copyright">© 2023 TechRent Inc. All rights reserved.</p>
+                    <div class="legal-links">
+                        <a href="#" class="legal-link">Privacy</a>
+                        <a href="#" class="legal-link">Terms</a>
+                        <a href="#" class="legal-link">Cookies</a>
+                    </div>
                 </div>
             </div>
-        </nav>
-    </header>
+        </footer>
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - TechRent - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script src="~/js/base.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

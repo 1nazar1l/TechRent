@@ -1,569 +1,437 @@
 ﻿@{
-    Layout = null;
-    ViewData["Title"] = "Admin Panel";
+    ViewData["Title"] = "Админ панель";
+    ViewData["css"] = "admin";
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TECHRENT - Admin Panel</title>
+<main class="main-content">
+    <div class="wrapper">
+        <!-- Breadcrumb & Title -->
+        <div class="breadcrumb">
+            <a href="#" class="breadcrumb-link">Admin</a>
+            <span class="material-symbols-outlined">chevron_right</span>
+            <span class="breadcrumb-current">Equipment Management</span>
+        </div>
 
-    <!-- Material Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+        <div class="page-header">
+            <h1 class="page-title">Equipment Management</h1>
+            <button class="add-button">
+                <span class="material-symbols-outlined">add</span>
+                Add New Equipment
+            </button>
+        </div>
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="~/css/base.css" />
-    <link rel="stylesheet" href="~/css/admin.css" />
-</head>
-<body data-theme="light">
-    <div class="site-wrapper">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-left">
-                <a asp-controller="Home" asp-action="Index" class="logo">
-                    <div class="logo-icon">
-                        <span class="material-symbols-outlined">precision_manufacturing</span>
+        <!-- Admin Layout -->
+        <div class="admin-layout">
+            <!-- Filters Sidebar -->
+            <aside class="admin-filters">
+                <div class="filters-header">
+                    <h2 class="filters-title">Filters</h2>
+                    <button class="reset-button">Reset All</button>
+                </div>
+
+                <!-- Search Filter -->
+                <div class="filters-group">
+                    <label class="filter-label">Search</label>
+                    <div class="filter-search">
+                        <span class="filter-search-icon material-symbols-outlined">search</span>
+                        <input type="text" class="filter-search-input" placeholder="Name, ID, category...">
                     </div>
-                    <h2 class="logo-text">TECHRENT</h2>
-                </a>
-
-                <nav class="nav">
-                    <a href="#" class="nav-link">Dashboard</a>
-                    <a href="#" class="nav-link nav-link-active">Equipment</a>
-                    <a href="#" class="nav-link">Bookings</a>
-                    <a href="#" class="nav-link">Users</a>
-                    <a href="#" class="nav-link">Reports</a>
-                </nav>
-            </div>
-
-            <div class="header-actions">
-                <!-- Theme Toggle -->
-                <button class="icon-button" onclick="toggleTheme()" id="theme-toggle">
-                    <span class="material-symbols-outlined" id="theme-icon">light_mode</span>
-                </button>
-
-                <a class="icon-button" href="/Identity/Account/Register">
-                    <span class="material-symbols-outlined">person</span>
-                </a>
-
-                <!-- Notifications -->
-                <button class="notification-button">
-                    <span class="material-symbols-outlined">notifications</span>
-                    <span class="notification-dot"></span>
-                </button>
-
-                <!-- Mobile Menu -->
-                <button class="mobile-menu-button icon-button">
-                    <span class="material-symbols-outlined">menu</span>
-                </button>
-            </div>
-        </header>
-
-        <!-- Main Content -->
-        <main class="main-content">
-            <div class="wrapper">
-                <!-- Breadcrumb & Title -->
-                <div class="breadcrumb">
-                    <a href="#" class="breadcrumb-link">Admin</a>
-                    <span class="material-symbols-outlined">chevron_right</span>
-                    <span class="breadcrumb-current">Equipment Management</span>
                 </div>
 
-                <div class="page-header">
-                    <h1 class="page-title">Equipment Management</h1>
-                    <button class="add-button">
-                        <span class="material-symbols-outlined">add</span>
-                        Add New Equipment
-                    </button>
+                <!-- Category Filter -->
+                <div class="filters-group">
+                    <label class="filter-label">Category</label>
+                    <div class="filter-select">
+                        <select class="filter-select-input">
+                            <option>All Categories</option>
+                            <option>Earthmoving</option>
+                            <option>Aerial Lifts</option>
+                            <option>Compaction</option>
+                            <option>Material Handling</option>
+                            <option>Power Tools</option>
+                        </select>
+                        <span class="filter-select-icon material-symbols-outlined">expand_more</span>
+                    </div>
                 </div>
 
-                <!-- Admin Layout -->
-                <div class="admin-layout">
-                    <!-- Filters Sidebar -->
-                    <aside class="admin-filters">
-                        <div class="filters-header">
-                            <h2 class="filters-title">Filters</h2>
-                            <button class="reset-button">Reset All</button>
+                <!-- Status Filter -->
+                <div class="filters-group">
+                    <label class="filter-label">Status</label>
+                    <div class="checkbox-list">
+                        <label class="checkbox-item">
+                            <span class="checkbox-box">
+                                <input type="checkbox" class="checkbox-input" checked>
+                                <span class="checkbox-check material-symbols-outlined">check</span>
+                            </span>
+                            <span class="checkbox-text">Available</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <span class="checkbox-box">
+                                <input type="checkbox" class="checkbox-input">
+                                <span class="checkbox-check material-symbols-outlined">check</span>
+                            </span>
+                            <span class="checkbox-text">Low Stock</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <span class="checkbox-box">
+                                <input type="checkbox" class="checkbox-input">
+                                <span class="checkbox-check material-symbols-outlined">check</span>
+                            </span>
+                            <span class="checkbox-text">Out of Stock</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Price Range -->
+                <div class="filters-group">
+                    <label class="filter-label">Price Range ($)</label>
+                    <div class="price-inputs">
+                        <div class="price-field">
+                            <span class="price-currency">$</span>
+                            <input type="number" class="price-input" value="0" placeholder="Min">
+                        </div>
+                        <span class="price-separator">-</span>
+                        <div class="price-field">
+                            <span class="price-currency">$</span>
+                            <input type="number" class="price-input" value="1000" placeholder="Max">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Availability Toggle -->
+                <div class="filters-group">
+                    <label class="toggle">
+                        <span class="toggle-text">Show only in stock</span>
+                        <div class="relative">
+                            <input type="checkbox" class="toggle-input">
+                            <div class="toggle-switch"></div>
+                        </div>
+                    </label>
+                </div>
+            </aside>
+
+            <!-- Table Section -->
+            <section class="table-section">
+                <!-- Toolbar -->
+                <div class="table-toolbar">
+                    <div class="results">
+                        <span class="results-number">156</span>
+                        <span class="results-text">items total</span>
+                    </div>
+
+                    <div class="table-controls">
+                        <div class="sort-field">
+                            <span class="sort-label">Show:</span>
+                            <select class="sort-select">
+                                <option>10 items</option>
+                                <option>25 items</option>
+                                <option>50 items</option>
+                                <option>100 items</option>
+                            </select>
                         </div>
 
-                        <!-- Search Filter -->
-                        <div class="filters-group">
-                            <label class="filter-label">Search</label>
-                            <div class="filter-search">
-                                <span class="filter-search-icon material-symbols-outlined">search</span>
-                                <input type="text" class="filter-search-input" placeholder="Name, ID, category...">
-                            </div>
-                        </div>
+                        <div class="divider"></div>
 
-                        <!-- Category Filter -->
-                        <div class="filters-group">
-                            <label class="filter-label">Category</label>
-                            <div class="filter-select">
-                                <select class="filter-select-input">
-                                    <option>All Categories</option>
-                                    <option>Earthmoving</option>
-                                    <option>Aerial Lifts</option>
-                                    <option>Compaction</option>
-                                    <option>Material Handling</option>
-                                    <option>Power Tools</option>
-                                </select>
-                                <span class="filter-select-icon material-symbols-outlined">expand_more</span>
-                            </div>
+                        <div class="export-buttons">
+                            <button class="icon-button" title="Export CSV">
+                                <span class="material-symbols-outlined">download</span>
+                            </button>
+                            <button class="icon-button" title="Print">
+                                <span class="material-symbols-outlined">print</span>
+                            </button>
                         </div>
+                    </div>
+                </div>
 
-                        <!-- Status Filter -->
-                        <div class="filters-group">
-                            <label class="filter-label">Status</label>
-                            <div class="checkbox-list">
-                                <label class="checkbox-item">
-                                    <span class="checkbox-box">
-                                        <input type="checkbox" class="checkbox-input" checked>
+                <!-- Table Wrapper with horizontal scroll -->
+                <div class="table-wrapper">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th class="checkbox-cell">
+                                    <label class="checkbox-box">
+                                        <input type="checkbox" class="checkbox-input" id="select-all">
                                         <span class="checkbox-check material-symbols-outlined">check</span>
-                                    </span>
-                                    <span class="checkbox-text">Available</span>
-                                </label>
-                                <label class="checkbox-item">
-                                    <span class="checkbox-box">
+                                    </label>
+                                </th>
+                                <th>ID</th>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Price/day</th>
+                                <th>Stock</th>
+                                <th>Status</th>
+                                <th>Rating</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Row 1 -->
+                            <tr>
+                                <td class="checkbox-cell">
+                                    <label class="checkbox-box">
                                         <input type="checkbox" class="checkbox-input">
                                         <span class="checkbox-check material-symbols-outlined">check</span>
-                                    </span>
-                                    <span class="checkbox-text">Low Stock</span>
-                                </label>
-                                <label class="checkbox-item">
-                                    <span class="checkbox-box">
+                                    </label>
+                                </td>
+                                <td class="id-cell">#001</td>
+                                <td class="image-cell">
+                                    <div class="table-image">
+                                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXVl4LMzze5_xCRMiGtgyedniiQY4nSsjfaBFO0opclPVBQIEU6fpZPe3X6ZEXJz8VOYSnGcytPF_y4weBUp8NJU_qRu0zXAA50r7BKy_maxnYy-8F5uuUiPM0HyIcXMPzPiSeRM2v-EGXpskUq1JBQNo72jArWs1l8OPBALQUwNADQFhxdMsSvqAazPX3SmiAc6ZIyhFLRFcZ-wyk903p4yRf45tvXegJbFycMBcEh24BoP1Wvr7K8FqeRvyAYM6AoYcs3wuexP4" alt="Excavator">
+                                    </div>
+                                </td>
+                                <td class="name-cell">
+                                    <div class="cell-content">
+                                        <strong>CAT 305 Mini Excavator</strong>
+                                        <span class="cell-description">Compact radius design</span>
+                                    </div>
+                                </td>
+                                <td>Earthmoving</td>
+                                <td class="price-cell">$350</td>
+                                <td class="stock-cell">
+                                    <span class="stock-badge stock-available">8 in stock</span>
+                                </td>
+                                <td class="status-cell">
+                                    <span class="status-badge status-active">Active</span>
+                                </td>
+                                <td class="rating-cell">
+                                    <div class="rating">
+                                        <span class="star-icon material-symbols-outlined">star</span>
+                                        <span>4.8</span>
+                                    </div>
+                                </td>
+                                <td class="actions-cell">
+                                    <div class="action-buttons">
+                                        <button class="action-button edit-button" title="Edit">
+                                            <span class="material-symbols-outlined">edit</span>
+                                        </button>
+                                        <button class="action-button delete-button" title="Delete">
+                                            <span class="material-symbols-outlined">delete</span>
+                                        </button>
+                                        <button class="action-button view-button" title="View">
+                                            <span class="material-symbols-outlined">visibility</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Row 2 -->
+                            <tr>
+                                <td class="checkbox-cell">
+                                    <label class="checkbox-box">
                                         <input type="checkbox" class="checkbox-input">
                                         <span class="checkbox-check material-symbols-outlined">check</span>
-                                    </span>
-                                    <span class="checkbox-text">Out of Stock</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- Price Range -->
-                        <div class="filters-group">
-                            <label class="filter-label">Price Range ($)</label>
-                            <div class="price-inputs">
-                                <div class="price-field">
-                                    <span class="price-currency">$</span>
-                                    <input type="number" class="price-input" value="0" placeholder="Min">
-                                </div>
-                                <span class="price-separator">-</span>
-                                <div class="price-field">
-                                    <span class="price-currency">$</span>
-                                    <input type="number" class="price-input" value="1000" placeholder="Max">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Availability Toggle -->
-                        <div class="filters-group">
-                            <label class="toggle">
-                                <span class="toggle-text">Show only in stock</span>
-                                <div class="relative">
-                                    <input type="checkbox" class="toggle-input">
-                                    <div class="toggle-switch"></div>
-                                </div>
-                            </label>
-                        </div>
-                    </aside>
-
-                    <!-- Table Section -->
-                    <section class="table-section">
-                        <!-- Toolbar -->
-                        <div class="table-toolbar">
-                            <div class="results">
-                                <span class="results-number">156</span>
-                                <span class="results-text">items total</span>
-                            </div>
-
-                            <div class="table-controls">
-                                <div class="sort-field">
-                                    <span class="sort-label">Show:</span>
-                                    <select class="sort-select">
-                                        <option>10 items</option>
-                                        <option>25 items</option>
-                                        <option>50 items</option>
-                                        <option>100 items</option>
-                                    </select>
-                                </div>
-
-                                <div class="divider"></div>
-
-                                <div class="export-buttons">
-                                    <button class="icon-button" title="Export CSV">
-                                        <span class="material-symbols-outlined">download</span>
-                                    </button>
-                                    <button class="icon-button" title="Print">
-                                        <span class="material-symbols-outlined">print</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Table Wrapper with horizontal scroll -->
-                        <div class="table-wrapper">
-                            <table class="admin-table">
-                                <thead>
-                                    <tr>
-                                        <th class="checkbox-cell">
-                                            <label class="checkbox-box">
-                                                <input type="checkbox" class="checkbox-input" id="select-all">
-                                                <span class="checkbox-check material-symbols-outlined">check</span>
-                                            </label>
-                                        </th>
-                                        <th>ID</th>
-                                        <th>Image</th>
-                                        <th>Name</th>
-                                        <th>Category</th>
-                                        <th>Price/day</th>
-                                        <th>Stock</th>
-                                        <th>Status</th>
-                                        <th>Rating</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Row 1 -->
-                                    <tr>
-                                        <td class="checkbox-cell">
-                                            <label class="checkbox-box">
-                                                <input type="checkbox" class="checkbox-input">
-                                                <span class="checkbox-check material-symbols-outlined">check</span>
-                                            </label>
-                                        </td>
-                                        <td class="id-cell">#001</td>
-                                        <td class="image-cell">
-                                            <div class="table-image">
-                                                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXVl4LMzze5_xCRMiGtgyedniiQY4nSsjfaBFO0opclPVBQIEU6fpZPe3X6ZEXJz8VOYSnGcytPF_y4weBUp8NJU_qRu0zXAA50r7BKy_maxnYy-8F5uuUiPM0HyIcXMPzPiSeRM2v-EGXpskUq1JBQNo72jArWs1l8OPBALQUwNADQFhxdMsSvqAazPX3SmiAc6ZIyhFLRFcZ-wyk903p4yRf45tvXegJbFycMBcEh24BoP1Wvr7K8FqeRvyAYM6AoYcs3wuexP4" alt="Excavator">
-                                            </div>
-                                        </td>
-                                        <td class="name-cell">
-                                            <div class="cell-content">
-                                                <strong>CAT 305 Mini Excavator</strong>
-                                                <span class="cell-description">Compact radius design</span>
-                                            </div>
-                                        </td>
-                                        <td>Earthmoving</td>
-                                        <td class="price-cell">$350</td>
-                                        <td class="stock-cell">
-                                            <span class="stock-badge stock-available">8 in stock</span>
-                                        </td>
-                                        <td class="status-cell">
-                                            <span class="status-badge status-active">Active</span>
-                                        </td>
-                                        <td class="rating-cell">
-                                            <div class="rating">
-                                                <span class="star-icon material-symbols-outlined">star</span>
-                                                <span>4.8</span>
-                                            </div>
-                                        </td>
-                                        <td class="actions-cell">
-                                            <div class="action-buttons">
-                                                <button class="action-button edit-button" title="Edit">
-                                                    <span class="material-symbols-outlined">edit</span>
-                                                </button>
-                                                <button class="action-button delete-button" title="Delete">
-                                                    <span class="material-symbols-outlined">delete</span>
-                                                </button>
-                                                <button class="action-button view-button" title="View">
-                                                    <span class="material-symbols-outlined">visibility</span>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <!-- Row 2 -->
-                                    <tr>
-                                        <td class="checkbox-cell">
-                                            <label class="checkbox-box">
-                                                <input type="checkbox" class="checkbox-input">
-                                                <span class="checkbox-check material-symbols-outlined">check</span>
-                                            </label>
-                                        </td>
-                                        <td class="id-cell">#002</td>
-                                        <td class="image-cell">
-                                            <div class="table-image">
-                                                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7rTbYJv6ucvXnPyCaV-uptPw_9b_vknoMiaN5Yzuir_Y1gZPM27jDedAMJns6L2S2WAw8sAIn484zAgcg7kZA1W_odCRY5K642xQanAmgR43-pYV6Jyd5fGMo1nD6Wb0vSnlydel58UjS_Ea-YfcH72CzNO6HJrN3ijeHojuw7_ewsjK9awOal5ASmNcHJ9X1iIwIqB71pbNIVffPDjPwCiHo3h3ckjCUaozocDRzln76OAHppfe4tAgK7U2tH2Ab3KSQr1ZGDB4" alt="Scissor Lift">
-                                            </div>
-                                        </td>
-                                        <td class="name-cell">
-                                            <div class="cell-content">
-                                                <strong>JLG 1930ES Scissor Lift</strong>
-                                                <span class="cell-description">Electric drive</span>
-                                            </div>
-                                        </td>
-                                        <td>Aerial Lifts</td>
-                                        <td class="price-cell">$120</td>
-                                        <td class="stock-cell">
-                                            <span class="stock-badge stock-available">12 in stock</span>
-                                        </td>
-                                        <td class="status-cell">
-                                            <span class="status-badge status-active">Active</span>
-                                        </td>
-                                        <td class="rating-cell">
-                                            <div class="rating">
-                                                <span class="star-icon material-symbols-outlined">star</span>
-                                                <span>4.9</span>
-                                            </div>
-                                        </td>
-                                        <td class="actions-cell">
-                                            <div class="action-buttons">
-                                                <button class="action-button edit-button" title="Edit">
-                                                    <span class="material-symbols-outlined">edit</span>
-                                                </button>
-                                                <button class="action-button delete-button" title="Delete">
-                                                    <span class="material-symbols-outlined">delete</span>
-                                                </button>
-                                                <button class="action-button view-button" title="View">
-                                                    <span class="material-symbols-outlined">visibility</span>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <!-- Row 3 -->
-                                    <tr>
-                                        <td class="checkbox-cell">
-                                            <label class="checkbox-box">
-                                                <input type="checkbox" class="checkbox-input">
-                                                <span class="checkbox-check material-symbols-outlined">check</span>
-                                            </label>
-                                        </td>
-                                        <td class="id-cell">#003</td>
-                                        <td class="image-cell">
-                                            <div class="table-image">
-                                                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfIPUE2n_BWqZOqydtrgilJ-sq41hXlwXUc5e2iQeiW-yBrBm15Tis6nclF75D05TlftvyFAOvaihMfbyoPCxhFHaGL2UACC0xAEpyeSTlYg9WxAdk_6nu5L5sUDNaHB_EKFjAgXq0lAoiCVF8hXrHPzPytou0tAle5m2_TsUU1-T_UDCK1Rw3Gu0QwQW8DdBwMocP52VcwR-UzwvtbhVDVzBjM1JgozuLgncm9kWmCruWnM4qPImwZhNJ3FDMh53MSfa3F3lDoe4" alt="Skid Steer">
-                                            </div>
-                                        </td>
-                                        <td class="name-cell">
-                                            <div class="cell-content">
-                                                <strong>Bobcat S70 Skid Steer</strong>
-                                                <span class="cell-description">Versatile loader</span>
-                                            </div>
-                                        </td>
-                                        <td>Earthmoving</td>
-                                        <td class="price-cell">$220</td>
-                                        <td class="stock-cell">
-                                            <span class="stock-badge stock-low">3 in stock</span>
-                                        </td>
-                                        <td class="status-cell">
-                                            <span class="status-badge status-active">Active</span>
-                                        </td>
-                                        <td class="rating-cell">
-                                            <div class="rating">
-                                                <span class="star-icon material-symbols-outlined">star</span>
-                                                <span>4.7</span>
-                                            </div>
-                                        </td>
-                                        <td class="actions-cell">
-                                            <div class="action-buttons">
-                                                <button class="action-button edit-button" title="Edit">
-                                                    <span class="material-symbols-outlined">edit</span>
-                                                </button>
-                                                <button class="action-button delete-button" title="Delete">
-                                                    <span class="material-symbols-outlined">delete</span>
-                                                </button>
-                                                <button class="action-button view-button" title="View">
-                                                    <span class="material-symbols-outlined">visibility</span>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <!-- Row 4 -->
-                                    <tr>
-                                        <td class="checkbox-cell">
-                                            <label class="checkbox-box">
-                                                <input type="checkbox" class="checkbox-input">
-                                                <span class="checkbox-check material-symbols-outlined">check</span>
-                                            </label>
-                                        </td>
-                                        <td class="id-cell">#004</td>
-                                        <td class="image-cell">
-                                            <div class="table-image">
-                                                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuC57EqyGbCY2kwl50e3bAhUr0V0nsQlr8Nw3KgWPSFtwfrItBjZ1oO51-JQMkAOYtGpTG_5LFM7TDmoVQA9Q22Fk2jiFBRjjKE4PcuJBNgrMYoVqpv9cRus5R9M7D55hEJxoUD66gn6Oyt5BCbrAWCNcyW2wdYuIcwX4WhOW-nAaQ78B7N7GyJ_Qt5sPim8ySwlTuxwAX3lvAr_v5XQDTkUK3LKPB3DOGQyvM4cG5aCZBl8JkBH23iXw0D0lyMuR8qRaagItn4MxvI" alt="Forklift">
-                                            </div>
-                                        </td>
-                                        <td class="name-cell">
-                                            <div class="cell-content">
-                                                <strong>Toyota 8FGU25 Forklift</strong>
-                                                <span class="cell-description">Pneumatic tire, LPG</span>
-                                            </div>
-                                        </td>
-                                        <td>Material Handling</td>
-                                        <td class="price-cell">$185</td>
-                                        <td class="stock-cell">
-                                            <span class="stock-badge stock-available">6 in stock</span>
-                                        </td>
-                                        <td class="status-cell">
-                                            <span class="status-badge status-active">Active</span>
-                                        </td>
-                                        <td class="rating-cell">
-                                            <div class="rating">
-                                                <span class="star-icon material-symbols-outlined">star</span>
-                                                <span>4.5</span>
-                                            </div>
-                                        </td>
-                                        <td class="actions-cell">
-                                            <div class="action-buttons">
-                                                <button class="action-button edit-button" title="Edit">
-                                                    <span class="material-symbols-outlined">edit</span>
-                                                </button>
-                                                <button class="action-button delete-button" title="Delete">
-                                                    <span class="material-symbols-outlined">delete</span>
-                                                </button>
-                                                <button class="action-button view-button" title="View">
-                                                    <span class="material-symbols-outlined">visibility</span>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <!-- Row 5 - Inactive item example -->
-                                    <tr class="inactive-row">
-                                        <td class="checkbox-cell">
-                                            <label class="checkbox-box">
-                                                <input type="checkbox" class="checkbox-input">
-                                                <span class="checkbox-check material-symbols-outlined">check</span>
-                                            </label>
-                                        </td>
-                                        <td class="id-cell">#005</td>
-                                        <td class="image-cell">
-                                            <div class="table-image">
-                                                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFDJcxBCEq1RlzbZEICaCIxJ7irDFK8l5h75s0tgfKe0FExvzXazXE8UcRtqkN4FVaFrWx1wQVdCDdEYLTNvSoKKrTo6Ifb52oo1br0fcrVQtyWse04L9xOulcF0KwqB_VffQdRNmeHmYnOxKL4yNaV1Nr9UwnwjP6JaE0xtZrUixtxeo0qQmNxhrg7WbPrcgC0PkAwm7Mv-s9pt6HWB9zzQl9fp98UlH9SM1YuSwkF_wfMRlSj-goUula4_YGUANMJ5SjtbCdV0A" alt="Concrete Mixer">
-                                            </div>
-                                        </td>
-                                        <td class="name-cell">
-                                            <div class="cell-content">
-                                                <strong>Portable Cement Mixer</strong>
-                                                <span class="cell-description">Gas powered</span>
-                                            </div>
-                                        </td>
-                                        <td>Power Tools</td>
-                                        <td class="price-cell">$65</td>
-                                        <td class="stock-cell">
-                                            <span class="stock-badge stock-out">0 in stock</span>
-                                        </td>
-                                        <td class="status-cell">
-                                            <span class="status-badge status-inactive">Inactive</span>
-                                        </td>
-                                        <td class="rating-cell">
-                                            <div class="rating">
-                                                <span class="star-icon material-symbols-outlined">star</span>
-                                                <span>4.2</span>
-                                            </div>
-                                        </td>
-                                        <td class="actions-cell">
-                                            <div class="action-buttons">
-                                                <button class="action-button edit-button" title="Edit">
-                                                    <span class="material-symbols-outlined">edit</span>
-                                                </button>
-                                                <button class="action-button delete-button" title="Delete">
-                                                    <span class="material-symbols-outlined">delete</span>
-                                                </button>
-                                                <button class="action-button view-button" title="View">
-                                                    <span class="material-symbols-outlined">visibility</span>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <!-- Pagination -->
-                        <div class="pagination">
-                            <nav class="pagination-list">
-                                <a href="#" class="pagination-link">
-                                    <span class="sr-only">Previous</span>
-                                    <span class="material-symbols-outlined">chevron_left</span>
-                                </a>
-                                <a href="#" class="pagination-link pagination-link-active">1</a>
-                                <a href="#" class="pagination-link">2</a>
-                                <a href="#" class="pagination-link">3</a>
-                                <a href="#" class="pagination-link">4</a>
-                                <a href="#" class="pagination-link">5</a>
-                                <span class="pagination-ellipsis">...</span>
-                                <a href="#" class="pagination-link">12</a>
-                                <a href="#" class="pagination-link">
-                                    <span class="sr-only">Next</span>
-                                    <span class="material-symbols-outlined">chevron_right</span>
-                                </a>
-                            </nav>
-                        </div>
-                    </section>
-                </div>
-            </div>
-        </main>
-
-        <!-- Footer -->
-        <footer class="site-footer">
-            <div class="content-container">
-                <div class="footer-grid">
-                    <!-- About Section -->
-                    <div class="footer-about">
-                        <div class="footer-logo">
-                            <span class="footer-logo-icon material-symbols-outlined">precision_manufacturing</span>
-                            <span class="footer-logo-text">TECHRENT</span>
-                        </div>
-                        <p class="footer-description">
-                            The modern way to rent construction equipment. Fast, reliable, and transparent.
-                        </p>
-                        <div class="social-links">
-                            <a href="#" class="social-link"><span class="material-symbols-outlined">public</span></a>
-                            <a href="#" class="social-link"><span class="material-symbols-outlined">mail</span></a>
-                            <a href="#" class="social-link"><span class="material-symbols-outlined">call</span></a>
-                        </div>
-                    </div>
-
-                    <!-- Platform Links -->
-                    <div>
-                        <h4 class="footer-heading">Platform</h4>
-                        <ul class="footer-links">
-                            <li><a href="#" class="footer-link">Browse Catalog</a></li>
-                            <li><a href="#" class="footer-link">How it Works</a></li>
-                            <li><a href="#" class="footer-link">Pricing</a></li>
-                            <li><a href="#" class="footer-link">For Suppliers</a></li>
-                        </ul>
-                    </div>
-
-                    <!-- Support Links -->
-                    <div>
-                        <h4 class="footer-heading">Support</h4>
-                        <ul class="footer-links">
-                            <li><a href="#" class="footer-link">Help Center</a></li>
-                            <li><a href="#" class="footer-link">Terms of Service</a></li>
-                            <li><a href="#" class="footer-link">Privacy Policy</a></li>
-                            <li><a href="#" class="footer-link">Contact Us</a></li>
-                        </ul>
-                    </div>
-
-                    <!-- Categories -->
-                    <div>
-                        <h4 class="footer-heading">Categories</h4>
-                        <ul class="footer-links">
-                            <li><a href="#" class="footer-link">Earthmoving</a></li>
-                            <li><a href="#" class="footer-link">Aerial Lifts</a></li>
-                            <li><a href="#" class="footer-link">Power Tools</a></li>
-                            <li><a href="#" class="footer-link">Material Handling</a></li>
-                        </ul>
-                    </div>
+                                    </label>
+                                </td>
+                                <td class="id-cell">#002</td>
+                                <td class="image-cell">
+                                    <div class="table-image">
+                                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7rTbYJv6ucvXnPyCaV-uptPw_9b_vknoMiaN5Yzuir_Y1gZPM27jDedAMJns6L2S2WAw8sAIn484zAgcg7kZA1W_odCRY5K642xQanAmgR43-pYV6Jyd5fGMo1nD6Wb0vSnlydel58UjS_Ea-YfcH72CzNO6HJrN3ijeHojuw7_ewsjK9awOal5ASmNcHJ9X1iIwIqB71pbNIVffPDjPwCiHo3h3ckjCUaozocDRzln76OAHppfe4tAgK7U2tH2Ab3KSQr1ZGDB4" alt="Scissor Lift">
+                                    </div>
+                                </td>
+                                <td class="name-cell">
+                                    <div class="cell-content">
+                                        <strong>JLG 1930ES Scissor Lift</strong>
+                                        <span class="cell-description">Electric drive</span>
+                                    </div>
+                                </td>
+                                <td>Aerial Lifts</td>
+                                <td class="price-cell">$120</td>
+                                <td class="stock-cell">
+                                    <span class="stock-badge stock-available">12 in stock</span>
+                                </td>
+                                <td class="status-cell">
+                                    <span class="status-badge status-active">Active</span>
+                                </td>
+                                <td class="rating-cell">
+                                    <div class="rating">
+                                        <span class="star-icon material-symbols-outlined">star</span>
+                                        <span>4.9</span>
+                                    </div>
+                                </td>
+                                <td class="actions-cell">
+                                    <div class="action-buttons">
+                                        <button class="action-button edit-button" title="Edit">
+                                            <span class="material-symbols-outlined">edit</span>
+                                        </button>
+                                        <button class="action-button delete-button" title="Delete">
+                                            <span class="material-symbols-outlined">delete</span>
+                                        </button>
+                                        <button class="action-button view-button" title="View">
+                                            <span class="material-symbols-outlined">visibility</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Row 3 -->
+                            <tr>
+                                <td class="checkbox-cell">
+                                    <label class="checkbox-box">
+                                        <input type="checkbox" class="checkbox-input">
+                                        <span class="checkbox-check material-symbols-outlined">check</span>
+                                    </label>
+                                </td>
+                                <td class="id-cell">#003</td>
+                                <td class="image-cell">
+                                    <div class="table-image">
+                                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfIPUE2n_BWqZOqydtrgilJ-sq41hXlwXUc5e2iQeiW-yBrBm15Tis6nclF75D05TlftvyFAOvaihMfbyoPCxhFHaGL2UACC0xAEpyeSTlYg9WxAdk_6nu5L5sUDNaHB_EKFjAgXq0lAoiCVF8hXrHPzPytou0tAle5m2_TsUU1-T_UDCK1Rw3Gu0QwQW8DdBwMocP52VcwR-UzwvtbhVDVzBjM1JgozuLgncm9kWmCruWnM4qPImwZhNJ3FDMh53MSfa3F3lDoe4" alt="Skid Steer">
+                                    </div>
+                                </td>
+                                <td class="name-cell">
+                                    <div class="cell-content">
+                                        <strong>Bobcat S70 Skid Steer</strong>
+                                        <span class="cell-description">Versatile loader</span>
+                                    </div>
+                                </td>
+                                <td>Earthmoving</td>
+                                <td class="price-cell">$220</td>
+                                <td class="stock-cell">
+                                    <span class="stock-badge stock-low">3 in stock</span>
+                                </td>
+                                <td class="status-cell">
+                                    <span class="status-badge status-active">Active</span>
+                                </td>
+                                <td class="rating-cell">
+                                    <div class="rating">
+                                        <span class="star-icon material-symbols-outlined">star</span>
+                                        <span>4.7</span>
+                                    </div>
+                                </td>
+                                <td class="actions-cell">
+                                    <div class="action-buttons">
+                                        <button class="action-button edit-button" title="Edit">
+                                            <span class="material-symbols-outlined">edit</span>
+                                        </button>
+                                        <button class="action-button delete-button" title="Delete">
+                                            <span class="material-symbols-outlined">delete</span>
+                                        </button>
+                                        <button class="action-button view-button" title="View">
+                                            <span class="material-symbols-outlined">visibility</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Row 4 -->
+                            <tr>
+                                <td class="checkbox-cell">
+                                    <label class="checkbox-box">
+                                        <input type="checkbox" class="checkbox-input">
+                                        <span class="checkbox-check material-symbols-outlined">check</span>
+                                    </label>
+                                </td>
+                                <td class="id-cell">#004</td>
+                                <td class="image-cell">
+                                    <div class="table-image">
+                                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuC57EqyGbCY2kwl50e3bAhUr0V0nsQlr8Nw3KgWPSFtwfrItBjZ1oO51-JQMkAOYtGpTG_5LFM7TDmoVQA9Q22Fk2jiFBRjjKE4PcuJBNgrMYoVqpv9cRus5R9M7D55hEJxoUD66gn6Oyt5BCbrAWCNcyW2wdYuIcwX4WhOW-nAaQ78B7N7GyJ_Qt5sPim8ySwlTuxwAX3lvAr_v5XQDTkUK3LKPB3DOGQyvM4cG5aCZBl8JkBH23iXw0D0lyMuR8qRaagItn4MxvI" alt="Forklift">
+                                    </div>
+                                </td>
+                                <td class="name-cell">
+                                    <div class="cell-content">
+                                        <strong>Toyota 8FGU25 Forklift</strong>
+                                        <span class="cell-description">Pneumatic tire, LPG</span>
+                                    </div>
+                                </td>
+                                <td>Material Handling</td>
+                                <td class="price-cell">$185</td>
+                                <td class="stock-cell">
+                                    <span class="stock-badge stock-available">6 in stock</span>
+                                </td>
+                                <td class="status-cell">
+                                    <span class="status-badge status-active">Active</span>
+                                </td>
+                                <td class="rating-cell">
+                                    <div class="rating">
+                                        <span class="star-icon material-symbols-outlined">star</span>
+                                        <span>4.5</span>
+                                    </div>
+                                </td>
+                                <td class="actions-cell">
+                                    <div class="action-buttons">
+                                        <button class="action-button edit-button" title="Edit">
+                                            <span class="material-symbols-outlined">edit</span>
+                                        </button>
+                                        <button class="action-button delete-button" title="Delete">
+                                            <span class="material-symbols-outlined">delete</span>
+                                        </button>
+                                        <button class="action-button view-button" title="View">
+                                            <span class="material-symbols-outlined">visibility</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Row 5 - Inactive item example -->
+                            <tr class="inactive-row">
+                                <td class="checkbox-cell">
+                                    <label class="checkbox-box">
+                                        <input type="checkbox" class="checkbox-input">
+                                        <span class="checkbox-check material-symbols-outlined">check</span>
+                                    </label>
+                                </td>
+                                <td class="id-cell">#005</td>
+                                <td class="image-cell">
+                                    <div class="table-image">
+                                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFDJcxBCEq1RlzbZEICaCIxJ7irDFK8l5h75s0tgfKe0FExvzXazXE8UcRtqkN4FVaFrWx1wQVdCDdEYLTNvSoKKrTo6Ifb52oo1br0fcrVQtyWse04L9xOulcF0KwqB_VffQdRNmeHmYnOxKL4yNaV1Nr9UwnwjP6JaE0xtZrUixtxeo0qQmNxhrg7WbPrcgC0PkAwm7Mv-s9pt6HWB9zzQl9fp98UlH9SM1YuSwkF_wfMRlSj-goUula4_YGUANMJ5SjtbCdV0A" alt="Concrete Mixer">
+                                    </div>
+                                </td>
+                                <td class="name-cell">
+                                    <div class="cell-content">
+                                        <strong>Portable Cement Mixer</strong>
+                                        <span class="cell-description">Gas powered</span>
+                                    </div>
+                                </td>
+                                <td>Power Tools</td>
+                                <td class="price-cell">$65</td>
+                                <td class="stock-cell">
+                                    <span class="stock-badge stock-out">0 in stock</span>
+                                </td>
+                                <td class="status-cell">
+                                    <span class="status-badge status-inactive">Inactive</span>
+                                </td>
+                                <td class="rating-cell">
+                                    <div class="rating">
+                                        <span class="star-icon material-symbols-outlined">star</span>
+                                        <span>4.2</span>
+                                    </div>
+                                </td>
+                                <td class="actions-cell">
+                                    <div class="action-buttons">
+                                        <button class="action-button edit-button" title="Edit">
+                                            <span class="material-symbols-outlined">edit</span>
+                                        </button>
+                                        <button class="action-button delete-button" title="Delete">
+                                            <span class="material-symbols-outlined">delete</span>
+                                        </button>
+                                        <button class="action-button view-button" title="View">
+                                            <span class="material-symbols-outlined">visibility</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
-                <!-- Footer Bottom -->
-                <div class="footer-bottom">
-                    <p class="copyright">© 2023 TechRent Inc. All rights reserved.</p>
-                    <div class="legal-links">
-                        <a href="#" class="legal-link">Privacy</a>
-                        <a href="#" class="legal-link">Terms</a>
-                        <a href="#" class="legal-link">Cookies</a>
-                    </div>
+                <!-- Pagination -->
+                <div class="pagination">
+                    <nav class="pagination-list">
+                        <a href="#" class="pagination-link">
+                            <span class="sr-only">Previous</span>
+                            <span class="material-symbols-outlined">chevron_left</span>
+                        </a>
+                        <a href="#" class="pagination-link pagination-link-active">1</a>
+                        <a href="#" class="pagination-link">2</a>
+                        <a href="#" class="pagination-link">3</a>
+                        <a href="#" class="pagination-link">4</a>
+                        <a href="#" class="pagination-link">5</a>
+                        <span class="pagination-ellipsis">...</span>
+                        <a href="#" class="pagination-link">12</a>
+                        <a href="#" class="pagination-link">
+                            <span class="sr-only">Next</span>
+                            <span class="material-symbols-outlined">chevron_right</span>
+                        </a>
+                    </nav>
                 </div>
-            </div>
-        </footer>
+            </section>
+        </div>
     </div>
+</main>
 
-    <script src="~/js/base.js"></script>
-</body>
-</html>
