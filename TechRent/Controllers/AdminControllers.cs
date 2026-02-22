@@ -22,8 +22,11 @@ namespace TechRent.Controllers
         public async Task<IActionResult> Index()
         {
             var equipment = await _context.Equipments
-                .Include(e => e.Category) // Добавить для загрузки категории
+                .Include(e => e.Category)
+                .Include(e => e.Reviews) // Добавить для загрузки отзывов
                 .ToListAsync();
+
+            ViewBag.Categories = await _context.Categories.ToListAsync();
             return View(equipment);
         }
 
