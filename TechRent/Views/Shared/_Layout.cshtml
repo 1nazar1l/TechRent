@@ -34,6 +34,10 @@
                         <a href="#" class="nav-link">Pricing</a>
                         <a href="#" class="nav-link">For Suppliers</a>
                         <a href="#" class="nav-link">Support</a>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-controller="Admin" asp-action="Index" class="nav-link">Admin</a>
+                        }
                     </nav>
                 </div>
             }
@@ -52,6 +56,10 @@
                     <a href="#" class="nav-link">Pricing</a>
                     <a href="#" class="nav-link">For Suppliers</a>
                     <a href="#" class="nav-link">Support</a>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-controller="Admin" asp-action="Index" class="nav-link">Admin</a>
+                    }
                 </nav>
             }
 
