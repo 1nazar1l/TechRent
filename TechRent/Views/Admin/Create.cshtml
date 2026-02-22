@@ -1,0 +1,120 @@
+﻿@model TechRent.Models.Entities.Equipment
+@{
+    ViewData["Title"] = "Add New Equipment";
+    ViewData["css"] = "admin";
+}
+
+<main class="main-content">
+    <div class="wrapper">
+        <div class="breadcrumb">
+            <a asp-action="Index" class="breadcrumb-link">Admin</a>
+            <span class="material-symbols-outlined">chevron_right</span>
+            <span class="breadcrumb-current">Add New Equipment</span>
+        </div>
+
+        <div class="form-container">
+            <div class="form-card">
+                <div class="form-header">
+                    <h1 class="form-title">Add New Equipment</h1>
+                    <p class="form-subtitle">Fill in the equipment details</p>
+                </div>
+
+                <form asp-action="Create" method="post" class="edit-form">
+                    <div class="form-grid">
+                        <!-- Left Column -->
+                        <div class="form-column">
+                            <div class="form-group">
+                                <label asp-for="Name" class="form-label"></label>
+                                <input asp-for="Name" class="form-input" placeholder="Enter equipment name" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="CategoryId" class="form-label">Category</label>
+                                <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.Categories">
+                                    <option value="">Select category</option>
+                                </select>
+                                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Description" class="form-label"></label>
+                                <textarea asp-for="Description" class="form-textarea" rows="4" placeholder="Enter equipment description"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!-- Right Column -->
+                        <div class="form-column">
+                            <div class="form-group">
+                                <label asp-for="PricePerDay" class="form-label"></label>
+                                <div class="price-input-group">
+                                    <span class="price-currency">$</span>
+                                    <input asp-for="PricePerDay" class="form-input price-input" placeholder="0" />
+                                </div>
+                                <span asp-validation-for="PricePerDay" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Deposit" class="form-label"></label>
+                                <div class="price-input-group">
+                                    <span class="price-currency">$</span>
+                                    <input asp-for="Deposit" class="form-input price-input" placeholder="0" />
+                                </div>
+                                <span asp-validation-for="Deposit" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="AvailableQuantity" class="form-label"></label>
+                                <input asp-for="AvailableQuantity" class="form-input" type="number" min="0" placeholder="Enter quantity" />
+                                <span asp-validation-for="AvailableQuantity" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="ImageUrl" class="form-label"></label>
+                                <input asp-for="ImageUrl" class="form-input" placeholder="Enter image URL" />
+                                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                            </div>
+
+                            <div class="image-preview" id="imagePreview" style="display: none;">
+                                <img src="" alt="Preview" class="preview-img" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="save-button">
+                            <span class="material-symbols-outlined">add</span>
+                            Create Equipment
+                        </button>
+
+                        <a asp-action="Index" class="cancel-button">
+                            <span class="material-symbols-outlined">close</span>
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Preview image when URL is entered
+        document.getElementById('ImageUrl').addEventListener('input', function(e) {
+            var preview = document.getElementById('imagePreview');
+            var img = preview.querySelector('img');
+            if (e.target.value) {
+                img.src = e.target.value;
+                preview.style.display = 'block';
+            } else {
+                preview.style.display = 'none';
+            }
+        });
+    </script>
+}
