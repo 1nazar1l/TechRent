@@ -43,9 +43,21 @@
                 <button class="icon-button" onclick="toggleTheme()" id="theme-toggle">
                     <span class="material-symbols-outlined" id="theme-icon">light_mode</span>
                 </button>
-                <a class="icon-button" href="/Identity/Account/Register">
+                @* <a class="icon-button" href="/Identity/Account/Register">
                     <span class="material-symbols-outlined">person</span>
-                </a>
+                </a> *@
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a class="icon-button" asp-controller="Profile" asp-action="Index">
+                        <span class="material-symbols-outlined">person</span>
+                    </a>
+                }
+                else
+                {
+                    <a class="icon-button" asp-area="Identity" asp-page="/Account/Register">
+                        <span class="material-symbols-outlined">person</span>
+                    </a>
+                }
                 <button class="cart-button">
                     <span class="material-symbols-outlined">shopping_cart</span>
                     <span class="cart-badge"></span>
