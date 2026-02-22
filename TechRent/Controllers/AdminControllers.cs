@@ -659,13 +659,81 @@ namespace TechRent.Controllers
         }
 
         // GET: Admin/Reviews
-        public async Task<IActionResult> Reviews()
+        // GET: Admin/Reviews
+        public async Task<IActionResult> Reviews(
+            string searchString = "",
+            int? rating = null,
+            DateTime? dateFrom = null,
+            DateTime? dateTo = null,
+            bool? hasComment = null,
+            bool? noComment = null,
+            int page = 1,
+            int pageSize = 10)
         {
-            var reviews = await _context.Reviews
+            var reviewsQuery = _context.Reviews
                 .Include(r => r.User)
                 .Include(r => r.Equipment)
+                .AsQueryable();
+
+            // Search filter
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                searchString = searchString.ToLower();
+                reviewsQuery = reviewsQuery.Where(r =>
+                    r.Id.ToString().Contains(searchString) ||
+                    (r.Comment != null && r.Comment.ToLower().Contains(searchString)) ||
+                    (r.User != null && r.User.Email.ToLower().Contains(searchString)) ||
+                    (r.Equipment != null && r.Equipment.Name.ToLower().Contains(searchString)));
+            }
+
+            // Rating filter
+            if (rating.HasValue)
+            {
+                reviewsQuery = reviewsQuery.Where(r => r.Rating == rating);
+            }
+
+            // Date range filter
+            if (dateFrom.HasValue)
+            {
+                reviewsQuery = reviewsQuery.Where(r => r.CreatedAt >= dateFrom);
+            }
+            if (dateTo.HasValue)
+            {
+                var endDate = dateTo.Value.AddDays(1);
+                reviewsQuery = reviewsQuery.Where(r => r.CreatedAt < endDate);
+            }
+
+            // Comment filters
+            if (hasComment == true)
+            {
+                reviewsQuery = reviewsQuery.Where(r => !string.IsNullOrEmpty(r.Comment));
+            }
+            if (noComment == true)
+            {
+                reviewsQuery = reviewsQuery.Where(r => string.IsNullOrEmpty(r.Comment));
+            }
+
+            // Get total count for pagination
+            var totalItems = await reviewsQuery.CountAsync();
+
+            // Apply pagination
+            var reviews = await reviewsQuery
                 .OrderByDescending(r => r.CreatedAt)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
+
+            // Store filter values in ViewBag for the view
+            ViewBag.SearchString = searchString;
+            ViewBag.SelectedRating = rating;
+            ViewBag.DateFrom = dateFrom?.ToString("yyyy-MM-dd");
+            ViewBag.DateTo = dateTo?.ToString("yyyy-MM-dd");
+            ViewBag.HasComment = hasComment;
+            ViewBag.NoComment = noComment;
+            ViewBag.CurrentPage = page;
+            ViewBag.PageSize = pageSize;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
             return View(reviews);
         }
 

@@ -28,95 +28,81 @@
             <aside class="admin-filters">
                 <div class="filters-header">
                     <h2 class="filters-title">Filters</h2>
-                    <button class="reset-button">Reset All</button>
+                    <button class="reset-button" onclick="location.href='@Url.Action("Reviews")'">Reset All</button>
                 </div>
 
-                <!-- Search Filter -->
-                <div class="filters-group">
-                    <label class="filter-label">Search</label>
-                    <div class="filter-search">
-                        <span class="filter-search-icon material-symbols-outlined">search</span>
-                        <input type="text" class="filter-search-input" placeholder="Comment, user or equipment...">
-                    </div>
-                </div>
-
-                <!-- Rating Filter -->
-                <div class="filters-group">
-                    <label class="filter-label">Rating</label>
-                    <div class="checkbox-list">
-                        <label class="checkbox-item">
-                            <span class="checkbox-box">
-                                <input type="checkbox" class="checkbox-input" checked>
-                                <span class="checkbox-check material-symbols-outlined">check</span>
-                            </span>
-                            <span class="checkbox-text">5 stars</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <span class="checkbox-box">
-                                <input type="checkbox" class="checkbox-input">
-                                <span class="checkbox-check material-symbols-outlined">check</span>
-                            </span>
-                            <span class="checkbox-text">4 stars</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <span class="checkbox-box">
-                                <input type="checkbox" class="checkbox-input">
-                                <span class="checkbox-check material-symbols-outlined">check</span>
-                            </span>
-                            <span class="checkbox-text">3 stars</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <span class="checkbox-box">
-                                <input type="checkbox" class="checkbox-input">
-                                <span class="checkbox-check material-symbols-outlined">check</span>
-                            </span>
-                            <span class="checkbox-text">2 stars</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <span class="checkbox-box">
-                                <input type="checkbox" class="checkbox-input">
-                                <span class="checkbox-check material-symbols-outlined">check</span>
-                            </span>
-                            <span class="checkbox-text">1 star</span>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Date Range -->
-                <div class="filters-group">
-                    <label class="filter-label">Date Range</label>
-                    <div class="price-inputs" style="flex-direction: column; gap: 8px;">
-                        <div class="price-field" style="width: 100%;">
-                            <span class="price-currency">From</span>
-                            <input type="date" class="price-input" style="padding-left: 50px;">
-                        </div>
-                        <div class="price-field" style="width: 100%;">
-                            <span class="price-currency">To</span>
-                            <input type="date" class="price-input" style="padding-left: 50px;">
+                <form method="get" id="filterForm">
+                    <!-- Search Filter -->
+                    <div class="filters-group">
+                        <label class="filter-label">Search</label>
+                        <div class="filter-search">
+                            <span class="filter-search-icon material-symbols-outlined">search</span>
+                            <input type="text" name="searchString" class="filter-search-input" placeholder="Comment, user or equipment..." value="@ViewBag.SearchString">
                         </div>
                     </div>
-                </div>
 
-                <!-- Has Comment Filter -->
-                <div class="filters-group">
-                    <label class="filter-label">Comment</label>
-                    <div class="checkbox-list">
-                        <label class="checkbox-item">
-                            <span class="checkbox-box">
-                                <input type="checkbox" class="checkbox-input" checked>
-                                <span class="checkbox-check material-symbols-outlined">check</span>
-                            </span>
-                            <span class="checkbox-text">Has comment</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <span class="checkbox-box">
-                                <input type="checkbox" class="checkbox-input">
-                                <span class="checkbox-check material-symbols-outlined">check</span>
-                            </span>
-                            <span class="checkbox-text">No comment</span>
-                        </label>
+                    <!-- Rating Filter -->
+                    <div class="filters-group">
+                        <label class="filter-label">Rating</label>
+                        <div class="filter-select">
+                            <select name="rating" class="filter-select-input">
+                                <option value="" selected="@(ViewBag.SelectedRating == null)">All ratings</option>
+                                <option value="5" selected="@(ViewBag.SelectedRating == 5)">5 stars</option>
+                                <option value="4" selected="@(ViewBag.SelectedRating == 4)">4 stars</option>
+                                <option value="3" selected="@(ViewBag.SelectedRating == 3)">3 stars</option>
+                                <option value="2" selected="@(ViewBag.SelectedRating == 2)">2 stars</option>
+                                <option value="1" selected="@(ViewBag.SelectedRating == 1)">1 star</option>
+                            </select>
+                            <span class="filter-select-icon material-symbols-outlined">expand_more</span>
+                        </div>
                     </div>
-                </div>
+
+                    <!-- Date Range -->
+                    <div class="filters-group">
+                        <label class="filter-label">Date Range</label>
+                        <div class="price-inputs" style="flex-direction: column; gap: 8px;">
+                            <div class="price-field" style="width: 100%;">
+                                <span class="price-currency">From</span>
+                                <input type="date" name="dateFrom" class="price-input" style="padding-left: 50px;" value="@ViewBag.DateFrom">
+                            </div>
+                            <div class="price-field" style="width: 100%;">
+                                <span class="price-currency">To</span>
+                                <input type="date" name="dateTo" class="price-input" style="padding-left: 50px;" value="@ViewBag.DateTo">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Has Comment Filter -->
+                    <div class="filters-group">
+                        <label class="filter-label">Comment</label>
+                        <div class="checkbox-list">
+                            <label class="checkbox-item">
+                                <span class="checkbox-box">
+                                    <input type="checkbox" name="hasComment" class="checkbox-input" value="true" @(ViewBag.HasComment == true ? "checked" : "")>
+                                    <span class="checkbox-check material-symbols-outlined">check</span>
+                                </span>
+                                <span class="checkbox-text">Has comment</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <span class="checkbox-box">
+                                    <input type="checkbox" name="noComment" class="checkbox-input" value="true" @(ViewBag.NoComment == true ? "checked" : "")>
+                                    <span class="checkbox-check material-symbols-outlined">check</span>
+                                </span>
+                                <span class="checkbox-text">No comment</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Hidden fields for pagination -->
+                    <input type="hidden" name="page" value="1" />
+                    <input type="hidden" name="pageSize" value="@ViewBag.PageSize" />
+
+                    <!-- Submit button -->
+                    <button type="submit" class="save-button" style="width: 100%; margin-top: 16px; justify-content: center;">
+                        <span class="material-symbols-outlined">filter_alt</span>
+                        Apply Filters
+                    </button>
+                </form>
             </aside>
 
             <!-- Table Section -->
@@ -131,11 +117,11 @@
                     <div class="table-controls">
                         <div class="sort-field">
                             <span class="sort-label">Show:</span>
-                            <select class="sort-select">
-                                <option>10 items</option>
-                                <option>25 items</option>
-                                <option>50 items</option>
-                                <option>100 items</option>
+                            <select class="sort-select" onchange="changePageSize(this.value)">
+                                <option value="10" selected="@(ViewBag.PageSize == 10)">10 items</option>
+                                <option value="25" selected="@(ViewBag.PageSize == 25)">25 items</option>
+                                <option value="50" selected="@(ViewBag.PageSize == 50)">50 items</option>
+                                <option value="100" selected="@(ViewBag.PageSize == 100)">100 items</option>
                             </select>
                         </div>
 
@@ -182,7 +168,7 @@
                                             <span class="checkbox-check material-symbols-outlined">check</span>
                                         </label>
                                     </td>
-                                    <td class="id-cell">#@item.Id.ToString("D3")</td>
+                                    <td class="id-cell">@item.Id.ToString()</td>
                                     <td class="name-cell">
                                         <div class="cell-content">
                                             <strong>@(item.User?.Email ?? "Unknown User")</strong>
@@ -226,11 +212,11 @@
                                             <button class="action-button edit-button" title="Edit" onclick="location.href='@Url.Action("EditReview", "Admin", new { id = item.Id })'">
                                                 <span class="material-symbols-outlined">edit</span>
                                             </button>
-                                            <button class="action-button view-button" title="View Details" onclick="location.href='@Url.Action("ReviewDetails", "Admin", new { id = item.Id })'">
-                                                <span class="material-symbols-outlined">visibility</span>
-                                            </button>
                                             <button class="action-button delete-button" title="Delete" onclick="location.href='@Url.Action("DeleteReview", "Admin", new { id = item.Id })'">
                                                 <span class="material-symbols-outlined">delete</span>
+                                            </button>
+                                            <button class="action-button view-button" title="View Details" onclick="location.href='@Url.Action("ReviewDetails", "Admin", new { id = item.Id })'">
+                                                <span class="material-symbols-outlined">visibility</span>
                                             </button>
                                         </div>
                                     </td>
@@ -243,21 +229,60 @@
                 <!-- Pagination -->
                 <div class="pagination">
                     <nav class="pagination-list">
-                        <a href="#" class="pagination-link">
-                            <span class="sr-only">Previous</span>
-                            <span class="material-symbols-outlined">chevron_left</span>
-                        </a>
-                        <a href="#" class="pagination-link pagination-link-active">1</a>
-                        <a href="#" class="pagination-link">2</a>
-                        <a href="#" class="pagination-link">3</a>
-                        <a href="#" class="pagination-link">4</a>
-                        <a href="#" class="pagination-link">5</a>
-                        <span class="pagination-ellipsis">...</span>
-                        <a href="#" class="pagination-link">12</a>
-                        <a href="#" class="pagination-link">
-                            <span class="sr-only">Next</span>
-                            <span class="material-symbols-outlined">chevron_right</span>
-                        </a>
+                        @if (ViewBag.CurrentPage > 1)
+                        {
+                            <a href="@Url.Action("Reviews", new { 
+                                page = ViewBag.CurrentPage - 1, 
+                                pageSize = ViewBag.PageSize,
+                                searchString = ViewBag.SearchString,
+                                rating = ViewBag.SelectedRating,
+                                dateFrom = ViewBag.DateFrom,
+                                dateTo = ViewBag.DateTo,
+                                hasComment = ViewBag.HasComment,
+                                noComment = ViewBag.NoComment
+                            })" class="pagination-link">
+                                <span class="sr-only">Previous</span>
+                                <span class="material-symbols-outlined">chevron_left</span>
+                            </a>
+                        }
+
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            if (i == ViewBag.CurrentPage)
+                            {
+                                <a href="#" class="pagination-link pagination-link-active">@i</a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Reviews", new { 
+                                    page = i, 
+                                    pageSize = ViewBag.PageSize,
+                                    searchString = ViewBag.SearchString,
+                                    rating = ViewBag.SelectedRating,
+                                    dateFrom = ViewBag.DateFrom,
+                                    dateTo = ViewBag.DateTo,
+                                    hasComment = ViewBag.HasComment,
+                                    noComment = ViewBag.NoComment
+                                })" class="pagination-link">@i</a>
+                            }
+                        }
+
+                        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                        {
+                            <a href="@Url.Action("Reviews", new { 
+                                page = ViewBag.CurrentPage + 1, 
+                                pageSize = ViewBag.PageSize,
+                                searchString = ViewBag.SearchString,
+                                rating = ViewBag.SelectedRating,
+                                dateFrom = ViewBag.DateFrom,
+                                dateTo = ViewBag.DateTo,
+                                hasComment = ViewBag.HasComment,
+                                noComment = ViewBag.NoComment
+                            })" class="pagination-link">
+                                <span class="sr-only">Next</span>
+                                <span class="material-symbols-outlined">chevron_right</span>
+                            </a>
+                        }
                     </nav>
                 </div>
             </section>
@@ -270,15 +295,22 @@
         color: #94a3b8;
         font-style: italic;
     }
-
     .rating {
         display: flex;
         align-items: center;
         gap: 2px;
     }
-
     .star-icon {
         font-size: 18px;
         font-variation-settings: 'FILL' 1;
     }
 </style>
+
+<script>
+    function changePageSize(pageSize) {
+        var url = new URL(window.location.href);
+        url.searchParams.set('pageSize', pageSize);
+        url.searchParams.set('page', 1);
+        window.location.href = url.toString();
+    }
+</script>
