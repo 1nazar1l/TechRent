@@ -31,72 +31,86 @@
             <aside class="admin-filters">
                 <div class="filters-header">
                     <h2 class="filters-title">Filters</h2>
-                    <button class="reset-button">Reset All</button>
+                    <button class="reset-button" onclick="location.href='@Url.Action("Users")'">Reset All</button>
                 </div>
 
-                <!-- Search Filter -->
-                <div class="filters-group">
-                    <label class="filter-label">Search</label>
-                    <div class="filter-search">
-                        <span class="filter-search-icon material-symbols-outlined">search</span>
-                        <input type="text" class="filter-search-input" placeholder="Email or username...">
+                <form method="get" id="filterForm">
+                    <!-- Search Filter -->
+                    <div class="filters-group">
+                        <label class="filter-label">Search</label>
+                        <div class="filter-search">
+                            <span class="filter-search-icon material-symbols-outlined">search</span>
+                            <input type="text" name="searchString" class="filter-search-input" placeholder="Email or username..." value="@ViewBag.SearchString">
+                        </div>
                     </div>
-                </div>
 
-                <!-- Role Filter -->
-                <div class="filters-group">
-                    <label class="filter-label">Role</label>
-                    <div class="filter-select">
-                        <select class="filter-select-input">
-                            <option>All Roles</option>
-                            <option>Admin</option>
-                            <option>User</option>
-                        </select>
-                        <span class="filter-select-icon material-symbols-outlined">expand_more</span>
+                    <!-- Role Filter -->
+                    <div class="filters-group">
+                        <label class="filter-label">Role</label>
+                        <div class="filter-select">
+                            <select name="role" class="filter-select-input">
+                                <option value="" selected="@(string.IsNullOrEmpty(ViewBag.SelectedRole))">All Roles</option>
+                                @foreach (var r in ViewBag.Roles)
+                                {
+                                    <option value="@r" selected="@(ViewBag.SelectedRole == r)">@r</option>
+                                }
+                            </select>
+                            <span class="filter-select-icon material-symbols-outlined">expand_more</span>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Email Confirmed Filter -->
-                <div class="filters-group">
-                    <label class="filter-label">Email Status</label>
-                    <div class="checkbox-list">
-                        <label class="checkbox-item">
-                            <span class="checkbox-box">
-                                <input type="checkbox" class="checkbox-input" checked>
-                                <span class="checkbox-check material-symbols-outlined">check</span>
-                            </span>
-                            <span class="checkbox-text">Confirmed</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <span class="checkbox-box">
-                                <input type="checkbox" class="checkbox-input">
-                                <span class="checkbox-check material-symbols-outlined">check</span>
-                            </span>
-                            <span class="checkbox-text">Not confirmed</span>
-                        </label>
+                    <!-- Email Confirmed Filter -->
+                    <div class="filters-group">
+                        <label class="filter-label">Email Status</label>
+                        <div class="checkbox-list">
+                            <label class="checkbox-item">
+                                <span class="checkbox-box">
+                                    <input type="checkbox" name="emailConfirmed" class="checkbox-input" value="true" @(ViewBag.EmailConfirmed == true ? "checked" : "")>
+                                    <span class="checkbox-check material-symbols-outlined">check</span>
+                                </span>
+                                <span class="checkbox-text">Confirmed</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <span class="checkbox-box">
+                                    <input type="checkbox" name="emailConfirmed" class="checkbox-input" value="false" @(ViewBag.EmailConfirmed == false ? "checked" : "")>
+                                    <span class="checkbox-check material-symbols-outlined">check</span>
+                                </span>
+                                <span class="checkbox-text">Not confirmed</span>
+                            </label>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Phone Number Filter -->
-                <div class="filters-group">
-                    <label class="filter-label">Phone</label>
-                    <div class="checkbox-list">
-                        <label class="checkbox-item">
-                            <span class="checkbox-box">
-                                <input type="checkbox" class="checkbox-input" checked>
-                                <span class="checkbox-check material-symbols-outlined">check</span>
-                            </span>
-                            <span class="checkbox-text">Has phone</span>
-                        </label>
-                        <label class="checkbox-item">
-                            <span class="checkbox-box">
-                                <input type="checkbox" class="checkbox-input">
-                                <span class="checkbox-check material-symbols-outlined">check</span>
-                            </span>
-                            <span class="checkbox-text">No phone</span>
-                        </label>
+                    <!-- Phone Number Filter -->
+                    <div class="filters-group">
+                        <label class="filter-label">Phone</label>
+                        <div class="checkbox-list">
+                            <label class="checkbox-item">
+                                <span class="checkbox-box">
+                                    <input type="checkbox" name="hasPhone" class="checkbox-input" value="true" @(ViewBag.HasPhone == true ? "checked" : "")>
+                                    <span class="checkbox-check material-symbols-outlined">check</span>
+                                </span>
+                                <span class="checkbox-text">Has phone</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <span class="checkbox-box">
+                                    <input type="checkbox" name="noPhone" class="checkbox-input" value="true" @(ViewBag.NoPhone == true ? "checked" : "")>
+                                    <span class="checkbox-check material-symbols-outlined">check</span>
+                                </span>
+                                <span class="checkbox-text">No phone</span>
+                            </label>
+                        </div>
                     </div>
-                </div>
+
+                    <!-- Hidden fields for pagination -->
+                    <input type="hidden" name="page" value="1" />
+                    <input type="hidden" name="pageSize" value="@ViewBag.PageSize" />
+
+                    <!-- Submit button -->
+                    <button type="submit" class="save-button" style="width: 100%; margin-top: 16px; justify-content: center;">
+                        <span class="material-symbols-outlined">filter_alt</span>
+                        Apply Filters
+                    </button>
+                </form>
             </aside>
 
             <!-- Table Section -->
@@ -111,11 +125,11 @@
                     <div class="table-controls">
                         <div class="sort-field">
                             <span class="sort-label">Show:</span>
-                            <select class="sort-select">
-                                <option>10 items</option>
-                                <option>25 items</option>
-                                <option>50 items</option>
-                                <option>100 items</option>
+                            <select class="sort-select" onchange="changePageSize(this.value)">
+                                <option value="10" selected="@(ViewBag.PageSize == 10)">10 items</option>
+                                <option value="25" selected="@(ViewBag.PageSize == 25)">25 items</option>
+                                <option value="50" selected="@(ViewBag.PageSize == 50)">50 items</option>
+                                <option value="100" selected="@(ViewBag.PageSize == 100)">100 items</option>
                             </select>
                         </div>
 
@@ -157,7 +171,7 @@
                             {
                                 var roles = await UserManager.GetRolesAsync(item);
                                 var roleName = roles.FirstOrDefault() ?? "User";
-
+                                
                                 <tr>
                                     <td class="checkbox-cell">
                                         <label class="checkbox-box">
@@ -224,21 +238,57 @@
                 <!-- Pagination -->
                 <div class="pagination">
                     <nav class="pagination-list">
-                        <a href="#" class="pagination-link">
-                            <span class="sr-only">Previous</span>
-                            <span class="material-symbols-outlined">chevron_left</span>
-                        </a>
-                        <a href="#" class="pagination-link pagination-link-active">1</a>
-                        <a href="#" class="pagination-link">2</a>
-                        <a href="#" class="pagination-link">3</a>
-                        <a href="#" class="pagination-link">4</a>
-                        <a href="#" class="pagination-link">5</a>
-                        <span class="pagination-ellipsis">...</span>
-                        <a href="#" class="pagination-link">12</a>
-                        <a href="#" class="pagination-link">
-                            <span class="sr-only">Next</span>
-                            <span class="material-symbols-outlined">chevron_right</span>
-                        </a>
+                        @if (ViewBag.CurrentPage > 1)
+                        {
+                            <a href="@Url.Action("Users", new { 
+                                page = ViewBag.CurrentPage - 1, 
+                                pageSize = ViewBag.PageSize,
+                                searchString = ViewBag.SearchString,
+                                role = ViewBag.SelectedRole,
+                                emailConfirmed = ViewBag.EmailConfirmed,
+                                hasPhone = ViewBag.HasPhone,
+                                noPhone = ViewBag.NoPhone
+                            })" class="pagination-link">
+                                <span class="sr-only">Previous</span>
+                                <span class="material-symbols-outlined">chevron_left</span>
+                            </a>
+                        }
+
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            if (i == ViewBag.CurrentPage)
+                            {
+                                <a href="#" class="pagination-link pagination-link-active">@i</a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Users", new { 
+                                    page = i, 
+                                    pageSize = ViewBag.PageSize,
+                                    searchString = ViewBag.SearchString,
+                                    role = ViewBag.SelectedRole,
+                                    emailConfirmed = ViewBag.EmailConfirmed,
+                                    hasPhone = ViewBag.HasPhone,
+                                    noPhone = ViewBag.NoPhone
+                                })" class="pagination-link">@i</a>
+                            }
+                        }
+
+                        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                        {
+                            <a href="@Url.Action("Users", new { 
+                                page = ViewBag.CurrentPage + 1, 
+                                pageSize = ViewBag.PageSize,
+                                searchString = ViewBag.SearchString,
+                                role = ViewBag.SelectedRole,
+                                emailConfirmed = ViewBag.EmailConfirmed,
+                                hasPhone = ViewBag.HasPhone,
+                                noPhone = ViewBag.NoPhone
+                            })" class="pagination-link">
+                                <span class="sr-only">Next</span>
+                                <span class="material-symbols-outlined">chevron_right</span>
+                            </a>
+                        }
                     </nav>
                 </div>
             </section>
@@ -252,3 +302,12 @@
         font-style: italic;
     }
 </style>
+
+<script>
+    function changePageSize(pageSize) {
+        var url = new URL(window.location.href);
+        url.searchParams.set('pageSize', pageSize);
+        url.searchParams.set('page', 1);
+        window.location.href = url.toString();
+    }
+</script>

@@ -438,10 +438,84 @@ namespace TechRent.Controllers
         }
 
         // GET: Admin/Users
-        public async Task<IActionResult> Users()
+        public async Task<IActionResult> Users(
+            string searchString = "",
+            string role = "",
+            bool? emailConfirmed = null,
+            bool? hasPhone = null,
+            bool? noPhone = null,
+            int page = 1,
+            int pageSize = 10)
         {
-            var users = await _context.Users.ToListAsync();
-            return View(users);
+            var usersQuery = _context.Users.AsQueryable();
+
+            // Search filter
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                searchString = searchString.ToLower();
+                usersQuery = usersQuery.Where(u =>
+                    u.Email.ToLower().Contains(searchString) ||
+                    u.UserName.ToLower().Contains(searchString) ||
+                    u.Id.ToString().Contains(searchString) ||
+                    (u.PhoneNumber != null && u.PhoneNumber.Contains(searchString)));
+            }
+
+            // Email confirmed filter
+            if (emailConfirmed.HasValue)
+            {
+                usersQuery = usersQuery.Where(u => u.EmailConfirmed == emailConfirmed);
+            }
+
+            // Phone filters
+            if (hasPhone == true)
+            {
+                usersQuery = usersQuery.Where(u => !string.IsNullOrEmpty(u.PhoneNumber));
+            }
+            if (noPhone == true)
+            {
+                usersQuery = usersQuery.Where(u => string.IsNullOrEmpty(u.PhoneNumber));
+            }
+
+            // Get all users for role filtering (need to check roles in memory)
+            var users = await usersQuery.ToListAsync();
+
+            // Role filter (in memory because roles are not directly in IdentityUser)
+            if (!string.IsNullOrEmpty(role))
+            {
+                var filteredUsers = new List<IdentityUser>();
+                foreach (var user in users)
+                {
+                    var userRoles = await _userManager.GetRolesAsync(user);
+                    if (userRoles.Contains(role))
+                    {
+                        filteredUsers.Add(user);
+                    }
+                }
+                users = filteredUsers;
+            }
+
+            // Get total count for pagination
+            var totalItems = users.Count;
+
+            // Apply pagination
+            var pagedUsers = users
+                .OrderBy(u => u.Email)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            // Store filter values in ViewBag for the view
+            ViewBag.SearchString = searchString;
+            ViewBag.SelectedRole = role;
+            ViewBag.EmailConfirmed = emailConfirmed;
+            ViewBag.HasPhone = hasPhone;
+            ViewBag.NoPhone = noPhone;
+            ViewBag.CurrentPage = page;
+            ViewBag.PageSize = pageSize;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            ViewBag.Roles = new[] { "Admin", "User" }; // Available roles
+
+            return View(pagedUsers);
         }
 
         // GET: Admin/EditUser/5
