@@ -1,0 +1,284 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<TechRent.Models.Entities.Review>
+@{
+    ViewData["Title"] = "Reviews Management";
+    ViewData["css"] = "admin";
+}
+
+<main class="main-content">
+    <div class="wrapper">
+        <!-- Breadcrumb & Title -->
+        <div class="breadcrumb">
+            <a href="#" class="breadcrumb-link">Admin</a>
+            <span class="material-symbols-outlined">chevron_right</span>
+            <span class="breadcrumb-current">Reviews Management</span>
+        </div>
+
+        <div class="page-header">
+            <h1 class="page-title">Reviews Management</h1>
+            <button class="add-button" onclick="location.href='@Url.Action("CreateReview", "Admin")'">
+                <span class="material-symbols-outlined">add</span>
+                Add New Review
+            </button>
+        </div>
+
+        <!-- Admin Layout -->
+        <div class="admin-layout">
+            <!-- Filters Sidebar -->
+            <aside class="admin-filters">
+                <div class="filters-header">
+                    <h2 class="filters-title">Filters</h2>
+                    <button class="reset-button">Reset All</button>
+                </div>
+
+                <!-- Search Filter -->
+                <div class="filters-group">
+                    <label class="filter-label">Search</label>
+                    <div class="filter-search">
+                        <span class="filter-search-icon material-symbols-outlined">search</span>
+                        <input type="text" class="filter-search-input" placeholder="Comment, user or equipment...">
+                    </div>
+                </div>
+
+                <!-- Rating Filter -->
+                <div class="filters-group">
+                    <label class="filter-label">Rating</label>
+                    <div class="checkbox-list">
+                        <label class="checkbox-item">
+                            <span class="checkbox-box">
+                                <input type="checkbox" class="checkbox-input" checked>
+                                <span class="checkbox-check material-symbols-outlined">check</span>
+                            </span>
+                            <span class="checkbox-text">5 stars</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <span class="checkbox-box">
+                                <input type="checkbox" class="checkbox-input">
+                                <span class="checkbox-check material-symbols-outlined">check</span>
+                            </span>
+                            <span class="checkbox-text">4 stars</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <span class="checkbox-box">
+                                <input type="checkbox" class="checkbox-input">
+                                <span class="checkbox-check material-symbols-outlined">check</span>
+                            </span>
+                            <span class="checkbox-text">3 stars</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <span class="checkbox-box">
+                                <input type="checkbox" class="checkbox-input">
+                                <span class="checkbox-check material-symbols-outlined">check</span>
+                            </span>
+                            <span class="checkbox-text">2 stars</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <span class="checkbox-box">
+                                <input type="checkbox" class="checkbox-input">
+                                <span class="checkbox-check material-symbols-outlined">check</span>
+                            </span>
+                            <span class="checkbox-text">1 star</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Date Range -->
+                <div class="filters-group">
+                    <label class="filter-label">Date Range</label>
+                    <div class="price-inputs" style="flex-direction: column; gap: 8px;">
+                        <div class="price-field" style="width: 100%;">
+                            <span class="price-currency">From</span>
+                            <input type="date" class="price-input" style="padding-left: 50px;">
+                        </div>
+                        <div class="price-field" style="width: 100%;">
+                            <span class="price-currency">To</span>
+                            <input type="date" class="price-input" style="padding-left: 50px;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Has Comment Filter -->
+                <div class="filters-group">
+                    <label class="filter-label">Comment</label>
+                    <div class="checkbox-list">
+                        <label class="checkbox-item">
+                            <span class="checkbox-box">
+                                <input type="checkbox" class="checkbox-input" checked>
+                                <span class="checkbox-check material-symbols-outlined">check</span>
+                            </span>
+                            <span class="checkbox-text">Has comment</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <span class="checkbox-box">
+                                <input type="checkbox" class="checkbox-input">
+                                <span class="checkbox-check material-symbols-outlined">check</span>
+                            </span>
+                            <span class="checkbox-text">No comment</span>
+                        </label>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Table Section -->
+            <section class="table-section">
+                <!-- Toolbar -->
+                <div class="table-toolbar">
+                    <div class="results">
+                        <span class="results-number">@Model.Count()</span>
+                        <span class="results-text">reviews total</span>
+                    </div>
+
+                    <div class="table-controls">
+                        <div class="sort-field">
+                            <span class="sort-label">Show:</span>
+                            <select class="sort-select">
+                                <option>10 items</option>
+                                <option>25 items</option>
+                                <option>50 items</option>
+                                <option>100 items</option>
+                            </select>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <div class="export-buttons">
+                            <button class="icon-button" title="Export CSV">
+                                <span class="material-symbols-outlined">download</span>
+                            </button>
+                            <button class="icon-button" title="Print">
+                                <span class="material-symbols-outlined">print</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table Wrapper -->
+                <div class="table-wrapper">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th class="checkbox-cell">
+                                    <label class="checkbox-box">
+                                        <input type="checkbox" class="checkbox-input" id="select-all">
+                                        <span class="checkbox-check material-symbols-outlined">check</span>
+                                    </label>
+                                </th>
+                                <th>ID</th>
+                                <th>User</th>
+                                <th>Equipment</th>
+                                <th>Rating</th>
+                                <th>Comment</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="checkbox-cell">
+                                        <label class="checkbox-box">
+                                            <input type="checkbox" class="checkbox-input">
+                                            <span class="checkbox-check material-symbols-outlined">check</span>
+                                        </label>
+                                    </td>
+                                    <td class="id-cell">#@item.Id.ToString("D3")</td>
+                                    <td class="name-cell">
+                                        <div class="cell-content">
+                                            <strong>@(item.User?.Email ?? "Unknown User")</strong>
+                                            <span class="cell-description">@item.UserId.Substring(0, Math.Min(8, item.UserId.Length))...</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @(item.Equipment?.Name ?? $"Equipment #{item.EquipmentId}")
+                                    </td>
+                                    <td>
+                                        <div class="rating">
+                                            @for (int i = 0; i < 5; i++)
+                                            {
+                                                if (i < item.Rating)
+                                                {
+                                                    <span class="star-icon material-symbols-outlined" style="color: #fbbf24;">star</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="star-icon material-symbols-outlined" style="color: #cbd5e1;">star</span>
+                                                }
+                                            }
+                                            <span style="margin-left: 4px;">@item.Rating/5</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.Comment))
+                                        {
+                                            <div style="max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                @item.Comment
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">—</span>
+                                        }
+                                    </td>
+                                    <td>@item.CreatedAt.ToString("dd MMM yyyy")</td>
+                                    <td class="actions-cell">
+                                        <div class="action-buttons">
+                                            <button class="action-button edit-button" title="Edit" onclick="location.href='@Url.Action("EditReview", "Admin", new { id = item.Id })'">
+                                                <span class="material-symbols-outlined">edit</span>
+                                            </button>
+                                            <button class="action-button view-button" title="View Details" onclick="location.href='@Url.Action("ReviewDetails", "Admin", new { id = item.Id })'">
+                                                <span class="material-symbols-outlined">visibility</span>
+                                            </button>
+                                            <button class="action-button delete-button" title="Delete" onclick="location.href='@Url.Action("DeleteReview", "Admin", new { id = item.Id })'">
+                                                <span class="material-symbols-outlined">delete</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <nav class="pagination-list">
+                        <a href="#" class="pagination-link">
+                            <span class="sr-only">Previous</span>
+                            <span class="material-symbols-outlined">chevron_left</span>
+                        </a>
+                        <a href="#" class="pagination-link pagination-link-active">1</a>
+                        <a href="#" class="pagination-link">2</a>
+                        <a href="#" class="pagination-link">3</a>
+                        <a href="#" class="pagination-link">4</a>
+                        <a href="#" class="pagination-link">5</a>
+                        <span class="pagination-ellipsis">...</span>
+                        <a href="#" class="pagination-link">12</a>
+                        <a href="#" class="pagination-link">
+                            <span class="sr-only">Next</span>
+                            <span class="material-symbols-outlined">chevron_right</span>
+                        </a>
+                    </nav>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+
+<style>
+    .text-muted {
+        color: #94a3b8;
+        font-style: italic;
+    }
+
+    .rating {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+    }
+
+    .star-icon {
+        font-size: 18px;
+        font-variation-settings: 'FILL' 1;
+    }
+</style>

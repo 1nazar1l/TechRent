@@ -420,5 +420,170 @@ namespace TechRent.Controllers
 
             return View();
         }
+
+        // GET: Admin/Reviews
+        public async Task<IActionResult> Reviews()
+        {
+            var reviews = await _context.Reviews
+                .Include(r => r.User)
+                .Include(r => r.Equipment)
+                .OrderByDescending(r => r.CreatedAt)
+                .ToListAsync();
+            return View(reviews);
+        }
+
+        // GET: Admin/ReviewDetails/5
+        public async Task<IActionResult> ReviewDetails(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var review = await _context.Reviews
+                .Include(r => r.User)
+                .Include(r => r.Equipment)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (review == null)
+            {
+                return NotFound();
+            }
+
+            return View(review);
+        }
+
+        // GET: Admin/DeleteReview/5
+        public async Task<IActionResult> DeleteReview(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var review = await _context.Reviews
+                .Include(r => r.User)
+                .Include(r => r.Equipment)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (review == null)
+            {
+                return NotFound();
+            }
+
+            return View(review);
+        }
+
+        // POST: Admin/DeleteReview/5
+        [HttpPost, ActionName("DeleteReview")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteReviewConfirmed(int id)
+        {
+            var review = await _context.Reviews.FindAsync(id);
+            if (review != null)
+            {
+                _context.Reviews.Remove(review);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Reviews));
+        }
+
+        // GET: Admin/EditReview/5
+        public async Task<IActionResult> EditReview(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var review = await _context.Reviews
+                .Include(r => r.User)
+                .Include(r => r.Equipment)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (review == null)
+            {
+                return NotFound();
+            }
+
+            return View(review);
+        }
+
+        // POST: Admin/EditReview/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditReview(int id, Review review)
+        {
+            if (id != review.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    // Сохраняем оригинальные значения CreatedAt, UserId, EquipmentId
+                    var existingReview = await _context.Reviews
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync(r => r.Id == id);
+
+                    if (existingReview != null)
+                    {
+                        review.CreatedAt = existingReview.CreatedAt;
+                        review.UserId = existingReview.UserId;
+                        review.EquipmentId = existingReview.EquipmentId;
+                    }
+
+                    _context.Update(review);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Reviews));
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ReviewExists(review.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+            return View(review);
+        }
+
+        private bool ReviewExists(int id)
+        {
+            return _context.Reviews.Any(e => e.Id == id);
+        }
+
+        // GET: Admin/CreateReview
+        public async Task<IActionResult> CreateReview()
+        {
+            ViewBag.Users = await _context.Users.ToListAsync();
+            ViewBag.Equipments = await _context.Equipments.ToListAsync();
+            return View();
+        }
+
+        // POST: Admin/CreateReview
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateReview(Review review)
+        {
+            if (ModelState.IsValid)
+            {
+                review.CreatedAt = DateTime.Now;
+                _context.Add(review);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Reviews));
+            }
+
+            ViewBag.Users = await _context.Users.ToListAsync();
+            ViewBag.Equipments = await _context.Equipments.ToListAsync();
+            return View(review);
+        }
     }
 }

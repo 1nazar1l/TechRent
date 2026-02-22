@@ -1,0 +1,128 @@
+﻿@model TechRent.Models.Entities.Review
+@{
+    ViewData["Title"] = "Edit Review";
+    ViewData["css"] = "admin";
+}
+
+<main class="main-content">
+    <div class="wrapper">
+        <div class="breadcrumb">
+            <a asp-action="Reviews" class="breadcrumb-link">Admin</a>
+            <span class="material-symbols-outlined">chevron_right</span>
+            <span class="breadcrumb-current">Edit Review</span>
+        </div>
+
+        <div class="form-container">
+            <div class="form-card" style="max-width: 600px;">
+                <div class="form-header">
+                    <h1 class="form-title">Edit Review</h1>
+                    <p class="form-subtitle">Update review information</p>
+                </div>
+
+                <form asp-action="EditReview" method="post" class="edit-form">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="UserId" />
+                    <input type="hidden" asp-for="EquipmentId" />
+                    <input type="hidden" asp-for="CreatedAt" />
+
+                    <div class="form-group">
+                        <label class="form-label">User</label>
+                        <input class="form-input" value="@(Model.User?.Email ?? "Unknown User")" readonly disabled style="background: #f1f5f9;" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Equipment</label>
+                        <input class="form-input" value="@(Model.Equipment?.Name ?? $"Equipment #{Model.EquipmentId}")" readonly disabled style="background: #f1f5f9;" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Date</label>
+                        <input class="form-input" value="@Model.CreatedAt.ToString("dd MMM yyyy HH:mm")" readonly disabled style="background: #f1f5f9;" />
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Rating" class="form-label"></label>
+                        <div class="rating-input" style="display: flex; gap: 8px; align-items: center;">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <label style="cursor: pointer;">
+                                    <input type="radio" name="Rating" value="@i" style="display: none;" @(Model.Rating == i ? "checked" : "") />
+                                    <span class="material-symbols-outlined rating-star" style="font-size: 32px; color: @(Model.Rating >= i ? "#fbbf24" : "#cbd5e1"); font-variation-settings: 'FILL' 1;">star</span>
+                                </label>
+                            }
+                            <span style="margin-left: 8px; font-weight: 600;">@Model.Rating/5</span>
+                        </div>
+                        <span asp-validation-for="Rating" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Comment" class="form-label"></label>
+                        <textarea asp-for="Comment" class="form-textarea" rows="4" placeholder="Enter review comment"></textarea>
+                        <span asp-validation-for="Comment" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="save-button">
+                            <span class="material-symbols-outlined">save</span>
+                            Save Changes
+                        </button>
+
+                        <a asp-action="Reviews" class="cancel-button">
+                            <span class="material-symbols-outlined">close</span>
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Preview star rating on hover and click
+        document.querySelectorAll('.rating-star').forEach(star => {
+            star.addEventListener('mouseenter', function() {
+                const rating = this.parentElement.querySelector('input').value;
+                highlightStars(rating);
+            });
+
+            star.addEventListener('mouseleave', function() {
+                const checked = document.querySelector('input[name="Rating"]:checked');
+                const rating = checked ? checked.value : @Model.Rating;
+                highlightStars(rating);
+            });
+
+            star.parentElement.addEventListener('click', function(e) {
+                const radio = this.querySelector('input');
+                radio.checked = true;
+                highlightStars(radio.value);
+            });
+        });
+
+        function highlightStars(rating) {
+            document.querySelectorAll('.rating-star').forEach((star, index) => {
+                if (index < rating) {
+                    star.style.color = '#fbbf24';
+                } else {
+                    star.style.color = '#cbd5e1';
+                }
+            });
+        }
+    </script>
+
+    <style>
+        .rating-star {
+            transition: color 0.2s ease;
+            cursor: pointer;
+        }
+
+            .rating-star:hover {
+                transform: scale(1.1);
+            }
+    </style>
+}
