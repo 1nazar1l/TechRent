@@ -1,4 +1,7 @@
 ﻿@model TechRent.Models.Entities.Equipment
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 @{
     ViewData["Title"] = Model?.Name ?? "Product Details";
     ViewData["css"] = "product";
@@ -88,8 +91,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <button class="favorite-button-large">
-                                <span class="material-symbols-outlined">favorite</span>
+                            <button class="favorite-button-large @(Model.IsFavorite ? "favorite-active" : "")"
+                                    data-equipment-id="@Model.Id"
+                                    onclick="toggleFavorite(this, @Model.Id)">
+                                <span class="material-symbols-outlined">@(Model.IsFavorite ? "favorite" : "favorite_border")</span>
                             </button>
                         </div>
 
@@ -374,5 +379,53 @@
 
         // Add active class to clicked button
         event.target.classList.add('active');
+    }
+
+    function toggleFavorite(button, equipmentId) {
+        @if (SignInManager.IsSignedIn(User))
+        {
+                <text>
+                // Получаем anti-forgery token
+                const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+
+                fetch('/Favorites/ToggleFavorite', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': token
+                    },
+                    body: JSON.stringify({ equipmentId: equipmentId })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        const icon = button.querySelector('.material-symbols-outlined');
+                        if (data.isFavorite) {
+                            icon.textContent = 'favorite';
+                            button.classList.add('favorite-active');
+                        } else {
+                            icon.textContent = 'favorite_border';
+                            button.classList.remove('favorite-active');
+                        }
+                    } else {
+                        console.error('Error:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+                </text>
+        }
+        else
+        {
+                <text>
+                window.location.href = '/Identity/Account/Login?returnUrl=' + encodeURIComponent(window.location.pathname);
+                </text>
+        }
     }
 </script>

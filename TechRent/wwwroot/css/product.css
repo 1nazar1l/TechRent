@@ -743,3 +743,14 @@
     .signup-link:hover {
         background-color: #e05e0e;
     }
+
+
+.favorite-button-large.favorite-active {
+    background: #fee2e2;
+    border-color: #fecaca;
+}
+
+.favorite-button-large.favorite-active .material-symbols-outlined {
+    color: #ef4444;
+    font-variation-settings: 'FILL' 1;
+}

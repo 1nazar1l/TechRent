@@ -2,19 +2,22 @@
 using Microsoft.EntityFrameworkCore;
 using TechRent.Data;
 using TechRent.Models.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace TechRent.Controllers
 {
     public class ProductController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public ProductController(ApplicationDbContext context)
+        public ProductController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        // GET: Product/Details/5
+        // GET: Product/Index/5
         public async Task<IActionResult> Index(int? id)
         {
             if (id == null)
@@ -37,6 +40,15 @@ namespace TechRent.Controllers
             if (equipment.Reviews != null && equipment.Reviews.Any())
             {
                 equipment.AverageRating = equipment.Reviews.Average(r => r.Rating);
+            }
+
+            // Check if item is in user's favorites
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                var isFavorite = await _context.Favorites
+                    .AnyAsync(f => f.UserId == user.Id && f.EquipmentId == equipment.Id);
+                equipment.IsFavorite = isFavorite;
             }
 
             // Get related equipment (same category)
