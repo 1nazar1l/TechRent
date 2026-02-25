@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 
 namespace TechRent.Models.Entities
 {
@@ -30,6 +32,9 @@ namespace TechRent.Models.Entities
         [Display(Name = "Залог")]
         [Range(0, int.MaxValue)]
         public int Deposit { get; set; }
+
+        [NotMapped]
+        public double AverageRating { get; set; }
 
         [Display(Name = "Изображение (URL)")]
         public string? ImageUrl { get; set; }
