@@ -168,27 +168,13 @@
                         </div>
 
                         <!-- Calculation -->
-                        <div class="calculation">
-                            <div class="calculation-row">
-                                <span>$@Model.PricePerDay.ToString("N0") x 3 days</span>
-                                <span>$@((Model.PricePerDay * 3).ToString("N0"))</span>
-                            </div>
-                            <div class="calculation-row">
-                                <span>Service Fee</span>
-                                <span>$250</span>
-                            </div>
-                            <div class="calculation-row total">
-                                <span>Total Due Now</span>
-                                <span class="total-amount">$@((Model.PricePerDay * 3 + 250 + Model.Deposit).ToString("N0"))</span>
-                            </div>
-                            <p class="calculation-note">(Includes $@Model.Deposit.ToString("N0") refundable deposit)</p>
-                        </div>
+                        <div class="calculation"></div>
 
                         <!-- Actions -->
                         <div class="booking-actions">
                             @if (Model.AvailableQuantity > 0)
                             {
-                                <button class="checkout-button">
+                                <button class="checkout-button" id="checkoutButton" onclick="proceedToCheckout()" disabled style="opacity: 0.5; cursor: not-allowed;">
                                     <span>Proceed to Checkout</span>
                                     <span class="material-symbols-outlined">arrow_forward</span>
                                 </button>
@@ -533,6 +519,7 @@
 
         document.getElementById('calendarGrid').innerHTML = calendarHTML;
         updatePriceCalculation();
+        updateCheckoutButton(); // Добавлено
     }
 
     // Обработчик левого клика (стартовая дата)
@@ -664,6 +651,37 @@
         renderCalendar();
     }
 
+    // Функция для обновления состояния кнопки
+    function updateCheckoutButton() {
+        const checkoutButton = document.getElementById('checkoutButton');
+        if (!checkoutButton) return;
+
+        if (selectedStartDate && selectedEndDate) {
+            // Обе даты выбраны - разблокируем кнопку
+            checkoutButton.disabled = false;
+            checkoutButton.style.opacity = '1';
+            checkoutButton.style.cursor = 'pointer';
+        } else {
+            // Даты не выбраны - блокируем кнопку
+            checkoutButton.disabled = true;
+            checkoutButton.style.opacity = '0.5';
+            checkoutButton.style.cursor = 'not-allowed';
+        }
+    }
+
+    // Функция для перехода к оформлению заказа
+    function proceedToCheckout() {
+        if (!selectedStartDate || !selectedEndDate) {
+            alert('Please select both start and end dates');
+            return;
+        }
+
+        // Здесь будет переход к странице оформления заказа
+        // Например:
+        // window.location.href = `/Checkout/Index?equipmentId=${equipmentId}&startDate=${selectedStartDate}&endDate=${selectedEndDate}`;
+        console.log('Proceeding to checkout with dates:', selectedStartDate, selectedEndDate);
+    }
+
     function updatePriceCalculation() {
         const calculationDiv = document.querySelector('.calculation');
         if (!calculationDiv) return;
@@ -729,10 +747,13 @@
 
             calculationDiv.innerHTML = calculationHTML;
         }
+
+        updateCheckoutButton(); // Добавлено
     }
 
     // Load booked dates when page loads
     document.addEventListener('DOMContentLoaded', function() {
         loadBookedDates();
+        updateCheckoutButton(); // Добавлено
     });
 </script>
