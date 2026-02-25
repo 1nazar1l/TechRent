@@ -712,3 +712,14 @@
     .save-button:hover {
         background: #2563eb;
     }
+
+
+.favorite-button.favorite-active {
+    background: #fee2e2;
+    border-color: #fecaca;
+}
+
+.favorite-button.favorite-active .material-symbols-outlined {
+    color: #ef4444;
+    font-variation-settings: 'FILL' 1;
+}

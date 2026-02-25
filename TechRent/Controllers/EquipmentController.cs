@@ -2,21 +2,21 @@
 using Microsoft.EntityFrameworkCore;
 using TechRent.Data;
 using TechRent.Models.Entities;
+using Microsoft.AspNetCore.Identity; // Добавить
 
 namespace TechRent.Controllers
 {
     public class EquipmentController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager; // Добавить
 
-        public EquipmentController(ApplicationDbContext context)
+        public EquipmentController(ApplicationDbContext context, UserManager<IdentityUser> userManager) // Изменить конструктор
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        // GET: Equipment
-        // GET: Equipment
-        // GET: Equipment
         // GET: Equipment
         public async Task<IActionResult> Index(
             string searchString = "",
@@ -72,6 +72,7 @@ namespace TechRent.Controllers
             var equipmentWithDetails = await _context.Equipments
                 .Include(e => e.Category)
                 .Include(e => e.Reviews)
+                .Include(e => e.Favorites) // Добавить Include для Favorites
                 .Where(e => true) // Здесь нужно применить те же фильтры
                 .ToListAsync();
 
@@ -110,6 +111,21 @@ namespace TechRent.Controllers
                 item.AverageRating = item.Reviews != null && item.Reviews.Any()
                     ? item.Reviews.Average(r => r.Rating)
                     : 0;
+            }
+
+            // Check favorites for logged in user
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                var userFavorites = await _context.Favorites
+                    .Where(f => f.UserId == user.Id)
+                    .Select(f => f.EquipmentId)
+                    .ToListAsync();
+
+                foreach (var item in equipmentWithDetails)
+                {
+                    item.IsFavorite = userFavorites.Contains(item.Id);
+                }
             }
 
             // Sorting

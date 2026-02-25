@@ -17,7 +17,8 @@ namespace TechRent.Data
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Delivery> Deliveries { get; set; }
         public DbSet<Review> Reviews { get; set; }
-        public DbSet<Category> Categories { get; set; } // Добавить эту строку
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Favorite> Favorites { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -66,6 +67,24 @@ namespace TechRent.Data
                 .WithMany(c => c.Equipments)
                 .HasForeignKey(e => e.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict); // Запрещаем удаление категории, если есть оборудование
+
+            // Настройка для Favorite
+            modelBuilder.Entity<Favorite>()
+                .HasOne(f => f.User)
+                .WithMany()
+                .HasForeignKey(f => f.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Favorite>()
+                .HasOne(f => f.Equipment)
+                .WithMany(e => e.Favorites)
+                .HasForeignKey(f => f.EquipmentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Уникальность пары UserId + EquipmentId (чтобы не было дубликатов)
+            modelBuilder.Entity<Favorite>()
+                .HasIndex(f => new { f.UserId, f.EquipmentId })
+                .IsUnique();
         }
     }
 }

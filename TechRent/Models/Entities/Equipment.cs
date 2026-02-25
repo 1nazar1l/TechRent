@@ -36,6 +36,10 @@ namespace TechRent.Models.Entities
         [NotMapped]
         public double AverageRating { get; set; }
 
+        // В Equipment.cs добавьте:
+        [NotMapped]
+        public bool IsFavorite { get; set; }
+
         [Display(Name = "Изображение (URL)")]
         public string? ImageUrl { get; set; }
 
@@ -50,5 +54,7 @@ namespace TechRent.Models.Entities
         // Навигационные свойства
         public ICollection<Booking>? Bookings { get; set; }
         public ICollection<Review>? Reviews { get; set; }
+
+        public ICollection<Favorite>? Favorites { get; set; }
     }
 }
