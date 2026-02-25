@@ -672,14 +672,39 @@
     // Функция для перехода к оформлению заказа
     function proceedToCheckout() {
         if (!selectedStartDate || !selectedEndDate) {
-            alert('Please select both start and end dates');
             return;
         }
 
-        // Здесь будет переход к странице оформления заказа
-        // Например:
-        // window.location.href = `/Checkout/Index?equipmentId=${equipmentId}&startDate=${selectedStartDate}&endDate=${selectedEndDate}`;
-        console.log('Proceeding to checkout with dates:', selectedStartDate, selectedEndDate);
+        // Получаем anti-forgery token
+        const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+
+        // Отправляем запрос на создание бронирования
+        fetch('/Booking/CreateBooking', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': token
+            },
+            body: JSON.stringify({
+                equipmentId: equipmentId,
+                startDate: selectedStartDate,
+                endDate: selectedEndDate
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Перенаправляем на страницу с деталями бронирования или в личный кабинет
+                // window.location.href = `/Booking/Details/${data.bookingId}`;
+                window.location.href = '/';
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while creating the booking');
+        });
     }
 
     function updatePriceCalculation() {

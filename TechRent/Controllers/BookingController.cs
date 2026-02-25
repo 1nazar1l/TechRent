@@ -1,16 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TechRent.Data;
+using TechRent.Models.Entities;
 
 namespace TechRent.Controllers
 {
+    [Authorize]
     public class BookingController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public BookingController(ApplicationDbContext context)
+        public BookingController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -33,6 +39,87 @@ namespace TechRent.Controllers
             }
 
             return Json(bookedDates);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateBooking([FromBody] CreateBookingRequest request)
+        {
+            try
+            {
+                var user = await _userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    return Unauthorized(new { success = false, message = "User not authenticated" });
+                }
+
+                var equipment = await _context.Equipments.FindAsync(request.EquipmentId);
+                if (equipment == null)
+                {
+                    return NotFound(new { success = false, message = "Equipment not found" });
+                }
+
+                if (equipment.AvailableQuantity <= 0)
+                {
+                    return BadRequest(new { success = false, message = "Equipment is out of stock" });
+                }
+
+                // Check if dates are available
+                var startDate = DateTime.Parse(request.StartDate);
+                var endDate = DateTime.Parse(request.EndDate);
+
+                var existingBookings = await _context.Bookings
+                    .Where(b => b.EquipmentId == request.EquipmentId
+                        && b.Status != "Отменено"
+                        && ((b.StartDate <= endDate && b.EndDate >= startDate)))
+                    .AnyAsync();
+
+                if (existingBookings)
+                {
+                    return BadRequest(new { success = false, message = "Selected dates are not available" });
+                }
+
+                // Calculate days
+                var days = (endDate - startDate).Days + 1;
+                var totalPrice = equipment.PricePerDay * days;
+                var serviceFee = 250;
+                var totalDue = totalPrice + serviceFee + equipment.Deposit;
+
+                // Create booking
+                var booking = new Booking
+                {
+                    UserId = user.Id,
+                    EquipmentId = request.EquipmentId,
+                    StartDate = startDate,
+                    EndDate = endDate,
+                    TotalPrice = totalPrice,
+                    DepositPaid = equipment.Deposit,
+                    Fine = 0,
+                    Status = "Подтверждено"
+                };
+
+                _context.Bookings.Add(booking);
+                await _context.SaveChangesAsync();
+
+                return Json(new
+                {
+                    success = true,
+                    message = "Booking created successfully",
+                    bookingId = booking.Id,
+                    totalAmount = totalDue
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        public class CreateBookingRequest
+        {
+            public int EquipmentId { get; set; }
+            public string StartDate { get; set; }
+            public string EndDate { get; set; }
         }
     }
 }
