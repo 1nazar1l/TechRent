@@ -1,5 +1,6 @@
-﻿@{
-    ViewData["Title"] = "Товар";
+﻿@model TechRent.Models.Entities.Equipment
+@{
+    ViewData["Title"] = Model?.Name ?? "Product Details";
     ViewData["css"] = "product";
     ViewData["nav_pos"] = "left";
     ViewData["header"] = "with_search";
@@ -9,310 +10,369 @@
     <div class="product-container">
         <!-- Breadcrumbs -->
         <nav class="breadcrumb">
-            <a href="#" class="breadcrumb-link">Home</a>
+            <a href="@Url.Action("Index", "Home")" class="breadcrumb-link">Home</a>
             <span class="material-symbols-outlined">chevron_right</span>
-            <a href="#" class="breadcrumb-link">Heavy Equipment</a>
+            <a href="@Url.Action("Index", "Equipment")" class="breadcrumb-link">Catalog</a>
             <span class="material-symbols-outlined">chevron_right</span>
-            <span class="breadcrumb-current">Concrete Mixers</span>
+            <span class="breadcrumb-current">@Model?.Category?.Name</span>
         </nav>
 
-        <div class="product-layout">
-            <!-- Left Column: Gallery -->
-            <div class="product-gallery">
-                <!-- Main Image -->
-                <div class="gallery-main">
-                    <div class="gallery-main-image">
-                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaB9llZhxerRuE2Mq2SgiA8Wq-ON13EQ8cSQcsEtI4eZNfd0ooodBOzhceJ5GCg0qeHS1UKoFXbItCYOXasgHquVuGXXP3i31cLaa6zjS_kkd5qYlk1wVEwIzZ-zkeoUvKcSzrqnMldmIGTxBrOBWPpQHpo2pLODz_S0NUlJcAfrqEMKluEJtAmOXT_6EEG5_qWJRSFrRFJeomYrt_JaMXvMGYLhrsdifJ40MRPUDs-7B_gTvBRGyF4OoMtfT5uFzCqmoN9x1zTgI" alt="Profi 220 Concrete Mixer">
-                    </div>
-                    <div class="gallery-badge">
-                        <span class="badge badge-popular">BEST SELLER</span>
+        @if (Model != null)
+        {
+            var averageRating = Model.Reviews != null && Model.Reviews.Any()
+            ? Model.Reviews.Average(r => r.Rating).ToString("F1")
+            : "0.0";
+            var reviewCount = Model.Reviews?.Count ?? 0;
+            var roundedRating = Model.Reviews != null && Model.Reviews.Any()
+            ? (int)Math.Round(Model.Reviews.Average(r => r.Rating))
+            : 0;
+
+            <div class="product-layout">
+                <!-- Left Column: Gallery -->
+                <div class="product-gallery">
+                    <!-- Main Image -->
+                    <div class="gallery-main">
+                        <div class="gallery-main-image">
+                            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                            {
+                                <img src="@Model.ImageUrl" alt="@Model.Name">
+                            }
+                            else
+                            {
+                                <div style="width: 100%; height: 400px; background: #f1f5f9; display: flex; align-items: center; justify-content: center;">
+                                    <span class="material-symbols-outlined" style="font-size: 80px; color: #94a3b8;">construction</span>
+                                </div>
+                            }
+                        </div>
+                        <div class="gallery-badge">
+                            @if (Model.AvailableQuantity > 5)
+                            {
+                                <span class="badge badge-available">IN STOCK</span>
+                            }
+                            else if (Model.AvailableQuantity > 0)
+                            {
+                                <span class="badge badge-lowstock">LOW STOCK</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-outofstock">OUT OF STOCK</span>
+                            }
+                        </div>
                     </div>
                 </div>
 
-                <!-- Thumbnails -->
-                <div class="gallery-thumbnails">
-                    <button class="thumbnail active">
-                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-9baHOvWLSlsMJWooLi27cEZqp65kPQ2mNRu4wFzF0qm0FiaP-paAocgO5roMPbKuI-L_ZAwgq5awQ8gXGmK4ardjsVlbH4xiFRg-G3g2dtvRjXwfeyvAMGtFJrLwBcIjJU-YrCvvMyAg2XtocnKuaWxwMbxlzAh1QGMojm9-0P6OzZAebJzz9MKiec4LP23CnltuoPNXqGV0A6rdr_0l4xfZnD7Mq7ASFu8cYB81g1CSd5it1_Pf5lEMYuSpWIjNSO1WbuTs9P0" alt="Side view">
-                    </button>
-                    <button class="thumbnail">
-                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeObW-zheat2Jubwcgdsg3Nhf8i5pP5REVRqOBEZzZNehk0gvr-A5VPIwFR34lxE6jHKc7ESZtBcaytX9U20jkwET2lw7ATSloXOQHsOq25K5daATE3MMJ_oBApJPal27KP8lJPSSTMXuvidE6fXXNobOQKUs_-MKKI0z7u_K5zLa7aemgdjGSUH_oBMvtjP3_Damo0NEShq_xbNLesCdivxO7c1ZkbKflD-v0xLwpo-ZBa8ujWGGQWSuZxAD8WAZJ9deop5iJ3H0" alt="Drum detail">
-                    </button>
-                    <button class="thumbnail">
-                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiGk91_0MfOAFdSpkYWrYHPEHzbvnkKJUNvViDK6QkCS9jiq7QZ4RxWuP4yGYyxOCELaxivc2rrKWbMpSLkcZUwlT3UjfB0o-NU8RlYvrKIHSF17WV4JePSapO8S54-wnyWSkDDgMcsihuCsbmhhxW2IGsfLao4rto2FEP7apni2TLu-IQlBmjI4bSuDlzOakeEGgfGHknFUUTt6E16i6Ug1aDO7mT6lQFGnAzEVUcmNO6715v1bH99mdBNzCza4ufU5ckvk2YsMI" alt="Control panel">
-                    </button>
-                    <button class="thumbnail video-thumbnail">
-                        <span class="material-symbols-outlined">play_circle</span>
-                    </button>
-                </div>
-            </div>
+                <!-- Right Column: Booking Panel -->
+                <div class="booking-panel">
+                    <div class="booking-card">
+                        <!-- Header Info -->
+                        <div class="booking-header">
+                            <div>
+                                <h1 class="product-title-large">@Model.Name</h1>
+                                <div class="product-meta">
+                                    <span class="sku">SKU: EQ-@Model.Id.ToString("D4")</span>
+                                    <span class="separator">|</span>
+                                    <div class="rating">
+                                        @for (int i = 0; i < 5; i++)
+                                        {
+                                            if (i < roundedRating)
+                                            {
+                                                <span class="star-icon material-symbols-outlined" style="color: #fbbf24; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="star-icon material-symbols-outlined" style="color: #cbd5e1; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
+                                            }
+                                        }
+                                        <span class="rating-value">@averageRating</span>
+                                        <span class="rating-count">(@reviewCount reviews)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="favorite-button-large">
+                                <span class="material-symbols-outlined">favorite</span>
+                            </button>
+                        </div>
 
-            <!-- Right Column: Booking Panel -->
-            <div class="booking-panel">
-                <div class="booking-card">
-                    <!-- Header Info -->
-                    <div class="booking-header">
-                        <div>
-                            <h1 class="product-title-large">Profi 220 Concrete Mixer</h1>
-                            <div class="product-meta">
-                                <span class="sku">SKU: CR-220-MX</span>
-                                <span class="separator">|</span>
-                                <div class="rating">
-                                    <span class="star-icon material-symbols-outlined">star</span>
-                                    <span class="rating-value">4.8</span>
-                                    <span class="rating-count">(124 reviews)</span>
+                        <!-- Price -->
+                        <div class="price-section">
+                            <div class="price-large">
+                                <span class="currency">$</span>
+                                <span class="amount">@Model.PricePerDay.ToString("N0")</span>
+                                <span class="period">/ day</span>
+                            </div>
+                            <p class="price-note">Free cancellation up to 24h before pickup</p>
+                        </div>
+
+                        <!-- Deposit Card -->
+                        <div class="deposit-card">
+                            <div class="deposit-icon">
+                                <span class="material-symbols-outlined">lock</span>
+                            </div>
+                            <div class="deposit-info">
+                                <p class="deposit-title">Refundable Deposit: $@Model.Deposit.ToString("N0")</p>
+                                <p class="deposit-note">Held on card, released upon return.</p>
+                            </div>
+                        </div>
+
+                        <!-- Date Selection -->
+                        <div class="date-section">
+                            <label class="date-label">Select Rental Dates</label>
+                            <div class="calendar">
+                                <!-- Calendar Header -->
+                                <div class="calendar-header">
+                                    <button class="calendar-nav">
+                                        <span class="material-symbols-outlined">chevron_left</span>
+                                    </button>
+                                    <span class="calendar-month">@DateTime.Now.ToString("MMMM yyyy")</span>
+                                    <button class="calendar-nav">
+                                        <span class="material-symbols-outlined">chevron_right</span>
+                                    </button>
+                                </div>
+
+                                <!-- Calendar Grid -->
+                                <div class="calendar-grid">
+                                    <span class="weekday">Su</span>
+                                    <span class="weekday">Mo</span>
+                                    <span class="weekday">Tu</span>
+                                    <span class="weekday">We</span>
+                                    <span class="weekday">Th</span>
+                                    <span class="weekday">Fr</span>
+                                    <span class="weekday">Sa</span>
+
+                                    @{
+                                        var today = DateTime.Now;
+                                        var firstDayOfMonth = new DateTime(today.Year, today.Month, 1);
+                                        var daysInMonth = DateTime.DaysInMonth(today.Year, today.Month);
+                                        var startDayOfWeek = (int)firstDayOfMonth.DayOfWeek;
+                                    }
+
+                                    <!-- Empty cells for days before month start -->
+                                    @for (int i = 0; i < startDayOfWeek; i++)
+                                    {
+                                        <span></span>
+                                    }
+
+                                    <!-- Days of month -->
+                                    @for (int day = 1; day <= daysInMonth; day++)
+                                    {
+                                        var currentDate = new DateTime(today.Year, today.Month, day);
+                                        if (currentDate < today)
+                                        {
+                                            <span class="day disabled">@day</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="day">@day</span>
+                                        }
+                                    }
                                 </div>
                             </div>
                         </div>
-                        <button class="favorite-button-large">
-                            <span class="material-symbols-outlined">favorite</span>
-                        </button>
-                    </div>
 
-                    <!-- Price -->
-                    <div class="price-section">
-                        <div class="price-large">
-                            <span class="currency">₹</span>
-                            <span class="amount">2,500</span>
-                            <span class="period">/ day</span>
+                        <!-- Calculation -->
+                        <div class="calculation">
+                            <div class="calculation-row">
+                                <span>$@Model.PricePerDay.ToString("N0") x 3 days</span>
+                                <span>$@((Model.PricePerDay * 3).ToString("N0"))</span>
+                            </div>
+                            <div class="calculation-row">
+                                <span>Service Fee</span>
+                                <span>$250</span>
+                            </div>
+                            <div class="calculation-row total">
+                                <span>Total Due Now</span>
+                                <span class="total-amount">$@((Model.PricePerDay * 3 + 250 + Model.Deposit).ToString("N0"))</span>
+                            </div>
+                            <p class="calculation-note">(Includes $@Model.Deposit.ToString("N0") refundable deposit)</p>
                         </div>
-                        <p class="price-note">Free cancellation up to 24h before pickup</p>
-                    </div>
 
-                    <!-- Deposit Card -->
-                    <div class="deposit-card">
-                        <div class="deposit-icon">
-                            <span class="material-symbols-outlined">lock</span>
-                        </div>
-                        <div class="deposit-info">
-                            <p class="deposit-title">Refundable Deposit: ₹10,000</p>
-                            <p class="deposit-note">Held on card, released upon return.</p>
-                        </div>
-                    </div>
-
-                    <!-- Date Selection -->
-                    <div class="date-section">
-                        <label class="date-label">Select Rental Dates</label>
-                        <div class="calendar">
-                            <!-- Calendar Header -->
-                            <div class="calendar-header">
-                                <button class="calendar-nav">
-                                    <span class="material-symbols-outlined">chevron_left</span>
+                        <!-- Actions -->
+                        <div class="booking-actions">
+                            @if (Model.AvailableQuantity > 0)
+                            {
+                                <button class="checkout-button">
+                                    <span>Proceed to Checkout</span>
+                                    <span class="material-symbols-outlined">arrow_forward</span>
                                 </button>
-                                <span class="calendar-month">October 2023</span>
-                                <button class="calendar-nav">
-                                    <span class="material-symbols-outlined">chevron_right</span>
+                            }
+                            else
+                            {
+                                <button class="checkout-button" disabled style="opacity: 0.5; cursor: not-allowed;">
+                                    <span>Out of Stock</span>
                                 </button>
-                            </div>
-
-                            <!-- Calendar Grid -->
-                            <div class="calendar-grid">
-                                <span class="weekday">Su</span>
-                                <span class="weekday">Mo</span>
-                                <span class="weekday">Tu</span>
-                                <span class="weekday">We</span>
-                                <span class="weekday">Th</span>
-                                <span class="weekday">Fr</span>
-                                <span class="weekday">Sa</span>
-
-                                <!-- Empty cells -->
-                                <span></span><span></span>
-
-                                <!-- Days -->
-                                <span class="day disabled">1</span>
-                                <span class="day disabled">2</span>
-                                <span class="day">3</span>
-                                <span class="day">4</span>
-                                <span class="day">5</span>
-                                <span class="day selected-start">6</span>
-                                <span class="day selected">7</span>
-                                <span class="day selected-end">8</span>
-                                <span class="day">9</span>
-                                <span class="day">10</span>
-                                <span class="day">11</span>
-                                <span class="day">12</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Calculation -->
-                    <div class="calculation">
-                        <div class="calculation-row">
-                            <span>₹2,500 x 3 days</span>
-                            <span>₹7,500</span>
-                        </div>
-                        <div class="calculation-row">
-                            <span>Service Fee</span>
-                            <span>₹250</span>
-                        </div>
-                        <div class="calculation-row total">
-                            <span>Total Due Now</span>
-                            <span class="total-amount">₹17,750</span>
-                        </div>
-                        <p class="calculation-note">(Includes ₹10,000 refundable deposit)</p>
-                    </div>
-
-                    <!-- Actions -->
-                    <div class="booking-actions">
-                        <button class="checkout-button">
-                            <span>Proceed to Checkout</span>
-                            <span class="material-symbols-outlined">arrow_forward</span>
-                        </button>
-                        <div class="payment-badges">
-                            <div class="payment-badge">
-                                <span class="material-symbols-outlined">verified_user</span>
-                                Secure Payment
-                            </div>
-                            <div class="payment-badge">
-                                <span class="material-symbols-outlined">bolt</span>
-                                Instant Confirm
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Details Tabs Section -->
-        <div class="details-section">
-            <!-- Tab Headers -->
-            <div class="tabs-header">
-                <button class="tab-button active">Description</button>
-                <button class="tab-button">Specifications</button>
-                <button class="tab-button">Rental Terms</button>
-                <button class="tab-button">Reviews (124)</button>
-            </div>
-
-            <!-- Tab Content -->
-            <div class="tab-content">
-                <!-- Description Tab -->
-                <div class="description-tab active">
-                    <h3 class="tab-title">About the Profi 220</h3>
-                    <p class="tab-text">
-                        The Profi 220 Concrete Mixer is designed for professional construction sites and demanding DIY projects. With a robust 1000W motor and a generous 220-liter drum capacity, it handles large batches of concrete, mortar, or stucco with ease. Its reinforced steel frame ensures stability even on uneven terrain, while the large rubber wheels allow for easy maneuverability.
-                    </p>
-                    <p class="tab-text">
-                        Features a specialized tipping wheel for controlled pouring and a safety lock system to prevent accidental tipping. Perfect for foundations, driveways, and wall construction.
-                    </p>
-                </div>
-
-                <!-- Specifications Tab (hidden by default) -->
-                <div class="specifications-tab">
-                    <h3 class="tab-title">Technical Specifications</h3>
-                    <div class="specs-grid">
-                        <div class="spec-row">
-                            <span class="spec-label">Drum Volume</span>
-                            <span class="spec-value">220 Liters</span>
-                        </div>
-                        <div class="spec-row">
-                            <span class="spec-label">Power Output</span>
-                            <span class="spec-value">1000 W</span>
-                        </div>
-                        <div class="spec-row">
-                            <span class="spec-label">Voltage</span>
-                            <span class="spec-value">230 V / 50 Hz</span>
-                        </div>
-                        <div class="spec-row">
-                            <span class="spec-label">Weight</span>
-                            <span class="spec-value">65 kg</span>
-                        </div>
-                        <div class="spec-row">
-                            <span class="spec-label">Dimensions (LxWxH)</span>
-                            <span class="spec-value">120 x 70 x 135 cm</span>
-                        </div>
-                        <div class="spec-row">
-                            <span class="spec-label">Drum Speed</span>
-                            <span class="spec-value">28 rpm</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Rental Terms Tab (hidden by default) -->
-                <div class="terms-tab">
-                    <h3 class="tab-title">Rental Terms</h3>
-                    <ul class="terms-list">
-                        <li>Minimum rental period: 1 day</li>
-                        <li>Free cancellation up to 24 hours before pickup</li>
-                        <li>Late returns subject to additional daily fee</li>
-                        <li>Equipment must be returned clean and in working condition</li>
-                        <li>Operator must be 18+ years of age</li>
-                        <li>Valid ID and security deposit required</li>
-                    </ul>
-                </div>
-
-                <!-- Reviews Tab (hidden by default) -->
-                <div class="reviews-tab">
-                    <h3 class="tab-title">Customer Reviews</h3>
-                    <div class="reviews-summary">
-                        <div class="average-rating">
-                            <span class="big-rating">4.8</span>
-                            <div class="rating">
-                                <span class="star-icon material-symbols-outlined">star</span>
-                                <span class="star-icon material-symbols-outlined">star</span>
-                                <span class="star-icon material-symbols-outlined">star</span>
-                                <span class="star-icon material-symbols-outlined">star</span>
-                                <span class="star-icon material-symbols-outlined">star_half</span>
-                            </div>
-                            <span class="total-reviews">Based on 124 reviews</span>
-                        </div>
-                    </div>
-
-                    <!-- Sample Reviews -->
-                    <div class="reviews-list">
-                        <div class="review-item">
-                            <div class="review-header">
-                                <div class="reviewer-info">
-                                    <span class="reviewer-name">John D.</span>
-                                    <span class="review-date">October 15, 2023</span>
+                            }
+                            <div class="payment-badges">
+                                <div class="payment-badge">
+                                    <span class="material-symbols-outlined">verified_user</span>
+                                    Secure Payment
                                 </div>
+                                <div class="payment-badge">
+                                    <span class="material-symbols-outlined">bolt</span>
+                                    Instant Confirm
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Details Tabs Section -->
+            <div class="details-section">
+                <!-- Tab Headers -->
+                <div class="tabs-header">
+                    <button class="tab-button active" onclick="showTab('description')">Description</button>
+                    <button class="tab-button" onclick="showTab('specifications')">Specifications</button>
+                    <button class="tab-button" onclick="showTab('terms')">Rental Terms</button>
+                    <button class="tab-button" onclick="showTab('reviews')">Reviews (@reviewCount)</button>
+                </div>
+
+                <!-- Tab Content -->
+                <div class="tab-content">
+                    <!-- Description Tab -->
+                    <div id="description-tab" class="description-tab active">
+                        <h3 class="tab-title">About the @Model.Name</h3>
+                        <p class="tab-text">
+                            @(!string.IsNullOrEmpty(Model.Description) ? Model.Description : "No description available for this equipment.")
+                        </p>
+                    </div>
+
+                    <!-- Specifications Tab -->
+                    <div id="specifications-tab" class="specifications-tab" style="display: none;">
+                        <h3 class="tab-title">Technical Specifications</h3>
+                        <div class="specs-grid">
+                            <div class="spec-row">
+                                <span class="spec-label">Category</span>
+                                <span class="spec-value">@(Model.Category?.Name ?? "Uncategorized")</span>
+                            </div>
+                            <div class="spec-row">
+                                <span class="spec-label">Available Quantity</span>
+                                <span class="spec-value">@Model.AvailableQuantity units</span>
+                            </div>
+                            <div class="spec-row">
+                                <span class="spec-label">Deposit Required</span>
+                                <span class="spec-value">$@Model.Deposit.ToString("N0")</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rental Terms Tab -->
+                    <div id="terms-tab" class="terms-tab" style="display: none;">
+                        <h3 class="tab-title">Rental Terms</h3>
+                        <ul class="terms-list">
+                            <li>Minimum rental period: 1 day</li>
+                            <li>Free cancellation up to 24 hours before pickup</li>
+                            <li>Late returns subject to additional daily fee</li>
+                            <li>Equipment must be returned clean and in working condition</li>
+                            <li>Operator must be 18+ years of age</li>
+                            <li>Valid ID and security deposit required</li>
+                        </ul>
+                    </div>
+
+                    <!-- Reviews Tab -->
+                    <div id="reviews-tab" class="reviews-tab" style="display: none;">
+                        <h3 class="tab-title">Customer Reviews</h3>
+                        <div class="reviews-summary">
+                            <div class="average-rating">
+                                <span class="big-rating">@averageRating</span>
                                 <div class="rating">
-                                    <span class="star-icon material-symbols-outlined">star</span>
-                                    <span class="star-icon material-symbols-outlined">star</span>
-                                    <span class="star-icon material-symbols-outlined">star</span>
-                                    <span class="star-icon material-symbols-outlined">star</span>
-                                    <span class="star-icon material-symbols-outlined">star</span>
+                                    @for (int i = 0; i < 5; i++)
+                                    {
+                                        if (i < roundedRating)
+                                        {
+                                            <span class="star-icon material-symbols-outlined" style="color: #fbbf24; font-size: 24px; font-variation-settings: 'FILL' 1;">star</span>
+                                        }
+                                        else if (i == roundedRating && averageRating.Contains("."))
+                                        {
+                                            <span class="star-icon material-symbols-outlined" style="color: #fbbf24; font-size: 24px;">star_half</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="star-icon material-symbols-outlined" style="color: #cbd5e1; font-size: 24px; font-variation-settings: 'FILL' 1;">star</span>
+                                        }
+                                    }
                                 </div>
+                                <span class="total-reviews">Based on @reviewCount reviews</span>
                             </div>
-                            <p class="review-text">Great machine, worked perfectly for our foundation pour. Will rent again.</p>
                         </div>
-                        <div class="review-item">
-                            <div class="review-header">
-                                <div class="reviewer-info">
-                                    <span class="reviewer-name">Sarah M.</span>
-                                    <span class="review-date">October 2, 2023</span>
-                                </div>
-                                <div class="rating">
-                                    <span class="star-icon material-symbols-outlined">star</span>
-                                    <span class="star-icon material-symbols-outlined">star</span>
-                                    <span class="star-icon material-symbols-outlined">star</span>
-                                    <span class="star-icon material-symbols-outlined">star</span>
-                                    <span class="star-icon material-symbols-outlined">star_half</span>
-                                </div>
-                            </div>
-                            <p class="review-text">Solid mixer, easy to maneuver around the site. The delivery was on time.</p>
+
+                        <!-- Reviews List -->
+                        <div class="reviews-list">
+                            @if (Model.Reviews != null && Model.Reviews.Any())
+                            {
+                                @foreach (var review in Model.Reviews.OrderByDescending(r => r.CreatedAt))
+                                {
+                                    <div class="review-item">
+                                        <div class="review-header">
+                                            <div class="reviewer-info">
+                                                <span class="reviewer-name">@(review.User?.Email?.Split('@')[0] ?? "Anonymous")</span>
+                                                <span class="review-date">@review.CreatedAt.ToString("MMMM dd, yyyy")</span>
+                                            </div>
+                                            <div class="rating">
+                                                @for (int i = 0; i < 5; i++)
+                                                {
+                                                    if (i < review.Rating)
+                                                    {
+                                                        <span class="star-icon material-symbols-outlined" style="color: #fbbf24; font-size: 16px; font-variation-settings: 'FILL' 1;">star</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="star-icon material-symbols-outlined" style="color: #cbd5e1; font-size: 16px; font-variation-settings: 'FILL' 1;">star</span>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                        <p class="review-text">@(review.Comment ?? "No comment provided.")</p>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <p class="no-reviews">No reviews yet for this equipment.</p>
+                            }
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Included Accessories -->
-            <div class="accessories-section">
-                <h4 class="accessories-title">Included with rental</h4>
-                <div class="accessories-list">
-                    <span class="accessory-tag">
-                        <span class="material-symbols-outlined">extension</span>
-                        Extension Cord (10m)
-                    </span>
-                    <span class="accessory-tag">
-                        <span class="material-symbols-outlined">cleaning_services</span>
-                        Cleaning Kit
-                    </span>
-                    <span class="accessory-tag">
-                        <span class="material-symbols-outlined">menu_book</span>
-                        User Manual
-                    </span>
+                <!-- Included Accessories -->
+                <div class="accessories-section">
+                    <h4 class="accessories-title">Included with rental</h4>
+                    <div class="accessories-list">
+                        <span class="accessory-tag">
+                            <span class="material-symbols-outlined">verified</span>
+                            Safety Manual
+                        </span>
+                        <span class="accessory-tag">
+                            <span class="material-symbols-outlined">support_agent</span>
+                            24/7 Support
+                        </span>
+                        <span class="accessory-tag">
+                            <span class="material-symbols-outlined">local_shipping</span>
+                            Free Delivery
+                        </span>
+                    </div>
                 </div>
             </div>
-        </div>
+        }
     </div>
 </main>
 
+<script>
+    function showTab(tabName) {
+        // Hide all tabs
+        document.getElementById('description-tab').style.display = 'none';
+        document.getElementById('specifications-tab').style.display = 'none';
+        document.getElementById('terms-tab').style.display = 'none';
+        document.getElementById('reviews-tab').style.display = 'none';
+
+        // Remove active class from all buttons
+        document.querySelectorAll('.tab-button').forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        // Show selected tab
+        document.getElementById(tabName + '-tab').style.display = 'block';
+
+        // Add active class to clicked button
+        event.target.classList.add('active');
+    }
+</script>
