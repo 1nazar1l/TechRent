@@ -754,3 +754,39 @@
     color: #ef4444;
     font-variation-settings: 'FILL' 1;
 }
+
+.day.booked {
+    background-color: #fee2e2;
+    color: #991b1b;
+    cursor: not-allowed;
+    position: relative;
+}
+
+    .day.booked::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 4px;
+        height: 4px;
+        background-color: #ef4444;
+        border-radius: 50%;
+    }
+
+.day.selected-start {
+    background-color: #3b82f6;
+    color: white;
+    border-radius: 8px 0 0 8px;
+}
+
+.day.selected-end {
+    background-color: #3b82f6;
+    color: white;
+    border-radius: 0 8px 8px 0;
+}
+
+.day.selected {
+    background-color: #93c5fd;
+    color: white;
+}

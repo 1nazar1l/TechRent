@@ -1,7 +1,9 @@
-﻿@model TechRent.Models.Entities.Equipment
-@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.AspNetCore.Identity
+@using System.Globalization
+@model TechRent.Models.Entities.Equipment
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+
 @{
     ViewData["Title"] = Model?.Name ?? "Product Details";
     ViewData["css"] = "product";
@@ -125,51 +127,42 @@
                             <div class="calendar">
                                 <!-- Calendar Header -->
                                 <div class="calendar-header">
-                                    <button class="calendar-nav">
+                                    <button class="calendar-nav" onclick="changeMonth(-1)">
                                         <span class="material-symbols-outlined">chevron_left</span>
                                     </button>
-                                    <span class="calendar-month">@DateTime.Now.ToString("MMMM yyyy")</span>
-                                    <button class="calendar-nav">
+                                    <span class="calendar-month" id="currentMonth">@DateTime.Now.ToString("MMMM yyyy")</span>
+                                    <button class="calendar-nav" onclick="changeMonth(1)">
                                         <span class="material-symbols-outlined">chevron_right</span>
                                     </button>
                                 </div>
 
                                 <!-- Calendar Grid -->
-                                <div class="calendar-grid">
-                                    <span class="weekday">Su</span>
-                                    <span class="weekday">Mo</span>
-                                    <span class="weekday">Tu</span>
-                                    <span class="weekday">We</span>
-                                    <span class="weekday">Th</span>
-                                    <span class="weekday">Fr</span>
-                                    <span class="weekday">Sa</span>
+                                <div class="calendar-grid" id="calendarGrid"></div>
+                            </div>
 
-                                    @{
-                                        var today = DateTime.Now;
-                                        var firstDayOfMonth = new DateTime(today.Year, today.Month, 1);
-                                        var daysInMonth = DateTime.DaysInMonth(today.Year, today.Month);
-                                        var startDayOfWeek = (int)firstDayOfMonth.DayOfWeek;
-                                    }
-
-                                    <!-- Empty cells for days before month start -->
-                                    @for (int i = 0; i < startDayOfWeek; i++)
-                                    {
-                                        <span></span>
-                                    }
-
-                                    <!-- Days of month -->
-                                    @for (int day = 1; day <= daysInMonth; day++)
-                                    {
-                                        var currentDate = new DateTime(today.Year, today.Month, day);
-                                        if (currentDate < today)
-                                        {
-                                            <span class="day disabled">@day</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="day">@day</span>
-                                        }
-                                    }
+                            <!-- Инструкции по использованию -->
+                            <div style="margin-top: 16px; padding: 12px; background: #f8fafc; border-radius: 8px; font-size: 13px; color: #64748b;">
+                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                                    <span class="material-symbols-outlined" style="font-size: 18px;">info</span>
+                                    <span style="font-weight: 500;">How to select dates:</span>
+                                </div>
+                                <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+                                    <div style="display: flex; align-items: center; gap: 4px;">
+                                        <span class="material-symbols-outlined" style="font-size: 16px; color: #3b82f6;">mouse</span>
+                                        <span>Left click - Start date</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 4px;">
+                                        <span class="material-symbols-outlined" style="font-size: 16px; color: #3b82f6;">mouse</span>
+                                        <span>Right click - End date</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 4px;">
+                                        <span class="material-symbols-outlined" style="font-size: 16px; color: #3b82f6;">touch_app</span>
+                                        <span>Tap - Start date</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 4px;">
+                                        <span class="material-symbols-outlined" style="font-size: 16px; color: #3b82f6;">touch_app</span>
+                                        <span>Long press - End date</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -428,4 +421,318 @@
                 </text>
         }
     }
+
+</script>
+<script>
+    let currentDate = new Date();
+    let selectedStartDate = null;
+    let selectedEndDate = null;
+    const equipmentId = @Model.Id;
+
+    // Для определения длинного нажатия на телефонах
+    let pressTimer;
+    let isLongPress = false;
+
+    // Загружаем забронированные даты для этого оборудования
+    let bookedDates = [];
+
+    // Функция для загрузки забронированных дат
+    async function loadBookedDates() {
+        try {
+            const response = await fetch(`/Booking/GetBookedDates?equipmentId=${equipmentId}`);
+            if (response.ok) {
+                bookedDates = await response.json();
+                renderCalendar();
+            }
+        } catch (error) {
+            console.error('Error loading booked dates:', error);
+            renderCalendar();
+        }
+    }
+
+    function renderCalendar() {
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth();
+
+        document.getElementById('currentMonth').textContent =
+            currentDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+        const startDayOfWeek = firstDay.getDay(); // 0 = Sunday
+
+        let calendarHTML = '';
+
+        // Сначала добавляем заголовки дней недели
+        const weekdays = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+        weekdays.forEach(day => {
+            calendarHTML += `<span class="weekday">${day}</span>`;
+        });
+
+        // Add empty cells for days before month starts
+        for (let i = 0; i < startDayOfWeek; i++) {
+            calendarHTML += '<span></span>';
+        }
+
+        // Add days of month
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        for (let day = 1; day <= lastDay.getDate(); day++) {
+            const date = new Date(year, month, day);
+            date.setHours(0, 0, 0, 0);
+
+            const yearStr = date.getFullYear();
+            const monthStr = String(date.getMonth() + 1).padStart(2, '0');
+            const dayStr = String(date.getDate()).padStart(2, '0');
+            const dateString = `${yearStr}-${monthStr}-${dayStr}`;
+
+            const isPast = date < today;
+            const isBooked = bookedDates.includes(dateString);
+
+            let classes = 'day';
+            if (isPast) classes += ' disabled';
+            if (isBooked) classes += ' booked';
+
+            // Проверяем, является ли этот день выбранным
+            if (selectedStartDate && selectedEndDate) {
+                const startParts = selectedStartDate.split('-');
+                const endParts = selectedEndDate.split('-');
+
+                const start = new Date(parseInt(startParts[0]), parseInt(startParts[1]) - 1, parseInt(startParts[2]));
+                const end = new Date(parseInt(endParts[0]), parseInt(endParts[1]) - 1, parseInt(endParts[2]));
+                start.setHours(0, 0, 0, 0);
+                end.setHours(0, 0, 0, 0);
+
+                if (date >= start && date <= end) {
+                    if (dateString === selectedStartDate) {
+                        classes += ' selected-start';
+                    } else if (dateString === selectedEndDate) {
+                        classes += ' selected-end';
+                    } else {
+                        classes += ' selected';
+                    }
+                }
+            } else if (selectedStartDate && dateString === selectedStartDate) {
+                classes += ' selected-start';
+            }
+
+            calendarHTML += `<span class="${classes}"
+                data-date="${dateString}"
+                data-day="${day}"
+                oncontextmenu="handleRightClick(event, '${dateString}')"
+                onclick="handleLeftClick(event, '${dateString}')"
+                onmousedown="startPressTimer(event, '${dateString}')"
+                onmouseup="cancelPressTimer()"
+                onmouseleave="cancelPressTimer()"
+                ontouchstart="startPressTimer(event, '${dateString}')"
+                ontouchend="handleTouchEnd(event, '${dateString}')"
+                ontouchmove="cancelPressTimer()"
+                ontouchcancel="cancelPressTimer()">${day}</span>`;
+        }
+
+        document.getElementById('calendarGrid').innerHTML = calendarHTML;
+        updatePriceCalculation();
+    }
+
+    // Обработчик левого клика (стартовая дата)
+    function handleLeftClick(event, dateString) {
+        event.preventDefault();
+        if (isLongPress) {
+            isLongPress = false;
+            return;
+        }
+        selectDate(dateString, 'start');
+    }
+
+    // Обработчик правого клика (конечная дата)
+    function handleRightClick(event, dateString) {
+        event.preventDefault(); // Отключаем стандартное контекстное меню
+        selectDate(dateString, 'end');
+        return false;
+    }
+
+    // Таймер для длинного нажатия
+    function startPressTimer(event, dateString) {
+        if (event.type === 'mousedown' && event.button !== 0) return; // Только левая кнопка мыши
+        if (event.type === 'touchstart') {
+            event.preventDefault();
+        }
+
+        cancelPressTimer();
+        pressTimer = setTimeout(() => {
+            isLongPress = true;
+            selectDate(dateString, 'end');
+        }, 500); // 500ms для длинного нажатия
+    }
+
+    function cancelPressTimer() {
+        if (pressTimer) {
+            clearTimeout(pressTimer);
+            pressTimer = null;
+        }
+    }
+
+    function handleTouchEnd(event, dateString) {
+        cancelPressTimer();
+        if (!isLongPress) {
+            selectDate(dateString, 'start');
+        }
+        isLongPress = false;
+    }
+
+    function selectDate(dateString, type) {
+        // Создаем дату правильно, учитывая часовой пояс
+        const dateParts = dateString.split('-');
+        const year = parseInt(dateParts[0]);
+        const month = parseInt(dateParts[1]) - 1; // Месяцы в JS от 0 до 11
+        const day = parseInt(dateParts[2]);
+
+        const selectedDate = new Date(year, month, day);
+        selectedDate.setHours(0, 0, 0, 0);
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        // Don't allow selecting past dates
+        if (selectedDate < today) return;
+
+        // Don't allow selecting booked dates
+        if (bookedDates.includes(dateString)) return;
+
+        if (type === 'start') {
+            // Set start date
+            selectedStartDate = dateString;
+            selectedEndDate = null;
+            console.log('Selected start date:', selectedStartDate);
+        } else if (type === 'end') {
+            if (!selectedStartDate) {
+                // If no start date, set as start
+                selectedStartDate = dateString;
+                selectedEndDate = null;
+                console.log('Selected start date:', selectedStartDate);
+            } else {
+                const startParts = selectedStartDate.split('-');
+                const startYear = parseInt(startParts[0]);
+                const startMonth = parseInt(startParts[1]) - 1;
+                const startDay = parseInt(startParts[2]);
+
+                const start = new Date(startYear, startMonth, startDay);
+                start.setHours(0, 0, 0, 0);
+
+                const end = new Date(year, month, day);
+                end.setHours(0, 0, 0, 0);
+
+                if (end < start) {
+                    // If end date is before start date, swap
+                    selectedStartDate = dateString;
+                    selectedEndDate = null;
+                } else {
+                    // Check if any dates in range are booked
+                    let hasBookedDate = false;
+                    const checkDate = new Date(start);
+                    while (checkDate <= end) {
+                        const checkYear = checkDate.getFullYear();
+                        const checkMonth = String(checkDate.getMonth() + 1).padStart(2, '0');
+                        const checkDay = String(checkDate.getDate()).padStart(2, '0');
+                        const checkDateString = `${checkYear}-${checkMonth}-${checkDay}`;
+
+                        if (bookedDates.includes(checkDateString)) {
+                            hasBookedDate = true;
+                            break;
+                        }
+                        checkDate.setDate(checkDate.getDate() + 1);
+                    }
+
+                    if (!hasBookedDate) {
+                        selectedEndDate = dateString;
+                        console.log('Selected end date:', selectedEndDate);
+                    } else {
+                        alert('Some dates in this range are already booked. Please select a different range.');
+                        selectedStartDate = null;
+                        selectedEndDate = null;
+                    }
+                }
+            }
+        }
+
+        renderCalendar();
+    }
+
+    function changeMonth(delta) {
+        currentDate.setMonth(currentDate.getMonth() + delta);
+        renderCalendar();
+    }
+
+    function updatePriceCalculation() {
+        const calculationDiv = document.querySelector('.calculation');
+        if (!calculationDiv) return;
+
+        if (selectedStartDate && selectedEndDate) {
+            const startParts = selectedStartDate.split('-');
+            const endParts = selectedEndDate.split('-');
+
+            const start = new Date(parseInt(startParts[0]), parseInt(startParts[1]) - 1, parseInt(startParts[2]));
+            const end = new Date(parseInt(endParts[0]), parseInt(endParts[1]) - 1, parseInt(endParts[2]));
+
+            start.setHours(0, 0, 0, 0);
+            end.setHours(0, 0, 0, 0);
+
+            const diffTime = Math.abs(end - start);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+            const pricePerDay = @Model.PricePerDay;
+            const deposit = @Model.Deposit;
+            const serviceFee = 250;
+
+            const rentalTotal = pricePerDay * diffDays;
+            const totalDue = rentalTotal + serviceFee + deposit;
+
+            const calculationHTML = `
+                <div class="calculation-row">
+                    <span>$${pricePerDay.toLocaleString()} x ${diffDays} days</span>
+                    <span>$${rentalTotal.toLocaleString()}</span>
+                </div>
+                <div class="calculation-row">
+                    <span>Service Fee</span>
+                    <span>$${serviceFee.toLocaleString()}</span>
+                </div>
+                <div class="calculation-row total">
+                    <span>Total Due Now</span>
+                    <span class="total-amount">$${totalDue.toLocaleString()}</span>
+                </div>
+                <p class="calculation-note">(Includes $${deposit.toLocaleString()} refundable deposit)</p>
+            `;
+
+            calculationDiv.innerHTML = calculationHTML;
+        } else if (selectedStartDate) {
+            const pricePerDay = @Model.PricePerDay;
+            const deposit = @Model.Deposit;
+            const serviceFee = 250;
+
+            const calculationHTML = `
+                <div class="calculation-row">
+                    <span>$${pricePerDay.toLocaleString()} x 1 day (min)</span>
+                    <span>$${pricePerDay.toLocaleString()}</span>
+                </div>
+                <div class="calculation-row">
+                    <span>Service Fee</span>
+                    <span>$${serviceFee.toLocaleString()}</span>
+                </div>
+                <div class="calculation-row total">
+                    <span>Total Due Now</span>
+                    <span class="total-amount">$${(pricePerDay + serviceFee + deposit).toLocaleString()}</span>
+                </div>
+                <p class="calculation-note">(Includes $${deposit.toLocaleString()} refundable deposit)</p>
+                <p class="calculation-note" style="color: #64748b;">Use right click or long press to select end date</p>
+            `;
+
+            calculationDiv.innerHTML = calculationHTML;
+        }
+    }
+
+    // Load booked dates when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        loadBookedDates();
+    });
 </script>
