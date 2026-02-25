@@ -219,7 +219,9 @@
                                     </div>
                                     @if (item.AvailableQuantity > 0)
                                     {
-                                        <button class="book-button" onclick="location.href='@Url.Action("Details", "Equipment", new { id = item.Id })'">Book Now</button>
+                                        <a href="@Url.Action("Index", "Product", new { id = item.Id })" class="book-button" style="text-decoration: none;">
+                                            Book Now
+                                        </a>
                                     }
                                     else
                                     {
