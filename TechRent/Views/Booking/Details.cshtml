@@ -1,0 +1,232 @@
+﻿@{
+    ViewData["Title"] = "Rental Details - TECHRENT";
+    ViewData["css"] = "booking-detail";
+}
+
+<main class="main-content">
+    <div class="rental-details-container">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb">
+            <a href="#" class="breadcrumb-link">Home</a>
+            <span class="material-symbols-outlined">chevron_right</span>
+            <a href="#" class="breadcrumb-link">My Bookings</a>
+            <span class="material-symbols-outlined">chevron_right</span>
+            <span class="breadcrumb-current">Rental Details #TR-8821</span>
+        </nav>
+
+        <!-- Page Header with Status -->
+        <div class="details-header">
+            <div>
+                <h1 class="page-title">Rental Details</h1>
+                <p class="booking-reference">Booking Reference: <strong>#TR-8821</strong></p>
+            </div>
+            <div class="status-badge-group">
+                <span class="status-badge status-active">Active</span>
+                <span class="status-badge status-urgent">1 day left</span>
+            </div>
+        </div>
+
+        <!-- Main Grid Layout -->
+        <div class="details-grid">
+            <!-- Left Column - Equipment Info -->
+            <div class="equipment-section">
+                <div class="equipment-card">
+                    <div class="equipment-image">
+                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMxFWi-7ufhizbKynqVbbaC0ons-FvZx53FCAerXfgEYXzqULqu9QwEKwNILcVol1tbYZb3uB4S8HqIYrCTqYSD_cRxmqR0MZa0rla81MhXOqvfuGrKPpyswOEh-c8R3a8KiPLGdeMCCMKqjXSESr00wY3stQ3GfgZBEas5DRzfWAKoaVILnuHZrUE7FvdMY7EEkOGykJFkb4gOfkWGFlRpH19Kab3qzxNYxxq8yNvNJ3m8sR1Xk9lep0hSIEzMm9EpNk7yPViJP8" alt="Concrete Mixer X200">
+                    </div>
+                    <div class="equipment-info">
+                        <h2 class="equipment-title">Concrete Mixer X200</h2>
+                        <p class="equipment-category">Heavy-duty portable mixer, 5 cu. ft. capacity</p>
+
+                        <div class="equipment-specs">
+                            <div class="spec-item">
+                                <span class="spec-icon material-symbols-outlined">fitness_center</span>
+                                <div>
+                                    <span class="spec-label">Weight</span>
+                                    <span class="spec-value">65 kg</span>
+                                </div>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-icon material-symbols-outlined">settings</span>
+                                <div>
+                                    <span class="spec-label">Power</span>
+                                    <span class="spec-value">1000 W</span>
+                                </div>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-icon material-symbols-outlined">recycling</span>
+                                <div>
+                                    <span class="spec-label">Capacity</span>
+                                    <span class="spec-value">220 L</span>
+                                </div>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-icon material-symbols-outlined">bolt</span>
+                                <div>
+                                    <span class="spec-label">Voltage</span>
+                                    <span class="spec-value">230 V</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rental Summary Card -->
+                <div class="summary-card">
+                    <h3 class="summary-title">Rental Summary</h3>
+
+                    <div class="summary-grid">
+                        <div class="summary-row">
+                            <span class="summary-label">Start Date</span>
+                            <span class="summary-value">May 15, 2024 <span class="time">(10:00 AM)</span></span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">End Date</span>
+                            <span class="summary-value highlight">May 20, 2024 <span class="time">(10:00 AM)</span></span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">Duration</span>
+                            <span class="summary-value">5 days</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">Pickup Location</span>
+                            <span class="summary-value">TechRent Depot #12, 123 Industrial Ave</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">Return Location</span>
+                            <span class="summary-value">Same as pickup</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Payment & Actions -->
+            <div class="payment-section">
+                <!-- Payment Breakdown Card -->
+                <div class="payment-card">
+                    <h3 class="payment-title">Payment Breakdown</h3>
+
+                    <div class="breakdown-list">
+                        <div class="breakdown-item">
+                            <span>Daily Rate (x5 days)</span>
+                            <span>$225.00</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Service Fee</span>
+                            <span>$25.00</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Delivery Fee</span>
+                            <span>$35.00</span>
+                        </div>
+                        <div class="breakdown-item deposit">
+                            <span>Refundable Deposit</span>
+                            <span>$200.00</span>
+                        </div>
+                        <div class="breakdown-item total">
+                            <span>Total Charged</span>
+                            <span>$485.00</span>
+                        </div>
+                    </div>
+
+                    <div class="payment-status">
+                        <span class="payment-badge paid">
+                            <span class="material-symbols-outlined">check_circle</span>
+                            Payment Completed
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Delivery Info Card -->
+                <div class="delivery-card">
+                    <h3 class="delivery-title">Delivery Information</h3>
+
+                    <div class="delivery-status">
+                        <div class="delivery-step completed">
+                            <span class="step-dot"></span>
+                            <div>
+                                <span class="step-label">Order Confirmed</span>
+                                <span class="step-date">May 14, 2024 - 2:30 PM</span>
+                            </div>
+                        </div>
+                        <div class="delivery-step completed">
+                            <span class="step-dot"></span>
+                            <div>
+                                <span class="step-label">Dispatched</span>
+                                <span class="step-date">May 15, 2024 - 8:15 AM</span>
+                            </div>
+                        </div>
+                        <div class="delivery-step active">
+                            <span class="step-dot"></span>
+                            <div>
+                                <span class="step-label">Out for Delivery</span>
+                                <span class="step-date">Expected by 10:00 AM</span>
+                            </div>
+                        </div>
+                        <div class="delivery-step pending">
+                            <span class="step-dot"></span>
+                            <div>
+                                <span class="step-label">Delivered</span>
+                                <span class="step-date">Pending</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="button-primary">
+                        <span class="material-symbols-outlined">update</span>
+                        Extend Rental
+                    </button>
+                    <button class="button-secondary">
+                        <span class="material-symbols-outlined">support_agent</span>
+                        Contact Support
+                    </button>
+                    <button class="button-secondary">
+                        <span class="material-symbols-outlined">receipt_long</span>
+                        Download Receipt
+                    </button>
+                    <button class="button-secondary">
+                        <span class="material-symbols-outlined">location_on</span>
+                        Track Delivery
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Info Section -->
+        <div class="additional-section">
+            <div class="terms-card">
+                <h3 class="terms-title">Rental Terms & Conditions</h3>
+                <ul class="terms-list">
+                    <li>Late returns subject to additional daily fee of $45</li>
+                    <li>Equipment must be returned clean and in working condition</li>
+                    <li>Operator must be 18+ years of age with valid ID</li>
+                    <li>Deposit will be refunded within 5-7 business days after return</li>
+                    <li>Damage waiver included in service fee</li>
+                </ul>
+            </div>
+
+            <div class="contact-card">
+                <h3 class="contact-title">Need Help?</h3>
+                <p class="contact-text">Our support team is available 24/7</p>
+                <div class="contact-methods">
+                    <a href="#" class="contact-method">
+                        <span class="material-symbols-outlined">call</span>
+                        <span>+1 (800) 555-0123</span>
+                    </a>
+                    <a href="#" class="contact-method">
+                        <span class="material-symbols-outlined">chat</span>
+                        <span>Live Chat</span>
+                    </a>
+                    <a href="#" class="contact-method">
+                        <span class="material-symbols-outlined">email</span>
+                        <span>support@techrent.com</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+

@@ -37,6 +37,21 @@ namespace TechRent.Controllers
             return View(bookings);
         }
 
+        // GET: Booking/Details/5
+        // GET: Booking/Details
+        public async Task<IActionResult> Details()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Challenge();
+            }
+
+            // Для статической страницы просто возвращаем View
+            // Можно передать тестовые данные или пустую модель
+            return View();
+        }
+
         // GET: api/Booking/GetBookedDates - используется на странице товара для календаря
         [HttpGet]
         public async Task<IActionResult> GetBookedDates(int equipmentId)
