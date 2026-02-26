@@ -19,6 +19,25 @@ namespace TechRent.Controllers
             _userManager = userManager;
         }
 
+        // GET: Booking/Index - страница со всеми бронированиями пользователя
+        public async Task<IActionResult> Index()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Challenge();
+            }
+
+            var bookings = await _context.Bookings
+                .Include(b => b.Equipment)
+                .Where(b => b.UserId == user.Id)
+                .OrderByDescending(b => b.StartDate)
+                .ToListAsync();
+
+            return View(bookings);
+        }
+
+        // GET: api/Booking/GetBookedDates - используется на странице товара для календаря
         [HttpGet]
         public async Task<IActionResult> GetBookedDates(int equipmentId)
         {
@@ -41,6 +60,7 @@ namespace TechRent.Controllers
             return Json(bookedDates);
         }
 
+        // POST: api/Booking/CreateBooking - используется на странице товара для оформления аренды
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateBooking([FromBody] CreateBookingRequest request)

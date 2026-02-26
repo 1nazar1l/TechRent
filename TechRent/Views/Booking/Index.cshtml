@@ -1,0 +1,425 @@
+﻿@{
+    ViewData["Title"] = "My Rentals - TECHRENT";
+    ViewData["css"] = "booking";
+}
+
+<main class="main-content">
+    <div class="rentals-container">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb">
+            <a href="#" class="breadcrumb-link">Home</a>
+            <span class="material-symbols-outlined">chevron_right</span>
+            <a href="#" class="breadcrumb-link">Profile</a>
+            <span class="material-symbols-outlined">chevron_right</span>
+            <span class="breadcrumb-current">My Rentals</span>
+        </nav>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">My Rentals</h1>
+                <p class="page-description">View and manage all your equipment rentals</p>
+            </div>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="rentals-tabs">
+            <button class="tab-button active" data-tab="all">All Rentals</button>
+            <button class="tab-button" data-tab="active">Active</button>
+            <button class="tab-button" data-tab="upcoming">Upcoming</button>
+            <button class="tab-button" data-tab="completed">Completed</button>
+            <button class="tab-button" data-tab="cancelled">Cancelled</button>
+        </div>
+
+        <!-- Toolbar with Sort -->
+        <div class="rentals-toolbar">
+            <div class="results-count">
+                <span class="count-number">24</span>
+                <span class="count-text">rentals total</span>
+            </div>
+
+            <div class="sort-control">
+                <label for="sort-select" class="sort-label">Sort by:</label>
+                <select id="sort-select" class="sort-select">
+                    <option value="newest">Newest first</option>
+                    <option value="oldest">Oldest first</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="duration">Duration: Longest first</option>
+                </select>
+                <span class="sort-icon material-symbols-outlined">unfold_more</span>
+            </div>
+        </div>
+
+        <!-- Rentals List -->
+        <div class="rentals-list">
+            <!-- Active Rental (urgent) -->
+            <div class="rental-card active">
+                <div class="rental-status-bar">
+                    <span class="status-badge status-urgent">1 day left</span>
+                    <span class="rental-id">#TR-8821</span>
+                </div>
+                <div class="rental-content">
+                    <div class="rental-image">
+                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMxFWi-7ufhizbKynqVbbaC0ons-FvZx53FCAerXfgEYXzqULqu9QwEKwNILcVol1tbYZb3uB4S8HqIYrCTqYSD_cRxmqR0MZa0rla81MhXOqvfuGrKPpyswOEh-c8R3a8KiPLGdeMCCMKqjXSESr00wY3stQ3GfgZBEas5DRzfWAKoaVILnuHZrUE7FvdMY7EEkOGykJFkb4gOfkWGFlRpH19Kab3qzxNYxxq8yNvNJ3m8sR1Xk9lep0hSIEzMm9EpNk7yPViJP8" alt="Concrete Mixer X200">
+                    </div>
+                    <div class="rental-info">
+                        <div class="rental-header">
+                            <h3 class="rental-title">Concrete Mixer X200</h3>
+                            <span class="rental-category">Heavy Equipment</span>
+                        </div>
+                        <p class="rental-description">Heavy-duty portable mixer, 5 cu. ft. capacity</p>
+
+                        <div class="rental-dates">
+                            <div class="date-item">
+                                <span class="date-icon material-symbols-outlined">event</span>
+                                <div>
+                                    <span class="date-label">Start</span>
+                                    <span class="date-value">May 15, 2024</span>
+                                </div>
+                            </div>
+                            <div class="date-item">
+                                <span class="date-icon material-symbols-outlined">event_busy</span>
+                                <div>
+                                    <span class="date-label">End</span>
+                                    <span class="date-value highlight">May 20, 2024</span>
+                                </div>
+                            </div>
+                            <div class="date-item">
+                                <span class="date-icon material-symbols-outlined">schedule</span>
+                                <div>
+                                    <span class="date-label">Duration</span>
+                                    <span class="date-value">5 days</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rental-footer">
+                            <div class="rental-price">
+                                <span class="price-label">Total</span>
+                                <span class="price-value">$225.00</span>
+                            </div>
+                            <div class="rental-actions">
+                                <a href="#" class="action-link">View Details</a>
+                                <button class="action-button">Extend</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Rental -->
+            <div class="rental-card active">
+                <div class="rental-status-bar">
+                    <span class="status-badge status-active">Active</span>
+                    <span class="rental-id">#TR-8932</span>
+                </div>
+                <div class="rental-content">
+                    <div class="rental-image">
+                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXVl4LMzze5_xCRMiGtgyedniiQY4nSsjfaBFO0opclPVBQIEU6fpZPe3X6ZEXJz8VOYSnGcytPF_y4weBUp8NJU_qRu0zXAA50r7BKy_maxnYy-8F5uuUiPM0HyIcXMPzPiSeRM2v-EGXpskUq1JBQNo72jArWs1l8OPBALQUwNADQFhxdMsSvqAazPX3SmiAc6ZIyhFLRFcZ-wyk903p4yRf45tvXegJbFycMBcEh24BoP1Wvr7K8FqeRvyAYM6AoYcs3wuexP4" alt="CAT 305 Mini Excavator">
+                    </div>
+                    <div class="rental-info">
+                        <div class="rental-header">
+                            <h3 class="rental-title">CAT 305 Mini Excavator</h3>
+                            <span class="rental-category">Earthmoving</span>
+                        </div>
+                        <p class="rental-description">Compact radius design for tight spaces</p>
+
+                        <div class="rental-dates">
+                            <div class="date-item">
+                                <span class="date-icon material-symbols-outlined">event</span>
+                                <div>
+                                    <span class="date-label">Start</span>
+                                    <span class="date-value">May 10, 2024</span>
+                                </div>
+                            </div>
+                            <div class="date-item">
+                                <span class="date-icon material-symbols-outlined">event_busy</span>
+                                <div>
+                                    <span class="date-label">End</span>
+                                    <span class="date-value">May 25, 2024</span>
+                                </div>
+                            </div>
+                            <div class="date-item">
+                                <span class="date-icon material-symbols-outlined">schedule</span>
+                                <div>
+                                    <span class="date-label">Duration</span>
+                                    <span class="date-value">15 days</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rental-footer">
+                            <div class="rental-price">
+                                <span class="price-label">Total</span>
+                                <span class="price-value">$5,250.00</span>
+                            </div>
+                            <div class="rental-actions">
+                                <a href="#" class="action-link">View Details</a>
+                                <button class="action-button">Extend</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Rental -->
+            <div class="rental-card upcoming">
+                <div class="rental-status-bar">
+                    <span class="status-badge status-upcoming">Upcoming</span>
+                    <span class="rental-id">#TR-9045</span>
+                </div>
+                <div class="rental-content">
+                    <div class="rental-image">
+                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7rTbYJv6ucvXnPyCaV-uptPw_9b_vknoMiaN5Yzuir_Y1gZPM27jDedAMJns6L2S2WAw8sAIn484zAgcg7kZA1W_odCRY5K642xQanAmgR43-pYV6Jyd5fGMo1nD6Wb0vSnlydel58UjS_Ea-YfcH72CzNO6HJrN3ijeHojuw7_ewsjK9awOal5ASmNcHJ9X1iIwIqB71pbNIVffPDjPwCiHo3h3ckjCUaozocDRzln76OAHppfe4tAgK7U2tH2Ab3KSQr1ZGDB4" alt="JLG Scissor Lift">
+                    </div>
+                    <div class="rental-info">
+                        <div class="rental-header">
+                            <h3 class="rental-title">JLG 1930ES Scissor Lift</h3>
+                            <span class="rental-category">Aerial Lifts</span>
+                        </div>
+                        <p class="rental-description">Electric drive, indoor use friendly</p>
+
+                        <div class="rental-dates">
+                            <div class="date-item">
+                                <span class="date-icon material-symbols-outlined">event</span>
+                                <div>
+                                    <span class="date-label">Start</span>
+                                    <span class="date-value">Jun 01, 2024</span>
+                                </div>
+                            </div>
+                            <div class="date-item">
+                                <span class="date-icon material-symbols-outlined">event_busy</span>
+                                <div>
+                                    <span class="date-label">End</span>
+                                    <span class="date-value">Jun 04, 2024</span>
+                                </div>
+                            </div>
+                            <div class="date-item">
+                                <span class="date-icon material-symbols-outlined">schedule</span>
+                                <div>
+                                    <span class="date-label">Duration</span>
+                                    <span class="date-value">3 days</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rental-footer">
+                            <div class="rental-price">
+                                <span class="price-label">Total</span>
+                                <span class="price-value">$360.00</span>
+                            </div>
+                            <div class="rental-actions">
+                                <a href="#" class="action-link">View Details</a>
+                                <button class="action-button">Modify</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Completed Rental -->
+            <div class="rental-card completed">
+                <div class="rental-status-bar">
+                    <span class="status-badge status-completed">Completed</span>
+                    <span class="rental-id">#TR-8341</span>
+                </div>
+                <div class="rental-content">
+                    <div class="rental-image">
+                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfIPUE2n_BWqZOqydtrgilJ-sq41hXlwXUc5e2iQeiW-yBrBm15Tis6nclF75D05TlftvyFAOvaihMfbyoPCxhFHaGL2UACC0xAEpyeSTlYg9WxAdk_6nu5L5sUDNaHB_EKFjAgXq0lAoiCVF8hXrHPzPytou0tAle5m2_TsUU1-T_UDCK1Rw3Gu0QwQW8DdBwMocP52VcwR-UzwvtbhVDVzBjM1JgozuLgncm9kWmCruWnM4qPImwZhNJ3FDMh53MSfa3F3lDoe4" alt="Bobcat S70 Skid Steer">
+                    </div>
+                    <div class="rental-info">
+                        <div class="rental-header">
+                            <h3 class="rental-title">Bobcat S70 Skid Steer</h3>
+                            <span class="rental-category">Earthmoving</span>
+                        </div>
+                        <p class="rental-description">Versatile loader for small jobs</p>
+
+                        <div class="rental-dates">
+                            <div class="date-item">
+                                <span class="date-icon material-symbols-outlined">event</span>
+                                <div>
+                                    <span class="date-label">Start</span>
+                                    <span class="date-value">Apr 22, 2024</span>
+                                </div>
+                            </div>
+                            <div class="date-item">
+                                <span class="date-icon material-symbols-outlined">event_busy</span>
+                                <div>
+                                    <span class="date-label">End</span>
+                                    <span class="date-value">Apr 28, 2024</span>
+                                </div>
+                            </div>
+                            <div class="date-item">
+                                <span class="date-icon material-symbols-outlined">schedule</span>
+                                <div>
+                                    <span class="date-label">Duration</span>
+                                    <span class="date-value">6 days</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rental-footer">
+                            <div class="rental-price">
+                                <span class="price-label">Total</span>
+                                <span class="price-value">$1,320.00</span>
+                            </div>
+                            <div class="rental-actions">
+                                <a href="#" class="action-link">View Details</a>
+                                <button class="action-button">Rent Again</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cancelled Rental -->
+            <div class="rental-card cancelled">
+                <div class="rental-status-bar">
+                    <span class="status-badge status-cancelled">Cancelled</span>
+                    <span class="rental-id">#TR-8123</span>
+                </div>
+                <div class="rental-content">
+                    <div class="rental-image">
+                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFDJcxBCEq1RlzbZEICaCIxJ7irDFK8l5h75s0tgfKe0FExvzXazXE8UcRtqkN4FVaFrWx1wQVdCDdEYLTNvSoKKrTo6Ifb52oo1br0fcrVQtyWse04L9xOulcF0KwqB_VffQdRNmeHmYnOxKL4yNaV1Nr9UwnwjP6JaE0xtZrUixtxeo0qQmNxhrg7WbPrcgC0PkAwm7Mv-s9pt6HWB9zzQl9fp98UlH9SM1YuSwkF_wfMRlSj-goUula4_YGUANMJ5SjtbCdV0A" alt="Portable Cement Mixer">
+                    </div>
+                    <div class="rental-info">
+                        <div class="rental-header">
+                            <h3 class="rental-title">Portable Cement Mixer</h3>
+                            <span class="rental-category">Power Tools</span>
+                        </div>
+                        <p class="rental-description">9 cu. ft. capacity, gas powered</p>
+
+                        <div class="rental-dates">
+                            <div class="date-item">
+                                <span class="date-icon material-symbols-outlined">event</span>
+                                <div>
+                                    <span class="date-label">Start</span>
+                                    <span class="date-value">May 05, 2024</span>
+                                </div>
+                            </div>
+                            <div class="date-item">
+                                <span class="date-icon material-symbols-outlined">event_busy</span>
+                                <div>
+                                    <span class="date-label">End</span>
+                                    <span class="date-value">May 08, 2024</span>
+                                </div>
+                            </div>
+                            <div class="date-item">
+                                <span class="date-icon material-symbols-outlined">schedule</span>
+                                <div>
+                                    <span class="date-label">Duration</span>
+                                    <span class="date-value">3 days</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rental-footer">
+                            <div class="rental-price">
+                                <span class="price-label">Total</span>
+                                <span class="price-value">$195.00</span>
+                            </div>
+                            <div class="rental-actions">
+                                <a href="#" class="action-link">View Details</a>
+                                <span class="cancelled-note">Full refund processed</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Completed Rental with Review -->
+            <div class="rental-card completed">
+                <div class="rental-status-bar">
+                    <span class="status-badge status-completed">Completed</span>
+                    <span class="rental-id">#TR-7982</span>
+                </div>
+                <div class="rental-content">
+                    <div class="rental-image">
+                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuC57EqyGbCY2kwl50e3bAhUr0V0nsQlr8Nw3KgWPSFtwfrItBjZ1oO51-JQMkAOYtGpTG_5LFM7TDmoVQA9Q22Fk2jiFBRjjKE4PcuJBNgrMYoVqpv9cRus5R9M7D55hEJxoUD66gn6Oyt5BCbrAWCNcyW2wdYuIcwX4WhOW-nAaQ78B7N7GyJ_Qt5sPim8ySwlTuxwAX3lvAr_v5XQDTkUK3LKPB3DOGQyvM4cG5aCZBl8JkBH23iXw0D0lyMuR8qRaagItn4MxvI" alt="Toyota Forklift">
+                    </div>
+                    <div class="rental-info">
+                        <div class="rental-header">
+                            <h3 class="rental-title">Toyota 8FGU25 Forklift</h3>
+                            <span class="rental-category">Material Handling</span>
+                        </div>
+                        <p class="rental-description">Pneumatic tire, LPG powered</p>
+
+                        <div class="rental-dates">
+                            <div class="date-item">
+                                <span class="date-icon material-symbols-outlined">event</span>
+                                <div>
+                                    <span class="date-label">Start</span>
+                                    <span class="date-value">Mar 15, 2024</span>
+                                </div>
+                            </div>
+                            <div class="date-item">
+                                <span class="date-icon material-symbols-outlined">event_busy</span>
+                                <div>
+                                    <span class="date-label">End</span>
+                                    <span class="date-value">Mar 20, 2024</span>
+                                </div>
+                            </div>
+                            <div class="date-item">
+                                <span class="date-icon material-symbols-outlined">schedule</span>
+                                <div>
+                                    <span class="date-label">Duration</span>
+                                    <span class="date-value">5 days</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rental-footer">
+                            <div class="rental-price">
+                                <span class="price-label">Total</span>
+                                <span class="price-value">$925.00</span>
+                            </div>
+                            <div class="rental-actions">
+                                <a href="#" class="action-link">View Details</a>
+                                <button class="action-button">Write a Review</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <nav class="pagination-list">
+                <a href="#" class="pagination-link">
+                    <span class="sr-only">Previous</span>
+                    <span class="material-symbols-outlined">chevron_left</span>
+                </a>
+                <a href="#" class="pagination-link pagination-link-active">1</a>
+                <a href="#" class="pagination-link">2</a>
+                <a href="#" class="pagination-link">3</a>
+                <span class="pagination-ellipsis">...</span>
+                <a href="#" class="pagination-link">8</a>
+                <a href="#" class="pagination-link">
+                    <span class="sr-only">Next</span>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </a>
+            </nav>
+        </div>
+    </div>
+</main>
+<script>
+    // Tab switching functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabButtons = document.querySelectorAll('.tab-button');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all tabs
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked tab
+                this.classList.add('active');
+
+                // Here you would typically filter the rentals list
+                // For demo purposes, we'll just log the selected tab
+                console.log('Selected tab:', this.dataset.tab);
+            });
+        });
+    });
+</script>
