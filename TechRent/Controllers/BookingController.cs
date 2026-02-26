@@ -30,6 +30,7 @@ namespace TechRent.Controllers
 
             var bookings = await _context.Bookings
                 .Include(b => b.Equipment)
+                    .ThenInclude(e => e.Category)
                 .Where(b => b.UserId == user.Id)
                 .OrderByDescending(b => b.StartDate)
                 .ToListAsync();
@@ -37,19 +38,32 @@ namespace TechRent.Controllers
             return View(bookings);
         }
 
-        // GET: Booking/Details/5
-        // GET: Booking/Details
-        public async Task<IActionResult> Details()
+        // GET: Booking/Details/5 - страница деталей конкретного бронирования
+        public async Task<IActionResult> Details(int? id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
                 return Challenge();
             }
 
-            // Для статической страницы просто возвращаем View
-            // Можно передать тестовые данные или пустую модель
-            return View();
+            var booking = await _context.Bookings
+                .Include(b => b.Equipment)
+                    .ThenInclude(e => e.Category)
+                .Include(b => b.Delivery)
+                .FirstOrDefaultAsync(b => b.Id == id && b.UserId == user.Id);
+
+            if (booking == null)
+            {
+                return NotFound();
+            }
+
+            return View(booking);
         }
 
         // GET: api/Booking/GetBookedDates - используется на странице товара для календаря

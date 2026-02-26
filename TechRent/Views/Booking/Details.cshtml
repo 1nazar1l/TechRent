@@ -1,28 +1,61 @@
-﻿@{
+﻿@model TechRent.Models.Entities.Booking
+@{
     ViewData["Title"] = "Rental Details - TECHRENT";
     ViewData["css"] = "booking";
 }
+
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
 
 <main class="main-content">
     <div class="rental-details-container">
         <!-- Breadcrumb -->
         <nav class="breadcrumb">
-            <a href="#" class="breadcrumb-link">Home</a>
+            <a href="@Url.Action("Index", "Home")" class="breadcrumb-link">Home</a>
             <span class="material-symbols-outlined">chevron_right</span>
-            <a href="#" class="breadcrumb-link">My Bookings</a>
+            <a href="@Url.Action("Index", "Booking")" class="breadcrumb-link">My Rentals</a>
             <span class="material-symbols-outlined">chevron_right</span>
-            <span class="breadcrumb-current">Rental Details #TR-8821</span>
+            <span class="breadcrumb-current">Rental Details #TR-@Model.Id.ToString("D4")</span>
         </nav>
+
+        @{
+            var daysLeft = (Model.EndDate - DateTime.Now).Days;
+            var isActive = Model.Status == "Подтверждено" && Model.StartDate <= DateTime.Now && Model.EndDate >= DateTime.Now;
+            var isUpcoming = Model.Status == "Подтверждено" && Model.StartDate > DateTime.Now;
+            var isCompleted = Model.Status == "Подтверждено" && Model.EndDate < DateTime.Now;
+            var isCancelled = Model.Status == "Отменено";
+            var totalDays = (Model.EndDate - Model.StartDate).Days + 1;
+            var serviceFee = 250;
+            var totalAmount = Model.TotalPrice + serviceFee + Model.DepositPaid;
+        }
 
         <!-- Page Header with Status -->
         <div class="details-header">
             <div>
                 <h1 class="page-title">Rental Details</h1>
-                <p class="booking-reference">Booking Reference: <strong>#TR-8821</strong></p>
+                <p class="booking-reference">Booking Reference: <strong>#TR-@Model.Id.ToString("D4")</strong></p>
             </div>
             <div class="status-badge-group">
-                <span class="status-badge status-active">Active</span>
-                <span class="status-badge status-urgent">1 day left</span>
+                @if (isActive)
+                {
+                    <span class="status-badge status-active">Active</span>
+                    @if (daysLeft <= 1 && daysLeft >= 0)
+                    {
+                        <span class="status-badge status-urgent">@daysLeft day left</span>
+                    }
+                }
+                else if (isUpcoming)
+                {
+                    <span class="status-badge status-upcoming">Upcoming</span>
+                }
+                else if (isCompleted)
+                {
+                    <span class="status-badge status-completed">Completed</span>
+                }
+                else if (isCancelled)
+                {
+                    <span class="status-badge status-cancelled">Cancelled</span>
+                }
             </div>
         </div>
 
@@ -32,41 +65,47 @@
             <div class="equipment-section">
                 <div class="equipment-card">
                     <div class="equipment-image">
-                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMxFWi-7ufhizbKynqVbbaC0ons-FvZx53FCAerXfgEYXzqULqu9QwEKwNILcVol1tbYZb3uB4S8HqIYrCTqYSD_cRxmqR0MZa0rla81MhXOqvfuGrKPpyswOEh-c8R3a8KiPLGdeMCCMKqjXSESr00wY3stQ3GfgZBEas5DRzfWAKoaVILnuHZrUE7FvdMY7EEkOGykJFkb4gOfkWGFlRpH19Kab3qzxNYxxq8yNvNJ3m8sR1Xk9lep0hSIEzMm9EpNk7yPViJP8" alt="Concrete Mixer X200">
+                        @if (!string.IsNullOrEmpty(Model.Equipment?.ImageUrl))
+                        {
+                            <img src="@Model.Equipment.ImageUrl" alt="@Model.Equipment.Name">
+                        }
+                        else
+                        {
+                            <div style="width: 100%; height: 100%; background: #f1f5f9; display: flex; align-items: center; justify-content: center;">
+                                <span class="material-symbols-outlined" style="font-size: 48px; color: #94a3b8;">construction</span>
+                            </div>
+                        }
                     </div>
                     <div class="equipment-info">
-                        <h2 class="equipment-title">Concrete Mixer X200</h2>
-                        <p class="equipment-category">Heavy-duty portable mixer, 5 cu. ft. capacity</p>
+                        <h2 class="equipment-title">@(Model.Equipment?.Name ?? "Unknown Equipment")</h2>
+                        <p class="equipment-category">@(Model.Equipment?.Category?.Name ?? "Equipment")</p>
+                        <p class="equipment-description">@(Model.Equipment?.Description ?? "No description available")</p>
 
                         <div class="equipment-specs">
                             <div class="spec-item">
-                                <span class="spec-icon material-symbols-outlined">fitness_center</span>
+                                <span class="spec-icon material-symbols-outlined">sell</span>
                                 <div>
-                                    <span class="spec-label">Weight</span>
-                                    <span class="spec-value">65 kg</span>
+                                    <span class="spec-label">Daily Rate</span>
+                                    <span class="spec-value">$@(Model.Equipment?.PricePerDay.ToString("F0") ?? "0")</span>
                                 </div>
                             </div>
                             <div class="spec-item">
-                                <span class="spec-icon material-symbols-outlined">settings</span>
+                                <span class="spec-icon material-symbols-outlined">lock</span>
                                 <div>
-                                    <span class="spec-label">Power</span>
-                                    <span class="spec-value">1000 W</span>
+                                    <span class="spec-label">Deposit</span>
+                                    <span class="spec-value">$@Model.DepositPaid.ToString("F0")</span>
                                 </div>
                             </div>
-                            <div class="spec-item">
-                                <span class="spec-icon material-symbols-outlined">recycling</span>
-                                <div>
-                                    <span class="spec-label">Capacity</span>
-                                    <span class="spec-value">220 L</span>
+                            @if (Model.Equipment?.AvailableQuantity != null)
+                            {
+                                <div class="spec-item">
+                                    <span class="spec-icon material-symbols-outlined">inventory</span>
+                                    <div>
+                                        <span class="spec-label">Available</span>
+                                        <span class="spec-value">@Model.Equipment.AvailableQuantity units</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="spec-item">
-                                <span class="spec-icon material-symbols-outlined">bolt</span>
-                                <div>
-                                    <span class="spec-label">Voltage</span>
-                                    <span class="spec-value">230 V</span>
-                                </div>
-                            </div>
+                            }
                         </div>
                     </div>
                 </div>
@@ -78,15 +117,15 @@
                     <div class="summary-grid">
                         <div class="summary-row">
                             <span class="summary-label">Start Date</span>
-                            <span class="summary-value">May 15, 2024 <span class="time">(10:00 AM)</span></span>
+                            <span class="summary-value">@Model.StartDate.ToString("MMMM dd, yyyy") <span class="time">(10:00 AM)</span></span>
                         </div>
                         <div class="summary-row">
                             <span class="summary-label">End Date</span>
-                            <span class="summary-value highlight">May 20, 2024 <span class="time">(10:00 AM)</span></span>
+                            <span class="summary-value @(isActive && daysLeft <= 1 ? "highlight" : "")">@Model.EndDate.ToString("MMMM dd, yyyy") <span class="time">(10:00 AM)</span></span>
                         </div>
                         <div class="summary-row">
                             <span class="summary-label">Duration</span>
-                            <span class="summary-value">5 days</span>
+                            <span class="summary-value">@totalDays days</span>
                         </div>
                         <div class="summary-row">
                             <span class="summary-label">Pickup Location</span>
@@ -96,6 +135,13 @@
                             <span class="summary-label">Return Location</span>
                             <span class="summary-value">Same as pickup</span>
                         </div>
+                        @if (Model.Delivery != null)
+                        {
+                            <div class="summary-row">
+                                <span class="summary-label">Delivery Address</span>
+                                <span class="summary-value">@Model.Delivery.Address</span>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -108,88 +154,116 @@
 
                     <div class="breakdown-list">
                         <div class="breakdown-item">
-                            <span>Daily Rate (x5 days)</span>
-                            <span>$225.00</span>
+                            <span>Daily Rate (x@(totalDays) days)</span>
+                            <span>$@Model.TotalPrice.ToString("F2")</span>
                         </div>
                         <div class="breakdown-item">
                             <span>Service Fee</span>
-                            <span>$25.00</span>
+                            <span>$@serviceFee.ToString("F2")</span>
                         </div>
-                        <div class="breakdown-item">
-                            <span>Delivery Fee</span>
-                            <span>$35.00</span>
-                        </div>
+                        @if (Model.Delivery?.Cost > 0)
+                        {
+                            <div class="breakdown-item">
+                                <span>Delivery Fee</span>
+                                <span>$@Model.Delivery.Cost.ToString("F2")</span>
+                            </div>
+                        }
                         <div class="breakdown-item deposit">
                             <span>Refundable Deposit</span>
-                            <span>$200.00</span>
+                            <span>$@Model.DepositPaid.ToString("F2")</span>
                         </div>
+                        @if (Model.Fine > 0)
+                        {
+                            <div class="breakdown-item fine">
+                                <span>Fine Applied</span>
+                                <span>-$@Model.Fine.ToString("F2")</span>
+                            </div>
+                        }
                         <div class="breakdown-item total">
                             <span>Total Charged</span>
-                            <span>$485.00</span>
+                            <span>$@totalAmount.ToString("F2")</span>
                         </div>
                     </div>
 
                     <div class="payment-status">
-                        <span class="payment-badge paid">
-                            <span class="material-symbols-outlined">check_circle</span>
-                            Payment Completed
+                        <span class="payment-badge @(isCancelled ? "cancelled" : "paid")">
+                            <span class="material-symbols-outlined">@(isCancelled ? "cancel" : "check_circle")</span>
+                            @(isCancelled ? "Payment Refunded" : "Payment Completed")
                         </span>
+                        @if (Model.Fine > 0)
+                        {
+                            <span class="payment-badge fine">
+                                <span class="material-symbols-outlined">warning</span>
+                                Fine Applied
+                            </span>
+                        }
                     </div>
                 </div>
 
                 <!-- Delivery Info Card -->
-                <div class="delivery-card">
-                    <h3 class="delivery-title">Delivery Information</h3>
+                @if (Model.Delivery != null)
+                {
+                    <div class="delivery-card">
+                        <h3 class="delivery-title">Delivery Information</h3>
 
-                    <div class="delivery-status">
-                        <div class="delivery-step completed">
-                            <span class="step-dot"></span>
-                            <div>
-                                <span class="step-label">Order Confirmed</span>
-                                <span class="step-date">May 14, 2024 - 2:30 PM</span>
+                        <div class="delivery-status">
+                            <div class="delivery-step completed">
+                                <span class="step-dot"></span>
+                                <div>
+                                    <span class="step-label">Order Confirmed</span>
+                                    <span class="step-date">@Model.StartDate.AddDays(-1).ToString("MMM dd, yyyy - h:mm tt")</span>
+                                </div>
+                            </div>
+                            <div class="delivery-step @(Model.Delivery.Status == "Ожидает" ? "active" : "completed")">
+                                <span class="step-dot"></span>
+                                <div>
+                                    <span class="step-label">Out for Delivery</span>
+                                    <span class="step-date">
+                                        @if (Model.Delivery.Status == "Ожидает")
+                                        {
+                                            <span>Expected by @Model.Delivery.DeliveryDate.ToString("hh:mm tt")</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@Model.Delivery.DeliveryDate.ToString("MMM dd, yyyy - h:mm tt")</span>
+                                        }
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="delivery-step @(Model.Delivery.Status == "Выполнена" ? "completed" : "pending")">
+                                <span class="step-dot"></span>
+                                <div>
+                                    <span class="step-label">Delivered</span>
+                                    <span class="step-date">
+                                        @if (Model.Delivery.Status == "Выполнена")
+                                        {
+                                            <span>@Model.Delivery.DeliveryDate.ToString("MMM dd, yyyy - h:mm tt")</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Pending</span>
+                                        }
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                        <div class="delivery-step completed">
-                            <span class="step-dot"></span>
-                            <div>
-                                <span class="step-label">Dispatched</span>
-                                <span class="step-date">May 15, 2024 - 8:15 AM</span>
-                            </div>
-                        </div>
-                        <div class="delivery-step active">
-                            <span class="step-dot"></span>
-                            <div>
-                                <span class="step-label">Out for Delivery</span>
-                                <span class="step-date">Expected by 10:00 AM</span>
-                            </div>
-                        </div>
-                        <div class="delivery-step pending">
-                            <span class="step-dot"></span>
-                            <div>
-                                <span class="step-label">Delivered</span>
-                                <span class="step-date">Pending</span>
-                            </div>
+
+                        <div class="delivery-address">
+                            <span class="material-symbols-outlined">location_on</span>
+                            <span>@Model.Delivery.Address</span>
                         </div>
                     </div>
-                </div>
+                }
 
-                <!-- Action Buttons -->
+                <!-- Action Buttons (только для просмотра, без действий) -->
                 <div class="action-buttons">
-                    <button class="button-primary">
-                        <span class="material-symbols-outlined">update</span>
-                        Extend Rental
+                    <button class="button-secondary" onclick="window.location.href='@Url.Action("Index", "Booking")'">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                        Back to Rentals
                     </button>
-                    <button class="button-secondary">
-                        <span class="material-symbols-outlined">support_agent</span>
-                        Contact Support
-                    </button>
-                    <button class="button-secondary">
+                    <button class="button-secondary" onclick="window.print()">
                         <span class="material-symbols-outlined">receipt_long</span>
-                        Download Receipt
-                    </button>
-                    <button class="button-secondary">
-                        <span class="material-symbols-outlined">location_on</span>
-                        Track Delivery
+                        Print Details
                     </button>
                 </div>
             </div>
@@ -212,7 +286,7 @@
                 <h3 class="contact-title">Need Help?</h3>
                 <p class="contact-text">Our support team is available 24/7</p>
                 <div class="contact-methods">
-                    <a href="#" class="contact-method">
+                    <a href="tel:+18005550123" class="contact-method">
                         <span class="material-symbols-outlined">call</span>
                         <span>+1 (800) 555-0123</span>
                     </a>
@@ -220,7 +294,7 @@
                         <span class="material-symbols-outlined">chat</span>
                         <span>Live Chat</span>
                     </a>
-                    <a href="#" class="contact-method">
+                    <a href="mailto:support@techrent.com" class="contact-method">
                         <span class="material-symbols-outlined">email</span>
                         <span>support@techrent.com</span>
                     </a>
@@ -229,4 +303,3 @@
         </div>
     </div>
 </main>
-
