@@ -670,7 +670,6 @@
     }
 
     // Функция для перехода к оформлению заказа
-    // Функция для перехода к оформлению заказа
     function proceedToCheckout() {
         // Проверяем, авторизован ли пользователь
         @if (!SignInManager.IsSignedIn(User))
@@ -684,12 +683,19 @@
         }
 
         if (!selectedStartDate || !selectedEndDate) {
-            alert('Please select both start and end dates');
+            // Показываем уведомление вместо alert
+            showNotification('Please select both start and end dates', 'error');
             return;
         }
 
         // Получаем anti-forgery token
         const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+
+        // Показываем индикатор загрузки
+        const button = document.getElementById('checkoutButton');
+        const originalText = button.innerHTML;
+        button.innerHTML = '<span>Processing...</span>';
+        button.disabled = true;
 
         // Отправляем запрос на создание бронирования
         fetch('/Booking/CreateBooking', {
@@ -707,18 +713,75 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert(`Booking confirmed! Total amount: $${data.totalAmount.toLocaleString()}`);
-                // Перенаправляем на страницу с деталями бронирования или в личный кабинет
-                // window.location.href = `/Booking/Details/${data.bookingId}`;
-                window.location.href = '/';
+                // Меняем кнопку на "View Details"
+                button.innerHTML = `
+                    <span>View Booking Details</span>
+                    <span class="material-symbols-outlined">visibility</span>
+                `;
+                button.disabled = false;
+                button.onclick = function() {
+                    window.location.href = `/Booking/Details/${data.bookingId}`;
+                };
+
+                // Показываем успешное уведомление
+                showNotification('Booking confirmed! Total amount: $' + data.totalAmount.toLocaleString(), 'success');
             } else {
-                alert('Error: ' + data.message);
+                // Возвращаем кнопку в исходное состояние
+                button.innerHTML = originalText;
+                button.disabled = false;
+                showNotification('Error: ' + data.message, 'error');
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('An error occurred while creating the booking');
+            button.innerHTML = originalText;
+            button.disabled = false;
+            showNotification('An error occurred while creating the booking', 'error');
         });
+    }
+
+        // Функция для показа уведомлений
+    function showNotification(message, type) {
+        // Создаем элемент уведомления
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.innerHTML = `
+            <span class="material-symbols-outlined">${type === 'success' ? 'check_circle' : 'error'}</span>
+            <span>${message}</span>
+        `;
+
+        // Добавляем стили для уведомления
+        notification.style.position = 'fixed';
+        notification.style.top = '20px';
+        notification.style.right = '-400px'; // Начинаем за пределами экрана справа
+        notification.style.padding = '12px 24px';
+        notification.style.borderRadius = '8px';
+        notification.style.backgroundColor = type === 'success' ? '#10b981' : '#ef4444';
+        notification.style.color = 'white';
+        notification.style.display = 'flex';
+        notification.style.alignItems = 'center';
+        notification.style.gap = '8px';
+        notification.style.zIndex = '1000';
+        notification.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+        notification.style.transition = 'right 0.3s ease-in-out';
+        notification.style.fontWeight = '500';
+        notification.style.minWidth = '300px';
+        notification.style.maxWidth = '400px';
+
+        document.body.appendChild(notification);
+
+        // Анимация появления - выезжает справа
+        setTimeout(() => {
+            notification.style.right = '20px';
+        }, 10);
+
+        // Удаляем уведомление через 3 секунды
+        setTimeout(() => {
+            notification.style.right = '-400px'; // Уезжает вправо
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 300); // Ждем завершения анимации
+        }, 3000);
     }
 
     function updatePriceCalculation() {
