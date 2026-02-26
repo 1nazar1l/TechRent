@@ -670,8 +670,21 @@
     }
 
     // Функция для перехода к оформлению заказа
+    // Функция для перехода к оформлению заказа
     function proceedToCheckout() {
+        // Проверяем, авторизован ли пользователь
+        @if (!SignInManager.IsSignedIn(User))
+        {
+                <text>
+                // Перенаправляем на страницу регистрации с returnUrl
+                const returnUrl = encodeURIComponent(window.location.pathname + window.location.search);
+                window.location.href = '/Identity/Account/Register?returnUrl=' + returnUrl;
+                return;
+                </text>
+        }
+
         if (!selectedStartDate || !selectedEndDate) {
+            alert('Please select both start and end dates');
             return;
         }
 
@@ -694,6 +707,7 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+                alert(`Booking confirmed! Total amount: $${data.totalAmount.toLocaleString()}`);
                 // Перенаправляем на страницу с деталями бронирования или в личный кабинет
                 // window.location.href = `/Booking/Details/${data.bookingId}`;
                 window.location.href = '/';
