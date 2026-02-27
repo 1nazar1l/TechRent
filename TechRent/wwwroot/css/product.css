@@ -821,3 +821,126 @@
     font-size: 20px;
     filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
 }
+
+.review-form {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 32px;
+    border: 1px solid #e2e8f0;
+}
+
+.form-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 16px;
+}
+
+.rating-selector {
+    margin-bottom: 20px;
+}
+
+.rating-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #475569;
+    margin-bottom: 8px;
+}
+
+.stars {
+    display: flex;
+    gap: 8px;
+}
+
+.star-label {
+    cursor: pointer;
+}
+
+    .star-label .star-icon {
+        transition: color 0.2s ease;
+    }
+
+    .star-label:hover .star-icon {
+        transform: scale(1.1);
+    }
+
+.comment-field {
+    margin-bottom: 20px;
+}
+
+.comment-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #475569;
+    margin-bottom: 8px;
+}
+
+.comment-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+    transition: border-color 0.2s;
+}
+
+    .comment-input:focus {
+        outline: none;
+        border-color: #3b82f6;
+    }
+
+.submit-review-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 40px;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+    .submit-review-button:hover {
+        background: #2563eb;
+    }
+
+    .submit-review-button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+.login-button:hover {
+    background: #2563eb;
+}
+
+.reviewer-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.verified-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #e0f2fe;
+    color: #0369a1;
+    padding: 4px 8px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+    .verified-badge .material-symbols-outlined {
+        font-size: 14px;
+    }

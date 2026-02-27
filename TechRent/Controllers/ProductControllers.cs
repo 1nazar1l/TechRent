@@ -18,6 +18,7 @@ namespace TechRent.Controllers
         }
 
         // GET: Product/Index/5
+        // GET: Product/Index/5
         public async Task<IActionResult> Index(int? id)
         {
             if (id == null)
@@ -40,6 +41,18 @@ namespace TechRent.Controllers
             if (equipment.Reviews != null && equipment.Reviews.Any())
             {
                 equipment.AverageRating = equipment.Reviews.Average(r => r.Rating);
+            }
+
+            // Для каждого отзыва проверяем, арендовал ли пользователь оборудование
+            if (equipment.Reviews != null && equipment.Reviews.Any())
+            {
+                foreach (var review in equipment.Reviews)
+                {
+                    review.HasRented = await _context.Bookings
+                        .AnyAsync(b => b.UserId == review.UserId
+                            && b.EquipmentId == equipment.Id
+                            && b.Status == "Подтверждено");
+                }
             }
 
             // Check if item is in user's favorites

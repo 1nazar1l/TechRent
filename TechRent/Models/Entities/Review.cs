@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TechRent.Models.Entities
 {
@@ -23,6 +24,9 @@ namespace TechRent.Models.Entities
 
         [Display(Name = "Дата отзыва")]
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+        [NotMapped]
+        public bool HasRented { get; set; }
 
         // Навигационные свойства
         public IdentityUser? User { get; set; }

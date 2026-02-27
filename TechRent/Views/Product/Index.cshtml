@@ -255,6 +255,7 @@
                     <!-- Reviews Tab -->
                     <div id="reviews-tab" class="reviews-tab" style="display: none;">
                         <h3 class="tab-title">Customer Reviews</h3>
+
                         <div class="reviews-summary">
                             <div class="average-rating">
                                 <span class="big-rating">@averageRating</span>
@@ -279,16 +280,90 @@
                             </div>
                         </div>
 
+                        <!-- Форма для отзыва (только для авторизованных пользователей) -->
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <div id="reviewFormContainer">
+                                @{
+                                    var userHasReviewed = Model.Reviews != null && Model.Reviews.Any(r => r.UserId == UserManager.GetUserId(User));
+                                }
+
+                                @if (!userHasReviewed)
+                                {
+                                    <div class="review-form" id="reviewForm">
+                                        <h4 class="form-title">Write a Review</h4>
+
+                                        <div class="rating-selector">
+                                            <label class="rating-label">Your Rating</label>
+                                            <div class="stars">
+                                                @for (int i = 1; i <= 5; i++)
+                                                {
+                                                    <label class="star-label">
+                                                        <input type="radio" name="rating" value="@i" style="display: none;">
+                                                        <span class="star-icon material-symbols-outlined" style="font-size: 32px; color: #cbd5e1; cursor: pointer;" onmouseover="highlightStars(@i)" onmouseleave="resetStars()" onclick="setRating(@i)">star</span>
+                                                    </label>
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <div class="comment-field">
+                                            <label for="reviewComment" class="comment-label">Your Comment (optional)</label>
+                                            <textarea id="reviewComment" class="comment-input" rows="4" placeholder="Share your experience with this equipment..."></textarea>
+                                        </div>
+
+                                        <button class="submit-review-button" onclick="submitReview()">
+                                            <span class="material-symbols-outlined">rate_review</span>
+                                            Submit Review
+                                        </button>
+                                    </div>
+
+                                    <div id="reviewSubmittedMessage" style="display: none; text-align: center; padding: 32px; background: #f0fdf4; border-radius: 12px; margin-bottom: 24px;">
+                                        <span class="material-symbols-outlined" style="font-size: 48px; color: #10b981;">check_circle</span>
+                                        <h4 style="margin: 16px 0 8px; color: #166534;">Thank You for Your Review!</h4>
+                                        <p style="color: #166534;">Your feedback helps other customers make better decisions.</p>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="already-reviewed" style="text-align: center; padding: 32px; background: #f8fafc; border-radius: 12px; margin-bottom: 24px;">
+                                        <span class="material-symbols-outlined" style="font-size: 48px; color: #3b82f6;">rate_review</span>
+                                        <h4 style="margin: 16px 0 8px; color: #1e293b;">You've Already Reviewed This Item</h4>
+                                        <p style="color: #64748b;">Thank you for sharing your experience!</p>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="login-to-review" style="text-align: center; padding: 32px; background: #f8fafc; border-radius: 12px; margin-bottom: 24px;">
+                                <span class="material-symbols-outlined" style="font-size: 48px; color: #94a3b8;">lock</span>
+                                <h4 style="margin: 16px 0 8px; color: #1e293b;">Login to Write a Review</h4>
+                                <p style="color: #64748b; margin-bottom: 16px;">Share your experience with other customers</p>
+                                <a href="/Identity/Account/Login?returnUrl=@Context.Request.Path" class="login-button" style="display: inline-flex; align-items: center; gap: 8px; background: #3b82f6; color: white; padding: 10px 20px; border-radius: 40px; text-decoration: none;">
+                                    <span class="material-symbols-outlined">login</span>
+                                    Login to Review
+                                </a>
+                            </div>
+                        }
+
                         <!-- Reviews List -->
                         <div class="reviews-list">
                             @if (Model.Reviews != null && Model.Reviews.Any())
                             {
+                                <!-- В цикле отображения отзывов добавьте проверку -->
                                 @foreach (var review in Model.Reviews.OrderByDescending(r => r.CreatedAt))
                                 {
                                     <div class="review-item">
                                         <div class="review-header">
                                             <div class="reviewer-info">
                                                 <span class="reviewer-name">@(review.User?.Email?.Split('@')[0] ?? "Anonymous")</span>
+                                                @if (review.HasRented)
+                                                {
+                                                    <span class="verified-badge">
+                                                        <span class="material-symbols-outlined" style="font-size: 16px;">verified</span>
+                                                        Verified Renter
+                                                    </span>
+                                                }
                                                 <span class="review-date">@review.CreatedAt.ToString("MMMM dd, yyyy")</span>
                                             </div>
                                             <div class="rating">
@@ -311,10 +386,11 @@
                             }
                             else
                             {
-                                <p class="no-reviews">No reviews yet for this equipment.</p>
+                                <p class="no-reviews">No reviews yet for this equipment. Be the first to review!</p>
                             }
                         </div>
                     </div>
+                
                 </div>
 
                 <!-- Included Accessories -->
@@ -858,4 +934,118 @@
         loadBookedDates();
         updateCheckoutButton(); // Добавлено
     });
+</script>
+<script>
+        // Функция для проверки, может ли пользователь оставить отзыв
+    async function checkCanReview() {
+        @if (SignInManager.IsSignedIn(User))
+        {
+                <text>
+                try {
+                    const response = await fetch(`/Review/CanReview?equipmentId=${equipmentId}`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        return data.canReview;
+                    }
+                } catch (error) {
+                    console.error('Error checking review permission:', error);
+                }
+                return false;
+                </text>
+        }
+        return false;
+    }
+
+    // Функция для отправки отзыва
+        // Функция для отправки отзыва
+    async function submitReview() {
+        const rating = document.querySelector('input[name="rating"]:checked')?.value;
+        const comment = document.getElementById('reviewComment').value.trim();
+
+        if (!rating) {
+            showNotification('Please select a rating', 'error');
+            return;
+        }
+
+        const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+
+        const submitButton = document.querySelector('.submit-review-button');
+        const originalText = submitButton.innerHTML;
+        submitButton.innerHTML = '<span>Submitting...</span>';
+        submitButton.disabled = true;
+
+        try {
+            const response = await fetch('/Review/Create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': token
+                },
+                body: JSON.stringify({
+                    equipmentId: equipmentId,
+                    rating: parseInt(rating),
+                    comment: comment
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                showNotification('Review submitted successfully!', 'success');
+                // Скрываем форму
+                document.getElementById('reviewForm').style.display = 'none';
+                // Показываем сообщение
+                document.getElementById('reviewSubmittedMessage').style.display = 'block';
+                // Обновляем отзывы на странице
+                setTimeout(() => {
+                    location.reload();
+                }, 2000);
+            } else {
+                showNotification('Error: ' + data.message, 'error');
+                submitButton.innerHTML = originalText;
+                submitButton.disabled = false;
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showNotification('An error occurred while submitting review', 'error');
+            submitButton.innerHTML = originalText;
+            submitButton.disabled = false;
+        }
+    }
+
+        // Функции для звезд рейтинга
+    let currentRating = 0;
+
+    function highlightStars(rating) {
+        const stars = document.querySelectorAll('.rating-selector .star-icon');
+        stars.forEach((star, index) => {
+            if (index < rating) {
+                star.style.color = '#fbbf24';
+                star.style.fontVariationSettings = "'FILL' 1";
+            } else {
+                star.style.color = '#cbd5e1';
+                star.style.fontVariationSettings = "'FILL' 0";
+            }
+        });
+    }
+
+    function resetStars() {
+        const stars = document.querySelectorAll('.rating-selector .star-icon');
+        stars.forEach((star, index) => {
+            if (index < currentRating) {
+                star.style.color = '#fbbf24';
+                star.style.fontVariationSettings = "'FILL' 1";
+            } else {
+                star.style.color = '#cbd5e1';
+                star.style.fontVariationSettings = "'FILL' 0";
+            }
+        });
+    }
+
+    function setRating(rating) {
+        currentRating = rating;
+        const radio = document.querySelector(`input[name="rating"][value="${rating}"]`);
+        if (radio) radio.checked = true;
+        highlightStars(rating);
+    }
 </script>
