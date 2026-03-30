@@ -1,0 +1,242 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+@model IEnumerable<TechRent.Models.Entities.Favorite>
+@{
+    ViewData["Title"] = "Избранное";
+    ViewData["css"] = "profile";
+}
+
+<div class="profile-layout">
+    <!-- Sidebar -->
+    <aside class="profile-sidebar">
+        <div class="sidebar-content">
+            <!-- Logo (mobile visible) -->
+            <div class="sidebar-logo">
+                <div class="logo-icon">
+                    <span class="material-symbols-outlined">precision_manufacturing</span>
+                </div>
+                <h2 class="logo-text">TECHRENT</h2>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="sidebar-nav">
+                <a asp-controller="Profile" asp-action="Index" class="sidebar-link">
+                    <span class="material-symbols-outlined">calendar_month</span>
+                    <span>My Bookings</span>
+                </a>
+                <a asp-controller="Profile" asp-action="Favorites" class="sidebar-link active">
+                    <span class="material-symbols-outlined">favorite</span>
+                    <span>Favorites</span>
+                </a>
+                <a asp-controller="Profile" asp-action="Settings" class="sidebar-link">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span>Settings</span>
+                </a>
+            </nav>
+
+            <!-- User Profile & Logout -->
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        @{
+                            var user = await UserManager.GetUserAsync(User);
+                        }
+                        <div class="avatar-placeholder">
+                            <span class="material-symbols-outlined">person</span>
+                        </div>
+                    </div>
+                    <div class="user-details">
+                        <p class="user-name">@(user?.UserName?.Split('@')[0] ?? "User")</p>
+                        <p class="user-badge">Standard Member</p>
+                    </div>
+                </div>
+                <form asp-controller="Account" asp-action="Logout" method="post">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="logout-button">
+                        <span class="material-symbols-outlined">logout</span>
+                        Log Out
+                    </button>
+                </form>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="profile-content">
+        <div class="profile-container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">My Favorites</h1>
+                    <p class="page-description">Equipment you've saved for later</p>
+                </div>
+            </div>
+
+            @if (!Model.Any())
+            {
+                <div class="empty-state-favorites">
+                    <span class="material-symbols-outlined">favorite_border</span>
+                    <h2>No favorites yet</h2>
+                    <p>Start adding equipment to your favorites to see them here.</p>
+                    <a asp-controller="Equipment" asp-action="Index" class="browse-button">
+                        <span class="material-symbols-outlined">search</span>
+                        Browse Equipment
+                    </a>
+                </div>
+            }
+            else
+            {
+                <div class="favorites-grid">
+                    @foreach (var favorite in Model)
+                    {
+                        var equipment = favorite.Equipment;
+                        var averageRating = equipment?.Reviews != null && equipment.Reviews.Any()
+                        ? equipment.Reviews.Average(r => r.Rating).ToString("F1")
+                        : "0.0";
+                        var roundedRating = equipment?.Reviews != null && equipment.Reviews.Any()
+                        ? (int)Math.Round(equipment.Reviews.Average(r => r.Rating))
+                        : 0;
+
+                        <div class="favorite-card">
+                            <button class="remove-favorite" data-equipment-id="@equipment?.Id" onclick="removeFavorite(this, @equipment?.Id)">
+                                <span class="material-symbols-outlined">close</span>
+                            </button>
+
+                            <div class="favorite-image">
+                                @if (!string.IsNullOrEmpty(equipment?.ImageUrl))
+                                {
+                                    <img src="@equipment.ImageUrl" alt="@equipment.Name">
+                                }
+                                else
+                                {
+                                    <div class="image-placeholder">
+                                        <span class="material-symbols-outlined">construction</span>
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="favorite-info">
+                                <h3 class="favorite-title">@equipment?.Name</h3>
+                                <p class="favorite-category">@equipment?.Category?.Name</p>
+
+                                <div class="rating">
+                                    @for (int i = 0; i < 5; i++)
+                                    {
+                                        if (i < roundedRating)
+                                        {
+                                            <span class="star-icon material-symbols-outlined" style="color: #fbbf24; font-size: 16px; font-variation-settings: 'FILL' 1;">star</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="star-icon material-symbols-outlined" style="color: #cbd5e1; font-size: 16px; font-variation-settings: 'FILL' 1;">star</span>
+                                        }
+                                    }
+                                    <span class="rating-value">@averageRating</span>
+                                    <span class="rating-count">(@(equipment?.Reviews?.Count ?? 0))</span>
+                                </div>
+
+                                <div class="favorite-price">
+                                    <span class="price-label">Daily Rate</span>
+                                    <span class="price-value">$@equipment?.PricePerDay<span class="price-period">/day</span></span>
+                                </div>
+
+                                <div class="favorite-actions">
+                                    <a asp-controller="Product" asp-action="Index" asp-route-id="@equipment?.Id" class="view-button">
+                                        View Details
+                                    </a>
+                                    @if (equipment?.AvailableQuantity > 0)
+                                    {
+                                        <a asp-controller="Product" asp-action="Index" asp-route-id="@equipment?.Id" class="book-button">
+                                            Book Now
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <button class="book-button disabled" disabled>Out of Stock</button>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </main>
+</div>
+
+<script>
+    async function removeFavorite(button, equipmentId) {
+        const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+
+        fetch('/Favorites/ToggleFavorite', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': token
+            },
+            body: JSON.stringify({ equipmentId: equipmentId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && !data.isFavorite) {
+                // Удаляем карточку из DOM
+                const card = button.closest('.favorite-card');
+                card.style.animation = 'fadeOut 0.3s ease';
+                setTimeout(() => {
+                    card.remove();
+
+                    // Если больше нет избранных, показываем пустое состояние
+                    const grid = document.querySelector('.favorites-grid');
+                    if (grid.children.length === 0) {
+                        location.reload();
+                    }
+                }, 300);
+
+                showNotification('Removed from favorites', 'success');
+            } else {
+                showNotification('Error removing from favorites', 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('An error occurred', 'error');
+        });
+    }
+
+    function showNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.innerHTML = `
+            <span class="material-symbols-outlined">${type === 'success' ? 'check_circle' : 'error'}</span>
+            <span>${message}</span>
+        `;
+
+        notification.style.position = 'fixed';
+        notification.style.top = '20px';
+        notification.style.right = '-400px';
+        notification.style.padding = '12px 24px';
+        notification.style.borderRadius = '8px';
+        notification.style.backgroundColor = type === 'success' ? '#10b981' : '#ef4444';
+        notification.style.color = 'white';
+        notification.style.display = 'flex';
+        notification.style.alignItems = 'center';
+        notification.style.gap = '8px';
+        notification.style.zIndex = '1000';
+        notification.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+        notification.style.transition = 'right 0.3s ease-in-out';
+        notification.style.fontWeight = '500';
+
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.style.right = '20px';
+        }, 10);
+
+        setTimeout(() => {
+            notification.style.right = '-400px';
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 300);
+        }, 3000);
+    }
+</script>

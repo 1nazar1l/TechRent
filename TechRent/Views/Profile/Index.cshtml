@@ -1,4 +1,7 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+@model TechRent.Models.Entities.ProfileViewModel
+@{
     ViewData["Title"] = "Профиль";
     ViewData["css"] = "profile";
 }
@@ -17,19 +20,15 @@
 
             <!-- Navigation -->
             <nav class="sidebar-nav">
-                <a href="#" class="sidebar-link active">
+                <a asp-controller="Profile" asp-action="Index" class="sidebar-link active">
                     <span class="material-symbols-outlined">calendar_month</span>
                     <span>My Bookings</span>
                 </a>
-                <a href="#" class="sidebar-link">
-                    <span class="material-symbols-outlined">attach_money</span>
-                    <span>Finances</span>
-                </a>
-                <a href="#" class="sidebar-link">
+                <a asp-controller="Profile" asp-action="Favorites" class="sidebar-link">
                     <span class="material-symbols-outlined">favorite</span>
                     <span>Favorites</span>
                 </a>
-                <a href="#" class="sidebar-link">
+                <a asp-controller="Profile" asp-action="Settings" class="sidebar-link">
                     <span class="material-symbols-outlined">settings</span>
                     <span>Settings</span>
                 </a>
@@ -39,17 +38,29 @@
             <div class="sidebar-footer">
                 <div class="user-info">
                     <div class="user-avatar">
-                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcRa0JJk0QYb0VmiqBZdtOG35EiMytBQAPFSYz0A-lsChWmjoHhaFx-JoeLP0ivtVBOQ1ZP9GaX_8CEnFtEQQsAhKIdyCNj6zCqfH5RzWJo0AHpinbT51JirZF9kuBSOplcZZrZloJic4uKrEdwyfJKu-2vvRZLtEAdsUUhUfpFebGwxL-_YxkzNUo2xaKVLB-hQnXc1OxD6YnCd0-Dn2aaopOrcDA0e628SuW8mG8Wrk1pgs-kAelK6Qxkk2bhNDwBMxXKAPj6Zk" alt="User Avatar">
+                        @if (!string.IsNullOrEmpty(Model.UserAvatar))
+                        {
+                            <img src="@Model.UserAvatar" alt="User Avatar">
+                        }
+                        else
+                        {
+                            <div class="avatar-placeholder">
+                                <span class="material-symbols-outlined">person</span>
+                            </div>
+                        }
                     </div>
                     <div class="user-details">
-                        <p class="user-name">Alexander</p>
-                        <p class="user-badge">Pro Member</p>
+                        <p class="user-name">@(Model.UserName ?? "User")</p>
+                        <p class="user-badge">@(Model.IsPremium ? "Pro Member" : "Standard Member")</p>
                     </div>
                 </div>
-                <button class="logout-button">
-                    <span class="material-symbols-outlined">logout</span>
-                    Log Out
-                </button>
+                <form asp-controller="Account" asp-action="Logout" method="post">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="logout-button">
+                        <span class="material-symbols-outlined">logout</span>
+                        Log Out
+                    </button>
+                </form>
             </div>
         </div>
     </aside>
@@ -63,166 +74,180 @@
                     <h1 class="page-title">My Bookings</h1>
                     <p class="page-description">Manage your active rentals and view history.</p>
                 </div>
-                <button class="export-button">
-                    <span class="material-symbols-outlined">download</span>
-                    Export Report
-                </button>
             </div>
 
             <!-- Active Rental Section -->
-            <section class="active-rental">
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <span class="active-dot"></span>
-                        Active Rental
-                    </h2>
-                </div>
+            @if (Model.ActiveBooking != null)
+            {
+                var daysLeft = (Model.ActiveBooking.EndDate - DateTime.Now).Days;
+                var isUrgent = daysLeft <= 1 && daysLeft >= 0;
 
-                <div class="active-card">
-                    <!-- Alert Banner -->
-                    <div class="alert-banner">
-                        <span class="material-symbols-outlined">alarm</span>
-                        <span class="alert-text">1 day left! Return by May 20</span>
+                <section class="active-rental">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <span class="active-dot"></span>
+                            Active Rental
+                        </h2>
                     </div>
 
-                    <div class="active-content">
-                        <!-- Image -->
-                        <div class="active-image">
-                            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMxFWi-7ufhizbKynqVbbaC0ons-FvZx53FCAerXfgEYXzqULqu9QwEKwNILcVol1tbYZb3uB4S8HqIYrCTqYSD_cRxmqR0MZa0rla81MhXOqvfuGrKPpyswOEh-c8R3a8KiPLGdeMCCMKqjXSESr00wY3stQ3GfgZBEas5DRzfWAKoaVILnuHZrUE7FvdMY7EEkOGykJFkb4gOfkWGFlRpH19Kab3qzxNYxxq8yNvNJ3m8sR1Xk9lep0hSIEzMm9EpNk7yPViJP8" alt="Concrete Mixer X200">
-                        </div>
+                    <div class="active-card">
+                        @if (isUrgent)
+                        {
+                            <div class="alert-banner">
+                                <span class="material-symbols-outlined">alarm</span>
+                                <span class="alert-text">@daysLeft day left! Return by @Model.ActiveBooking.EndDate.ToString("MMM dd")</span>
+                            </div>
+                        }
 
-                        <!-- Content -->
-                        <div class="active-details">
-                            <div class="active-info">
-                                <div class="active-header">
-                                    <span class="status-badge status-active">On Site</span>
-                                    <span class="booking-id">ID: #TR-8821</span>
-                                </div>
-                                <h3 class="active-title">Concrete Mixer X200</h3>
-                                <p class="active-description">Heavy-duty portable mixer, 5 cu. ft. capacity</p>
-
-                                <div class="booking-dates">
-                                    <div class="date-item">
-                                        <span class="date-label">Start Date</span>
-                                        <span class="date-value">May 15, 2024</span>
+                        <div class="active-content">
+                            <!-- Image -->
+                            <div class="active-image">
+                                @if (!string.IsNullOrEmpty(Model.ActiveBooking.Equipment?.ImageUrl))
+                                {
+                                    <img src="@Model.ActiveBooking.Equipment.ImageUrl" alt="@Model.ActiveBooking.Equipment.Name">
+                                }
+                                else
+                                {
+                                    <div style="width: 100%; height: 100%; background: #f1f5f9; display: flex; align-items: center; justify-content: center;">
+                                        <span class="material-symbols-outlined" style="font-size: 48px; color: #94a3b8;">construction</span>
                                     </div>
-                                    <div class="date-item">
-                                        <span class="date-label">End Date</span>
-                                        <span class="date-value highlight">May 20, 2024</span>
-                                    </div>
-                                    <div class="date-item">
-                                        <span class="date-label">Daily Rate</span>
-                                        <span class="date-value">$45.00</span>
-                                    </div>
-                                    <div class="date-item">
-                                        <span class="date-label">Total</span>
-                                        <span class="date-value">$225.00</span>
-                                    </div>
-                                </div>
+                                }
                             </div>
 
-                            <div class="active-actions">
-                                <button class="button-primary">
-                                    <span class="material-symbols-outlined">update</span>
-                                    Extend Rental
-                                </button>
-                                <button class="button-secondary">
-                                    <span class="material-symbols-outlined">support_agent</span>
-                                    Contact Support
-                                </button>
-                                <button class="button-secondary">
-                                    <span class="material-symbols-outlined">receipt_long</span>
-                                    Receipt
-                                </button>
+                            <!-- Content -->
+                            <div class="active-details">
+                                <div class="active-info">
+                                    <div class="active-header">
+                                        <span class="status-badge status-active">Active</span>
+                                        <span class="booking-id">ID: #TR-@Model.ActiveBooking.Id.ToString("D4")</span>
+                                    </div>
+                                    <h3 class="active-title">@Model.ActiveBooking.Equipment?.Name</h3>
+                                    <p class="active-description">@(Model.ActiveBooking.Equipment?.Description ?? "No description available")</p>
+
+                                    <div class="booking-dates">
+                                        <div class="date-item">
+                                            <span class="date-label">Start Date</span>
+                                            <span class="date-value">@Model.ActiveBooking.StartDate.ToString("MMM dd, yyyy")</span>
+                                        </div>
+                                        <div class="date-item">
+                                            <span class="date-label">End Date</span>
+                                            <span class="date-value highlight">@Model.ActiveBooking.EndDate.ToString("MMM dd, yyyy")</span>
+                                        </div>
+                                        <div class="date-item">
+                                            <span class="date-label">Daily Rate</span>
+                                            <span class="date-value">$@Model.ActiveBooking.Equipment?.PricePerDay.ToString("F0")</span>
+                                        </div>
+                                        <div class="date-item">
+                                            <span class="date-label">Total</span>
+                                            <span class="date-value">$@Model.ActiveBooking.TotalPrice.ToString("F0")</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="active-actions">
+                                    <a asp-controller="Booking" asp-action="Details" asp-route-id="@Model.ActiveBooking.Id" class="button-primary">
+                                        <span class="material-symbols-outlined">visibility</span>
+                                        View Details
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            }
 
             <!-- Two Column Grid -->
             <div class="two-column-section">
                 <!-- Upcoming Bookings -->
                 <section class="upcoming-section">
                     <h2 class="section-title">Upcoming Bookings</h2>
-                    <div class="bookings-list">
-                        <!-- Upcoming Item 1 -->
-                        <div class="booking-item">
-                            <div class="booking-item-image">
-                                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-Gyb9NibZKrsMCMBKwka5tm4akSxnWUXFptpYHr0iYNiHUuEtXA-e1P-6WYupJM0wkLomnYtrTIMuPoS4X5gYb3PNcMHnQz_CRLbKh11X0zoMaQPMaa85_7jeE8KPTHZt_RfsAuZLDpTS8B3E9Dk0YKR5_ZCsYfh-RD_I7irCRTeVwb81h57wREXjrYQXf5CHmM9bsCy7btz-MfmyCJ7jN3RiIViut7Qq7Un9xHw7ZEnihoInuNIh7am4ibtnGlyyklWfopOp698" alt="Scaffolding Set">
-                            </div>
-                            <div class="booking-item-content">
-                                <h4 class="booking-item-title">Scaffolding Set (20ft)</h4>
-                                <p class="booking-item-meta">Starts Jun 01 • 3 Days</p>
-                            </div>
-                            <button class="booking-item-arrow">
-                                <span class="material-symbols-outlined">chevron_right</span>
-                            </button>
+                    @if (Model.UpcomingBookings.Any())
+                    {
+                        <div class="bookings-list">
+                            @foreach (var booking in Model.UpcomingBookings)
+                            {
+                                <div class="booking-item">
+                                    <div class="booking-item-image">
+                                        @if (!string.IsNullOrEmpty(booking.Equipment?.ImageUrl))
+                                        {
+                                            <img src="@booking.Equipment.ImageUrl" alt="@booking.Equipment.Name">
+                                        }
+                                        else
+                                        {
+                                            <div style="width: 100%; height: 100%; background: #f1f5f9; display: flex; align-items: center; justify-content: center;">
+                                                <span class="material-symbols-outlined" style="font-size: 24px; color: #94a3b8;">construction</span>
+                                            </div>
+                                        }
+                                    </div>
+                                    <div class="booking-item-content">
+                                        <h4 class="booking-item-title">@booking.Equipment?.Name</h4>
+                                        <p class="booking-item-meta">Starts @booking.StartDate.ToString("MMM dd") • @((booking.EndDate - booking.StartDate).Days + 1) Days</p>
+                                    </div>
+                                    <a asp-controller="Booking" asp-action="Details" asp-route-id="@booking.Id" class="booking-item-arrow">
+                                        <span class="material-symbols-outlined">chevron_right</span>
+                                    </a>
+                                </div>
+                            }
                         </div>
-
-                        <!-- Upcoming Item 2 -->
-                        <div class="booking-item">
-                            <div class="booking-item-image">
-                                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDwtPYKwao-V8y7O-xGdqpRF4V93sy4RbyCtK9Vqs07bRG3hyH51iWex2FRV6QKnKtKCScjsypzFiYGBf2rNFswGJ82fa1v19o-4XqNGFke2xFDpy_lPMDh-AdSE6KtK4rBikwht-9688_vZ2KPPUHyy9fmcHrWukFKRPt9gZrnSYifKlTwYdhLFF4-CX4IGkupixSD6QRMln0lpDJ78-ojIcqwKLEelp6HVvduzhrc8Kx2jqxmnWi3ElLbpTl1dFmtsaNhuc22ro" alt="Portable Generator">
-                            </div>
-                            <div class="booking-item-content">
-                                <h4 class="booking-item-title">Portable Generator 5000W</h4>
-                                <p class="booking-item-meta">Starts Jun 15 • 7 Days</p>
-                            </div>
-                            <button class="booking-item-arrow">
-                                <span class="material-symbols-outlined">chevron_right</span>
-                            </button>
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+                            <span class="material-symbols-outlined">calendar_month</span>
+                            <p>No upcoming bookings</p>
+                            <a asp-controller="Equipment" asp-action="Index" class="browse-link">Browse Equipment</a>
                         </div>
-                    </div>
+                    }
                 </section>
 
                 <!-- Rental History -->
                 <section class="history-section">
                     <div class="section-header">
                         <h2 class="section-title">Rental History</h2>
-                        <a href="#" class="view-all-link">View All</a>
+                        <a asp-controller="Booking" asp-action="Index" class="view-all-link">View All</a>
                     </div>
-                    <div class="history-list">
-                        <!-- History Item 1 -->
-                        <div class="history-item">
-                            <div class="history-item-image">
-                                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJqImrmmsrwNKF-k6i5sGBh66oN9jm4HJj34kJEA9UabsDb9ymVVITydCCRMb-Otwy1i_TsaGXZdKJyPggSr_Ncqllw7neEUdMhdRn0ylRMlTR0CLBjFFGoZmTAGUl3ZpqutgfTIQz-q7I5xZbp6LR6ZmvJkc-CaiJr5dUMCRv3Yfk5TB1_v670kiGiZXjUa55ddvXOpR8ewofetK3mOJCxga1KDBIDP9GbQQCgrEjD6vHelTpHBc3qZUNGY7JgHtEdCXa7cfDWBY" alt="Heavy Duty Drill">
-                            </div>
-                            <div class="history-item-content">
-                                <div>
-                                    <h4 class="history-item-title">Heavy Duty Drill</h4>
-                                    <p class="history-item-meta">Returned Apr 10</p>
+                    @if (Model.HistoryBookings.Any())
+                    {
+                        <div class="history-list">
+                            @foreach (var booking in Model.HistoryBookings.Take(3))
+                            {
+                                <div class="history-item">
+                                    <div class="history-item-image">
+                                        @if (!string.IsNullOrEmpty(booking.Equipment?.ImageUrl))
+                                        {
+                                            <img src="@booking.Equipment.ImageUrl" alt="@booking.Equipment.Name">
+                                        }
+                                        else
+                                        {
+                                            <div style="width: 100%; height: 100%; background: #f1f5f9; display: flex; align-items: center; justify-content: center;">
+                                                <span class="material-symbols-outlined" style="font-size: 24px; color: #94a3b8;">construction</span>
+                                            </div>
+                                        }
+                                    </div>
+                                    <div class="history-item-content">
+                                        <div>
+                                            <h4 class="history-item-title">@booking.Equipment?.Name</h4>
+                                            <p class="history-item-meta">Returned @booking.EndDate.ToString("MMM dd")</p>
+                                        </div>
+                                        <div class="history-item-right">
+                                            <span class="history-item-price">$@booking.TotalPrice.ToString("F0")</span>
+                                            <span class="payment-status paid">
+                                                <span class="material-symbols-outlined">check_circle</span>
+                                                Paid
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="history-item-right">
-                                    <span class="history-item-price">$45.00</span>
-                                    <span class="payment-status paid">
-                                        <span class="material-symbols-outlined">check_circle</span>
-                                        Paid
-                                    </span>
-                                </div>
-                            </div>
+                            }
                         </div>
-
-                        <!-- History Item 2 -->
-                        <div class="history-item">
-                            <div class="history-item-image">
-                                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFiAxjTN3EoDf8z1qIKdMVx0VekARABUrtBQRV8Kl-fblAqQlvlDLVAxHfSoa08Vkze54jod1ltxFdSJt2B8sQQNdvdNE49AE6Y0zGK6L8wffspxfU9QL74Am5Lx3iN8MtyQhccpYLIwtI_BAGeSdY0rVFae4FYpRrH9OCESLHaUKtsAEL3eOCnm2Iq39cVxcFDazLdzn6XjhYuIlKD-5JwUaT4e6w25qNA6yCudHJfsUo259NouFBXnxtwBaAGe4lwuqVfkT6Vac" alt="Pressure Washer">
-                            </div>
-                            <div class="history-item-content">
-                                <div>
-                                    <h4 class="history-item-title">Pressure Washer 3000PSI</h4>
-                                    <p class="history-item-meta">Returned Mar 22</p>
-                                </div>
-                                <div class="history-item-right">
-                                    <span class="history-item-price">$85.00</span>
-                                    <span class="payment-status paid">
-                                        <span class="material-symbols-outlined">check_circle</span>
-                                        Paid
-                                    </span>
-                                </div>
-                            </div>
+                    }
+                    else
+                    {
+                        <div class="empty-state">
+                            <span class="material-symbols-outlined">history</span>
+                            <p>No rental history yet</p>
                         </div>
-                    </div>
+                    }
                 </section>
             </div>
         </div>
