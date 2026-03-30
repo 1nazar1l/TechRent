@@ -3,6 +3,18 @@
     ViewData["css"] = "auth";
 }
 
+@if (ViewData.ModelState.Any(x => x.Value.Errors.Any()))
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(x => x.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}
+
 <main class="auth-main">
     <div class="auth-container">
         <div class="auth-card">
@@ -39,57 +51,62 @@
             </div>
 
             <!-- Register Form -->
-            <form class="auth-form" asp-action="Register" method="post">
+            <form class="auth-form" asp-controller="Account" asp-action="Register" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
                 <div class="form-row">
                     <div class="form-group half">
-                        <label class="form-label" for="firstName">First Name</label>
+                        <label class="form-label" for="FirstName">First Name</label>
                         <div class="input-wrapper">
                             <span class="input-icon material-symbols-outlined">person</span>
-                            <input type="text" id="firstName" name="firstName" class="form-input" placeholder="Enter your first name" required>
+                            <input type="text" id="FirstName" name="FirstName" class="form-input" placeholder="Enter your first name" required>
                         </div>
                     </div>
                     <div class="form-group half">
-                        <label class="form-label" for="lastName">Last Name</label>
+                        <label class="form-label" for="LastName">Last Name</label>
                         <div class="input-wrapper">
                             <span class="input-icon material-symbols-outlined">person</span>
-                            <input type="text" id="lastName" name="lastName" class="form-input" placeholder="Enter your last name" required>
+                            <input type="text" id="LastName" name="LastName" class="form-input" placeholder="Enter your last name" required>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="email">Email Address</label>
+                    <label class="form-label" for="Email">Email Address</label>
                     <div class="input-wrapper">
                         <span class="input-icon material-symbols-outlined">mail</span>
-                        <input type="email" id="email" name="email" class="form-input" placeholder="Enter your email" required>
+                        <input type="email" id="Email" name="Email" class="form-input" placeholder="Enter your email" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="phone">Phone Number</label>
+                    <label class="form-label" for="Phone">Phone Number</label>
                     <div class="input-wrapper">
                         <span class="input-icon material-symbols-outlined">call</span>
-                        <input type="tel" id="phone" name="phone" class="form-input" placeholder="Enter your phone number">
+                        <input type="tel" id="Phone" name="Phone" class="form-input" placeholder="Enter your phone number">
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group half">
-                        <label class="form-label" for="password">Password</label>
+                        <label class="form-label" for="Password">Password</label>
                         <div class="input-wrapper">
                             <span class="input-icon material-symbols-outlined">lock</span>
-                            <input type="password" id="password" name="password" class="form-input" placeholder="Create a password" required>
-                            <button type="button" class="password-toggle" onclick="togglePassword('password')">
+                            <input type="password" id="Password" name="Password" class="form-input" placeholder="Create a password" required>
+                            <button type="button" class="password-toggle" onclick="togglePassword('Password')">
                                 <span class="material-symbols-outlined">visibility_off</span>
                             </button>
                         </div>
                     </div>
                     <div class="form-group half">
-                        <label class="form-label" for="confirmPassword">Confirm Password</label>
+                        <label class="form-label" for="ConfirmPassword">Confirm Password</label>
                         <div class="input-wrapper">
                             <span class="input-icon material-symbols-outlined">lock</span>
-                            <input type="password" id="confirmPassword" name="confirmPassword" class="form-input" placeholder="Confirm your password" required>
-                            <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword')">
+                            <input type="password" id="ConfirmPassword" name="ConfirmPassword" class="form-input" placeholder="Confirm your password" required>
+                            <button type="button" class="password-toggle" onclick="togglePassword('ConfirmPassword')">
                                 <span class="material-symbols-outlined">visibility_off</span>
                             </button>
                         </div>
@@ -98,7 +115,7 @@
 
                 <div class="form-options">
                     <label class="checkbox-label">
-                        <input type="checkbox" name="termsAccepted" class="checkbox-input" required>
+                        <input type="checkbox" name="TermsAccepted" class="checkbox-input" value="true">
                         <span class="checkbox-custom"></span>
                         <span class="checkbox-text">
                             I agree to the <a href="#" class="terms-link">Terms of Service</a> and <a href="#" class="terms-link">Privacy Policy</a>
@@ -108,10 +125,9 @@
 
                 <button type="submit" class="auth-button">Create Account</button>
             </form>
-
             <!-- Footer Link -->
             <div class="auth-footer">
-                <p>Already have an account? <a asp-controller="Auth" asp-action="Login" class="auth-link">Sign In</a></p>
+                <p>Already have an account? <a asp-controller="Account" asp-action="Auth" class="auth-link">Sign In</a></p>
             </div>
         </div>
     </div>

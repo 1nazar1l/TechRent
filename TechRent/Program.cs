@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TechRent.Data;
 using Microsoft.AspNetCore.Identity.UI;
+using TechRent.Services; // Добавьте эту строку
 
 namespace TechRent
 {
@@ -18,14 +19,24 @@ namespace TechRent
                 options.UseSqlite(connectionString));
 
             // НАСТРОЙКА IDENTITY
+            //builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+            //{
+            //    options.SignIn.RequireConfirmedAccount = true; // Меняем на true для подтверждения email
+            //    options.Tokens.EmailConfirmationTokenProvider = TokenOptions.DefaultEmailProvider;
+            //})
+            //.AddRoles<IdentityRole>()
+            //.AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddDefaultIdentity<IdentityUser>(options =>
             {
-                options.SignIn.RequireConfirmedAccount = false;
+                options.SignIn.RequireConfirmedAccount = false; // Временно для тестирования
             })
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddRazorPages(); // ВАЖНО: добавляем поддержку Razor Pages для Identity
+
+            // Регистрация EmailSender (добавьте эти строки)
+            builder.Services.AddTransient<IEmailSender, EmailSender>();
 
             var app = builder.Build();
 
