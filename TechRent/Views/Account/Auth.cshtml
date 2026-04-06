@@ -21,8 +21,8 @@
         <div class="auth-card">
             <!-- Header -->
             <div class="auth-header">
-                <h1 class="auth-title">Welcome Back</h1>
-                <p class="auth-subtitle">Sign in to your account to continue</p>
+                <h1 class="auth-title">С возвращением</h1>
+                <p class="auth-subtitle">Войдите в свой аккаунт, чтобы продолжить</p>
             </div>
 
             <!-- Social Login Buttons -->
@@ -34,13 +34,13 @@
                         <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
                         <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
                     </svg>
-                    Continue with Google
+                    Войти через Google
                 </button>
                 <button class="social-button apple">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.85 21.18 10.37 21.95 9.17 22C7.87 22.05 6.86 20.68 6 19.38C4.31 16.81 3 12.09 5.26 8.86C6.36 7.31 8 6.36 9.68 6.34C11 6.32 12.24 7.2 13.06 7.2C13.88 7.2 15.4 6.14 16.96 6.29C17.78 6.33 19.34 6.79 20.34 8.06C20.23 8.14 18.88 8.94 18.91 10.61C18.94 12.52 20.63 13.32 20.68 13.34C20.64 13.4 20.1 14.86 18.71 16.59C17.46 18.13 16.16 19.51 14.66 19.51C13.5 19.51 13.03 18.71 11.74 18.71C10.45 18.71 9.86 19.5 8.71 19.5C7.56 19.5 6.61 18.19 6.17 17.35C5.64 16.34 5.5 15.14 5.5 14C5.5 12.44 5.95 10.92 6.78 9.81C7.61 8.7 8.86 8 10.19 8C11.21 8 12.07 8.57 12.77 8.57C13.47 8.57 14.55 7.86 15.86 7.86C17.16 7.86 18.23 8.73 18.95 9.79C17.16 10.79 16.06 12.7 16.06 14.85C16.06 17.05 17.38 18.9 18.71 19.5Z" />
                     </svg>
-                    Continue with Apple
+                    Войти через Apple
                 </button>
             </div>
 
@@ -59,21 +59,21 @@
                 @* <div asp-validation-summary="ModelOnly" class="text-danger"></div> *@
 
                 <div class="form-group">
-                    <label class="form-label" for="Email">Email Address</label>
+                    <label class="form-label" for="Email">Электронная почта</label>
                     <div class="input-wrapper">
                         <span class="input-icon material-symbols-outlined">mail</span>
-                        <input type="email" id="Email" name="Email" class="form-input" placeholder="Enter your email" required>
+                        <input type="email" id="Email" name="Email" class="form-input" placeholder="Введите вашу почту" required>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="password-header">
-                        <label class="form-label" for="Password">Password</label>
-                        <a href="#" class="forgot-link">Forgot password?</a>
+                        <label class="form-label" for="Password">Пароль</label>
+                        <a href="#" class="forgot-link">Забыли пароль?</a>
                     </div>
                     <div class="input-wrapper">
                         <span class="input-icon material-symbols-outlined">lock</span>
-                        <input type="password" id="Password" name="Password" class="form-input" placeholder="Enter your password" required>
+                        <input type="password" id="Password" name="Password" class="form-input" placeholder="Введите ваш пароль" required>
                         <button type="button" class="password-toggle" onclick="togglePassword()">
                             <span class="material-symbols-outlined">visibility_off</span>
                         </button>
@@ -84,16 +84,16 @@
                     <label class="checkbox-label">
                         <input type="checkbox" name="RememberMe" value="true" class="checkbox-input">
                         <span class="checkbox-custom"></span>
-                        <span class="checkbox-text">Remember me</span>
+                        <span class="checkbox-text">Запомнить меня</span>
                     </label>
                 </div>
 
-                <button type="submit" class="auth-button">Sign In</button>
+                <button type="submit" class="auth-button">Войти</button>
             </form>
 
             <!-- Footer Link -->
             <div class="auth-footer">
-                <p>Don't have an account? <a asp-controller="Account" asp-action="Register" class="auth-link">Sign Up</a></p>
+                <p>Нет аккаунта? <a asp-controller="Account" asp-action="Register" class="auth-link">Зарегистрироваться</a></p>
             </div>
         </div>
     </div>

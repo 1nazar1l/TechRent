@@ -22,15 +22,15 @@
             <nav class="sidebar-nav">
                 <a asp-controller="Profile" asp-action="Index" class="sidebar-link active">
                     <span class="material-symbols-outlined">calendar_month</span>
-                    <span>My Bookings</span>
+                    <span>Мои бронирования</span>
                 </a>
                 <a asp-controller="Profile" asp-action="Favorites" class="sidebar-link">
                     <span class="material-symbols-outlined">favorite</span>
-                    <span>Favorites</span>
+                    <span>Избранное</span>
                 </a>
                 <a asp-controller="Profile" asp-action="Settings" class="sidebar-link">
                     <span class="material-symbols-outlined">settings</span>
-                    <span>Settings</span>
+                    <span>Настройки</span>
                 </a>
             </nav>
 
@@ -51,14 +51,14 @@
                     </div>
                     <div class="user-details">
                         <p class="user-name">@(Model.UserName ?? "User")</p>
-                        <p class="user-badge">@(Model.IsPremium ? "Pro Member" : "Standard Member")</p>
+                        <p class="user-badge">@(Model.IsPremium ? "Pro участник" : "Стандартный участник")</p>
                     </div>
                 </div>
                 <form asp-controller="Account" asp-action="Logout" method="post">
                     @Html.AntiForgeryToken()
                     <button type="submit" class="logout-button">
                         <span class="material-symbols-outlined">logout</span>
-                        Log Out
+                        Выйти
                     </button>
                 </form>
             </div>
@@ -71,8 +71,8 @@
             <!-- Page Header -->
             <div class="page-header">
                 <div>
-                    <h1 class="page-title">My Bookings</h1>
-                    <p class="page-description">Manage your active rentals and view history.</p>
+                    <h1 class="page-title">Мои бронирования</h1>
+                    <p class="page-description">Управляйте активными арендами и просматривайте историю.</p>
                 </div>
             </div>
 
@@ -86,7 +86,7 @@
                     <div class="section-header">
                         <h2 class="section-title">
                             <span class="active-dot"></span>
-                            Active Rental
+                            Активная аренда
                         </h2>
                     </div>
 
@@ -118,27 +118,27 @@
                             <div class="active-details">
                                 <div class="active-info">
                                     <div class="active-header">
-                                        <span class="status-badge status-active">Active</span>
+                                        <span class="status-badge status-active">Активна</span>
                                         <span class="booking-id">ID: #TR-@Model.ActiveBooking.Id.ToString("D4")</span>
                                     </div>
                                     <h3 class="active-title">@Model.ActiveBooking.Equipment?.Name</h3>
-                                    <p class="active-description">@(Model.ActiveBooking.Equipment?.Description ?? "No description available")</p>
+                                    <p class="active-description">@(Model.ActiveBooking.Equipment?.Description ?? "Описание недоступно")</p>
 
                                     <div class="booking-dates">
                                         <div class="date-item">
-                                            <span class="date-label">Start Date</span>
+                                            <span class="date-label">Дата начала</span>
                                             <span class="date-value">@Model.ActiveBooking.StartDate.ToString("MMM dd, yyyy")</span>
                                         </div>
                                         <div class="date-item">
-                                            <span class="date-label">End Date</span>
+                                            <span class="date-label">Дата окончания</span>
                                             <span class="date-value highlight">@Model.ActiveBooking.EndDate.ToString("MMM dd, yyyy")</span>
                                         </div>
                                         <div class="date-item">
-                                            <span class="date-label">Daily Rate</span>
+                                            <span class="date-label">Цена за день</span>
                                             <span class="date-value">$@Model.ActiveBooking.Equipment?.PricePerDay.ToString("F0")</span>
                                         </div>
                                         <div class="date-item">
-                                            <span class="date-label">Total</span>
+                                            <span class="date-label">Итого</span>
                                             <span class="date-value">$@Model.ActiveBooking.TotalPrice.ToString("F0")</span>
                                         </div>
                                     </div>
@@ -147,7 +147,7 @@
                                 <div class="active-actions">
                                     <a asp-controller="Booking" asp-action="Details" asp-route-id="@Model.ActiveBooking.Id" class="button-primary">
                                         <span class="material-symbols-outlined">visibility</span>
-                                        View Details
+                                        Подробнее
                                     </a>
                                 </div>
                             </div>
@@ -160,7 +160,7 @@
             <div class="two-column-section">
                 <!-- Upcoming Bookings -->
                 <section class="upcoming-section">
-                    <h2 class="section-title">Upcoming Bookings</h2>
+                    <h2 class="section-title">Предстоящие бронирования</h2>
                     @if (Model.UpcomingBookings.Any())
                     {
                         <div class="bookings-list">
@@ -181,7 +181,7 @@
                                     </div>
                                     <div class="booking-item-content">
                                         <h4 class="booking-item-title">@booking.Equipment?.Name</h4>
-                                        <p class="booking-item-meta">Starts @booking.StartDate.ToString("MMM dd") • @((booking.EndDate - booking.StartDate).Days + 1) Days</p>
+                                        <p class="booking-item-meta">Начало @booking.StartDate.ToString("MMM dd") • @((booking.EndDate - booking.StartDate).Days + 1) дн.</p>
                                     </div>
                                     <a asp-controller="Booking" asp-action="Details" asp-route-id="@booking.Id" class="booking-item-arrow">
                                         <span class="material-symbols-outlined">chevron_right</span>
@@ -194,8 +194,8 @@
                     {
                         <div class="empty-state">
                             <span class="material-symbols-outlined">calendar_month</span>
-                            <p>No upcoming bookings</p>
-                            <a asp-controller="Equipment" asp-action="Index" class="browse-link">Browse Equipment</a>
+                            <p>Нет предстоящих бронирований</p>
+                            <a asp-controller="Equipment" asp-action="Index" class="browse-link">Перейти в каталог</a>
                         </div>
                     }
                 </section>
@@ -203,8 +203,8 @@
                 <!-- Rental History -->
                 <section class="history-section">
                     <div class="section-header">
-                        <h2 class="section-title">Rental History</h2>
-                        <a asp-controller="Booking" asp-action="Index" class="view-all-link">View All</a>
+                        <h2 class="section-title">История аренд</h2>
+                        <a asp-controller="Booking" asp-action="Index" class="view-all-link">Все аренды</a>
                     </div>
                     @if (Model.HistoryBookings.Any())
                     {
@@ -227,13 +227,13 @@
                                     <div class="history-item-content">
                                         <div>
                                             <h4 class="history-item-title">@booking.Equipment?.Name</h4>
-                                            <p class="history-item-meta">Returned @booking.EndDate.ToString("MMM dd")</p>
+                                            <p class="history-item-meta">Возвращено @booking.EndDate.ToString("MMM dd")</p>
                                         </div>
                                         <div class="history-item-right">
                                             <span class="history-item-price">$@booking.TotalPrice.ToString("F0")</span>
                                             <span class="payment-status paid">
                                                 <span class="material-symbols-outlined">check_circle</span>
-                                                Paid
+                                                Оплачено
                                             </span>
                                         </div>
                                     </div>
@@ -245,7 +245,7 @@
                     {
                         <div class="empty-state">
                             <span class="material-symbols-outlined">history</span>
-                            <p>No rental history yet</p>
+                            <p>История аренд пуста</p>
                         </div>
                     }
                 </section>

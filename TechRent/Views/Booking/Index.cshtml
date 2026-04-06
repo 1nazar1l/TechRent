@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<TechRent.Models.Entities.Booking>
 @{
-    ViewData["Title"] = "My Rentals - TECHRENT";
+    ViewData["Title"] = "Мои аренды - TECHRENT";
     ViewData["css"] = "booking";
 }
 
@@ -11,18 +11,18 @@
     <div class="rentals-container">
         <!-- Breadcrumb -->
         <nav class="breadcrumb">
-            <a href="@Url.Action("Index", "Home")" class="breadcrumb-link">Home</a>
+            <a href="@Url.Action("Index", "Home")" class="breadcrumb-link">Главная</a>
             <span class="material-symbols-outlined">chevron_right</span>
-            <a href="#" class="breadcrumb-link">Profile</a>
+            <a href="#" class="breadcrumb-link">Профиль</a>
             <span class="material-symbols-outlined">chevron_right</span>
-            <span class="breadcrumb-current">My Rentals</span>
+            <span class="breadcrumb-current">Мои аренды</span>
         </nav>
 
         <!-- Page Header -->
         <div class="page-header">
             <div>
-                <h1 class="page-title">My Rentals</h1>
-                <p class="page-description">View all your equipment rentals</p>
+                <h1 class="page-title">Мои аренды</h1>
+                <p class="page-description">Просматривайте все ваши аренды оборудования</p>
             </div>
         </div>
 
@@ -30,37 +30,37 @@
         {
             <div class="empty-state">
                 <span class="material-symbols-outlined" style="font-size: 64px; color: #94a3b8;">inbox</span>
-                <h2>No rentals found</h2>
-                <p>You haven't rented any equipment yet.</p>
-                <a href="@Url.Action("Index", "Equipment")" class="button-primary">Browse Equipment</a>
+                <h2>Аренды не найдены</h2>
+                <p>Вы ещё не арендовали никакого оборудования.</p>
+                <a href="@Url.Action("Index", "Equipment")" class="button-primary">Перейти в каталог</a>
             </div>
         }
         else
         {
             <!-- Tabs Navigation -->
             <div class="rentals-tabs">
-                <button class="tab-button active" data-tab="all">All Rentals (@Model.Count())</button>
-                <button class="tab-button" data-tab="active">Active (@Model.Count(b => b.Status == "Подтверждено" && b.StartDate <= DateTime.Now && b.EndDate >= DateTime.Now))</button>
-                <button class="tab-button" data-tab="upcoming">Upcoming (@Model.Count(b => b.Status == "Подтверждено" && b.StartDate > DateTime.Now))</button>
-                <button class="tab-button" data-tab="completed">Completed (@Model.Count(b => b.Status == "Подтверждено" && b.EndDate < DateTime.Now))</button>
-                <button class="tab-button" data-tab="cancelled">Cancelled (@Model.Count(b => b.Status == "Отменено"))</button>
+                <button class="tab-button active" data-tab="all">Все (@Model.Count())</button>
+                <button class="tab-button" data-tab="active">Активные (@Model.Count(b => b.Status == "Подтверждено" && b.StartDate <= DateTime.Now && b.EndDate >= DateTime.Now))</button>
+                <button class="tab-button" data-tab="upcoming">Предстоящие (@Model.Count(b => b.Status == "Подтверждено" && b.StartDate > DateTime.Now))</button>
+                <button class="tab-button" data-tab="completed">Завершённые (@Model.Count(b => b.Status == "Подтверждено" && b.EndDate < DateTime.Now))</button>
+                <button class="tab-button" data-tab="cancelled">Отменённые (@Model.Count(b => b.Status == "Отменено"))</button>
             </div>
 
             <!-- Toolbar with Sort -->
             <div class="rentals-toolbar">
                 <div class="results-count">
                     <span class="count-number">@Model.Count()</span>
-                    <span class="count-text">rentals total</span>
+                    <span class="count-text">аренд всего</span>
                 </div>
 
                 <div class="sort-control">
-                    <label for="sort-select" class="sort-label">Sort by:</label>
+                    <label for="sort-select" class="sort-label">Сортировать по:</label>
                     <select id="sort-select" class="sort-select" onchange="sortRentals(this.value)">
-                        <option value="newest">Newest first</option>
-                        <option value="oldest">Oldest first</option>
-                        <option value="price-high">Price: High to Low</option>
-                        <option value="price-low">Price: Low to High</option>
-                        <option value="duration">Duration: Longest first</option>
+                        <option value="newest">Сначала новые</option>
+                        <option value="oldest">Сначала старые</option>
+                        <option value="price-high">Цена: по убыванию</option>
+                        <option value="price-low">Цена: по возрастанию</option>
+                        <option value="duration">Длительность: сначала длинные</option>
                     </select>
                     <span class="sort-icon material-symbols-outlined">unfold_more</span>
                 </div>
@@ -85,23 +85,23 @@
                         <div class="rental-status-bar">
                             @if (isActive && daysLeft <= 1 && daysLeft >= 0)
                             {
-                                <span class="status-badge status-urgent">@daysLeft day left</span>
+                                <span class="status-badge status-urgent">Осталось @daysLeft дн.</span>
                             }
                             else if (isActive)
                             {
-                                <span class="status-badge status-active">Active</span>
+                                <span class="status-badge status-active">Активна</span>
                             }
                             else if (isUpcoming)
                             {
-                                <span class="status-badge status-upcoming">Upcoming</span>
+                                <span class="status-badge status-upcoming">Предстоящая</span>
                             }
                             else if (isCompleted)
                             {
-                                <span class="status-badge status-completed">Completed</span>
+                                <span class="status-badge status-completed">Завершена</span>
                             }
                             else if (isCancelled)
                             {
-                                <span class="status-badge status-cancelled">Cancelled</span>
+                                <span class="status-badge status-cancelled">Отменена</span>
                             }
                             <span class="rental-id">#TR-@booking.Id.ToString("D4")</span>
                         </div>
@@ -125,39 +125,39 @@
                                     <h3 class="rental-title">@(booking.Equipment?.Name ?? "Unknown Equipment")</h3>
                                     <span class="rental-category">@(booking.Equipment?.Category?.Name ?? "Equipment")</span>
                                 </div>
-                                <p class="rental-description">@(booking.Equipment?.Description ?? "No description available")</p>
+                                <p class="rental-description">@(booking.Equipment?.Description ?? "Описание недоступно")</p>
 
                                 <div class="rental-dates">
                                     <div class="date-item">
                                         <span class="date-icon material-symbols-outlined">event</span>
                                         <div>
-                                            <span class="date-label">Start</span>
+                                            <span class="date-label">Начало</span>
                                             <span class="date-value">@booking.StartDate.ToString("MMM dd, yyyy")</span>
                                         </div>
                                     </div>
                                     <div class="date-item">
                                         <span class="date-icon material-symbols-outlined">event_busy</span>
                                         <div>
-                                            <span class="date-label">End</span>
+                                            <span class="date-label">Конец</span>
                                             <span class="date-value @(isActive && daysLeft <= 1 ? "highlight" : "")">@booking.EndDate.ToString("MMM dd, yyyy")</span>
                                         </div>
                                     </div>
                                     <div class="date-item">
                                         <span class="date-icon material-symbols-outlined">schedule</span>
                                         <div>
-                                            <span class="date-label">Duration</span>
-                                            <span class="date-value">@((booking.EndDate - booking.StartDate).Days + 1) days</span>
+                                            <span class="date-label">Длительность</span>
+                                            <span class="date-value">@((booking.EndDate - booking.StartDate).Days + 1) дн.</span>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="rental-footer">
                                     <div class="rental-price">
-                                        <span class="price-label">Total</span>
+                                        <span class="price-label">Итого</span>
                                         <span class="price-value">$@booking.TotalPrice.ToString("F2")</span>
                                     </div>
                                     <div class="rental-actions">
-                                        <a href="@Url.Action("Details", "Booking", new { id = booking.Id })" class="action-link">View Details</a>
+                                        <a href="@Url.Action("Details", "Booking", new { id = booking.Id })" class="action-link">Подробнее</a>
                                     </div>
                                 </div>
                             </div>

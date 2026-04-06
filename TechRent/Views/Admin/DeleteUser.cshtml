@@ -1,7 +1,5 @@
-﻿@using Microsoft.AspNetCore.Identity
-@model IdentityUser
-@{
-    ViewData["Title"] = "Delete User";
+﻿@{
+    ViewData["Title"] = "Удалить пользователя";
     ViewData["css"] = "admin";
 }
 
@@ -16,9 +14,9 @@
 <main class="main-content">
     <div class="wrapper">
         <div class="breadcrumb">
-            <a asp-action="Users" class="breadcrumb-link">Admin</a>
+            <a asp-action="Users" class="breadcrumb-link">Админ</a>
             <span class="material-symbols-outlined">chevron_right</span>
-            <span class="breadcrumb-current">Delete User</span>
+            <span class="breadcrumb-current">Удалить пользователя</span>
         </div>
 
         <div class="delete-container">
@@ -27,11 +25,11 @@
                     <span class="material-symbols-outlined" style="font-size: 48px; color: #ef4444;">warning</span>
                 </div>
 
-                <h1 class="delete-title">Delete User</h1>
+                <h1 class="delete-title">Удалить пользователя</h1>
 
                 <p class="delete-text">
-                    Are you sure you want to delete user <strong>"@Model.Email"</strong>?
-                    This action cannot be undone.
+                    Вы уверены, что хотите удалить пользователя <strong>"@Model.Email"</strong>?
+                    Это действие нельзя отменить.
                 </p>
 
                 @if (Model.Id == currentUserId)
@@ -39,9 +37,9 @@
                     <div class="delete-warning" style="background: #fee2e2; border: 1px solid #fecaca; border-radius: 12px; padding: 16px; margin-bottom: 24px; color: #991b1b;">
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
                             <span class="material-symbols-outlined">error</span>
-                            <strong>Warning:</strong>
+                            <strong>Внимание:</strong>
                         </div>
-                        <p>You cannot delete your own account while logged in.</p>
+                        <p>Нельзя удалить собственный аккаунт, пока вы авторизованы.</p>
                     </div>
                 }
 
@@ -55,11 +53,11 @@
                         <span class="detail-value">@Model.Email</span>
                     </div>
                     <div class="detail-item">
-                        <span class="detail-label">Username:</span>
+                        <span class="detail-label">Имя пользователя:</span>
                         <span class="detail-value">@Model.UserName</span>
                     </div>
                     <div class="detail-item">
-                        <span class="detail-label">Role:</span>
+                        <span class="detail-label">Роль:</span>
                         <span class="detail-value">
                             @if (roleName == "Admin")
                             {
@@ -72,20 +70,20 @@
                         </span>
                     </div>
                     <div class="detail-item">
-                        <span class="detail-label">Email Confirmed:</span>
+                        <span class="detail-label">Email подтверждён:</span>
                         <span class="detail-value">
                             @if (Model.EmailConfirmed)
                             {
-                                <span class="status-badge status-active">Yes</span>
+                                <span class="status-badge status-active">Да</span>
                             }
                             else
                             {
-                                <span class="status-badge status-inactive">No</span>
+                                <span class="status-badge status-inactive">Нет</span>
                             }
                         </span>
                     </div>
                     <div class="detail-item">
-                        <span class="detail-label">Phone:</span>
+                        <span class="detail-label">Телефон:</span>
                         <span class="detail-value">@(!string.IsNullOrEmpty(Model.PhoneNumber) ? Model.PhoneNumber : "—")</span>
                     </div>
                 </div>
@@ -95,7 +93,7 @@
                     <div class="delete-actions">
                         <a asp-action="Users" class="delete-button-cancel" style="justify-content: center;">
                             <span class="material-symbols-outlined">arrow_back</span>
-                            Back to Users
+                            Назад к пользователям
                         </a>
                     </div>
                 }
@@ -107,12 +105,12 @@
                         <div class="delete-actions">
                             <button type="submit" class="delete-button-confirm">
                                 <span class="material-symbols-outlined">delete</span>
-                                Delete Permanently
+                                Удалить навсегда
                             </button>
 
                             <a asp-action="Users" class="delete-button-cancel">
                                 <span class="material-symbols-outlined">close</span>
-                                Cancel
+                                Отмена
                             </a>
                         </div>
                     </form>

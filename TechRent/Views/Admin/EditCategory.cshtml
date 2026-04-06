@@ -1,22 +1,22 @@
 ﻿@model TechRent.Models.Entities.Category
 @{
-    ViewData["Title"] = "Edit Category";
+    ViewData["Title"] = "Редактировать категорию";
     ViewData["css"] = "admin";
 }
 
 <main class="main-content">
     <div class="wrapper">
         <div class="breadcrumb">
-            <a asp-action="Categories" class="breadcrumb-link">Admin</a>
+            <a asp-action="Categories" class="breadcrumb-link">Админ</a>
             <span class="material-symbols-outlined">chevron_right</span>
-            <span class="breadcrumb-current">Edit Category</span>
+            <span class="breadcrumb-current">Редактировать категорию</span>
         </div>
 
         <div class="form-container">
             <div class="form-card" style="max-width: 600px;">
                 <div class="form-header">
-                    <h1 class="form-title">Edit Category</h1>
-                    <p class="form-subtitle">Update category information</p>
+                    <h1 class="form-title">Редактировать категорию</h1>
+                    <p class="form-subtitle">Обновите информацию о категории</p>
                 </div>
 
                 <form asp-action="EditCategory" method="post" class="edit-form">
@@ -24,31 +24,31 @@
 
                     <div class="form-group">
                         <label asp-for="Name" class="form-label"></label>
-                        <input asp-for="Name" class="form-input" placeholder="Enter category name" />
+                        <input asp-for="Name" class="form-input" placeholder="Введите название категории" />
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
                         <label asp-for="Description" class="form-label"></label>
-                        <textarea asp-for="Description" class="form-textarea" rows="3" placeholder="Enter category description (optional)"></textarea>
+                        <textarea asp-for="Description" class="form-textarea" rows="3" placeholder="Введите описание категории (необязательно)"></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
-                        <label asp-for="DisplayOrder" class="form-label">Display Order</label>
-                        <input asp-for="DisplayOrder" class="form-input" type="number" min="0" placeholder="Enter display order" />
+                        <label asp-for="DisplayOrder" class="form-label">Порядок отображения</label>
+                        <input asp-for="DisplayOrder" class="form-input" type="number" min="0" placeholder="Введите порядок отображения" />
                         <span asp-validation-for="DisplayOrder" class="text-danger"></span>
                     </div>
 
                     <div class="form-actions">
                         <button type="submit" class="save-button">
                             <span class="material-symbols-outlined">save</span>
-                            Save Changes
+                            Сохранить изменения
                         </button>
 
                         <a asp-action="Categories" class="cancel-button">
                             <span class="material-symbols-outlined">close</span>
-                            Cancel
+                            Отмена
                         </a>
                     </div>
                 </form>

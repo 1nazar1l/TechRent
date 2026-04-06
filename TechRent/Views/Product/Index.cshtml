@@ -105,9 +105,9 @@
                             <div class="price-large">
                                 <span class="currency">$</span>
                                 <span class="amount">@Model.PricePerDay.ToString("N0")</span>
-                                <span class="period">/ day</span>
+                                <span class="period">/ день</span>
                             </div>
-                            <p class="price-note">Free cancellation up to 24h before pickup</p>
+                            <p class="price-note">Бесплатная отмена за 24 часа до получения</p>
                         </div>
 
                         <!-- Deposit Card -->
@@ -116,14 +116,14 @@
                                 <span class="material-symbols-outlined">lock</span>
                             </div>
                             <div class="deposit-info">
-                                <p class="deposit-title">Refundable Deposit: $@Model.Deposit.ToString("N0")</p>
-                                <p class="deposit-note">Held on card, released upon return.</p>
+                                <p class="deposit-title">Возвратный залог: $@Model.Deposit.ToString("N0")</p>
+                                <p class="deposit-note">Удерживается на карте, возвращается после сдачи.</p>
                             </div>
                         </div>
 
                         <!-- Date Selection -->
                         <div class="date-section">
-                            <label class="date-label">Select Rental Dates</label>
+                            <label class="date-label">Выберите даты аренды</label>
                             <div class="calendar">
                                 <!-- Calendar Header -->
                                 <div class="calendar-header">
@@ -144,24 +144,24 @@
                             <div style="margin-top: 16px; padding: 12px; background: #f8fafc; border-radius: 8px; font-size: 13px; color: #64748b;">
                                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
                                     <span class="material-symbols-outlined" style="font-size: 18px;">info</span>
-                                    <span style="font-weight: 500;">How to select dates:</span>
+                                    <span style="font-weight: 500;">Как выбрать даты:</span>
                                 </div>
                                 <div style="display: flex; gap: 24px; flex-wrap: wrap;">
                                     <div style="display: flex; align-items: center; gap: 4px;">
                                         <span class="material-symbols-outlined" style="font-size: 16px; color: #3b82f6;">mouse</span>
-                                        <span>Left click - Start date</span>
+                                        <span>Левый клик — дата начала</span>
                                     </div>
                                     <div style="display: flex; align-items: center; gap: 4px;">
                                         <span class="material-symbols-outlined" style="font-size: 16px; color: #3b82f6;">mouse</span>
-                                        <span>Right click - End date</span>
+                                        <span>Правый клик — дата окончания</span>
                                     </div>
                                     <div style="display: flex; align-items: center; gap: 4px;">
                                         <span class="material-symbols-outlined" style="font-size: 16px; color: #3b82f6;">touch_app</span>
-                                        <span>Tap - Start date</span>
+                                        <span>Нажатие — дата начала</span>
                                     </div>
                                     <div style="display: flex; align-items: center; gap: 4px;">
                                         <span class="material-symbols-outlined" style="font-size: 16px; color: #3b82f6;">touch_app</span>
-                                        <span>Long press - End date</span>
+                                        <span>Долгое нажатие — дата окончания</span>
                                     </div>
                                 </div>
                             </div>
@@ -175,24 +175,24 @@
                             @if (Model.AvailableQuantity > 0)
                             {
                                 <button class="checkout-button" id="checkoutButton" onclick="proceedToCheckout()" disabled style="opacity: 0.5; cursor: not-allowed;">
-                                    <span>Proceed to Checkout</span>
+                                    <span>Перейти к оформлению</span>
                                     <span class="material-symbols-outlined">arrow_forward</span>
                                 </button>
                             }
                             else
                             {
                                 <button class="checkout-button" disabled style="opacity: 0.5; cursor: not-allowed;">
-                                    <span>Out of Stock</span>
+                                    <span>Нет в наличии</span>
                                 </button>
                             }
                             <div class="payment-badges">
                                 <div class="payment-badge">
                                     <span class="material-symbols-outlined">verified_user</span>
-                                    Secure Payment
+                                    Безопасная оплата
                                 </div>
                                 <div class="payment-badge">
                                     <span class="material-symbols-outlined">bolt</span>
-                                    Instant Confirm
+                                    Мгновенное подтверждение
                                 </div>
                             </div>
                         </div>
@@ -204,19 +204,19 @@
             <div class="details-section">
                 <!-- Tab Headers -->
                 <div class="tabs-header">
-                    <button class="tab-button active" onclick="showTab('description')">Description</button>
-                    <button class="tab-button" onclick="showTab('specifications')">Specifications</button>
-                    <button class="tab-button" onclick="showTab('terms')">Rental Terms</button>
-                    <button class="tab-button" onclick="showTab('reviews')">Reviews (@reviewCount)</button>
+                    <button class="tab-button active" onclick="showTab('description')">Описание</button>
+                    <button class="tab-button" onclick="showTab('specifications')">Характеристики</button>
+                    <button class="tab-button" onclick="showTab('terms')">Условия аренды</button>
+                    <button class="tab-button" onclick="showTab('reviews')">Отзывы (@reviewCount)</button>
                 </div>
 
                 <!-- Tab Content -->
                 <div class="tab-content">
                     <!-- Description Tab -->
                     <div id="description-tab" class="description-tab active">
-                        <h3 class="tab-title">About the @Model.Name</h3>
+                        <h3 class="tab-title">Об оборудовании @Model.Name</h3>
                         <p class="tab-text">
-                            @(!string.IsNullOrEmpty(Model.Description) ? Model.Description : "No description available for this equipment.")
+                            @(!string.IsNullOrEmpty(Model.Description) ? Model.Description : "Описание для этого оборудования недоступно.")
                         </p>
                     </div>
 

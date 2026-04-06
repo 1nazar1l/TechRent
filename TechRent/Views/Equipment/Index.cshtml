@@ -13,35 +13,35 @@
     <div class="wrapper">
         <!-- Breadcrumb & Title -->
         <div class="breadcrumb">
-            <a href="@Url.Action("Index", "Home")" class="breadcrumb-link">Home</a>
+            <a href="@Url.Action("Index", "Home")" class="breadcrumb-link">Главная</a>
             <span class="material-symbols-outlined">chevron_right</span>
-            <span class="breadcrumb-current">Catalog</span>
+            <span class="breadcrumb-current">Каталог</span>
         </div>
-        <h1 class="page-title">Equipment Catalog</h1>
-        <p class="page-description">Browse our premium selection of construction machinery.</p>
+        <h1 class="page-title">Каталог оборудования</h1>
+        <p class="page-description">Просматривайте наш широкий выбор строительной техники.</p>
 
         <!-- Catalog -->
         <div class="catalog">
             <!-- Filters Sidebar -->
             <aside class="filters">
                 <div class="filters-header">
-                    <h2 class="filters-title">Filters</h2>
-                    <button class="reset-button" onclick="location.href='@Url.Action("Index")'">Reset All</button>
+                    <h2 class="filters-title">Фильтры</h2>
+                    <button class="reset-button" onclick="location.href='@Url.Action("Index")'">Сбросить</button>
                 </div>
 
                 <form method="get" id="filterForm">
                     <!-- Search Filter -->
                     <div class="filters-group">
-                        <label class="filter-label">Keywords</label>
+                        <label class="filter-label">Ключевые слова</label>
                         <div class="filter-search">
                             <span class="filter-search-icon material-symbols-outlined">search</span>
-                            <input type="text" name="searchString" class="filter-search-input" placeholder="Model, ID, or Type" value="@ViewBag.SearchString">
+                            <input type="text" name="searchString" class="filter-search-input" placeholder="Модель, ID или тип" value="@ViewBag.SearchString">
                         </div>
                     </div>
 
                     <!-- Categories -->
                     <div class="filters-group">
-                        <label class="filter-label">Category</label>
+                        <label class="filter-label">Категория</label>
                         <div class="checkbox-list">
                             @foreach (var item in ViewBag.Categories)
                             {
@@ -59,17 +59,17 @@
 
                     <!-- Price Range -->
                     <div class="filters-group">
-                        <label class="filter-label">Daily Rate</label>
+                        <label class="filter-label">Цена за день</label>
                         <div class="price-slider">
                             <div class="price-inputs">
                                 <div class="price-field">
                                     <span class="price-currency">$</span>
-                                    <input type="number" name="minPrice" class="price-input" value="@ViewBag.MinPrice" placeholder="Min">
+                                    <input type="number" name="minPrice" class="price-input" value="@ViewBag.MinPrice" placeholder="Мин">
                                 </div>
                                 <span class="price-separator">-</span>
                                 <div class="price-field">
                                     <span class="price-currency">$</span>
-                                    <input type="number" name="maxPrice" class="price-input" value="@ViewBag.MaxPrice" placeholder="Max">
+                                    <input type="number" name="maxPrice" class="price-input" value="@ViewBag.MaxPrice" placeholder="Макс">
                                 </div>
                             </div>
                         </div>
@@ -78,7 +78,7 @@
                     <!-- Availability -->
                     <div class="filters-group">
                         <label class="toggle">
-                            <span class="toggle-text">In Stock Only</span>
+                            <span class="toggle-text">Только в наличии</span>
                             <div class="relative">
                                 <input type="checkbox" name="inStockOnly" class="toggle-input" value="true" @(ViewBag.InStockOnly == true ? "checked" : "")>
                                 <div class="toggle-switch"></div>
@@ -94,7 +94,7 @@
                     <!-- Submit button -->
                     <button type="submit" class="save-button" style="width: 100%; margin-top: 16px; justify-content: center;">
                         <span class="material-symbols-outlined">filter_alt</span>
-                        Apply Filters
+                        Применить фильтры
                     </button>
                 </form>
             </aside>
@@ -105,18 +105,18 @@
                 <div class="toolbar">
                     <div class="results">
                         <span class="results-number">@ViewBag.TotalItems</span>
-                        <span class="results-text">items found</span>
+                        <span class="results-text">позиций найдено</span>
                     </div>
 
                     <div class="sort">
                         <div class="sort-field">
-                            <span class="sort-label">Sort by:</span>
+                            <span class="sort-label">Сортировать по:</span>
                             <select class="sort-select" onchange="changeSortOrder(this.value)">
-                                <option value="recommended" selected="@(ViewBag.SortOrder == "recommended")">Recommended</option>
-                                <option value="price_asc" selected="@(ViewBag.SortOrder == "price_asc")">Price: Low to High</option>
-                                <option value="price_desc" selected="@(ViewBag.SortOrder == "price_desc")">Price: High to Low</option>
-                                <option value="rating" selected="@(ViewBag.SortOrder == "rating")">Top Rated</option>
-                                <option value="newest" selected="@(ViewBag.SortOrder == "newest")">Newest</option>
+                                <option value="recommended" selected="@(ViewBag.SortOrder == "recommended")">Рекомендуемые</option>
+                                <option value="price_asc" selected="@(ViewBag.SortOrder == "price_asc")">Цена: по возрастанию</option>
+                                <option value="price_desc" selected="@(ViewBag.SortOrder == "price_desc")">Цена: по убыванию</option>
+                                <option value="rating" selected="@(ViewBag.SortOrder == "rating")">Высокий рейтинг</option>
+                                <option value="newest" selected="@(ViewBag.SortOrder == "newest")">Новинки</option>
                             </select>
                         </div>
 
@@ -146,15 +146,15 @@
                             <div class="product-badge">
                                 @if (item.AvailableQuantity > 5)
                                 {
-                                    <span class="badge badge-available">Available</span>
+                                    <span class="badge badge-available">В наличии</span>
                                 }
                                 else if (item.AvailableQuantity > 0)
                                 {
-                                    <span class="badge badge-lowstock">Low Stock</span>
+                                    <span class="badge badge-lowstock">Мало</span>
                                 }
                                 else
                                 {
-                                    <span class="badge badge-outofstock">Out of Stock</span>
+                                    <span class="badge badge-outofstock">Нет в наличии</span>
                                 }
                             </div>
                             <button class="favorite-button @(item.IsFavorite ? "favorite-active" : "")" 
@@ -178,7 +178,7 @@
                             <div class="product-details">
                                 <div class="product-header">
                                     <h3 class="product-title">@item.Name</h3>
-                                    <p class="product-description">@(item.Description ?? "No description available")</p>
+                                    <p class="product-description">@(item.Description ?? "Описание недоступно")</p>
                                 </div>
                                 
                                 <!-- Rating -->
@@ -203,34 +203,34 @@
                                             <span class="material-symbols-outlined" style="color: #cbd5e1; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
                                         }
                                     }
-                                    <span style="font-size: 14px; color: #64748b; margin-left: 4px;">(@(item.Reviews?.Count ?? 0) reviews)</span>
+                                    <span style="font-size: 14px; color: #64748b; margin-left: 4px;">(@(item.Reviews?.Count ?? 0) отзывов)</span>
                                 </div>
                                 
                                 <div class="specs">
                                     <div class="spec">
                                         <span class="spec-icon material-symbols-outlined">category</span>
-                                        <span>@(item.Category?.Name ?? "Uncategorized")</span>
+                                        <span>@(item.Category?.Name ?? "Без категории")</span>
                                     </div>
                                     <div class="spec">
                                         <span class="spec-icon material-symbols-outlined">inventory</span>
-                                        <span>@item.AvailableQuantity in stock</span>
+                                        <span>@item.AvailableQuantity в наличии</span>
                                     </div>
                                 </div>
                                 
                                 <div class="product-footer">
                                     <div class="price">
-                                        <span class="price-label">Daily Rate</span>
-                                        <span class="price-value">$@item.PricePerDay<span class="price-period">/day</span></span>
+                                        <span class="price-label">Цена за день</span>
+                                        <span class="price-value">$@item.PricePerDay<span class="price-period">/день</span></span>
                                     </div>
                                     @if (item.AvailableQuantity > 0)
                                     {
                                         <a href="@Url.Action("Index", "Product", new { id = item.Id })" class="book-button" style="text-decoration: none;">
-                                            Book Now
+                                            Арендовать
                                         </a>
                                     }
                                     else
                                     {
-                                        <button class="book-button" disabled style="opacity: 0.5; cursor: not-allowed;">Out of Stock</button>
+                                        <button class="book-button" disabled style="opacity: 0.5; cursor: not-allowed;">Нет в наличии</button>
                                     }
                                 </div>
                             </div>
@@ -253,7 +253,7 @@
                                 inStockOnly = ViewBag.InStockOnly,
                                 sortOrder = ViewBag.SortOrder
                             })" class="pagination-link">
-                                <span class="sr-only">Previous</span>
+                                <span class="sr-only">Назад</span>
                                 <span class="material-symbols-outlined">chevron_left</span>
                             </a>
                         }
@@ -291,7 +291,7 @@
                                 inStockOnly = ViewBag.InStockOnly,
                                 sortOrder = ViewBag.SortOrder
                             })" class="pagination-link">
-                                <span class="sr-only">Next</span>
+                                <span class="sr-only">Вперёд</span>
                                 <span class="material-symbols-outlined">chevron_right</span>
                             </a>
                         }

@@ -29,10 +29,10 @@
                 </a>
 
                 <nav class="main-nav">
-                    <a asp-controller="Admin" asp-action="Index" class="nav-link">Equipment</a>
-                    <a asp-controller="Admin" asp-action="Categories" class="nav-link">Categories</a>
-                    <a asp-controller="Admin" asp-action="Users" class="nav-link">Users</a>
-                    <a asp-controller="Admin" asp-action="Reviews" class="nav-link">Reviews</a>
+                    <a asp-controller="Admin" asp-action="Index" class="nav-link">Оборудование</a>
+                    <a asp-controller="Admin" asp-action="Categories" class="nav-link">Категории</a>
+                    <a asp-controller="Admin" asp-action="Users" class="nav-link">Пользователи</a>
+                    <a asp-controller="Admin" asp-action="Reviews" class="nav-link">Отзывы</a>
                 </nav>
             }
             else
@@ -48,14 +48,14 @@
                         </a>
 
                         <nav class="main-nav">
-                            <a asp-controller="Equipment" asp-action="Index" class="nav-link">Catalog</a>
-                            <a href="#" class="nav-link">How to Rent</a>
-                            <a href="#" class="nav-link">Pricing</a>
-                            <a href="#" class="nav-link">For Suppliers</a>
-                            <a href="#" class="nav-link">Support</a>
+                            <a asp-controller="Equipment" asp-action="Index" class="nav-link">Каталог</a>
+                            <a href="#" class="nav-link">Как арендовать</a>
+                            <a href="#" class="nav-link">Цены</a>
+                            <a href="#" class="nav-link">Поставщикам</a>
+                            <a href="#" class="nav-link">Поддержка</a>
                             @if (User.IsInRole("Admin"))
                             {
-                                <a asp-controller="Admin" asp-action="Index" class="nav-link">Admin</a>
+                                <a asp-controller="Admin" asp-action="Index" class="nav-link">Админ</a>
                             }
                         </nav>
                     </div>
@@ -70,14 +70,14 @@
                     </a>
 
                     <nav class="main-nav">
-                        <a asp-controller="Equipment" asp-action="Index" class="nav-link">Catalog</a>
-                        <a href="#" class="nav-link">How to Rent</a>
-                        <a href="#" class="nav-link">Pricing</a>
-                        <a href="#" class="nav-link">For Suppliers</a>
-                        <a href="#" class="nav-link">Support</a>
+                        <a asp-controller="Equipment" asp-action="Index" class="nav-link">Каталог</a>
+                        <a href="#" class="nav-link">Как арендовать</a>
+                        <a href="#" class="nav-link">Цены</a>
+                        <a href="#" class="nav-link">Поставщикам</a>
+                        <a href="#" class="nav-link">Поддержка</a>
                         @if (User.IsInRole("Admin"))
                         {
-                            <a asp-controller="Admin" asp-action="Index" class="nav-link">Admin</a>
+                            <a asp-controller="Admin" asp-action="Index" class="nav-link">Админ</a>
                         }
                     </nav>
                 }
@@ -88,7 +88,7 @@
                 {
                     <div class="search">
                         <span class="search-icon material-symbols-outlined">search</span>
-                        <input type="text" class="search-input" placeholder="Search...">
+                        <input type="text" class="search-input" placeholder="Поиск...">
                     </div>
                 }
 
@@ -130,7 +130,7 @@
                             <span class="footer-logo-text">TECHRENT</span>
                         </div>
                         <p class="footer-description">
-                            The modern way to rent construction equipment. Fast, reliable, and transparent.
+                            Современный способ аренды строительного оборудования. Быстро, надёжно и прозрачно.
                         </p>
                         <div class="social-links">
                             <a href="#" class="social-link"><span class="material-symbols-outlined">public</span></a>
@@ -141,44 +141,44 @@
 
                     <!-- Platform Links -->
                     <div>
-                        <h4 class="footer-heading">Platform</h4>
+                        <h4 class="footer-heading">Платформа</h4>
                         <ul class="footer-links">
-                            <li><a href="#" class="footer-link">Browse Catalog</a></li>
-                            <li><a href="#" class="footer-link">How it Works</a></li>
-                            <li><a href="#" class="footer-link">Pricing</a></li>
-                            <li><a href="#" class="footer-link">For Suppliers</a></li>
+                            <li><a href="#" class="footer-link">Каталог</a></li>
+                            <li><a href="#" class="footer-link">Как это работает</a></li>
+                            <li><a href="#" class="footer-link">Цены</a></li>
+                            <li><a href="#" class="footer-link">Поставщикам</a></li>
                         </ul>
                     </div>
 
                     <!-- Support Links -->
                     <div>
-                        <h4 class="footer-heading">Support</h4>
+                        <h4 class="footer-heading">Поддержка</h4>
                         <ul class="footer-links">
-                            <li><a href="#" class="footer-link">Help Center</a></li>
-                            <li><a href="#" class="footer-link">Terms of Service</a></li>
-                            <li><a href="#" class="footer-link">Privacy Policy</a></li>
-                            <li><a href="#" class="footer-link">Contact Us</a></li>
+                            <li><a href="#" class="footer-link">Центр помощи</a></li>
+                            <li><a href="#" class="footer-link">Условия использования</a></li>
+                            <li><a href="#" class="footer-link">Политика конфиденциальности</a></li>
+                            <li><a href="#" class="footer-link">Связаться с нами</a></li>
                         </ul>
                     </div>
 
                     <!-- Categories -->
                     <div>
-                        <h4 class="footer-heading">Categories</h4>
+                        <h4 class="footer-heading">Категории</h4>
                         <ul class="footer-links">
-                            <li><a href="#" class="footer-link">Earthmoving</a></li>
-                            <li><a href="#" class="footer-link">Aerial Lifts</a></li>
-                            <li><a href="#" class="footer-link">Power Tools</a></li>
-                            <li><a href="#" class="footer-link">Material Handling</a></li>
+                            <li><a href="#" class="footer-link">Земляные работы</a></li>
+                            <li><a href="#" class="footer-link">Подъёмники</a></li>
+                            <li><a href="#" class="footer-link">Электроинструменты</a></li>
+                            <li><a href="#" class="footer-link">Погрузочная техника</a></li>
                         </ul>
                     </div>
                 </div>
 
                 <!-- Footer Bottom -->
                 <div class="footer-bottom">
-                    <p class="copyright">© 2023 TechRent Inc. All rights reserved.</p>
+                    <p class="copyright">© 2023 TechRent Inc. Все права защищены.</p>
                     <div class="legal-links">
-                        <a href="#" class="legal-link">Privacy</a>
-                        <a href="#" class="legal-link">Terms</a>
+                        <a href="#" class="legal-link">Конфиденциальность</a>
+                        <a href="#" class="legal-link">Условия</a>
                         <a href="#" class="legal-link">Cookies</a>
                     </div>
                 </div>

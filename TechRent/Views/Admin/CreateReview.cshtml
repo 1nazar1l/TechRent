@@ -1,29 +1,29 @@
 ﻿@model TechRent.Models.Entities.Review
 @{
-    ViewData["Title"] = "Create Review";
+    ViewData["Title"] = "Создать отзыв";
     ViewData["css"] = "admin";
 }
 
 <main class="main-content">
     <div class="wrapper">
         <div class="breadcrumb">
-            <a asp-action="Reviews" class="breadcrumb-link">Admin</a>
+            <a asp-action="Reviews" class="breadcrumb-link">Админ</a>
             <span class="material-symbols-outlined">chevron_right</span>
-            <span class="breadcrumb-current">Create Review</span>
+            <span class="breadcrumb-current">Создать отзыв</span>
         </div>
 
         <div class="form-container">
             <div class="form-card" style="max-width: 600px;">
                 <div class="form-header">
-                    <h1 class="form-title">Create New Review</h1>
-                    <p class="form-subtitle">Add a new review to the system</p>
+                    <h1 class="form-title">Создать новый отзыв</h1>
+                    <p class="form-subtitle">Добавьте новый отзыв в систему</p>
                 </div>
 
                 <form asp-action="CreateReview" method="post" class="edit-form">
                     <div class="form-group">
-                        <label class="form-label">User</label>
+                        <label class="form-label">Пользователь</label>
                         <select name="UserId" class="form-select" required>
-                            <option value="">Select user</option>
+                            <option value="">Выберите пользователя</option>
                             @foreach (var user in ViewBag.Users)
                             {
                                 <option value="@user.Id">@user.Email</option>
@@ -32,9 +32,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Equipment</label>
+                        <label class="form-label">Оборудование</label>
                         <select name="EquipmentId" class="form-select" required>
-                            <option value="">Select equipment</option>
+                            <option value="">Выберите оборудование</option>
                             @foreach (var equipment in ViewBag.Equipments)
                             {
                                 <option value="@equipment.Id">@equipment.Name</option>
@@ -43,7 +43,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Rating</label>
+                        <label class="form-label">Рейтинг</label>
                         <div class="rating-input" style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
                             @for (int i = 1; i <= 5; i++)
                             {
@@ -59,19 +59,19 @@
 
                     <div class="form-group">
                         <label asp-for="Comment" class="form-label"></label>
-                        <textarea asp-for="Comment" class="form-textarea" rows="4" placeholder="Enter review comment"></textarea>
+                        <textarea asp-for="Comment" class="form-textarea" rows="4" placeholder="Введите текст отзыва"></textarea>
                         <span asp-validation-for="Comment" class="text-danger"></span>
                     </div>
 
                     <div class="form-actions">
                         <button type="submit" class="save-button">
                             <span class="material-symbols-outlined">add</span>
-                            Create Review
+                            Создать отзыв
                         </button>
 
                         <a asp-action="Reviews" class="cancel-button">
                             <span class="material-symbols-outlined">close</span>
-                            Cancel
+                            Отмена
                         </a>
                     </div>
                 </form>

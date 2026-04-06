@@ -1,15 +1,15 @@
 ﻿@model TechRent.Models.Entities.Equipment
 @{
-    ViewData["Title"] = "Delete Equipment";
+    ViewData["Title"] = "Удалить оборудование";
     ViewData["css"] = "admin";
 }
 
 <main class="main-content">
     <div class="wrapper">
         <div class="breadcrumb">
-            <a asp-action="Index" class="breadcrumb-link">Admin</a>
+            <a asp-action="Index" class="breadcrumb-link">Админ</a>
             <span class="material-symbols-outlined">chevron_right</span>
-            <span class="breadcrumb-current">Delete Equipment</span>
+            <span class="breadcrumb-current">Удалить оборудование</span>
         </div>
 
         <div class="delete-container">
@@ -18,11 +18,11 @@
                     <span class="material-symbols-outlined" style="font-size: 48px; color: #ef4444;">warning</span>
                 </div>
 
-                <h1 class="delete-title">Delete Equipment</h1>
+                <h1 class="delete-title">Удалить оборудование</h1>
 
                 <p class="delete-text">
-                    Are you sure you want to delete <strong>"@Model.Name"</strong>?
-                    This action cannot be undone.
+                    Вы уверены, что хотите удалить <strong>"@Model.Name"</strong>?
+                    Это действие нельзя отменить.
                 </p>
 
                 @if (!string.IsNullOrEmpty(Model.ImageUrl))
@@ -38,16 +38,16 @@
                         <span class="detail-value">#@Model.Id.ToString("D3")</span>
                     </div>
                     <div class="detail-item">
-                        <span class="detail-label">Type:</span>
+                        <span class="detail-label">Тип:</span>
                         <span class="detail-value">@Model.Category?.Name</span>
                     </div>
                     <div class="detail-item">
-                        <span class="detail-label">Price:</span>
-                        <span class="detail-value">$@Model.PricePerDay/day</span>
+                        <span class="detail-label">Цена:</span>
+                        <span class="detail-value">$@Model.PricePerDay/день</span>
                     </div>
                     <div class="detail-item">
-                        <span class="detail-label">Stock:</span>
-                        <span class="detail-value">@Model.AvailableQuantity units</span>
+                        <span class="detail-label">Склад:</span>
+                        <span class="detail-value">@Model.AvailableQuantity шт.</span>
                     </div>
                 </div>
 
@@ -57,12 +57,12 @@
                     <div class="delete-actions">
                         <button type="submit" class="delete-button-confirm">
                             <span class="material-symbols-outlined">delete</span>
-                            Delete Permanently
+                            Удалить навсегда
                         </button>
 
                         <a asp-action="Index" class="delete-button-cancel">
                             <span class="material-symbols-outlined">close</span>
-                            Cancel
+                            Отмена
                         </a>
                     </div>
                 </form>

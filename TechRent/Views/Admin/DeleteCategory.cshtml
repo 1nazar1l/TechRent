@@ -1,15 +1,15 @@
 ﻿@model TechRent.Models.Entities.Category
 @{
-    ViewData["Title"] = "Delete Category";
+    ViewData["Title"] = "Удалить категорию";
     ViewData["css"] = "admin";
 }
 
 <main class="main-content">
     <div class="wrapper">
         <div class="breadcrumb">
-            <a asp-action="Categories" class="breadcrumb-link">Admin</a>
+            <a asp-action="Categories" class="breadcrumb-link">Админ</a>
             <span class="material-symbols-outlined">chevron_right</span>
-            <span class="breadcrumb-current">Delete Category</span>
+            <span class="breadcrumb-current">Удалить категорию</span>
         </div>
 
         <div class="delete-container">
@@ -18,11 +18,11 @@
                     <span class="material-symbols-outlined" style="font-size: 48px; color: #ef4444;">warning</span>
                 </div>
 
-                <h1 class="delete-title">Delete Category</h1>
+                <h1 class="delete-title">Удалить категорию</h1>
 
                 <p class="delete-text">
-                    Are you sure you want to delete category <strong>"@Model.Name"</strong>?
-                    This action cannot be undone.
+                    Вы уверены, что хотите удалить категорию <strong>"@Model.Name"</strong>?
+                    Это действие нельзя отменить.
                 </p>
 
                 @if (Model.Equipments != null && Model.Equipments.Any())
@@ -30,9 +30,9 @@
                     <div class="delete-warning" style="background: #fee2e2; border: 1px solid #fecaca; border-radius: 12px; padding: 16px; margin-bottom: 24px; color: #991b1b;">
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
                             <span class="material-symbols-outlined">error</span>
-                            <strong>Warning:</strong>
+                            <strong>Внимание:</strong>
                         </div>
-                        <p>This category contains @Model.Equipments.Count equipment item(s). You must reassign or delete them first.</p>
+                        <p>Эта категория содержит @Model.Equipments.Count единиц оборудования. Сначала переназначьте или удалите их.</p>
                     </div>
                 }
 
@@ -42,21 +42,21 @@
                         <span class="detail-value">#@Model.Id.ToString("D3")</span>
                     </div>
                     <div class="detail-item">
-                        <span class="detail-label">Name:</span>
+                        <span class="detail-label">Название:</span>
                         <span class="detail-value">@Model.Name</span>
                     </div>
                     <div class="detail-item">
-                        <span class="detail-label">Display Order:</span>
+                        <span class="detail-label">Порядок отображения:</span>
                         <span class="detail-value">@Model.DisplayOrder</span>
                     </div>
                     <div class="detail-item">
-                        <span class="detail-label">Equipment Count:</span>
+                        <span class="detail-label">Кол-во оборудования:</span>
                         <span class="detail-value">@(Model.Equipments?.Count ?? 0)</span>
                     </div>
                     @if (!string.IsNullOrEmpty(Model.Description))
                     {
                         <div class="detail-item">
-                            <span class="detail-label">Description:</span>
+                            <span class="detail-label">Описание:</span>
                             <span class="detail-value">@Model.Description</span>
                         </div>
                     }
@@ -67,7 +67,7 @@
                     <div class="delete-actions">
                         <a asp-action="Categories" class="delete-button-cancel" style="justify-content: center;">
                             <span class="material-symbols-outlined">arrow_back</span>
-                            Back to Categories
+                            Назад к категориям
                         </a>
                     </div>
                 }
@@ -79,12 +79,12 @@
                         <div class="delete-actions">
                             <button type="submit" class="delete-button-confirm">
                                 <span class="material-symbols-outlined">delete</span>
-                                Delete Permanently
+                                Удалить навсегда
                             </button>
 
                             <a asp-action="Categories" class="delete-button-cancel">
                                 <span class="material-symbols-outlined">close</span>
-                                Cancel
+                                Отмена
                             </a>
                         </div>
                     </form>

@@ -22,15 +22,15 @@
             <nav class="sidebar-nav">
                 <a asp-controller="Profile" asp-action="Index" class="sidebar-link">
                     <span class="material-symbols-outlined">calendar_month</span>
-                    <span>My Bookings</span>
+                    <span>Мои бронирования</span>
                 </a>
                 <a asp-controller="Profile" asp-action="Favorites" class="sidebar-link active">
                     <span class="material-symbols-outlined">favorite</span>
-                    <span>Favorites</span>
+                    <span>Избранное</span>
                 </a>
                 <a asp-controller="Profile" asp-action="Settings" class="sidebar-link">
                     <span class="material-symbols-outlined">settings</span>
-                    <span>Settings</span>
+                    <span>Настройки</span>
                 </a>
             </nav>
 
@@ -47,14 +47,14 @@
                     </div>
                     <div class="user-details">
                         <p class="user-name">@(user?.UserName?.Split('@')[0] ?? "User")</p>
-                        <p class="user-badge">Standard Member</p>
+                        <p class="user-badge">Стандартный участник</p>
                     </div>
                 </div>
                 <form asp-controller="Account" asp-action="Logout" method="post">
                     @Html.AntiForgeryToken()
                     <button type="submit" class="logout-button">
                         <span class="material-symbols-outlined">logout</span>
-                        Log Out
+                        Выйти
                     </button>
                 </form>
             </div>
@@ -67,8 +67,8 @@
             <!-- Page Header -->
             <div class="page-header">
                 <div>
-                    <h1 class="page-title">My Favorites</h1>
-                    <p class="page-description">Equipment you've saved for later</p>
+                    <h1 class="page-title">Моё избранное</h1>
+                    <p class="page-description">Оборудование, которое вы сохранили на потом</p>
                 </div>
             </div>
 
@@ -76,11 +76,11 @@
             {
                 <div class="empty-state-favorites">
                     <span class="material-symbols-outlined">favorite_border</span>
-                    <h2>No favorites yet</h2>
-                    <p>Start adding equipment to your favorites to see them here.</p>
+                    <h2>Избранное пусто</h2>
+                    <p>Добавляйте оборудование в избранное, чтобы видеть его здесь.</p>
                     <a asp-controller="Equipment" asp-action="Index" class="browse-button">
                         <span class="material-symbols-outlined">search</span>
-                        Browse Equipment
+                        Перейти в каталог
                     </a>
                 </div>
             }
@@ -136,23 +136,23 @@
                                 </div>
 
                                 <div class="favorite-price">
-                                    <span class="price-label">Daily Rate</span>
-                                    <span class="price-value">$@equipment?.PricePerDay<span class="price-period">/day</span></span>
+                                    <span class="price-label">Цена за день</span>
+                                    <span class="price-value">$@equipment?.PricePerDay<span class="price-period">/день</span></span>
                                 </div>
 
                                 <div class="favorite-actions">
                                     <a asp-controller="Product" asp-action="Index" asp-route-id="@equipment?.Id" class="view-button">
-                                        View Details
+                                        Подробнее
                                     </a>
                                     @if (equipment?.AvailableQuantity > 0)
                                     {
                                         <a asp-controller="Product" asp-action="Index" asp-route-id="@equipment?.Id" class="book-button">
-                                            Book Now
+                                            Арендовать
                                         </a>
                                     }
                                     else
                                     {
-                                        <button class="book-button disabled" disabled>Out of Stock</button>
+                                        <button class="book-button disabled" disabled>Нет в наличии</button>
                                     }
                                 </div>
                             </div>

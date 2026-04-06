@@ -1,6 +1,5 @@
-﻿@using Microsoft.AspNetCore.Identity
-@{
-    ViewData["Title"] = "Create User";
+﻿@{
+    ViewData["Title"] = "Создать пользователя";
     ViewData["css"] = "admin";
 }
 
@@ -11,49 +10,49 @@
 <main class="main-content">
     <div class="wrapper">
         <div class="breadcrumb">
-            <a asp-action="Users" class="breadcrumb-link">Admin</a>
+            <a asp-action="Users" class="breadcrumb-link">Админ</a>
             <span class="material-symbols-outlined">chevron_right</span>
-            <span class="breadcrumb-current">Create User</span>
+            <span class="breadcrumb-current">Создать пользователя</span>
         </div>
 
         <div class="form-container">
             <div class="form-card" style="max-width: 600px;">
                 <div class="form-header">
-                    <h1 class="form-title">Create New User</h1>
-                    <p class="form-subtitle">Add a new user to the system</p>
+                    <h1 class="form-title">Создать нового пользователя</h1>
+                    <p class="form-subtitle">Добавьте нового пользователя в систему</p>
                 </div>
 
                 <form asp-action="CreateUser" method="post" class="edit-form">
                     <div class="form-group">
                         <label class="form-label">Email</label>
-                        <input type="email" name="email" class="form-input" placeholder="Enter email address" required />
+                        <input type="email" name="email" class="form-input" placeholder="Введите адрес электронной почты" required />
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Username</label>
-                        <input type="text" name="username" class="form-input" placeholder="Enter username" required />
+                        <label class="form-label">Имя пользователя</label>
+                        <input type="text" name="username" class="form-input" placeholder="Введите имя пользователя" required />
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Password</label>
-                        <input type="password" name="password" class="form-input" placeholder="Enter password" required />
+                        <label class="form-label">Пароль</label>
+                        <input type="password" name="password" class="form-input" placeholder="Введите пароль" required />
                         <small class="form-text text-muted" style="display: block; margin-top: 4px; color: #64748b;">
-                            Password must be at least 6 characters long and contain at least one number, one uppercase letter, and one lowercase letter.
+                            Пароль должен содержать не менее 6 символов, включая цифру, заглавную и строчную буквы.
                         </small>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Confirm Password</label>
-                        <input type="password" name="confirmPassword" class="form-input" placeholder="Confirm password" required />
+                        <label class="form-label">Подтвердите пароль</label>
+                        <input type="password" name="confirmPassword" class="form-input" placeholder="Повторите пароль" required />
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Phone Number</label>
-                        <input type="tel" name="phoneNumber" class="form-input" placeholder="Enter phone number (optional)" />
+                        <label class="form-label">Номер телефона</label>
+                        <input type="tel" name="phoneNumber" class="form-input" placeholder="Введите номер телефона (необязательно)" />
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Role</label>
+                        <label class="form-label">Роль</label>
                         <select name="role" class="form-select">
                             @foreach (var role in allRoles)
                             {
@@ -64,7 +63,7 @@
 
                     <div class="form-group">
                         <label class="toggle" style="justify-content: space-between; width: 100%;">
-                            <span class="toggle-text">Email Confirmed</span>
+                            <span class="toggle-text">Email подтверждён</span>
                             <div class="relative">
                                 <input type="checkbox" class="toggle-input" name="emailConfirmed" value="true" />
                                 <div class="toggle-switch"></div>
@@ -74,7 +73,7 @@
 
                     <div class="form-group">
                         <label class="toggle" style="justify-content: space-between; width: 100%;">
-                            <span class="toggle-text">Phone Number Confirmed</span>
+                            <span class="toggle-text">Телефон подтверждён</span>
                             <div class="relative">
                                 <input type="checkbox" class="toggle-input" name="phoneNumberConfirmed" value="true" />
                                 <div class="toggle-switch"></div>
@@ -85,12 +84,12 @@
                     <div class="form-actions">
                         <button type="submit" class="save-button">
                             <span class="material-symbols-outlined">add</span>
-                            Create User
+                            Создать пользователя
                         </button>
 
                         <a asp-action="Users" class="cancel-button">
                             <span class="material-symbols-outlined">close</span>
-                            Cancel
+                            Отмена
                         </a>
                     </div>
                 </form>
