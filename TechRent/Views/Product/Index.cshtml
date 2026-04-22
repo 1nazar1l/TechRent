@@ -106,9 +106,8 @@
                         <!-- Price -->
                         <div class="price-section">
                             <div class="price-large">
-                                <span class="currency">$</span>
                                 <span class="amount">@Model.PricePerDay.ToString("N0")</span>
-                                <span class="period">/ день</span>
+                                <span class="period">бел. руб. / день</span>
                             </div>
                             <p class="price-note">Бесплатная отмена за 24 часа до получения</p>
                         </div>
@@ -119,7 +118,7 @@
                                 <span class="material-symbols-outlined">lock</span>
                             </div>
                             <div class="deposit-info">
-                                <p class="deposit-title">Возвратный залог: $@Model.Deposit.ToString("N0")</p>
+                                <p class="deposit-title">Возвратный залог: @Model.Deposit.ToString("N0") бел. руб.</p>
                                 <p class="deposit-note">Удерживается на карте, возвращается после сдачи.</p>
                             </div>
                         </div>
@@ -812,7 +811,11 @@
             body: JSON.stringify({
                 equipmentId: equipmentId,
                 startDate: selectedStartDate,
-                endDate: selectedEndDate
+                endDate: selectedEndDate,
+                deliveryAddress: document.getElementById('deliveryAddress')?.innerText || null,
+                deliveryLat: parseFloat(document.getElementById('deliveryLat')?.value) || null,
+                deliveryLng: parseFloat(document.getElementById('deliveryLng')?.value) || null,
+                deliveryCost: parseInt(document.getElementById('deliveryCost')?.value) || 0
             })
         })
         .then(response => response.json())

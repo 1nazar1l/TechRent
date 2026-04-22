@@ -56,6 +56,7 @@ namespace TechRent.Controllers
                 .Include(b => b.Equipment)
                     .ThenInclude(e => e.Category)
                 .Include(b => b.Delivery)
+                .Include(b => b.Office)
                 .FirstOrDefaultAsync(b => b.Id == id && b.UserId == user.Id);
 
             if (booking == null)
@@ -144,8 +145,21 @@ namespace TechRent.Controllers
                     TotalPrice = totalPrice,
                     DepositPaid = equipment.Deposit,
                     Fine = 0,
-                    Status = "Подтверждено"
+                    Status = "Подтверждено",
+                    DeliveryAddress = request.DeliveryAddress,
+                    DeliveryLat = request.DeliveryLat,
+                    DeliveryLng = request.DeliveryLng,
+                    DeliveryCost = request.DeliveryCost
                 };
+
+                if (request.DeliveryLat.HasValue && request.DeliveryLng.HasValue)
+                {
+                    var nearestOffice = await _context.Offices
+                        .OrderBy(o => Math.Pow(o.Latitude - request.DeliveryLat.Value, 2) + Math.Pow(o.Longitude - request.DeliveryLng.Value, 2))
+                        .FirstOrDefaultAsync();
+                    if (nearestOffice != null)
+                        booking.OfficeId = nearestOffice.Id;
+                }
 
                 _context.Bookings.Add(booking);
                 await _context.SaveChangesAsync();
@@ -169,6 +183,10 @@ namespace TechRent.Controllers
             public int EquipmentId { get; set; }
             public string StartDate { get; set; }
             public string EndDate { get; set; }
+            public string? DeliveryAddress { get; set; }
+            public double? DeliveryLat { get; set; }
+            public double? DeliveryLng { get; set; }
+            public decimal DeliveryCost { get; set; }
         }
     }
 }

@@ -32,11 +32,24 @@ namespace TechRent.Models.Entities
         [Display(Name = "Штраф")]
         public decimal Fine { get; set; }
 
-        [Required]
         [Display(Name = "Статус")]
-        public string Status { get; set; } = "Подтверждено"; // Подтверждено, Завершено, Отменено
+        public string Status { get; set; } = "Подтверждено";
 
-        // Навигационные свойства
+        [Display(Name = "Адрес доставки")]
+        public string? DeliveryAddress { get; set; }
+
+        [Display(Name = "Широта точки доставки")]
+        public double? DeliveryLat { get; set; }
+
+        [Display(Name = "Долгота точки доставки")]
+        public double? DeliveryLng { get; set; }
+
+        [Display(Name = "Стоимость доставки")]
+        public decimal DeliveryCost { get; set; } = 0;
+
+        public int? OfficeId { get; set; }
+        public Office? Office { get; set; }
+
         public IdentityUser? User { get; set; }
         public Equipment? Equipment { get; set; }
         public Delivery? Delivery { get; set; }

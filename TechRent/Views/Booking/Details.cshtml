@@ -3,13 +3,14 @@
     ViewData["Title"] = "Детали аренды - TECHRENT";
     ViewData["css"] = "booking";
 }
-
 @using Microsoft.AspNetCore.Identity
 @inject UserManager<IdentityUser> UserManager
 
-<main class="main-content">
+<script src="https://api-maps.yandex.ru/2.1/?apikey=0d3a4764-1b1f-41ba-bc00-42c76b73e45f&lang=ru_RU" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<main class="main-content" id="bookingDetailsMain">
     <div class="rental-details-container">
-        <!-- Breadcrumb -->
         <nav class="breadcrumb">
             <a href="@Url.Action("Index", "Home")" class="breadcrumb-link">Главная</a>
             <span class="material-symbols-outlined">chevron_right</span>
@@ -25,11 +26,12 @@
             var isCompleted = Model.Status == "Подтверждено" && Model.EndDate < DateTime.Now;
             var isCancelled = Model.Status == "Отменено";
             var totalDays = (Model.EndDate - Model.StartDate).Days + 1;
-            var serviceFee = 250;
-            var totalAmount = Model.TotalPrice + serviceFee + Model.DepositPaid;
+            var serviceFee = 250m;
+            var totalAmount = Model.TotalPrice + serviceFee + Model.DepositPaid + Model.DeliveryCost;
+            var hasDelivery = Model.DeliveryLat.HasValue && Model.DeliveryLng.HasValue;
+            var officeAddress = Model.Office?.Address ?? Model.Office?.Name ?? "Не указан";
         }
 
-        <!-- Page Header with Status -->
         <div class="details-header">
             <div>
                 <h1 class="page-title">Детали аренды</h1>
@@ -59,9 +61,7 @@
             </div>
         </div>
 
-        <!-- Main Grid Layout -->
         <div class="details-grid">
-            <!-- Left Column - Equipment Info -->
             <div class="equipment-section">
                 <div class="equipment-card">
                     <div class="equipment-image">
@@ -71,120 +71,114 @@
                         }
                         else
                         {
-                            <div style="width: 100%; height: 100%; background: #f1f5f9; display: flex; align-items: center; justify-content: center;">
-                                <span class="material-symbols-outlined" style="font-size: 48px; color: #94a3b8;">construction</span>
+                            <div style="width:100%;height:100%;background:#f1f5f9;display:flex;align-items:center;justify-content:center;">
+                                <span class="material-symbols-outlined" style="font-size:48px;color:#94a3b8;">construction</span>
                             </div>
                         }
                     </div>
                     <div class="equipment-info">
-                        <h2 class="equipment-title">@(Model.Equipment?.Name ?? "Unknown Equipment")</h2>
-                        <p class="equipment-category">@(Model.Equipment?.Category?.Name ?? "Equipment")</p>
+                        <h2 class="equipment-title">@(Model.Equipment?.Name ?? "Оборудование")</h2>
+                        <p class="equipment-category">@(Model.Equipment?.Category?.Name ?? "")</p>
                         <p class="equipment-description">@(Model.Equipment?.Description ?? "Описание недоступно")</p>
-
                         <div class="equipment-specs">
                             <div class="spec-item">
                                 <span class="spec-icon material-symbols-outlined">sell</span>
                                 <div>
                                     <span class="spec-label">Цена за день</span>
-                                    <span class="spec-value">$@(Model.Equipment?.PricePerDay.ToString("F0") ?? "0")</span>
+                                    <span class="spec-value">@(Model.Equipment?.PricePerDay.ToString("F0") ?? "0") бел. руб.</span>
                                 </div>
                             </div>
                             <div class="spec-item">
                                 <span class="spec-icon material-symbols-outlined">lock</span>
                                 <div>
                                     <span class="spec-label">Залог</span>
-                                    <span class="spec-value">$@Model.DepositPaid.ToString("F0")</span>
+                                    <span class="spec-value">@Model.DepositPaid.ToString("F0") бел. руб.</span>
                                 </div>
                             </div>
-                            @if (Model.Equipment?.AvailableQuantity != null)
-                            {
-                                <div class="spec-item">
-                                    <span class="spec-icon material-symbols-outlined">inventory</span>
-                                    <div>
-                                        <span class="spec-label">В наличии</span>
-                                        <span class="spec-value">@Model.Equipment.AvailableQuantity шт.</span>
-                                    </div>
-                                </div>
-                            }
                         </div>
                     </div>
                 </div>
 
-                <!-- Rental Summary Card -->
                 <div class="summary-card">
                     <h3 class="summary-title">Сводка аренды</h3>
-
                     <div class="summary-grid">
                         <div class="summary-row">
                             <span class="summary-label">Дата начала</span>
-                            <span class="summary-value">@Model.StartDate.ToString("MMMM dd, yyyy") <span class="time">(10:00)</span></span>
+                            <span class="summary-value">@Model.StartDate.ToString("dd MMMM yyyy") <span class="time">(10:00)</span></span>
                         </div>
                         <div class="summary-row">
                             <span class="summary-label">Дата окончания</span>
-                            <span class="summary-value @(isActive && daysLeft <= 1 ? "highlight" : "")">@Model.EndDate.ToString("MMMM dd, yyyy") <span class="time">(10:00)</span></span>
+                            <span class="summary-value @(isActive && daysLeft <= 1 ? "highlight" : "")">@Model.EndDate.ToString("dd MMMM yyyy") <span class="time">(10:00)</span></span>
                         </div>
                         <div class="summary-row">
                             <span class="summary-label">Длительность</span>
                             <span class="summary-value">@totalDays дн.</span>
                         </div>
                         <div class="summary-row">
-                            <span class="summary-label">Место получения</span>
-                            <span class="summary-value">TechRent Склад №12, ул. Промышленная, 123</span>
+                            <span class="summary-label">Адрес склада (выдача)</span>
+                            <span class="summary-value">@officeAddress</span>
                         </div>
-                        <div class="summary-row">
-                            <span class="summary-label">Место возврата</span>
-                            <span class="summary-value">Там же</span>
-                        </div>
-                        @if (Model.Delivery != null)
+                        @if (!string.IsNullOrEmpty(Model.DeliveryAddress))
                         {
                             <div class="summary-row">
                                 <span class="summary-label">Адрес доставки</span>
-                                <span class="summary-value">@Model.Delivery.Address</span>
+                                <span class="summary-value">@Model.DeliveryAddress</span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="summary-row">
+                                <span class="summary-label">Место возврата</span>
+                                <span class="summary-value">Самовывоз со склада</span>
                             </div>
                         }
                     </div>
                 </div>
+
+                @if (hasDelivery || Model.Office != null)
+                {
+                    <div class="summary-card">
+                        <h3 class="summary-title">Карта доставки</h3>
+                        <div id="deliveryMap" style="width:100%;height:300px;border-radius:10px;"></div>
+                    </div>
+                }
             </div>
 
-            <!-- Right Column - Payment & Actions -->
             <div class="payment-section">
-                <!-- Payment Breakdown Card -->
                 <div class="payment-card">
                     <h3 class="payment-title">Разбивка платежа</h3>
-
                     <div class="breakdown-list">
                         <div class="breakdown-item">
-                            <span>Цена за день (x@(totalDays) дн.)</span>
-                            <span>$@Model.TotalPrice.ToString("F2")</span>
+                            <span>Аренда (@totalDays дн.)</span>
+                            <span>@Model.TotalPrice.ToString("F2") бел. руб.</span>
                         </div>
                         <div class="breakdown-item">
                             <span>Сервисный сбор</span>
-                            <span>$@serviceFee.ToString("F2")</span>
+                            <span>@serviceFee.ToString("F2") бел. руб.</span>
                         </div>
-                        @if (Model.Delivery?.Cost > 0)
+                        @if (Model.DeliveryCost > 0)
                         {
                             <div class="breakdown-item">
-                                <span>Стоимость доставки</span>
-                                <span>$@Model.Delivery.Cost.ToString("F2")</span>
+                                <span>Доставка</span>
+                                <span>@Model.DeliveryCost.ToString("F2") бел. руб.</span>
                             </div>
                         }
                         <div class="breakdown-item deposit">
                             <span>Возвратный залог</span>
-                            <span>$@Model.DepositPaid.ToString("F2")</span>
+                            <span>@Model.DepositPaid.ToString("F2") бел. руб.</span>
                         </div>
                         @if (Model.Fine > 0)
                         {
                             <div class="breakdown-item fine">
                                 <span>Штраф</span>
-                                <span>-$@Model.Fine.ToString("F2")</span>
+                                <span>@Model.Fine.ToString("F2") бел. руб.</span>
                             </div>
                         }
                         <div class="breakdown-item total">
                             <span>Итого</span>
-                            <span>$@totalAmount.ToString("F2")</span>
+                            <span>@totalAmount.ToString("F2") бел. руб.</span>
                         </div>
                     </div>
-
                     <div class="payment-status">
                         <span class="payment-badge @(isCancelled ? "cancelled" : "paid")">
                             <span class="material-symbols-outlined">@(isCancelled ? "cancel" : "check_circle")</span>
@@ -200,106 +194,195 @@
                     </div>
                 </div>
 
-                <!-- Delivery Info Card -->
                 @if (Model.Delivery != null)
                 {
                     <div class="delivery-card">
                         <h3 class="delivery-title">Информация о доставке</h3>
-
                         <div class="delivery-status">
                             <div class="delivery-step completed">
                                 <span class="step-dot"></span>
                                 <div>
                                     <span class="step-label">Заказ подтверждён</span>
-                                    <span class="step-date">@Model.StartDate.AddDays(-1).ToString("MMM dd, yyyy - H:mm")</span>
+                                    <span class="step-date">@Model.StartDate.AddDays(-1).ToString("dd MMM yyyy - H:mm")</span>
                                 </div>
                             </div>
                             <div class="delivery-step @(Model.Delivery.Status == "Ожидает" ? "active" : "completed")">
                                 <span class="step-dot"></span>
                                 <div>
                                     <span class="step-label">Передан в доставку</span>
-                                    <span class="step-date">
-                                        @if (Model.Delivery.Status == "Ожидает")
-                                        {
-                                            <span>Ожидается к @Model.Delivery.DeliveryDate.ToString("H:mm")</span>
-                                        }
-                                        else
-                                        {
-                                            <span>@Model.Delivery.DeliveryDate.ToString("MMM dd, yyyy - H:mm")</span>
-                                        }
-                                    </span>
+                                    <span class="step-date">@Model.Delivery.DeliveryDate.ToString("dd MMM yyyy - H:mm")</span>
                                 </div>
                             </div>
                             <div class="delivery-step @(Model.Delivery.Status == "Выполнена" ? "completed" : "pending")">
                                 <span class="step-dot"></span>
                                 <div>
                                     <span class="step-label">Доставлено</span>
-                                    <span class="step-date">
-                                        @if (Model.Delivery.Status == "Выполнена")
-                                        {
-                                            <span>@Model.Delivery.DeliveryDate.ToString("MMM dd, yyyy - H:mm")</span>
-                                        }
-                                        else
-                                        {
-                                            <span>Ожидается</span>
-                                        }
-                                    </span>
+                                    <span class="step-date">@(Model.Delivery.Status == "Выполнена" ? Model.Delivery.DeliveryDate.ToString("dd MMM yyyy - H:mm") : "Ожидается")</span>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="delivery-address">
-                            <span class="material-symbols-outlined">location_on</span>
+                        <div class="delivery-address" style="margin-top:1rem;display:flex;align-items:flex-start;gap:0.5rem;">
+                            <span class="material-symbols-outlined" style="color:var(--primary);">location_on</span>
                             <span>@Model.Delivery.Address</span>
                         </div>
                     </div>
                 }
 
-                <!-- Action Buttons (только для просмотра, без действий) -->
                 <div class="action-buttons">
                     <button class="button-secondary" onclick="window.location.href='@Url.Action("Index", "Booking")'">
                         <span class="material-symbols-outlined">arrow_back</span>
                         Назад к арендам
                     </button>
-                    <button class="button-secondary" onclick="window.print()">
-                        <span class="material-symbols-outlined">receipt_long</span>
-                        Распечатать
+                    <button class="button-secondary" onclick="downloadPdf()">
+                        <span class="material-symbols-outlined">picture_as_pdf</span>
+                        Скачать PDF
                     </button>
+                    @* <button class="button-secondary" onclick="window.print()">
+                        <span class="material-symbols-outlined">print</span>
+                        Распечатать
+                    </button> *@
                 </div>
             </div>
         </div>
 
-        <!-- Additional Info Section -->
         <div class="additional-section">
             <div class="terms-card">
                 <h3 class="terms-title">Условия аренды</h3>
                 <ul class="terms-list">
-                    <li>Просрочка возврата облагается дополнительной суточной платой в размере $45</li>
+                    <li>Просрочка возврата облагается дополнительной суточной платой</li>
                     <li>Оборудование должно быть возвращено чистым и в рабочем состоянии</li>
-                    <li>Оператору должно быть не менее 18 лет, при наличии удостоверения личности</li>
+                    <li>Возраст оператора — от 18 лет, при наличии удостоверения личности</li>
                     <li>Залог возвращается в течение 5–7 рабочих дней после возврата</li>
                     <li>Страховка от повреждений включена в сервисный сбор</li>
                 </ul>
             </div>
-
             <div class="contact-card">
                 <h3 class="contact-title">Нужна помощь?</h3>
                 <p class="contact-text">Наша служба поддержки работает круглосуточно</p>
                 <div class="contact-methods">
-                    <a href="tel:+18005550123" class="contact-method">
+                    <a href="tel:+375291234567" class="contact-method">
                         <span class="material-symbols-outlined">call</span>
-                        <span>+1 (800) 555-0123</span>
+                        <span>+375 (29) 123-45-67</span>
                     </a>
-                    <a href="#" class="contact-method">
-                        <span class="material-symbols-outlined">chat</span>
-                        <span>Онлайн-чат</span>
-                    </a>
-                    <a href="mailto:support@techrent.com" class="contact-method">
+                    <a href="mailto:support@techrent.by" class="contact-method">
                         <span class="material-symbols-outlined">email</span>
-                        <span>support@techrent.com</span>
+                        <span>support@techrent.by</span>
                     </a>
                 </div>
             </div>
         </div>
     </div>
 </main>
+
+<div id="pdfContent" data-id="@Model.Id.ToString("D4")" style="display:none; font-family: Arial, sans-serif; padding: 20px; color: #1e293b; max-width: 700px;">
+    <div style="background:#f97316; color:white; padding:16px 20px; border-radius:8px; margin-bottom:20px;">
+        <div style="font-size:22px; font-weight:bold;">TECHRENT</div>
+        <div style="font-size:12px; margin-top:4px;">Договор аренды оборудования &nbsp;|&nbsp; #TR-@Model.Id.ToString("D4")</div>
+    </div>
+
+    <div style="background:#f8fafc; border-radius:8px; padding:16px; margin-bottom:16px;">
+        <div style="font-weight:bold; margin-bottom:8px; font-size:14px;">Оборудование</div>
+        <div style="font-size:13px;">@(Model.Equipment?.Name ?? "")</div>
+        <div style="font-size:12px; color:#64748b;">@(Model.Equipment?.Category?.Name ?? "")</div>
+    </div>
+
+    <div style="background:#f8fafc; border-radius:8px; padding:16px; margin-bottom:16px;">
+        <div style="font-weight:bold; margin-bottom:10px; font-size:14px;">Период аренды</div>
+        <table style="width:100%; font-size:13px; border-collapse:collapse;">
+            <tr><td style="color:#64748b; padding:3px 0; width:140px;">Дата начала</td><td>@Model.StartDate.ToString("dd.MM.yyyy")</td></tr>
+            <tr><td style="color:#64748b; padding:3px 0;">Дата окончания</td><td>@Model.EndDate.ToString("dd.MM.yyyy")</td></tr>
+            <tr><td style="color:#64748b; padding:3px 0;">Длительность</td><td>@totalDays дн.</td></tr>
+            <tr><td style="color:#64748b; padding:3px 0;">Статус</td><td>@Model.Status</td></tr>
+        </table>
+    </div>
+
+    <div style="background:#f8fafc; border-radius:8px; padding:16px; margin-bottom:16px;">
+        <div style="font-weight:bold; margin-bottom:10px; font-size:14px;">Адреса</div>
+        <table style="width:100%; font-size:13px; border-collapse:collapse;">
+            <tr><td style="color:#64748b; padding:3px 0; width:140px;">Склад (выдача)</td><td>@officeAddress</td></tr>
+            <tr><td style="color:#64748b; padding:3px 0;">Адрес доставки</td><td>@(Model.DeliveryAddress ?? "Самовывоз")</td></tr>
+        </table>
+    </div>
+
+    <div style="background:#f8fafc; border-radius:8px; padding:16px; margin-bottom:16px;">
+        <div style="font-weight:bold; margin-bottom:10px; font-size:14px;">Расчёт стоимости</div>
+        <table style="width:100%; font-size:13px; border-collapse:collapse;">
+            <tr><td style="color:#64748b; padding:3px 0;">Аренда (@totalDays дн.)</td><td style="text-align:right;">@Model.TotalPrice.ToString("F2") бел. руб.</td></tr>
+            <tr><td style="color:#64748b; padding:3px 0;">Сервисный сбор</td><td style="text-align:right;">@serviceFee.ToString("F2") бел. руб.</td></tr>
+            @if (Model.DeliveryCost > 0)
+            {
+                <tr><td style="color:#64748b; padding:3px 0;">Доставка</td><td style="text-align:right;">@Model.DeliveryCost.ToString("F2") бел. руб.</td></tr>
+            }
+            <tr><td style="color:#64748b; padding:3px 0;">Возвратный залог</td><td style="text-align:right;">@Model.DepositPaid.ToString("F2") бел. руб.</td></tr>
+            @if (Model.Fine > 0)
+            {
+                <tr><td style="color:#64748b; padding:3px 0;">Штраф</td><td style="text-align:right;">@Model.Fine.ToString("F2") бел. руб.</td></tr>
+            }
+            <tr style="border-top:2px solid #e2e8f0;">
+                <td style="font-weight:bold; padding-top:8px; font-size:14px;">Итого</td>
+                <td style="text-align:right; font-weight:bold; color:#f97316; font-size:14px; padding-top:8px;">@totalAmount.ToString("F2") бел. руб.</td>
+            </tr>
+        </table>
+    </div>
+
+    <div style="font-size:11px; color:#94a3b8; text-align:center; margin-top:20px;">
+        Документ сформирован автоматически &nbsp;|&nbsp; TechRent — аренда строительного оборудования
+    </div>
+</div>
+
+<script>
+    @if (Model.Office != null || (Model.DeliveryLat.HasValue && Model.DeliveryLng.HasValue))
+    {
+        <text>
+        ymaps.ready(function () {
+            var officeCoords = @(Model.Office != null
+                ? $"[{Model.Office.Latitude.ToString("F6", System.Globalization.CultureInfo.InvariantCulture)}, {Model.Office.Longitude.ToString("F6", System.Globalization.CultureInfo.InvariantCulture)}]"
+                : "null");
+
+            var deliveryCoords = @(Model.DeliveryLat.HasValue
+                ? $"[{Model.DeliveryLat.Value.ToString("F6", System.Globalization.CultureInfo.InvariantCulture)}, {Model.DeliveryLng.Value.ToString("F6", System.Globalization.CultureInfo.InvariantCulture)}]"
+                : "null");
+
+            var center = officeCoords || deliveryCoords;
+            var map = new ymaps.Map("deliveryMap", {
+                center: center,
+                zoom: 11,
+                controls: ['zoomControl']
+            });
+
+            if (officeCoords) {
+                var officeMark = new ymaps.Placemark(officeCoords, {
+                    balloonContent: '<strong>@Html.Raw(Model.Office?.Name ?? "Склад")</strong><br>@Html.Raw(Model.Office?.Address ?? "")'
+                }, { preset: 'islands#blueHomeCircleIcon' });
+                map.geoObjects.add(officeMark);
+            }
+
+            if (deliveryCoords) {
+                var deliveryMark = new ymaps.Placemark(deliveryCoords, {
+                    balloonContent: 'Адрес доставки'
+                }, { preset: 'islands#redDotIcon' });
+                map.geoObjects.add(deliveryMark);
+            }
+
+            if (officeCoords && deliveryCoords) {
+                map.setBounds(map.geoObjects.getBounds(), { checkZoomRange: true, zoomMargin: 40 });
+            }
+        });
+        </text>
+    }
+
+    function downloadPdf() {
+        var el = document.getElementById('pdfContent');
+        el.style.display = 'block';
+        var opt = {
+            margin: 10,
+            filename: 'TechRent-TR-' + el.dataset.id + '.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+        html2pdf().set(opt).from(el).save().then(function() {
+            el.style.display = 'none';
+        });
+    }
+</script>

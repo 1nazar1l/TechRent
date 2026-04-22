@@ -86,6 +86,12 @@ namespace TechRent.Data
             modelBuilder.Entity<Favorite>()
                 .HasIndex(f => new { f.UserId, f.EquipmentId })
                 .IsUnique();
+
+            modelBuilder.Entity<Booking>()
+                .HasOne(b => b.Office)
+                .WithMany()
+                .HasForeignKey(b => b.OfficeId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }
