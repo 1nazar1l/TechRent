@@ -358,3 +358,21 @@
         }
     }
 </script>
+
+<script>
+    // Сворачивание фильтров на мобильных
+    function initMobileFilters() {
+        const filters = document.querySelector('.filters');
+        const filtersHeader = document.querySelector('.filters-header');
+        
+        if (window.innerWidth <= 767 && filtersHeader) {
+            filtersHeader.addEventListener('click', function() {
+                filters.classList.toggle('filters-expanded');
+            });
+        }
+    }
+    
+    // Запускаем при загрузке и при изменении размера окна
+    document.addEventListener('DOMContentLoaded', initMobileFilters);
+    window.addEventListener('resize', initMobileFilters);
+</script>
