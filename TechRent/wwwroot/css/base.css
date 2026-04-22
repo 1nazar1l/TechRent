@@ -1005,3 +1005,556 @@ body {
     width: 100%;
     /* остальные стили */
 }
+
+
+
+
+/* ===== Mobile Navigation ===== */
+
+/* Mobile Menu Overlay */
+.mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+    .mobile-menu-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+/* Mobile Menu Panel */
+.mobile-menu-panel {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 85%;
+    max-width: 320px;
+    height: 100%;
+    background-color: var(--surface);
+    box-shadow: -4px 0 12px var(--shadow);
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    transition: right 0.3s ease;
+    overflow-y: auto;
+}
+
+    .mobile-menu-panel.active {
+        right: 0;
+    }
+
+/* Mobile Menu Header */
+.mobile-menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.mobile-menu-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+    .mobile-menu-logo .logo-icon {
+        width: 32px;
+        height: 32px;
+    }
+
+    .mobile-menu-logo .logo-text {
+        font-size: 1rem;
+    }
+
+.mobile-menu-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+}
+
+    .mobile-menu-close:hover {
+        background-color: var(--hover);
+        color: var(--text);
+    }
+
+/* Mobile Navigation Links */
+.mobile-nav {
+    flex: 1;
+    padding: 1.25rem;
+}
+
+.mobile-nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    list-style: none;
+}
+
+.mobile-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+}
+
+    .mobile-nav-link:hover {
+        background-color: var(--hover);
+        color: var(--primary-color);
+    }
+
+    .mobile-nav-link.active {
+        background-color: rgba(var(--primary-color-rgb), 0.1);
+        color: var(--primary-color);
+    }
+
+    .mobile-nav-link .material-symbols-outlined {
+        font-size: 1.25rem;
+        color: var(--text-muted);
+    }
+
+/* Mobile User Section */
+.mobile-user-section {
+    padding: 1rem 1.25rem;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1rem;
+}
+
+.mobile-user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.mobile-user-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: var(--hover);
+}
+
+    .mobile-user-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+.mobile-user-details {
+    flex: 1;
+}
+
+.mobile-user-name {
+    font-weight: 600;
+    margin-bottom: 0.125rem;
+}
+
+.mobile-user-email {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.mobile-logout {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    background-color: transparent;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+    justify-content: center;
+}
+
+    .mobile-logout:hover {
+        background-color: var(--hover);
+        color: #dc2626;
+        border-color: #dc2626;
+    }
+
+/* Mobile Auth Section */
+.mobile-auth-section {
+    padding: 1rem 1.25rem;
+    border-top: 1px solid var(--border);
+}
+
+.mobile-auth-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.mobile-login-btn,
+.mobile-signup-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.mobile-login-btn {
+    background-color: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+}
+
+    .mobile-login-btn:hover {
+        background-color: var(--hover);
+    }
+
+.mobile-signup-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+}
+
+    .mobile-signup-btn:hover {
+        background-color: #e05e0e;
+    }
+
+/* ===== Responsive Header ===== */
+@media (max-width: 1023px) {
+    .main-nav,
+    .nav {
+        display: none;
+    }
+
+    .mobile-menu-button {
+        display: flex;
+    }
+
+    /* Уменьшаем отступы в header */
+    .header,
+    .site-header {
+        padding: 0.75rem 1rem;
+    }
+
+    .logo-text {
+        font-size: 1rem;
+    }
+
+    .logo-icon {
+        width: 32px;
+        height: 32px;
+    }
+
+        .logo-icon .material-symbols-outlined {
+            font-size: 1.5rem;
+        }
+
+    .header-actions {
+        gap: 0.5rem;
+    }
+
+    .icon-button,
+    .cart-button {
+        width: 36px;
+        height: 36px;
+    }
+
+    /* Скрываем поиск на мобильных, показываем иконку */
+    .search {
+        display: none;
+    }
+
+    /* Показываем иконку поиска в мобильном меню */
+    .mobile-search {
+        display: flex;
+    }
+}
+
+/* ===== Responsive Layout ===== */
+@media (max-width: 768px) {
+    /* Общие отступы */
+    .content-container,
+    .wrapper {
+        padding: 2rem 1rem 0 1rem;
+    }
+
+    .page-title {
+        font-size: 1.5rem;
+    }
+
+    /* Сетки */
+    .categories-grid,
+    .products-grid,
+    .footer-grid {
+        gap: 1rem;
+    }
+
+    /* Карточки товаров */
+    .product-title {
+        font-size: 1rem;
+    }
+
+    .price-value {
+        font-size: 1rem;
+    }
+
+    /* Секции */
+    .how-it-works-section {
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.25rem;
+    }
+
+    /* Категории */
+    .category-circle {
+        width: 70px;
+        height: 70px;
+    }
+
+    .category-icon {
+        font-size: 1.75rem;
+    }
+
+    .category-name {
+        font-size: 0.75rem;
+    }
+
+    /* Шаги */
+    .step-icon-wrapper {
+        width: 70px;
+        height: 70px;
+    }
+
+    .step-icon {
+        font-size: 1.75rem;
+    }
+
+    .step-title {
+        font-size: 1rem;
+    }
+
+    .step-description {
+        font-size: 0.75rem;
+    }
+
+    /* Футер */
+    .site-footer {
+        padding-top: 2rem;
+    }
+
+    .footer-logo-text {
+        font-size: 1rem;
+    }
+
+    .footer-heading {
+        font-size: 0.875rem;
+    }
+
+    .footer-link {
+        font-size: 0.75rem;
+    }
+}
+
+/* ===== Desktop Search (для мобильных добавляем иконку) ===== */
+@media (min-width: 640px) and (max-width: 1023px) {
+    .search {
+        display: block;
+        position: relative;
+    }
+
+    .search-input {
+        width: 180px;
+    }
+}
+
+/* ===== Tablet Adjustments ===== */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .categories-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .two-column-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ===== Small Mobile Adjustments ===== */
+@media (max-width: 480px) {
+    .logo-text {
+        display: none;
+    }
+
+    .logo-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .hero-title {
+        font-size: 1.5rem;
+    }
+
+    .hero-description {
+        font-size: 0.875rem;
+    }
+
+    .search-button {
+        padding: 0.5rem 1rem;
+        font-size: 0.75rem;
+    }
+
+    .products-grid {
+        gap: 0.75rem;
+    }
+
+    .product-details {
+        padding: 0.75rem;
+    }
+
+    .product-name {
+        font-size: 0.875rem;
+    }
+
+    .price {
+        font-size: 1rem;
+    }
+
+    .categories-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+    }
+
+    .category-circle {
+        width: 60px;
+        height: 60px;
+    }
+
+    .category-icon {
+        font-size: 1.5rem;
+    }
+
+    .category-name {
+        font-size: 0.7rem;
+    }
+}
+
+/* ===== Body scroll lock when menu open ===== */
+body.menu-open {
+    overflow: hidden;
+}
+
+
+
+
+
+/* ===== Mobile Header Improvements ===== */
+
+/* Фиксированный header */
+.header,
+.site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: var(--header-background);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+}
+
+/* Отступ для основного контента под фиксированным header */
+.page-wrapper,
+.site-wrapper {
+    padding-top: 70px;
+}
+
+@media (max-width: 768px) {
+    .page-wrapper,
+    .site-wrapper {
+        padding-top: 60px;
+    }
+}
+
+/* Mobile search button (иконка поиска для мобильных) */
+.mobile-search-trigger {
+    display: none;
+}
+
+@media (max-width: 639px) {
+    .mobile-search-trigger {
+        display: flex;
+    }
+
+    /* Mobile search modal */
+    .mobile-search-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--surface);
+        z-index: 1001;
+        transform: translateY(-100%);
+        transition: transform 0.3s ease;
+    }
+
+        .mobile-search-modal.active {
+            transform: translateY(0);
+        }
+
+    .mobile-search-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .mobile-search-input {
+        flex: 1;
+        padding: 0.75rem;
+        border: none;
+        background: none;
+        font-size: 1rem;
+        outline: none;
+        color: var(--text);
+    }
+
+    .mobile-search-close {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--text-muted);
+        padding: 0.5rem;
+    }
+}
