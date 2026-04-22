@@ -154,7 +154,7 @@
                                 <div class="rental-footer">
                                     <div class="rental-price">
                                         <span class="price-label">Итого</span>
-                                        <span class="price-value">$@booking.TotalPrice.ToString("F2")</span>
+                                        <span class="price-value">@booking.TotalPrice.ToString("F2") бел. руб.</span>
                                     </div>
                                     <div class="rental-actions">
                                         <a href="@Url.Action("Details", "Booking", new { id = booking.Id })" class="action-link">Подробнее</a>

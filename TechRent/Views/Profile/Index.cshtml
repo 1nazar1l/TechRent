@@ -135,11 +135,11 @@
                                         </div>
                                         <div class="date-item">
                                             <span class="date-label">Цена за день</span>
-                                            <span class="date-value">$@Model.ActiveBooking.Equipment?.PricePerDay.ToString("F0")</span>
+                                            <span class="date-value">@Model.ActiveBooking.Equipment?.PricePerDay.ToString("F0") бел. руб.</span>
                                         </div>
                                         <div class="date-item">
                                             <span class="date-label">Итого</span>
-                                            <span class="date-value">$@Model.ActiveBooking.TotalPrice.ToString("F0")</span>
+                                            <span class="date-value">@Model.ActiveBooking.TotalPrice.ToString("F0") бел. руб.</span>
                                         </div>
                                     </div>
                                 </div>
@@ -230,7 +230,7 @@
                                             <p class="history-item-meta">Возвращено @booking.EndDate.ToString("MMM dd")</p>
                                         </div>
                                         <div class="history-item-right">
-                                            <span class="history-item-price">$@booking.TotalPrice.ToString("F0")</span>
+                                            <span class="history-item-price">@booking.TotalPrice.ToString("F0") бел. руб.</span>
                                             <span class="payment-status paid">
                                                 <span class="material-symbols-outlined">check_circle</span>
                                                 Оплачено

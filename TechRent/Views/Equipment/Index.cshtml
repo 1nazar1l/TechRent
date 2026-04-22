@@ -63,12 +63,12 @@
                         <div class="price-slider">
                             <div class="price-inputs">
                                 <div class="price-field">
-                                    <span class="price-currency">$</span>
+                                    <span class="price-currency">р.</span>
                                     <input type="number" name="minPrice" class="price-input" value="@ViewBag.MinPrice" placeholder="Мин">
                                 </div>
                                 <span class="price-separator">-</span>
                                 <div class="price-field">
-                                    <span class="price-currency">$</span>
+                                    <span class="price-currency">р.</span>
                                     <input type="number" name="maxPrice" class="price-input" value="@ViewBag.MaxPrice" placeholder="Макс">
                                 </div>
                             </div>
@@ -220,7 +220,7 @@
                                 <div class="product-footer">
                                     <div class="price">
                                         <span class="price-label">Цена за день</span>
-                                        <span class="price-value">$@item.PricePerDay<span class="price-period">/день</span></span>
+                                        <span class="price-value">@item.PricePerDay бел. руб.<span class="price-period">/день</span></span>
                                     </div>
                                     @if (item.AvailableQuantity > 0)
                                     {
