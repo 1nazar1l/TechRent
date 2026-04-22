@@ -924,3 +924,620 @@
         color: white;
         font-size: 32px;
     }
+
+
+
+
+/* ===== Адаптивные стили для страниц профиля ===== */
+
+/* Планшеты (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+    /* Sidebar */
+    .profile-sidebar {
+        width: 240px;
+    }
+
+    .sidebar-content {
+        padding: 0 1rem;
+    }
+
+    .sidebar-logo {
+        margin-bottom: 1.5rem;
+    }
+
+    .logo-text {
+        font-size: 1rem;
+    }
+
+    .sidebar-link {
+        padding: 0.625rem 0.75rem;
+        font-size: 0.8125rem;
+    }
+
+    /* Main Content */
+    .profile-content {
+        padding: 1.5rem;
+    }
+
+    .profile-container {
+        max-width: 100%;
+    }
+
+    /* Active Rental */
+    .active-image {
+        width: 280px;
+        height: 200px;
+    }
+
+    .active-title {
+        font-size: 1.25rem;
+    }
+
+    .booking-dates {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    /* Two Columns */
+    .two-column-section {
+        gap: 1.5rem;
+    }
+
+    /* Favorites Grid */
+    .favorites-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.25rem;
+    }
+}
+
+/* Мобильные устройства (до 767px) */
+@media (max-width: 767px) {
+    /* Layout */
+    .profile-layout {
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    /* Sidebar - выезжающее меню */
+    .profile-sidebar {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 280px;
+        height: 100vh;
+        z-index: 1000;
+        transition: left 0.3s ease;
+        display: block;
+        box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+    }
+
+        .profile-sidebar.open {
+            left: 0;
+        }
+
+    /* Затемнение для мобильного меню */
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease;
+    }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+    /* Кнопка открытия меню на мобильных */
+    .mobile-menu-trigger {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 0.5rem;
+        background-color: var(--surface);
+        border: 1px solid var(--border);
+        cursor: pointer;
+        margin-bottom: 1rem;
+    }
+
+        .mobile-menu-trigger .material-symbols-outlined {
+            font-size: 1.5rem;
+            color: var(--text);
+        }
+
+    /* Main Content */
+    .profile-content {
+        padding: 1rem;
+        overflow-y: visible;
+    }
+
+    .profile-container {
+        gap: 1.5rem;
+    }
+
+    /* Page Header */
+    .page-title {
+        font-size: 1.5rem;
+    }
+
+    .page-description {
+        font-size: 0.875rem;
+    }
+
+    /* Active Rental */
+    .active-rental {
+        margin-bottom: 0.5rem;
+    }
+
+    .active-card {
+        border-radius: 0.5rem;
+    }
+
+    .alert-banner {
+        padding: 0.5rem 1rem;
+    }
+
+    .alert-text {
+        font-size: 0.75rem;
+    }
+
+    .active-image {
+        height: 200px;
+    }
+
+    .active-details {
+        padding: 1rem;
+    }
+
+    .active-header {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .active-title {
+        font-size: 1.125rem;
+    }
+
+    .active-description {
+        font-size: 0.8125rem;
+        margin-bottom: 1rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .booking-dates {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+        padding-top: 1rem;
+    }
+
+    .date-label {
+        font-size: 0.625rem;
+    }
+
+    .date-value {
+        font-size: 0.75rem;
+    }
+
+    .active-actions {
+        flex-direction: column;
+    }
+
+    .button-primary {
+        width: 100%;
+        padding: 0.625rem;
+        font-size: 0.8125rem;
+    }
+
+    /* Two Columns */
+    .two-column-section {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    /* Section Header */
+    .section-title {
+        font-size: 1rem;
+    }
+
+    /* Booking Items */
+    .booking-item {
+        padding: 0.75rem;
+    }
+
+    .booking-item-image {
+        width: 50px;
+        height: 50px;
+    }
+
+    .booking-item-title {
+        font-size: 0.875rem;
+    }
+
+    .booking-item-meta {
+        font-size: 0.75rem;
+    }
+
+    .booking-item-arrow {
+        width: 28px;
+        height: 28px;
+    }
+
+    /* History Items */
+    .history-item {
+        padding: 0.75rem;
+        flex-wrap: wrap;
+    }
+
+    .history-item-image {
+        width: 50px;
+        height: 50px;
+    }
+
+    .history-item-title {
+        font-size: 0.8125rem;
+    }
+
+    .history-item-meta {
+        font-size: 0.6875rem;
+    }
+
+    .history-item-content {
+        flex: 1;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .history-item-right {
+        margin-left: 0;
+        text-align: left;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .history-item-price {
+        font-size: 0.8125rem;
+    }
+
+    /* Favorites Page */
+    .favorites-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .favorite-card {
+        border-radius: 0.75rem;
+    }
+
+    .favorite-image {
+        height: 160px;
+    }
+
+    .favorite-info {
+        padding: 0.875rem;
+    }
+
+    .favorite-title {
+        font-size: 0.9375rem;
+    }
+
+    .favorite-category {
+        font-size: 0.75rem;
+    }
+
+    .rating {
+        margin-bottom: 0.75rem;
+    }
+
+    .rating-value {
+        font-size: 0.8125rem;
+    }
+
+    .price-value {
+        font-size: 1.125rem;
+    }
+
+    .favorite-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .view-button,
+    .book-button {
+        padding: 0.5rem;
+        font-size: 0.75rem;
+    }
+
+    .remove-favorite {
+        top: 8px;
+        right: 8px;
+        width: 28px;
+        height: 28px;
+    }
+
+        .remove-favorite .material-symbols-outlined {
+            font-size: 16px;
+        }
+
+    /* Empty State */
+    .empty-state-favorites {
+        padding: 2rem 1rem;
+        margin-top: 1rem;
+    }
+
+        .empty-state-favorites .material-symbols-outlined {
+            font-size: 48px;
+        }
+
+        .empty-state-favorites h2 {
+            font-size: 1.25rem;
+        }
+
+        .empty-state-favorites p {
+            font-size: 0.875rem;
+        }
+
+    .browse-button {
+        padding: 0.625rem 1.25rem;
+        font-size: 0.8125rem;
+    }
+
+    .empty-state {
+        padding: 2rem 1rem;
+    }
+
+        .empty-state .material-symbols-outlined {
+            font-size: 36px;
+        }
+}
+
+/* Маленькие мобильные устройства (375px - 480px) */
+@media (min-width: 375px) and (max-width: 480px) {
+    .profile-content {
+        padding: 0.75rem;
+    }
+
+    .active-title {
+        font-size: 1rem;
+    }
+
+    .booking-dates {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+
+    .date-item {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .date-label {
+        margin-bottom: 0;
+    }
+
+    .favorite-title {
+        font-size: 0.875rem;
+    }
+}
+
+/* Очень маленькие устройства (320px - 374px) */
+@media (min-width: 320px) and (max-width: 374px) {
+    .page-title {
+        font-size: 1.25rem;
+    }
+
+    .booking-item {
+        flex-wrap: wrap;
+    }
+
+    .booking-item-content {
+        flex: 1;
+        min-width: auto;
+    }
+
+    .booking-item-arrow {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .booking-item {
+        position: relative;
+        padding-right: 48px;
+    }
+
+    .favorite-card {
+        border-radius: 0.5rem;
+    }
+
+    .favorite-image {
+        height: 140px;
+    }
+
+    .favorite-info {
+        padding: 0.75rem;
+    }
+
+    .price-value {
+        font-size: 1rem;
+    }
+}
+
+/* Горизонтальная ориентация на мобильных */
+@media (max-height: 500px) and (orientation: landscape) {
+    .profile-sidebar {
+        height: 100vh;
+        overflow-y: auto;
+    }
+
+    .active-image {
+        height: 150px;
+    }
+
+    .active-details {
+        padding: 0.75rem;
+    }
+
+    .booking-dates {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.5rem;
+    }
+
+    .favorites-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .favorite-image {
+        height: 120px;
+    }
+}
+
+/* Планшеты в портретной ориентации */
+@media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait) {
+    .two-column-section {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .favorites-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Улучшения для сенсорных устройств */
+@media (hover: none) and (pointer: coarse) {
+    .sidebar-link,
+    .booking-item,
+    .history-item,
+    .favorite-card,
+    .remove-favorite,
+    .view-button,
+    .book-button,
+    .logout-button {
+        cursor: default;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+        .sidebar-link:active {
+            background-color: var(--hover);
+        }
+
+        .booking-item:active {
+            border-color: rgba(var(--primary-rgb), 0.2);
+        }
+
+        .remove-favorite:active {
+            background: #fee2e2;
+            transform: scale(0.95);
+        }
+
+    .button-primary:active {
+        transform: scale(0.98);
+    }
+}
+
+/* Мобильное меню (добавить в HTML) */
+.mobile-menu-trigger {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .mobile-menu-trigger {
+        display: flex;
+    }
+}
+
+/* Анимация для уведомлений */
+@keyframes slideIn {
+    from {
+        right: -400px;
+    }
+
+    to {
+        right: 20px;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        right: 20px;
+    }
+
+    to {
+        right: -400px;
+    }
+}
+
+/* Улучшения для скролла на мобильных */
+@media (max-width: 767px) {
+    .profile-content {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .bookings-list,
+    .history-list {
+        max-height: none;
+    }
+}
+
+/* Retina экраны */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .border,
+    .active-card,
+    .booking-item,
+    .history-item,
+    .favorite-card {
+        border-width: 0.5px;
+    }
+}
+
+/* Темная тема на мобильных */
+@media (prefers-color-scheme: dark) {
+    @media (max-width: 768px) {
+        .empty-state-favorites {
+            background: var(--surface);
+        }
+
+            .empty-state-favorites h2 {
+                color: var(--text);
+            }
+
+        .favorite-card {
+            background: var(--surface);
+            border-color: var(--border);
+        }
+
+        .image-placeholder {
+            background: var(--hover);
+        }
+
+        .view-button {
+            background: var(--hover);
+            color: var(--text);
+        }
+
+            .view-button:hover {
+                background: var(--border);
+            }
+    }
+}
+
+/* Body lock при открытом меню на мобильных */
+body.menu-open {
+    overflow: hidden;
+}
