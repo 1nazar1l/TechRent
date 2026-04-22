@@ -865,6 +865,20 @@ namespace TechRent.Controllers
             return _context.Reviews.Any(e => e.Id == id);
         }
 
+        // POST: Admin/ApproveReview/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ApproveReview(int id)
+        {
+            var review = await _context.Reviews.FindAsync(id);
+            if (review == null) return NotFound();
+
+            review.IsApproved = true;
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Reviews));
+        }
+
         // GET: Admin/CreateReview
         public async Task<IActionResult> CreateReview()
         {

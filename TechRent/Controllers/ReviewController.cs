@@ -61,7 +61,8 @@ namespace TechRent.Controllers
                     EquipmentId = request.EquipmentId,
                     Rating = request.Rating,
                     Comment = request.Comment,
-                    CreatedAt = DateTime.Now
+                    CreatedAt = DateTime.Now,
+                    IsApproved = string.IsNullOrWhiteSpace(request.Comment) || await _userManager.IsInRoleAsync(user, "Admin")
                 };
 
                 _context.Reviews.Add(review);

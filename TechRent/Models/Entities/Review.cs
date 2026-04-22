@@ -25,6 +25,9 @@ namespace TechRent.Models.Entities
         [Display(Name = "Дата отзыва")]
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
+        [Display(Name = "Комментарий проверен")]
+        public bool IsApproved { get; set; } = false;
+
         [NotMapped]
         public bool HasRented { get; set; }
 
