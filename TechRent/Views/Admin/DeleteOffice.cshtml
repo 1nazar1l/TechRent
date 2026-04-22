@@ -1,0 +1,39 @@
+@model TechRent.Models.Entities.Office
+@{
+    ViewData["Title"] = "Удалить офис";
+    ViewData["css"] = "admin";
+}
+
+<main class="main-content">
+    <div class="wrapper">
+        <div class="breadcrumb">
+            <a href="@Url.Action("Offices", "Admin")" class="breadcrumb-link">Офисы</a>
+            <span class="material-symbols-outlined">chevron_right</span>
+            <span class="breadcrumb-current">Удалить офис</span>
+        </div>
+
+        <div class="page-header">
+            <h1 class="page-title">Удалить офис</h1>
+        </div>
+
+        <div class="form-card" style="max-width:500px;">
+            <p style="margin-bottom:16px;">Вы уверены, что хотите удалить офис <strong>@Model.Name</strong>?</p>
+
+            @if (!string.IsNullOrEmpty(Model.Address))
+            {
+                <p style="color:#64748b; margin-bottom:24px;">@Model.Address</p>
+            }
+
+            <form asp-action="DeleteOffice" method="post">
+                <input type="hidden" asp-for="Id" />
+                <div class="form-actions">
+                    <button type="submit" class="delete-confirm-button" style="background:#ef4444; color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; display:flex; align-items:center; gap:8px;">
+                        <span class="material-symbols-outlined">delete</span>
+                        Удалить
+                    </button>
+                    <a href="@Url.Action("Offices", "Admin")" class="cancel-button">Отмена</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>

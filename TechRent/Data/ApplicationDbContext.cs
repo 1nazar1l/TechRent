@@ -19,6 +19,7 @@ namespace TechRent.Data
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
+        public DbSet<Office> Offices { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

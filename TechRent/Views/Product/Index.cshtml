@@ -1,4 +1,4 @@
-@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.AspNetCore.Identity
 @using System.Globalization
 @model TechRent.Models.Entities.Equipment
 @inject SignInManager<IdentityUser> SignInManager
@@ -10,6 +10,8 @@
     ViewData["nav_pos"] = "left";
     ViewData["header"] = "with_search";
 }
+
+<script src="https://api-maps.yandex.ru/2.1/?apikey=0d3a4764-1b1f-41ba-bc00-42c76b73e45f&lang=ru_RU" type="text/javascript"></script>
 
 <main class="main-content">
     <div class="product-container">
@@ -166,6 +168,25 @@
                                     </div>
                                 </div>
                             </div>
+
+                        </div>
+
+                        <!-- Карта для выбора места доставки -->
+                        <div class="delivery-map-section" style="margin-top: 24px;">
+                            <label class="date-label">Место доставки</label>
+                            <div id="map" style="width: 100%; height: 300px; border-radius: 12px; margin-top: 8px; overflow: hidden;"></div>
+                            <div class="delivery-address-info" style="margin-top: 12px; padding: 12px; background: #f8fafc; border-radius: 8px; font-size: 13px; color: #64748b; display: none;">
+                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                                    <span class="material-symbols-outlined" style="font-size: 18px;">location_on</span>
+                                    <span style="font-weight: 500;">Адрес доставки:</span>
+                                </div>
+                                <p id="deliveryAddress" style="margin: 0; word-break: break-word;"></p>
+                            </div>
+                            <div id="deliveryDistanceInfo" style="display:none; margin-top:8px; padding:10px 12px; background:#f0f9ff; border-radius:8px; font-size:13px; color:#334155; align-items:center; gap:6px; flex-wrap:wrap;"></div>
+                            <input type="hidden" id="deliveryLat" value="">
+                            <input type="hidden" id="deliveryLng" value="">
+                            <input type="hidden" id="deliveryDistanceKm" value="0">
+                            <input type="hidden" id="deliveryCost" value="0">
                         </div>
 
                         <!-- Calculation -->
@@ -872,76 +893,45 @@
         const calculationDiv = document.querySelector('.calculation');
         if (!calculationDiv) return;
 
+        const deliveryCost = parseInt(document.getElementById('deliveryCost')?.value || 0);
+
         if (selectedStartDate && selectedEndDate) {
             const startParts = selectedStartDate.split('-');
             const endParts = selectedEndDate.split('-');
-
             const start = new Date(parseInt(startParts[0]), parseInt(startParts[1]) - 1, parseInt(startParts[2]));
             const end = new Date(parseInt(endParts[0]), parseInt(endParts[1]) - 1, parseInt(endParts[2]));
-
             start.setHours(0, 0, 0, 0);
             end.setHours(0, 0, 0, 0);
-
             const diffTime = Math.abs(end - start);
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-
             const pricePerDay = @Model.PricePerDay;
             const deposit = @Model.Deposit;
             const serviceFee = 250;
-
             const rentalTotal = pricePerDay * diffDays;
-            const totalDue = rentalTotal + serviceFee + deposit;
-
-            const calculationHTML = `
-                <div class="calculation-row">
-                    <span>$${pricePerDay.toLocaleString()} x ${diffDays} days</span>
-                    <span>$${rentalTotal.toLocaleString()}</span>
-                </div>
-                <div class="calculation-row">
-                    <span>Service Fee</span>
-                    <span>$${serviceFee.toLocaleString()}</span>
-                </div>
-                <div class="calculation-row total">
-                    <span>Total Due Now</span>
-                    <span class="total-amount">$${totalDue.toLocaleString()}</span>
-                </div>
-                <p class="calculation-note">(Includes $${deposit.toLocaleString()} refundable deposit)</p>
-            `;
-
-            calculationDiv.innerHTML = calculationHTML;
+            const totalDue = rentalTotal + serviceFee + deposit + deliveryCost;
+            const deliveryRow = deliveryCost > 0 ? '<div class="calculation-row"><span>Доставка</span><span>' + deliveryCost.toLocaleString() + ' &#8381;</span></div>' : '';
+            calculationDiv.innerHTML =
+                '<div class="calculation-row"><span>' + pricePerDay.toLocaleString() + ' &#8381; x ' + diffDays + ' дн.</span><span>' + rentalTotal.toLocaleString() + ' &#8381;</span></div>' +
+                '<div class="calculation-row"><span>Сервисный сбор</span><span>' + serviceFee.toLocaleString() + ' &#8381;</span></div>' +
+                deliveryRow +
+                '<div class="calculation-row total"><span>Итого к оплате</span><span class="total-amount">' + totalDue.toLocaleString() + ' &#8381;</span></div>' +
+                '<p class="calculation-note">(Включая залог ' + deposit.toLocaleString() + ' &#8381;, возвращается)</p>';
         } else if (selectedStartDate) {
             const pricePerDay = @Model.PricePerDay;
             const deposit = @Model.Deposit;
             const serviceFee = 250;
-
-            const calculationHTML = `
-                <div class="calculation-row">
-                    <span>$${pricePerDay.toLocaleString()} x 1 day (min)</span>
-                    <span>$${pricePerDay.toLocaleString()}</span>
-                </div>
-                <div class="calculation-row">
-                    <span>Service Fee</span>
-                    <span>$${serviceFee.toLocaleString()}</span>
-                </div>
-                <div class="calculation-row total">
-                    <span>Total Due Now</span>
-                    <span class="total-amount">$${(pricePerDay + serviceFee + deposit).toLocaleString()}</span>
-                </div>
-                <p class="calculation-note">(Includes $${deposit.toLocaleString()} refundable deposit)</p>
-                <p class="calculation-note" style="color: #64748b;">Use right click or long press to select end date</p>
-            `;
-
-            calculationDiv.innerHTML = calculationHTML;
+            const totalMin = pricePerDay + serviceFee + deposit + deliveryCost;
+            const deliveryRow = deliveryCost > 0 ? '<div class="calculation-row"><span>Доставка</span><span>' + deliveryCost.toLocaleString() + ' &#8381;</span></div>' : '';
+            calculationDiv.innerHTML =
+                '<div class="calculation-row"><span>' + pricePerDay.toLocaleString() + ' &#8381; x 1 дн. (мин.)</span><span>' + pricePerDay.toLocaleString() + ' &#8381;</span></div>' +
+                '<div class="calculation-row"><span>Сервисный сбор</span><span>' + serviceFee.toLocaleString() + ' &#8381;</span></div>' +
+                deliveryRow +
+                '<div class="calculation-row total"><span>Итого к оплате</span><span class="total-amount">' + totalMin.toLocaleString() + ' &#8381;</span></div>' +
+                '<p class="calculation-note">(Включая залог ' + deposit.toLocaleString() + ' &#8381;, возвращается)</p>' +
+                '<p class="calculation-note" style="color:#64748b;">Используйте правый клик или долгое нажатие для выбора конечной даты</p>';
         }
-
-        updateCheckoutButton(); // Добавлено
+        updateCheckoutButton();
     }
-
-    // Load booked dates when page loads
-    document.addEventListener('DOMContentLoaded', function() {
-        loadBookedDates();
-        updateCheckoutButton(); // Добавлено
-    });
 </script>
 <script>
         // Функция для проверки, может ли пользователь оставить отзыв
@@ -1056,4 +1046,10 @@
         if (radio) radio.checked = true;
         highlightStars(rating);
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        loadBookedDates();
+        updateCheckoutButton();
+    });
 </script>
+<script src="~/js/map.js"></script>

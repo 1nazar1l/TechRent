@@ -1,0 +1,100 @@
+@model TechRent.Models.Entities.Office
+@{
+    ViewData["Title"] = "Редактировать офис";
+    ViewData["css"] = "admin";
+}
+
+<main class="main-content">
+    <div class="wrapper">
+        <div class="breadcrumb">
+            <a href="@Url.Action("Offices", "Admin")" class="breadcrumb-link">Офисы</a>
+            <span class="material-symbols-outlined">chevron_right</span>
+            <span class="breadcrumb-current">Редактировать офис</span>
+        </div>
+
+        <div class="page-header">
+            <h1 class="page-title">Редактировать офис</h1>
+        </div>
+
+        <div class="form-card" style="max-width:700px;">
+            <form asp-action="EditOffice" method="post">
+                <input type="hidden" asp-for="Id" />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="Name" class="form-label"></label>
+                    <input asp-for="Name" class="form-input" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Address" class="form-label"></label>
+                    <input asp-for="Address" class="form-input" />
+                </div>
+
+                <div style="display:flex; gap:16px;">
+                    <div class="form-group" style="flex:1;">
+                        <label asp-for="LatitudeString" class="form-label"></label>
+                        <input asp-for="LatitudeString" id="latInput" class="form-input" />
+                        <span asp-validation-for="LatitudeString" class="text-danger"></span>
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label asp-for="LongitudeString" class="form-label"></label>
+                        <input asp-for="LongitudeString" id="lngInput" class="form-input" />
+                        <span asp-validation-for="LongitudeString" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <p style="font-size:13px; color:#64748b; margin-bottom:8px;">
+                    <span class="material-symbols-outlined" style="font-size:16px; vertical-align:middle;">info</span>
+                    Кликните на карте, чтобы изменить координаты
+                </p>
+                <div id="pickMap" style="width:100%; height:350px; border-radius:12px; margin-bottom:24px;"></div>
+
+                <div class="form-actions">
+                    <button type="submit" class="save-button">
+                        <span class="material-symbols-outlined">save</span>
+                        Сохранить
+                    </button>
+                    <a href="@Url.Action("Offices", "Admin")" class="cancel-button">Отмена</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<script src="https://api-maps.yandex.ru/2.1/?apikey=0d3a4764-1b1f-41ba-bc00-42c76b73e45f&lang=ru_RU" type="text/javascript"></script>
+<script>
+    ymaps.ready(function () {
+        const initLat = parseFloat('@Model.Latitude.ToString("F6", System.Globalization.CultureInfo.InvariantCulture)');
+        const initLng = parseFloat('@Model.Longitude.ToString("F6", System.Globalization.CultureInfo.InvariantCulture)');
+
+        const map = new ymaps.Map("pickMap", {
+            center: [initLat, initLng],
+            zoom: 13,
+            controls: ['zoomControl', 'searchControl']
+        });
+
+        let mark = new ymaps.Placemark([initLat, initLng], {}, { preset: 'islands#blueHomeCircleIcon', draggable: true });
+        mark.events.add('dragend', function () {
+            const c = mark.geometry.getCoordinates();
+            document.getElementById('latInput').value = c[0].toFixed(6);
+            document.getElementById('lngInput').value = c[1].toFixed(6);
+        });
+        map.geoObjects.add(mark);
+
+        map.events.add('click', function (e) {
+            const coords = e.get('coords');
+            map.geoObjects.remove(mark);
+            mark = new ymaps.Placemark(coords, {}, { preset: 'islands#blueHomeCircleIcon', draggable: true });
+            mark.events.add('dragend', function () {
+                const c = mark.geometry.getCoordinates();
+                document.getElementById('latInput').value = c[0].toFixed(6);
+                document.getElementById('lngInput').value = c[1].toFixed(6);
+            });
+            map.geoObjects.add(mark);
+            document.getElementById('latInput').value = coords[0].toFixed(6);
+            document.getElementById('lngInput').value = coords[1].toFixed(6);
+        });
+    });
+</script>

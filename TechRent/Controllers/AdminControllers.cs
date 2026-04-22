@@ -904,5 +904,91 @@ namespace TechRent.Controllers
             ViewBag.Equipments = await _context.Equipments.ToListAsync();
             return View(review);
         }
+
+        // ===================== OFFICES =====================
+
+        // GET: Admin/Offices
+        public async Task<IActionResult> Offices()
+        {
+            var offices = await _context.Offices.OrderBy(o => o.Name).ToListAsync();
+            return View(offices);
+        }
+
+        // GET: Admin/CreateOffice
+        public IActionResult CreateOffice()
+        {
+            return View();
+        }
+
+        // POST: Admin/CreateOffice
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateOffice(Office office)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(office);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Offices));
+            }
+            return View(office);
+        }
+
+        // GET: Admin/EditOffice/5
+        public async Task<IActionResult> EditOffice(int? id)
+        {
+            if (id == null) return NotFound();
+            var office = await _context.Offices.FindAsync(id);
+            if (office == null) return NotFound();
+            return View(office);
+        }
+
+        // POST: Admin/EditOffice/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditOffice(int id, Office office)
+        {
+            if (id != office.Id) return NotFound();
+            if (ModelState.IsValid)
+            {
+                _context.Update(office);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Offices));
+            }
+            return View(office);
+        }
+
+        // GET: Admin/DeleteOffice/5
+        public async Task<IActionResult> DeleteOffice(int? id)
+        {
+            if (id == null) return NotFound();
+            var office = await _context.Offices.FindAsync(id);
+            if (office == null) return NotFound();
+            return View(office);
+        }
+
+        // POST: Admin/DeleteOffice/5
+        [HttpPost, ActionName("DeleteOffice")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteOfficeConfirmed(int id)
+        {
+            var office = await _context.Offices.FindAsync(id);
+            if (office != null)
+            {
+                _context.Offices.Remove(office);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Offices));
+        }
+
+        // GET: Admin/GetOffices (API для карты)
+        [HttpGet]
+        public async Task<IActionResult> GetOffices()
+        {
+            var offices = await _context.Offices
+                .Select(o => new { o.Id, o.Name, o.Latitude, o.Longitude, o.Address })
+                .ToListAsync();
+            return Json(offices);
+        }
     }
 }
