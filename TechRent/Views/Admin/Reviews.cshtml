@@ -215,7 +215,7 @@
                                             <button class="action-button delete-button" title="Удалить" onclick="location.href='@Url.Action("DeleteReview", "Admin", new { id = item.Id })'">
                                                 <span class="material-symbols-outlined">delete</span>
                                             </button>
-                                            <button class="action-button view-button" title="Подробнее" onclick="location.href='@Url.Action("ReviewDetails", "Admin", new { id = item.Id })'">
+                                            <button class="action-button view-button" title="Просмотр товара" onclick="location.href='@Url.Action("Index", "Product", new { id = item.EquipmentId })'">
                                                 <span class="material-symbols-outlined">visibility</span>
                                             </button>
                                         </div>
