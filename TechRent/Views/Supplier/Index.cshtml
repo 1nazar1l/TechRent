@@ -1,0 +1,321 @@
+﻿@using TechRent.Models.Entities
+@model SupplierViewModel
+@{
+    ViewData["Title"] = "Панель поставщика";
+    ViewData["css"] = "supplier";
+    ViewData["nav_pos"] = "left";
+    ViewData["header"] = "with_search";
+}
+
+<!-- Leaflet CSS для карты -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<main class="main-content">
+    <div class="supplier-container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="@Url.Action("Index", "Home")" class="breadcrumb-link">Главная</a>
+            <span class="material-symbols-outlined">chevron_right</span>
+            <span class="breadcrumb-current">Панель поставщика</span>
+        </div>
+
+        <!-- Page Header -->
+        <div class="supplier-header">
+            <div>
+                <h1 class="page-title">Панель поставщика</h1>
+                <p class="page-description">Управляйте своим оборудованием и отслеживайте аренды</p>
+            </div>
+            <button class="add-equipment-button" onclick="location.href='@Url.Action("Create", "Supplier")'">
+                <span class="material-symbols-outlined">add</span>
+                Добавить оборудование
+            </button>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <span class="material-symbols-outlined">inventory</span>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value">@Model.TotalEquipment</span>
+                    <span class="stat-label">Всего оборудования</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <span class="material-symbols-outlined">check_circle</span>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value">@Model.ActiveRentals</span>
+                    <span class="stat-label">Активных аренд</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <span class="material-symbols-outlined">attach_money</span>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value">$@Model.TotalEarnings.ToString("N0")</span>
+                    <span class="stat-label">Общий доход</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <span class="material-symbols-outlined">star</span>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value">@Model.AverageRating.ToString("F1")</span>
+                    <span class="stat-label">Средний рейтинг</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="supplier-toolbar">
+            <div class="results">
+                <span class="results-number">@Model.Equipment.Count()</span>
+                <span class="results-text">оборудования</span>
+            </div>
+            <div class="search-filter">
+                <div class="search-input-wrapper">
+                    <span class="search-icon material-symbols-outlined">search</span>
+                    <input type="text" id="searchEquipment" class="search-equipment-input" placeholder="Поиск по названию...">
+                </div>
+                <div class="filter-select-wrapper">
+                    <select id="categoryFilter" class="category-filter-select">
+                        <option value="">Все категории</option>
+                        @foreach (var category in Model.Categories)
+                        {
+                            <option value="@category.Name">@category.Name</option>
+                        }
+                    </select>
+                    <span class="filter-icon material-symbols-outlined">expand_more</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Equipment Table -->
+        <div class="supplier-table-wrapper">
+            <table class="supplier-table" id="equipmentTable">
+                <thead>
+                    <tr>
+                        <th>Фото</th>
+                        <th>Название</th>
+                        <th>Категория</th>
+                        <th>Цена/день</th>
+                        <th>Залог</th>
+                        <th>В наличии</th>
+                        <th>Статус</th>
+                        <th>Аренд</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Equipment)
+                    {
+                        <tr data-category="@item.Category?.Name">
+                            <td class="image-cell">
+                                <div class="equipment-thumb">
+                                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                    {
+                                        <img src="@item.ImageUrl" alt="@item.Name">
+                                    }
+                                    else
+                                    {
+                                        <div class="thumb-placeholder">
+                                            <span class="material-symbols-outlined">construction</span>
+                                        </div>
+                                    }
+                                </div>
+                            </td>
+                            <td class="name-cell">
+                                <div>
+                                    <strong>@item.Name</strong>
+                                    <span class="equipment-id">ID: @item.Id.ToString("D4")</span>
+                                </div>
+                            </td>
+                            <td>@(item.Category?.Name ?? "—")</td>
+                            <td class="price-cell">$@item.PricePerDay.ToString("F0")</td>
+                            <td class="deposit-cell">$@item.Deposit.ToString("F0")</td>
+                            <td class="stock-cell">
+                                @if (item.AvailableQuantity > 5)
+                                {
+                                    <span class="stock-badge stock-high">@item.AvailableQuantity шт.</span>
+                                }
+                                else if (item.AvailableQuantity > 0)
+                                {
+                                    <span class="stock-badge stock-low">@item.AvailableQuantity шт.</span>
+                                }
+                                else
+                                {
+                                    <span class="stock-badge stock-out">Нет в наличии</span>
+                                }
+                            </td>
+                            <td class="status-cell">
+                                @if (item.IsAvailable)
+                                {
+                                    <span class="status-badge status-active">Активен</span>
+                                }
+                                else
+                                {
+                                    <span class="status-badge status-inactive">Неактивен</span>
+                                }
+                            </td>
+                            <td class="rentals-cell">@item.TotalRentals</td>
+                            <td class="actions-cell">
+                                <div class="action-buttons">
+                                    <button class="action-button view-button" onclick="location.href='@Url.Action("Details", "Supplier", new { id = item.Id })'" title="Просмотр">
+                                        <span class="material-symbols-outlined">visibility</span>
+                                    </button>
+                                    <button class="action-button edit-button" onclick="location.href='@Url.Action("Edit", "Supplier", new { id = item.Id })'" title="Редактировать">
+                                        <span class="material-symbols-outlined">edit</span>
+                                    </button>
+                                    <button class="action-button delete-button" onclick="location.href='@Url.Action("Delete", "Supplier", new { id = item.Id })'" title="Удалить">
+                                        <span class="material-symbols-outlined">delete</span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Empty State -->
+        @if (!Model.Equipment.Any())
+        {
+            <div class="empty-supplier-state">
+                <span class="material-symbols-outlined">inventory_2</span>
+                <h3>Нет оборудования</h3>
+                <p>Добавьте своё первое оборудование, чтобы начать зарабатывать</p>
+                <button class="add-equipment-button" onclick="location.href='@Url.Action("Create", "Supplier")'">
+                    <span class="material-symbols-outlined">add</span>
+                    Добавить оборудование
+                </button>
+            </div>
+        }
+
+        <!-- Map Section -->
+        <div class="map-section">
+            <div class="map-header">
+                <h3 class="map-title">
+                    <span class="material-symbols-outlined">location_on</span>
+                    Расположение офиса
+                </h3>
+                <p class="map-subtitle">Адрес: г. Минск, ул. Промышленная, 123</p>
+            </div>
+            <div id="supplierMap" class="supplier-map"></div>
+            <div class="map-info">
+                <div class="map-info-item">
+                    <span class="material-symbols-outlined">schedule</span>
+                    <div>
+                        <strong>Часы работы</strong>
+                        <span>Пн-Пт: 9:00 - 18:00</span>
+                        <span>Сб: 10:00 - 15:00</span>
+                    </div>
+                </div>
+                <div class="map-info-item">
+                    <span class="material-symbols-outlined">call</span>
+                    <div>
+                        <strong>Контакты</strong>
+                        <span>+375 (17) 123-45-67</span>
+                        <span>supplier@techrent.com</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    // Поиск и фильтрация таблицы
+    function initTableFilters() {
+        const searchInput = document.getElementById('searchEquipment');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const tableRows = document.querySelectorAll('#equipmentTable tbody tr');
+
+        function filterTable() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const categoryTerm = categoryFilter.value.toLowerCase();
+
+            tableRows.forEach(row => {
+                const name = row.querySelector('.name-cell strong')?.textContent.toLowerCase() || '';
+                const category = row.getAttribute('data-category')?.toLowerCase() || '';
+
+                const matchesSearch = searchTerm === '' || name.includes(searchTerm);
+                const matchesCategory = categoryTerm === '' || category === categoryTerm;
+
+                if (matchesSearch && matchesCategory) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            // Обновляем счётчик
+            const visibleRows = Array.from(tableRows).filter(row => row.style.display !== 'none').length;
+            const resultsSpan = document.querySelector('.results .results-number');
+            if (resultsSpan) {
+                resultsSpan.textContent = visibleRows;
+            }
+        }
+
+        if (searchInput) {
+            searchInput.addEventListener('input', filterTable);
+        }
+        if (categoryFilter) {
+            categoryFilter.addEventListener('change', filterTable);
+        }
+    }
+
+    // Инициализация карты
+    function initMap() {
+        // Координаты офиса (Минск, ул. Промышленная)
+        const officeLat = 53.9045;
+        const officeLng = 27.5615;
+
+        const map = L.map('supplierMap').setView([officeLat, officeLng], 15);
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 19,
+            minZoom: 3
+        }).addTo(map);
+
+        // Кастомная иконка
+        const customIcon = L.divIcon({
+            html: '<div class="custom-marker"><span class="material-symbols-outlined">location_on</span></div>',
+            className: 'custom-marker-wrapper',
+            iconSize: [40, 40],
+            iconAnchor: [20, 40],
+            popupAnchor: [0, -40]
+        });
+
+        // Добавляем маркер
+        const marker = L.marker([officeLat, officeLng], { icon: customIcon }).addTo(map);
+
+        // Попап с информацией
+        marker.bindPopup(`
+            <div class="map-popup">
+                <strong>TechRent - Офис поставщиков</strong><br>
+                ул. Промышленная, 123<br>
+                г. Минск<br>
+                <span class="map-popup-hours">🕐 Пн-Пт: 9:00 - 18:00</span>
+            </div>
+        `).openPopup();
+
+        // Добавляем зум-контрол
+        map.zoomControl.setPosition('bottomright');
+    }
+
+    // Запускаем инициализацию после загрузки страницы
+    document.addEventListener('DOMContentLoaded', function() {
+        initTableFilters();
+        if (typeof L !== 'undefined') {
+            initMap();
+        }
+    });
+</script>

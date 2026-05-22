@@ -52,7 +52,10 @@
                             <a asp-controller="Equipment" asp-action="Index" class="nav-link">Каталог</a>
                             <a href="#" class="nav-link">Как арендовать</a>
                             <a href="#" class="nav-link">Цены</a>
-                            <a href="#" class="nav-link">Поставщикам</a>
+                            @if (User.IsInRole("Supplier") || User.IsInRole("Admin"))
+                            {
+                                <a asp-controller="Supplier" asp-action="Index" class="nav-link">Поставщикам</a>
+                            }
                             <a href="#" class="nav-link">Поддержка</a>
                             @if (User.IsInRole("Admin"))
                             {
@@ -74,7 +77,10 @@
                         <a asp-controller="Equipment" asp-action="Index" class="nav-link">Каталог</a>
                         <a href="#" class="nav-link">Как арендовать</a>
                         <a href="#" class="nav-link">Цены</a>
-                        <a href="#" class="nav-link">Поставщикам</a>
+                        @if (User.IsInRole("Supplier") || User.IsInRole("Admin"))
+                        {
+                            <a asp-controller="Supplier" asp-action="Index" class="nav-link">Поставщикам</a>
+                        }
                         <a href="#" class="nav-link">Поддержка</a>
                         @if (User.IsInRole("Admin"))
                         {
