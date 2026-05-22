@@ -1,9 +1,9 @@
-﻿@{
+﻿@model IEnumerable<TechRent.Models.Entities.Equipment>
+@{
     ViewData["Title"] = "Главная";
     ViewData["css"] = "index";
     ViewData["header"] = "base_header";
 }
-
 
 <!-- Hero Section -->
 <section class="hero-section" style='background-image: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.85)), url("https://lh3.googleusercontent.com/aida-public/AB6AXuAiyPSmWrRWtNQgmoevRsKItl86Qo_KSq4dSrM2Jmi23O5LUlWr1s1GcidzcqJLTbtX2yf5nvFOdBgnsZBcL48jxpXCcL5_gEukPCuZB1NrzouxiLnkH11CyB4vR95TNdGBk7SR0F4QwletoRPay8uDolRSc6pEfVNNoN6oH3UM6iujbAB1BuUAzO4z0WIbgpnofGFDNEkqBqjwOfZLbw4jnxOOFVdP8Jnuz25lm3USr8gfGoRlcA8Rr-qSEqduvf-f-3mqfp3yo38");'>
@@ -20,49 +20,6 @@
         <p class="hero-description">
             Более 5 000 активных объявлений от проверенных поставщиков. Мгновенное бронирование, прозрачные цены и гарантированные сроки доставки.
         </p>
-    </div>
-
-    <!-- Search Bar -->
-    <div class="search-wrapper">
-        <div class="search-container">
-            <!-- What field -->
-            <div class="search-field">
-                <label class="field-label">
-                    <span class="label-text">Что</span>
-                    <div class="field-input-wrapper">
-                        <span class="field-icon material-symbols-outlined">search</span>
-                        <input class="field-input" type="text" placeholder="Экскаватор, дрель, подъёмник...">
-                    </div>
-                </label>
-            </div>
-
-            <!-- When field -->
-            <div class="search-field">
-                <label class="field-label">
-                    <span class="label-text">Когда</span>
-                    <div class="field-input-wrapper">
-                        <span class="field-icon material-symbols-outlined">calendar_month</span>
-                        <input class="field-input" type="text" placeholder="Выберите даты">
-                    </div>
-                </label>
-            </div>
-
-            <!-- Where field -->
-            <div class="search-field">
-                <label class="field-label">
-                    <span class="label-text">Где</span>
-                    <div class="field-input-wrapper">
-                        <span class="field-icon material-symbols-outlined">location_on</span>
-                        <input class="field-input" type="text" placeholder="Индекс или город">
-                    </div>
-                </label>
-            </div>
-
-            <!-- Search Button -->
-            <button class="search-button">
-                Найти
-            </button>
-        </div>
     </div>
 </section>
 
@@ -197,137 +154,73 @@
         </div>
 
         <div class="products-grid">
-            <!-- Product Card 1 -->
-            <article class="product-card">
-                <div class="product-image-wrapper">
-                    <div class="product-badge">
-                        <span class="badge badge-available">В наличии</span>
-                    </div>
-                    <img class="product-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDElI86uOySEnnst5vrcss9D3vD6-WcTKk_rtuwbatm9JHnQ4Z_A-WwdhJdEVHxOnQ7Y-ZJC7se5xhK5ZOY8QuYyIZpXnQ0ODCoc4tsnXMUFFkxGukfgL8YjM7B1_sG40xk-Pa4sjHqz13uw1tzGmavYrvSU3nWRgZo-qc58HCBQp5xu92XgPN2bJ-baJNCkZ46bmjsMBbZLbY9xHbL41gWrCq9taQemtTE-cotVPpQoCcK6T8JuCSsIMNxKeycxbN6qMd7vbc7MRw" alt="Бетономешалка">
-                    <button class="favorite-button">
-                        <span class="material-symbols-outlined">favorite</span>
-                    </button>
-                </div>
+            @foreach (var item in Model.Take(4))
+            {
+                var averageRating = item.Reviews != null && item.Reviews.Any()
+                ? item.Reviews.Average(r => r.Rating).ToString("F1")
+                : "0.0";
+                var reviewCount = item.Reviews?.Count ?? 0;
+                var roundedRating = item.Reviews != null && item.Reviews.Any()
+                ? (int)Math.Round(item.Reviews.Average(r => r.Rating))
+                : 0;
 
-                <div class="product-details">
-                    <div class="rating">
-                        <span class="star-icon material-symbols-outlined">star</span>
-                        <span class="rating-value">4.8</span>
-                        <span class="rating-count">(120)</span>
-                    </div>
-
-                    <h3 class="product-name">Бетономешалка Profi 220L</h3>
-
-                    <div class="product-footer">
-                        <div class="price-wrapper">
-                            <span class="price-label">От</span>
-                            <span class="price">45 бел. руб.<span class="price-period">/день</span></span>
+                <article class="product-card">
+                    <div class="product-image-wrapper">
+                        <div class="product-badge">
+                            @if (item.AvailableQuantity > 5)
+                            {
+                                <span class="badge badge-available">В наличии</span>
+                            }
+                            else if (item.AvailableQuantity > 0)
+                            {
+                                <span class="badge badge-lowstock">Мало</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-outofstock">Нет в наличии</span>
+                            }
                         </div>
-                        <button class="add-to-cart-button">
-                            <span class="material-symbols-outlined">add</span>
-                        </button>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Product Card 2 -->
-            <article class="product-card">
-                <div class="product-image-wrapper">
-                    <div class="product-badge">
-                        <span class="badge badge-available">В наличии</span>
-                    </div>
-                    <img class="product-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEMOPc7mhr4O843N-TqtFpWY_0ZYxVKltiVNM-zTidD2b2K005f78XGhI68jCHJMpOWqQqGv8X8WOLJoVrMhdsA5SPWy2lIZp0VLg0BCdmD6-FMlIGOgLHLXPbTWIFBj_4w8KHh7XNjHtBDdl4Jxbihzx3DQ-OBOcQx1do026wpngvVyT7MPGJ5pefxVTlsfiL8tqwQUxWd6SccWUIL_8lEjXtuSjBJ3l41nrQNSqXNcTPJyoTQiaIzrzSKjWo4423L8vgyReW4oA" alt="Мини-экскаватор">
-                    <button class="favorite-button">
-                        <span class="material-symbols-outlined">favorite</span>
-                    </button>
-                </div>
-
-                <div class="product-details">
-                    <div class="rating">
-                        <span class="star-icon material-symbols-outlined">star</span>
-                        <span class="rating-value">4.9</span>
-                        <span class="rating-count">(85)</span>
+                        @if (!string.IsNullOrEmpty(item.ImageUrl))
+                        {
+                            <img class="product-image" src="@item.ImageUrl" alt="@item.Name">
+                        }
+                        else
+                        {
+                            <div class="product-image" style="background: #f1f5f9; display: flex; align-items: center; justify-content: center;">
+                                <span class="material-symbols-outlined" style="font-size: 48px; color: #94a3b8;">construction</span>
+                            </div>
+                        }
                     </div>
 
-                    <h3 class="product-name">Мини-экскаватор CAT 1.5T</h3>
-
-                    <div class="product-footer">
-                        <div class="price-wrapper">
-                            <span class="price-label">От</span>
-                            <span class="price">180 бел. руб.<span class="price-period">/день</span></span>
+                    <div class="product-details">
+                        <div class="rating">
+                            @for (int i = 0; i < 5; i++)
+                            {
+                                if (i < roundedRating)
+                                {
+                                    <span class="material-symbols-outlined" style="color: #fbbf24; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
+                                }
+                                else
+                                {
+                                    <span class="material-symbols-outlined" style="color: #cbd5e1; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
+                                }
+                            }
                         </div>
-                        <button class="add-to-cart-button">
-                            <span class="material-symbols-outlined">add</span>
-                        </button>
-                    </div>
-                </div>
-            </article>
 
-            <!-- Product Card 3 -->
-            <article class="product-card">
-                <div class="product-image-wrapper">
-                    <div class="product-badge">
-                        <span class="badge badge-lowstock">Мало</span>
-                    </div>
-                    <img class="product-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfAoVQjKgG8FFXGA3MrNVxI8YKqhu8DVQQUkg1wTCcqjeFuzFJ3yVgRR-DsT1q-f93derXuxSoDAXy7G0-cG910JTyrGSd0EkRZWuTa2h9P6NDVfH1d6yUn1gQMScSufsSUh3MzNLqstBmQWlXDTOkT_W4xcZ16hgCuNPKNg2Iepyy8ZXOu8QxWgQne0mRS3STGfGsBg2IdqLIvEow9hUGMcAu6kHKiWjmorMQuWI_0hN14VBgIt16dAgtRNVzSXmtRbGl_T-Jlts" alt="Отбойный молоток">
-                    <button class="favorite-button">
-                        <span class="material-symbols-outlined">favorite</span>
-                    </button>
-                </div>
+                        <h3 class="product-name">@item.Name</h3>
 
-                <div class="product-details">
-                    <div class="rating">
-                        <span class="star-icon material-symbols-outlined">star</span>
-                        <span class="rating-value">4.7</span>
-                        <span class="rating-count">(42)</span>
-                    </div>
-
-                    <h3 class="product-name">Отбойный молоток Hilti TE 1000</h3>
-
-                    <div class="product-footer">
-                        <div class="price-wrapper">
-                            <span class="price-label">От</span>
-                            <span class="price">65 бел. руб.<span class="price-period">/день</span></span>
+                        <div class="product-footer">
+                            <div class="price-wrapper">
+                                <span class="price-label">От</span>
+                                <span class="price">@item.PricePerDay бел. руб.<span class="price-period">/день</span></span>
+                            </div>
+                            <a href="@Url.Action("Index", "Product", new { id = item.Id })" class="add-to-cart-button" style="text-decoration: none;">
+                                <span class="material-symbols-outlined">add</span>
+                            </a>
                         </div>
-                        <button class="add-to-cart-button">
-                            <span class="material-symbols-outlined">add</span>
-                        </button>
                     </div>
-                </div>
-            </article>
-
-            <!-- Product Card 4 -->
-            <article class="product-card">
-                <div class="product-image-wrapper">
-                    <div class="product-badge">
-                        <span class="badge badge-available">В наличии</span>
-                    </div>
-                    <img class="product-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgsjFZoiw1SVdfhpca9AQn9h9-hkmwDEP5s5ziJEczVcvQXZexgf4VBH7jsFb95-oLN2_8krB-EtQxF161C8KiNzCuT11CGM6PTBQz_ZR3KFmHtUHUxwrHY42_k9QB5w4F9u7dzcjVmdNXv5W80BVQa9aNv_ftjOjlA4xiACzfZZKtH9sGPyQ212AMnPDD2cdfZAsjyf0-72oNzrzdZMsOWvIkRBmIdUu7RnLFtw5C6q7raqCd6gCTZ1PgRx_iOjsP5cY98RZQm0g" alt="Ножничный подъёмник">
-                    <button class="favorite-button">
-                        <span class="material-symbols-outlined">favorite</span>
-                    </button>
-                </div>
-
-                <div class="product-details">
-                    <div class="rating">
-                        <span class="star-icon material-symbols-outlined">star</span>
-                        <span class="rating-value">5.0</span>
-                        <span class="rating-count">(18)</span>
-                    </div>
-
-                    <h3 class="product-name">Ножничный подъёмник Genie 19ft</h3>
-
-                    <div class="product-footer">
-                        <div class="price-wrapper">
-                            <span class="price-label">От</span>
-                            <span class="price">110 бел. руб.<span class="price-period">/день</span></span>
-                        </div>
-                        <button class="add-to-cart-button">
-                            <span class="material-symbols-outlined">add</span>
-                        </button>
-                    </div>
-                </div>
-            </article>
+                </article>
+            }
         </div>
     </section>
 
@@ -369,11 +262,11 @@
             <div class="testimonial-header">
                 <h3 class="testimonial-title">Доверяют профессионалы</h3>
                 <div class="testimonial-rating">
-                    <span class="material-symbols-outlined">star</span>
-                    <span class="material-symbols-outlined">star</span>
-                    <span class="material-symbols-outlined">star</span>
-                    <span class="material-symbols-outlined">star</span>
-                    <span class="material-symbols-outlined">star_half</span>
+                    <span class="material-symbols-outlined" style="color: #fbbf24; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
+                    <span class="material-symbols-outlined" style="color: #fbbf24; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
+                    <span class="material-symbols-outlined" style="color: #fbbf24; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
+                    <span class="material-symbols-outlined" style="color: #fbbf24; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
+                    <span class="material-symbols-outlined" style="color: #fbbf24; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
                 </div>
             </div>
 
@@ -401,8 +294,15 @@
         <h2 class="cta-title">Готовы начать проект?</h2>
         <p class="cta-text">Присоединяйтесь к 10 000+ подрядчиков, которые доверяют TechRent. Никаких скрытых платежей.</p>
         <div class="cta-buttons">
-            <button class="button-primary-light">Перейти в каталог</button>
+            <a href="@Url.Action("Index", "Equipment")" class="button-primary-light" style="text-decoration: none;">Перейти в каталог</a>
             <button class="button-outline-light">Стать поставщиком</button>
         </div>
     </section>
 </main>
+
+<style>
+    .badge-outofstock {
+        background-color: #ef4444;
+        color: white;
+    }
+</style>

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TechRent.Data;
 using TechRent.Models.Entities;
 
@@ -15,11 +16,32 @@ namespace TechRent.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            // Получаем все оборудование для отображения на главной
-            var equipmentList = _context.Equipments.ToList();
-            return View(equipmentList);
+            // Получаем оборудование с отзывами и сортируем по популярности
+            // Популярность = средний рейтинг + количество бронирований
+            var equipmentWithStats = await _context.Equipments
+                .Include(e => e.Reviews)
+                .Include(e => e.Bookings)
+                .Select(e => new
+                {
+                    Equipment = e,
+                    AverageRating = e.Reviews.Any() ? e.Reviews.Average(r => r.Rating) : 0,
+                    ReviewCount = e.Reviews.Count(),
+                    BookingCount = e.Bookings.Count(b => b.Status == "Подтверждено" || b.Status == "Завершено")
+                })
+                .ToListAsync();
+
+            // Сортируем по комбинированному рейтингу:
+            // 70% от среднего рейтинга + 30% от количества бронирований
+            var popularEquipment = equipmentWithStats
+                .OrderByDescending(e => (e.AverageRating * 0.7) + (Math.Min(e.BookingCount, 100) / 100.0 * 5 * 0.3))
+                .ThenByDescending(e => e.BookingCount)
+                .Select(e => e.Equipment)
+                .Take(8) // Берем топ-8 популярных товаров
+                .ToList();
+
+            return View(popularEquipment);
         }
 
         public IActionResult Privacy()

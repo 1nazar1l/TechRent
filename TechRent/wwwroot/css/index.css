@@ -776,6 +776,7 @@
     align-items: center;
     gap: 1rem;
     margin-top: 3rem;
+    z-index: 1;
 }
 
 .drivers-avatars {
