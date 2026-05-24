@@ -88,7 +88,14 @@ namespace TechRent.Controllers
 
                 if (result.Succeeded)
                 {
+                    // Добавляем роль "User" всем
                     await _userManager.AddToRoleAsync(user, "User");
+
+                    // Если пользователь выбрал "Стать поставщиком", добавляем роль "Supplier"
+                    if (model.IsSupplier)
+                    {
+                        await _userManager.AddToRoleAsync(user, "Supplier");
+                    }
 
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token = token }, protocol: HttpContext.Request.Scheme);
@@ -97,25 +104,24 @@ namespace TechRent.Controllers
                     {
                         await _emailSender.SendEmailAsync(
                             model.Email,
-                            "Welcome to TechRent! Confirm your email",
+                            "Добро пожаловать в TechRent! Подтвердите email",
                             $@"
-                            <html>
-                            <body style='font-family: Arial, sans-serif;'>
-                                <h2>Welcome to TechRent, {model.FirstName}!</h2>
-                                <p>Thank you for registering. Please confirm your email address by clicking the link below:</p>
-                                <p><a href='{confirmationLink}' style='background-color: #3b82f6; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>Confirm Email</a></p>
-                                <p>If the button doesn't work, copy and paste this link into your browser:</p>
-                                <p>{confirmationLink}</p>
-                                <p>Best regards,<br>TechRent Team</p>
-                            </body>
-                            </html>"
+                    <html>
+                    <body style='font-family: Arial, sans-serif;'>
+                        <h2>Добро пожаловать в TechRent, {model.FirstName}!</h2>
+                        <p>Спасибо за регистрацию. Пожалуйста, подтвердите ваш email адрес, нажав на ссылку ниже:</p>
+                        <p><a href='{confirmationLink}' style='background-color: #3b82f6; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>Подтвердить email</a></p>
+                        <p>Если кнопка не работает, скопируйте и вставьте эту ссылку в браузер:</p>
+                        <p>{confirmationLink}</p>
+                        <p>С уважением,<br>Команда TechRent</p>
+                    </body>
+                    </html>"
                         );
-                        TempData["SuccessMessage"] = "Registration successful! Please check your email to confirm your account.";
+                        TempData["SuccessMessage"] = "Регистрация успешна! Проверьте вашу почту для подтверждения аккаунта.";
                     }
                     catch (Exception ex)
                     {
-                        // Если email не отправился, но пользователь создан
-                        TempData["SuccessMessage"] = "Registration successful! Please contact support to confirm your account.";
+                        TempData["SuccessMessage"] = "Регистрация успешна! Пожалуйста, свяжитесь с поддержкой для подтверждения аккаунта.";
                         Console.WriteLine($"Email error: {ex.Message}");
                     }
                     return RedirectToAction("Auth", "Account");

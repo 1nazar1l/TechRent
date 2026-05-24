@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
 
 namespace TechRent.Models.Entities
 {
@@ -36,7 +36,6 @@ namespace TechRent.Models.Entities
         [NotMapped]
         public double AverageRating { get; set; }
 
-        // В Equipment.cs добавьте:
         [NotMapped]
         public bool IsFavorite { get; set; }
 
@@ -48,13 +47,20 @@ namespace TechRent.Models.Entities
         [Range(0, int.MaxValue)]
         public int AvailableQuantity { get; set; }
 
+        // ID поставщика (кто добавил оборудование)
+        [Display(Name = "Поставщик")]
+        public string? SupplierId { get; set; }
+
         // Вычисляемое поле (не сохраняется в БД)
         public bool IsAvailable => AvailableQuantity > 0;
 
         // Навигационные свойства
         public ICollection<Booking>? Bookings { get; set; }
         public ICollection<Review>? Reviews { get; set; }
-
         public ICollection<Favorite>? Favorites { get; set; }
+
+        // Навигационное свойство для поставщика
+        [ForeignKey("SupplierId")]
+        public IdentityUser? Supplier { get; set; }
     }
 }

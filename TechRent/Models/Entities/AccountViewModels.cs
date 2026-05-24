@@ -4,11 +4,11 @@ namespace TechRent.Models.Entities
 {
     public class LoginViewModel
     {
-        [Required(ErrorMessage = "Email is required")]
-        [EmailAddress(ErrorMessage = "Invalid email address")]
+        [Required(ErrorMessage = "Email обязателен")]
+        [EmailAddress(ErrorMessage = "Неверный формат email")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Password is required")]
+        [Required(ErrorMessage = "Пароль обязателен")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
@@ -17,31 +17,33 @@ namespace TechRent.Models.Entities
 
     public class RegisterViewModel
     {
-        [Required(ErrorMessage = "First name is required")]
-        [Display(Name = "First Name")]
+        [Required(ErrorMessage = "Имя обязательно")]
+        [Display(Name = "Имя")]
         public string FirstName { get; set; }
 
-        [Required(ErrorMessage = "Last name is required")]
-        [Display(Name = "Last Name")]
+        [Required(ErrorMessage = "Фамилия обязательна")]
+        [Display(Name = "Фамилия")]
         public string LastName { get; set; }
 
-        [Required(ErrorMessage = "Email is required")]
-        [EmailAddress(ErrorMessage = "Invalid email address")]
+        [Required(ErrorMessage = "Email обязателен")]
+        [EmailAddress(ErrorMessage = "Неверный формат email")]
         public string Email { get; set; }
 
-        [Phone(ErrorMessage = "Invalid phone number")]
-        [Display(Name = "Phone Number")]
+        [Phone(ErrorMessage = "Неверный формат номера телефона")]
+        [Display(Name = "Номер телефона")]
         public string Phone { get; set; }
 
-        [Required(ErrorMessage = "Password is required")]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Required(ErrorMessage = "Пароль обязателен")]
+        [StringLength(100, ErrorMessage = "Пароль должен содержать не менее {2} символов.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "Пароли не совпадают")]
         public string ConfirmPassword { get; set; }
 
         public bool TermsAccepted { get; set; }
+
+        public bool IsSupplier { get; set; }
     }
 }

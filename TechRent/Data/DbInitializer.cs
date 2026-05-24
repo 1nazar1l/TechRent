@@ -13,8 +13,7 @@ namespace TechRent.Data
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-            // 1. Создаем роли, если их нет
-            string[] roles = new[] { "Admin", "User" };
+            string[] roles = new[] { "Admin", "User", "Supplier" };
             foreach (var role in roles)
             {
                 if (!await roleManager.RoleExistsAsync(role))

@@ -46,7 +46,7 @@
             <!-- Divider -->
             <div class="auth-divider">
                 <span class="divider-line"></span>
-                <span class="divider-text">or</span>
+                <span class="divider-text">или</span>
                 <span class="divider-line"></span>
             </div>
 
@@ -113,9 +113,21 @@
                     </div>
                 </div>
 
+                <!-- Чекбокс "Стать поставщиком" -->
                 <div class="form-options">
                     <label class="checkbox-label">
-                        <input type="checkbox" name="TermsAccepted" class="checkbox-input" value="true">
+                        <input type="checkbox" name="IsSupplier" class="checkbox-input" value="true">
+                        <span class="checkbox-custom"></span>
+                        <span class="checkbox-text">
+                            <strong>Стать поставщиком</strong>
+                            <span style="display: block; font-size: 12px; color: #64748b;">Размещайте своё оборудование для аренды</span>
+                        </span>
+                    </label>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="TermsAccepted" class="checkbox-input" value="true" required>
                         <span class="checkbox-custom"></span>
                         <span class="checkbox-text">
                             Я согласен с <a href="#" class="terms-link">Условиями использования</a> и <a href="#" class="terms-link">Политикой конфиденциальности</a>
@@ -125,6 +137,7 @@
 
                 <button type="submit" class="auth-button">Создать аккаунт</button>
             </form>
+
             <!-- Footer Link -->
             <div class="auth-footer">
                 <p>Уже есть аккаунт? <a asp-controller="Account" asp-action="Auth" class="auth-link">Войти</a></p>

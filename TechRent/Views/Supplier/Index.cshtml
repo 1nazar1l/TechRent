@@ -7,9 +7,8 @@
     ViewData["header"] = "with_search";
 }
 
-<!-- Leaflet CSS для карты -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- Яндекс.Карты -->
+<script src="https://api-maps.yandex.ru/2.1/?apikey=0d3a4764-1b1f-41ba-bc00-42c76b73e45f&lang=ru_RU" type="text/javascript"></script>
 
 <main class="main-content">
     <div class="supplier-container">
@@ -166,7 +165,7 @@
                             <td class="rentals-cell">@item.TotalRentals</td>
                             <td class="actions-cell">
                                 <div class="action-buttons">
-                                    <button class="action-button view-button" onclick="location.href='@Url.Action("Details", "Supplier", new { id = item.Id })'" title="Просмотр">
+                                    <button class="action-button view-button" title="Просмотр" onclick="location.href='@Url.Action("Index", "Product", new { id = item.Id })'">
                                         <span class="material-symbols-outlined">visibility</span>
                                     </button>
                                     <button class="action-button edit-button" onclick="location.href='@Url.Action("Edit", "Supplier", new { id = item.Id })'" title="Редактировать">
@@ -200,13 +199,50 @@
         <!-- Map Section -->
         <div class="map-section">
             <div class="map-header">
-                <h3 class="map-title">
-                    <span class="material-symbols-outlined">location_on</span>
-                    Расположение офиса
-                </h3>
-                <p class="map-subtitle">Адрес: г. Минск, ул. Промышленная, 123</p>
+                <div>
+                    <h3 class="map-title">
+                        <span class="material-symbols-outlined">location_on</span>
+                        Расположение офиса
+                    </h3>
+                    @if (Model.Office != null)
+                    {
+                        <p class="map-subtitle">@Model.Office.Address</p>
+                    }
+                    else
+                    {
+                        <p class="map-subtitle">Офис не добавлен. Добавьте информацию о вашем офисе.</p>
+                    }
+                </div>
+                @if (Model.Office != null)
+                {
+                    <div style="display: flex; gap: 8px;">
+                        <button class="edit-office-button" onclick="location.href='@Url.Action("EditOffice", "Supplier")'">
+                            <span class="material-symbols-outlined">edit</span>
+                            Редактировать офис
+                        </button>
+                        <button class="delete-office-button" onclick="location.href='@Url.Action("DeleteOffice", "Supplier")'" style="background: #ef4444;">
+                            <span class="material-symbols-outlined">delete</span>
+                            Удалить офис
+                        </button>
+                    </div>
+                }
+                else
+                {
+                    <button class="add-office-button" onclick="location.href='@Url.Action("CreateOffice", "Supplier")'">
+                        <span class="material-symbols-outlined">add</span>
+                        Добавить офис
+                    </button>
+                }
             </div>
-            <div id="supplierMap" class="supplier-map"></div>
+
+            <!-- Только один контейнер для карты -->
+            <div id="supplierMapContainer" style="height: 300px; width: 100%; border-radius: 12px; margin-top: 16px;"
+                 data-lat="@(Model.Office?.Latitude ?? 0)"
+                 data-lng="@(Model.Office?.Longitude ?? 0)"
+                 data-address="@(Model.Office?.Address ?? "")"
+                 data-has-office="@(Model.Office != null ? "true" : "false")">
+            </div>
+
             <div class="map-info">
                 <div class="map-info-item">
                     <span class="material-symbols-outlined">schedule</span>
@@ -221,7 +257,7 @@
                     <div>
                         <strong>Контакты</strong>
                         <span>+375 (17) 123-45-67</span>
-                        <span>supplier@techrent.com</span>
+                        <span>@User.Identity?.Name</span>
                     </div>
                 </div>
             </div>
@@ -270,52 +306,74 @@
         }
     }
 
-    // Инициализация карты
+    // Инициализация карты с Яндекс.Картами
     function initMap() {
-        // Координаты офиса (Минск, ул. Промышленная)
-        const officeLat = 53.9045;
-        const officeLng = 27.5615;
+        const mapContainer = document.getElementById('supplierMapContainer');
+        if (!mapContainer) return;
 
-        const map = L.map('supplierMap').setView([officeLat, officeLng], 15);
+        // Получаем координаты из data-атрибутов контейнера
+        const lat = parseFloat(mapContainer.dataset.lat);
+        const lng = parseFloat(mapContainer.dataset.lng);
+        const address = mapContainer.dataset.address;
 
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-            subdomains: 'abcd',
-            maxZoom: 19,
-            minZoom: 3
-        }).addTo(map);
+        // Проверяем, есть ли реальные координаты (не дефолтные или не нулевые)
+        const hasValidOffice = mapContainer.dataset.hasOffice === 'true';
 
-        // Кастомная иконка
-        const customIcon = L.divIcon({
-            html: '<div class="custom-marker"><span class="material-symbols-outlined">location_on</span></div>',
-            className: 'custom-marker-wrapper',
-            iconSize: [40, 40],
-            iconAnchor: [20, 40],
-            popupAnchor: [0, -40]
+        if (typeof ymaps === 'undefined') {
+            setTimeout(initMap, 500);
+            return;
+        }
+
+        ymaps.ready(function () {
+            // Если нет офиса, показываем карту без метки или с сообщением
+            if (!hasValidOffice || isNaN(lat) || isNaN(lng) || (lat === 53.9045 && lng === 27.5615 && !address.includes('Промышленная'))) {
+                const map = new ymaps.Map("supplierMapContainer", {
+                    center: [53.9045, 27.5615],
+                    zoom: 12,
+                    controls: ['zoomControl', 'fullscreenControl']
+                });
+
+                // Добавляем метку с сообщением, что офис не добавлен
+                const placemark = new ymaps.Placemark([53.9045, 27.5615], {
+                    balloonContent: `<strong>Офис не добавлен</strong><br>Добавьте информацию о вашем офисе через кнопку "Добавить офис"`,
+                    hintContent: 'Офис не добавлен'
+                }, {
+                    preset: 'islands#grayHomeCircleIcon',
+                    draggable: false
+                });
+
+                map.geoObjects.add(placemark);
+                return;
+            }
+
+            // Если есть офис, показываем его
+            const map = new ymaps.Map("supplierMapContainer", {
+                center: [lat, lng],
+                zoom: 15,
+                controls: ['zoomControl', 'fullscreenControl']
+            });
+
+            const placemark = new ymaps.Placemark([lat, lng], {
+                balloonContent: `<strong>${address || 'Мой офис'}</strong><br><span style="color:#64748b;">🕐 Пн-Пт: 9:00 - 18:00</span>`
+            }, {
+                preset: 'islands#redHomeCircleIcon',
+                draggable: false
+            });
+
+            map.geoObjects.add(placemark);
+            placemark.balloon.open();
         });
-
-        // Добавляем маркер
-        const marker = L.marker([officeLat, officeLng], { icon: customIcon }).addTo(map);
-
-        // Попап с информацией
-        marker.bindPopup(`
-            <div class="map-popup">
-                <strong>TechRent - Офис поставщиков</strong><br>
-                ул. Промышленная, 123<br>
-                г. Минск<br>
-                <span class="map-popup-hours">🕐 Пн-Пт: 9:00 - 18:00</span>
-            </div>
-        `).openPopup();
-
-        // Добавляем зум-контрол
-        map.zoomControl.setPosition('bottomright');
     }
 
     // Запускаем инициализацию после загрузки страницы
     document.addEventListener('DOMContentLoaded', function() {
         initTableFilters();
-        if (typeof L !== 'undefined') {
+        // Используем Яндекс.Карты вместо Leaflet
+        if (typeof ymaps !== 'undefined') {
             initMap();
+        } else {
+            // Ждем загрузки Яндекс.Карт
+            setTimeout(initMap, 1000);
         }
     });
 </script>

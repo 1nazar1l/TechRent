@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Globalization;
@@ -33,5 +34,13 @@ namespace TechRent.Models.Entities
 
         [Display(Name = "Адрес")]
         public string? Address { get; set; }
+
+        // ID поставщика (кому принадлежит офис)
+        [Display(Name = "Поставщик")]
+        public string? SupplierId { get; set; }
+
+        // Навигационное свойство для поставщика
+        [ForeignKey("SupplierId")]
+        public IdentityUser? Supplier { get; set; }
     }
 }

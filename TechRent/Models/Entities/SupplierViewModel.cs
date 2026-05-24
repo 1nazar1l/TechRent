@@ -8,6 +8,7 @@
         public double AverageRating { get; set; }
         public List<SupplierEquipmentItem> Equipment { get; set; } = new List<SupplierEquipmentItem>();
         public List<Category> Categories { get; set; } = new List<Category>();
+        public Office? Office { get; set; }
     }
 
     public class SupplierEquipmentItem

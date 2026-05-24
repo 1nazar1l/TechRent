@@ -1,0 +1,42 @@
+@model TechRent.Models.Entities.Office
+@{
+    ViewData["Title"] = "Удалить офис";
+    ViewData["css"] = "supplier";
+    ViewData["nav_pos"] = "left";
+    ViewData["header"] = "with_search";
+}
+
+<main class="main-content">
+    <div class="supplier-container">
+        <div class="breadcrumb">
+            <a href="@Url.Action("Index", "Supplier")" class="breadcrumb-link">Панель поставщика</a>
+            <span class="material-symbols-outlined">chevron_right</span>
+            <span class="breadcrumb-current">Удалить офис</span>
+        </div>
+
+        <div class="page-header">
+            <h1 class="page-title">Удалить офис</h1>
+            <p class="page-description">Удаление офиса поставщика</p>
+        </div>
+
+        <div class="form-card" style="max-width:500px;">
+            <p style="margin-bottom:16px;">Вы уверены, что хотите удалить офис <strong>@Model.Name</strong>?</p>
+
+            @if (!string.IsNullOrEmpty(Model.Address))
+            {
+                <p style="color:#64748b; margin-bottom:24px;">@Model.Address</p>
+            }
+
+            <form asp-action="DeleteOffice" method="post">
+                <input type="hidden" asp-for="Id" />
+                <div class="form-actions">
+                    <button type="submit" class="delete-confirm-button" style="background:#ef4444; color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; display:flex; align-items:center; gap:8px;">
+                        <span class="material-symbols-outlined">delete</span>
+                        Удалить
+                    </button>
+                    <a href="@Url.Action("Index", "Supplier")" class="cancel-button">Отмена</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
