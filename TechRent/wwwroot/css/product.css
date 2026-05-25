@@ -214,6 +214,9 @@
         font-size: 2rem;
         font-weight: 800;
         color: var(--primary);
+        display: flex;
+        align-items: center;
+        gap: 2px;
     }
 
     .price-large .period {
@@ -264,6 +267,9 @@
     font-size: 0.875rem;
     font-weight: 600;
     margin-bottom: 0.125rem;
+    display: flex;
+    align-items: center;
+    gap: 2px;
 }
 
 .deposit-note {
@@ -393,6 +399,12 @@
     margin-bottom: 0.5rem;
 }
 
+    .calculation-row span {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+    }
+
     .calculation-row.total {
         padding-top: 0.75rem;
         margin-top: 0.5rem;
@@ -412,6 +424,9 @@
     color: var(--text-muted);
     text-align: right;
     font-style: italic;
+    display: flex;
+    align-items: center;
+    gap: 2px;
 }
 
 /* Booking Actions */
@@ -572,6 +587,9 @@
 .spec-value {
     font-weight: 600;
     font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 2px;
 }
 
 /* Terms List */

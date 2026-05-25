@@ -203,7 +203,11 @@
                         <div class="product-footer">
                             <div class="price-wrapper">
                                 <span class="price-label">От</span>
-                                <span class="price">@item.PricePerDay бел. руб.<span class="price-period">/день</span></span>
+                                <span class="price">
+                                    @item.PricePerDay
+                                    <span class="br-icon"></span>
+                                    <span class="price-period">/день</span>
+                                </span>
                             </div>
                             <a href="@Url.Action("Index", "Product", new { id = item.Id })" class="add-to-cart-button" style="text-decoration: none;">
                                 <span class="material-symbols-outlined">add</span>

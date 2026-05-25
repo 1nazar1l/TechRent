@@ -116,8 +116,8 @@
                         <!-- Price -->
                         <div class="price-section">
                             <div class="price-large">
-                                <span class="amount">@Model.PricePerDay.ToString("N0")</span>
-                                <span class="period">бел. руб. / день</span>
+                                <span class="amount">@Model.PricePerDay.ToString("N0") <span class="br-icon3"></span></span>
+                                <span class="period">/ день</span>
                             </div>
                             <p class="price-note">Бесплатная отмена за 24 часа до получения</p>
                         </div>
@@ -128,7 +128,7 @@
                                 <span class="material-symbols-outlined">lock</span>
                             </div>
                             <div class="deposit-info">
-                                <p class="deposit-title">Возвратный залог: @Model.Deposit.ToString("N0") бел. руб.</p>
+                                <p class="deposit-title">Возвратный залог: @Model.Deposit.ToString("N0") <span class="br-icon4"></span></p>
                                 <p class="deposit-note">Удерживается на карте, возвращается после сдачи.</p>
                             </div>
                         </div>
@@ -275,7 +275,7 @@
                             </div>
                             <div class="spec-row">
                                 <span class="spec-label">Залог</span>
-                                <span class="spec-value">@Model.Deposit.ToString("N0") бел. руб.</span>
+                                <span class="spec-value">@Model.Deposit.ToString("N0") <span class="br-icon2"></span></span>
                             </div>
                         </div>
                     </div>
@@ -852,7 +852,7 @@
                 };
 
                 // Показываем успешное уведомление
-                showNotification('Бронирование подтверждено! Итого: $' + data.totalAmount.toLocaleString(), 'success');
+                showNotification('Бронирование подтверждено! Итого: <span class="br-icon2"></span>' + data.totalAmount.toLocaleString(), 'success');
             } else {
                 // Возвращаем кнопку в исходное состояние
                 button.innerHTML = originalText;
@@ -895,6 +895,7 @@
         notification.style.fontWeight = '500';
         notification.style.minWidth = '300px';
         notification.style.maxWidth = '400px';
+        notification.style.gap = '2px';
 
         document.body.appendChild(notification);
 
@@ -932,25 +933,25 @@
             const serviceFee = 250;
             const rentalTotal = pricePerDay * diffDays;
             const totalDue = rentalTotal + serviceFee + deposit + deliveryCost;
-            const deliveryRow = deliveryCost > 0 ? '<div class="calculation-row"><span>Доставка</span><span>' + deliveryCost.toLocaleString() + ' бел. руб.</span></div>' : '';
+            const deliveryRow = deliveryCost > 0 ? '<div class="calculation-row"><span>Доставка</span><span>' + deliveryCost.toLocaleString() + ' <span class="br-icon2"></span></span></div>' : '';
             calculationDiv.innerHTML =
-                '<div class="calculation-row"><span>' + pricePerDay.toLocaleString() + ' бел. руб. x ' + diffDays + ' дн.</span><span>' + rentalTotal.toLocaleString() + ' бел. руб.</span></div>' +
-                '<div class="calculation-row"><span>Сервисный сбор</span><span>' + serviceFee.toLocaleString() + ' бел. руб.</span></div>' +
+                '<div class="calculation-row"><span>' + pricePerDay.toLocaleString() + ' <span class="br-icon1"></span> x ' + diffDays + ' дн.</span><span>' + rentalTotal.toLocaleString() + ' <span class="br-icon1"></span></span></div>' +
+                '<div class="calculation-row"><span>Сервисный сбор</span><span>' + serviceFee.toLocaleString() + ' <span class="br-icon1"></span></span></div>' +
                 deliveryRow +
-                '<div class="calculation-row total"><span>Итого к оплате</span><span class="total-amount">' + totalDue.toLocaleString() + ' бел. руб.</span></div>' +
-                '<p class="calculation-note">(Включая залог ' + deposit.toLocaleString() + ' бел. руб., возвращается)</p>';
+                '<div class="calculation-row total"><span>Итого к оплате</span><span class="total-amount">' + totalDue.toLocaleString() + ' <span class="br-icon"></span></span></div>' +
+                '<p class="calculation-note">(Включая залог ' + deposit.toLocaleString() + ' <span class="br-icon1"></span>, возвращается)</p>';
         } else if (selectedStartDate) {
             const pricePerDay = @Model.PricePerDay;
             const deposit = @Model.Deposit;
             const serviceFee = 250;
             const totalMin = pricePerDay + serviceFee + deposit + deliveryCost;
-            const deliveryRow = deliveryCost > 0 ? '<div class="calculation-row"><span>Доставка</span><span>' + deliveryCost.toLocaleString() + ' бел. руб.</span></div>' : '';
+            const deliveryRow = deliveryCost > 0 ? '<div class="calculation-row"><span>Доставка</span><span>' + deliveryCost.toLocaleString() + ' <span class="br-icon1"></span></span></div>' : '';
             calculationDiv.innerHTML =
-                '<div class="calculation-row"><span>' + pricePerDay.toLocaleString() + ' бел. руб. x 1 дн. (мин.)</span><span>' + pricePerDay.toLocaleString() + ' бел. руб.</span></div>' +
-                '<div class="calculation-row"><span>Сервисный сбор</span><span>' + serviceFee.toLocaleString() + ' бел. руб.</span></div>' +
+                '<div class="calculation-row"><span>' + pricePerDay.toLocaleString() + ' <span class="br-icon1"></span> x 1 дн. (мин.)</span><span>' + pricePerDay.toLocaleString() + ' <span class="br-icon1"></span></span></div>' +
+                '<div class="calculation-row"><span>Сервисный сбор</span><span>' + serviceFee.toLocaleString() + ' <span class="br-icon1"></span></span></div>' +
                 deliveryRow +
-                '<div class="calculation-row total"><span>Итого к оплате</span><span class="total-amount">' + totalMin.toLocaleString() + ' бел. руб.</span></div>' +
-                '<p class="calculation-note">(Включая залог ' + deposit.toLocaleString() + ' бел. руб., возвращается)</p>' +
+                '<div class="calculation-row total"><span>Итого к оплате</span><span class="total-amount">' + totalMin.toLocaleString() + ' <span class="br-icon"></span></span></div>' +
+                '<p class="calculation-note">(Включая залог ' + deposit.toLocaleString() + ' <span class="br-icon1"></span>, возвращается)</p>' +
                 '<p class="calculation-note" style="color:#64748b;">Используйте правый клик или долгое нажатие для выбора конечной даты</p>';
         }
         updateCheckoutButton();

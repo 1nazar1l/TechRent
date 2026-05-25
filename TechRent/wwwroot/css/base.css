@@ -1558,3 +1558,43 @@ body.menu-open {
         padding: 0.5rem;
     }
 }
+
+.br-icon {
+    width: 11px;
+    height: 25px;
+    background-color: var(--primary-color);
+    mask: url('../Images/byn-ico.svg') no-repeat center / contain;
+    display: block;
+}
+
+.br-icon1 {
+    width: 10px;
+    height: 10px;
+    background-color: var(--text-muted);
+    mask: url('../Images/byn-ico.svg') no-repeat center / contain;
+    display: block;
+}
+
+.br-icon2 {
+    width: 11px;
+    height: 25px;
+    background-color: var(--text);
+    mask: url('../Images/byn-ico.svg') no-repeat center / contain;
+    display: block;
+}
+
+.br-icon3 {
+    width: 20px;
+    height: 25px;
+    background-color: var(--primary-color);
+    mask: url('../Images/byn-ico.svg') no-repeat center / contain;
+    display: block;
+}
+
+.br-icon4 {
+    width: 11px;
+    height: 10px;
+    background-color: var(--text);
+    mask: url('../Images/byn-ico.svg') no-repeat center / contain;
+    display: block;
+}

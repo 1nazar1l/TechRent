@@ -85,7 +85,7 @@
 
                     <!-- Price Range -->
                     <div class="filters-group">
-                        <label class="filter-label">Диапазон цен (бел. руб.)</label>
+                        <label class="filter-label">Диапазон цен (<span class="br-icon1"></span>)</label>
                         <div class="price-inputs">
                             <div class="price-field">
                                 <span class="price-currency">р.</span>
@@ -238,7 +238,7 @@
                                         </div>
                                     </td>
                                     <td>@item.Category?.Name</td>
-                                    <td class="price-cell">@item.PricePerDay.ToString("F0") бел. руб.</td>
+                                    <td class="price-cell">@item.PricePerDay.ToString("F0") <span class="br-icon2"></span></td>
                                     <td class="stock-cell">
                                         @if (item.AvailableQuantity > 5)
                                         {

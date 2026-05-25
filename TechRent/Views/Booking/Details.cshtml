@@ -85,14 +85,14 @@
                                 <span class="spec-icon material-symbols-outlined">sell</span>
                                 <div>
                                     <span class="spec-label">Цена за день</span>
-                                    <span class="spec-value">@(Model.Equipment?.PricePerDay.ToString("F0") ?? "0") бел. руб.</span>
+                                    <span class="spec-value">@(Model.Equipment?.PricePerDay.ToString("F0") ?? "0") <span class="br-icon2"></span></span>
                                 </div>
                             </div>
                             <div class="spec-item">
                                 <span class="spec-icon material-symbols-outlined">lock</span>
                                 <div>
                                     <span class="spec-label">Залог</span>
-                                    <span class="spec-value">@Model.DepositPaid.ToString("F0") бел. руб.</span>
+                                    <span class="spec-value">@Model.DepositPaid.ToString("F0") <span class="br-icon2"></span></span>
                                 </div>
                             </div>
                         </div>
@@ -150,33 +150,33 @@
                     <div class="breakdown-list">
                         <div class="breakdown-item">
                             <span>Аренда (@totalDays дн.)</span>
-                            <span>@Model.TotalPrice.ToString("F2") бел. руб.</span>
+                            <span>@Model.TotalPrice.ToString("F2") <span class="br-icon1"></span></span>
                         </div>
                         <div class="breakdown-item">
                             <span>Сервисный сбор</span>
-                            <span>@serviceFee.ToString("F2") бел. руб.</span>
+                            <span>@serviceFee.ToString("F2") <span class="br-icon1"></span></span>
                         </div>
                         @if (Model.DeliveryCost > 0)
                         {
                             <div class="breakdown-item">
                                 <span>Доставка</span>
-                                <span>@Model.DeliveryCost.ToString("F2") бел. руб.</span>
+                                <span>@Model.DeliveryCost.ToString("F2") <span class="br-icon1"></span></span>
                             </div>
                         }
                         <div class="breakdown-item deposit">
                             <span>Возвратный залог</span>
-                            <span>@Model.DepositPaid.ToString("F2") бел. руб.</span>
+                            <span>@Model.DepositPaid.ToString("F2") <span class="br-icon2"></span></span>
                         </div>
                         @if (Model.Fine > 0)
                         {
                             <div class="breakdown-item fine">
                                 <span>Штраф</span>
-                                <span>@Model.Fine.ToString("F2") бел. руб.</span>
+                                <span>@Model.Fine.ToString("F2") <span class="br-icon1"></span></span>
                             </div>
                         }
                         <div class="breakdown-item total">
                             <span>Итого</span>
-                            <span>@totalAmount.ToString("F2") бел. руб.</span>
+                            <span>@totalAmount.ToString("F2") <span class="br-icon"></span></span>
                         </div>
                     </div>
                     <div class="payment-status">
@@ -307,20 +307,20 @@
     <div style="background:#f8fafc; border-radius:8px; padding:16px; margin-bottom:16px;">
         <div style="font-weight:bold; margin-bottom:10px; font-size:14px;">Расчёт стоимости</div>
         <table style="width:100%; font-size:13px; border-collapse:collapse;">
-            <tr><td style="color:#64748b; padding:3px 0;">Аренда (@totalDays дн.)</td><td style="text-align:right;">@Model.TotalPrice.ToString("F2") бел. руб.</td></tr>
-            <tr><td style="color:#64748b; padding:3px 0;">Сервисный сбор</td><td style="text-align:right;">@serviceFee.ToString("F2") бел. руб.</td></tr>
+            <tr><td style="color:#64748b; padding:3px 0;">Аренда (@totalDays дн.)</td><td style="text-align:right;">@Model.TotalPrice.ToString("F2") <span class="br-icon2"></span></td></tr>
+            <tr><td style="color:#64748b; padding:3px 0;">Сервисный сбор</td><td style="text-align:right;">@serviceFee.ToString("F2") <span class="br-icon2"></span></td></tr>
             @if (Model.DeliveryCost > 0)
             {
-                <tr><td style="color:#64748b; padding:3px 0;">Доставка</td><td style="text-align:right;">@Model.DeliveryCost.ToString("F2") бел. руб.</td></tr>
+                <tr><td style="color:#64748b; padding:3px 0;">Доставка</td><td style="text-align:right;">@Model.DeliveryCost.ToString("F2") <span class="br-icon2"></span></td></tr>
             }
-            <tr><td style="color:#64748b; padding:3px 0;">Возвратный залог</td><td style="text-align:right;">@Model.DepositPaid.ToString("F2") бел. руб.</td></tr>
+            <tr><td style="color:#64748b; padding:3px 0;">Возвратный залог</td><td style="text-align:right;">@Model.DepositPaid.ToString("F2") <span class="br-icon2"></span></td></tr>
             @if (Model.Fine > 0)
             {
-                <tr><td style="color:#64748b; padding:3px 0;">Штраф</td><td style="text-align:right;">@Model.Fine.ToString("F2") бел. руб.</td></tr>
+                <tr><td style="color:#64748b; padding:3px 0;">Штраф</td><td style="text-align:right;">@Model.Fine.ToString("F2") <span class="br-icon2"></span></td></tr>
             }
             <tr style="border-top:2px solid #e2e8f0;">
                 <td style="font-weight:bold; padding-top:8px; font-size:14px;">Итого</td>
-                <td style="text-align:right; font-weight:bold; color:#f97316; font-size:14px; padding-top:8px;">@totalAmount.ToString("F2") бел. руб.</td>
+                <td style="text-align:right; font-weight:bold; color:#f97316; font-size:14px; padding-top:8px;">@totalAmount.ToString("F2") <span class="br-icon"></span></td>
             </tr>
         </table>
     </div>

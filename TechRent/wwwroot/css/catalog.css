@@ -625,6 +625,9 @@
 .price-value {
     font-size: 1.25rem;
     font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 2px;
 }
 
 .price-period {

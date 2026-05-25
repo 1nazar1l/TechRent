@@ -394,6 +394,9 @@
     font-size: 1.25rem;
     font-weight: 700;
     color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 2px;
 }
 
 .rental-actions {
@@ -615,6 +618,9 @@
 .spec-value {
     font-size: 0.875rem;
     font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 2px;
 }
 
 /* Summary Card */
@@ -708,12 +714,24 @@
     color: var(--text-muted);
 }
 
+    .breakdown-item span {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+    }
+
     .breakdown-item.deposit {
         padding-top: 0.5rem;
         margin-top: 0.5rem;
         border-top: 1px dashed var(--border);
         color: var(--text);
         font-weight: 500;
+    }
+
+    .breakdown-item.deposit span {
+        display: flex;
+        align-items: center;
+        gap: 2px;
     }
 
     .breakdown-item.total {
@@ -727,6 +745,9 @@
 
         .breakdown-item.total span:last-child {
             color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 2px;
         }
 
 .payment-status {
