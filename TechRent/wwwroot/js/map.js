@@ -5,7 +5,7 @@ let offices = [];
 let selectedDeliveryPoint = null;
 
 // Тариф доставки: рублей за км
-const DELIVERY_RATE_PER_KM = 50;
+const DELIVERY_RATE_PER_KM = 2;
 
 function initMap() {
     if (typeof ymaps === 'undefined') {

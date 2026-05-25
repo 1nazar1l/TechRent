@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TechRent.Data;
-using TechRent.Models.Entities;
+using TechRent.Models.Entities; // Добавьте эту строку
 using Microsoft.AspNetCore.Identity;
 
 namespace TechRent.Controllers
@@ -17,7 +17,6 @@ namespace TechRent.Controllers
             _userManager = userManager;
         }
 
-        // GET: Product/Index/5
         // GET: Product/Index/5
         public async Task<IActionResult> Index(int? id)
         {
@@ -63,6 +62,17 @@ namespace TechRent.Controllers
                     .AnyAsync(f => f.UserId == user.Id && f.EquipmentId == equipment.Id);
                 equipment.IsFavorite = isFavorite;
             }
+
+            // Получаем офис поставщика этого оборудования
+            Office? supplierOffice = null;
+            if (!string.IsNullOrEmpty(equipment.SupplierId))
+            {
+                supplierOffice = await _context.Offices
+                    .FirstOrDefaultAsync(o => o.SupplierId == equipment.SupplierId);
+            }
+
+            // Передаем офис в ViewBag
+            ViewBag.SupplierOffice = supplierOffice;
 
             // Get related equipment (same category)
             var relatedEquipment = await _context.Equipments

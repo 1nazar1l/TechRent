@@ -13,6 +13,16 @@
 
 <script src="https://api-maps.yandex.ru/2.1/?apikey=0d3a4764-1b1f-41ba-bc00-42c76b73e45f&lang=ru_RU" type="text/javascript"></script>
 
+@{
+    var supplierOffice = ViewBag.SupplierOffice as TechRent.Models.Entities.Office;
+    var officeLat = supplierOffice?.Latitude ?? 0;
+    var officeLng = supplierOffice?.Longitude ?? 0;
+    var officeName = supplierOffice?.Name ?? "";
+    var officeAddress = supplierOffice?.Address ?? "";
+    var hasOffice = supplierOffice != null;
+}
+
+
 <main class="main-content">
     <div class="product-container">
         <!-- Breadcrumbs -->
@@ -171,9 +181,19 @@
                         </div>
 
                         <!-- Карта для выбора места доставки -->
+                        <!-- Карта для выбора места доставки -->
                         <div class="delivery-map-section" style="margin-top: 24px;">
                             <label class="date-label">Место доставки</label>
                             <div id="map" style="width: 100%; height: 300px; border-radius: 12px; margin-top: 8px; overflow: hidden;"></div>
+
+                            @if (!hasOffice)
+                            {
+                                <div class="alert alert-warning" style="margin-top: 12px; padding: 12px; background: #fef3c7; border-radius: 8px; color: #92400e;">
+                                    <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">info</span>
+                                    <span style="margin-left: 8px;">У поставщика этого оборудования еще не добавлен офис. Выберите адрес доставки на карте.</span>
+                                </div>
+                            }
+
                             <div class="delivery-address-info" style="margin-top: 12px; padding: 12px; background: #f8fafc; border-radius: 8px; font-size: 13px; color: #64748b; display: none;">
                                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
                                     <span class="material-symbols-outlined" style="font-size: 18px;">location_on</span>
@@ -181,7 +201,7 @@
                                 </div>
                                 <p id="deliveryAddress" style="margin: 0; word-break: break-word;"></p>
                             </div>
-                            <div id="deliveryDistanceInfo" style="display:none; margin-top:8px; padding:10px 12px; background:#f0f9ff; border-radius:8px; font-size:13px; color:#334155; align-items:center; gap:6px; flex-wrap:wrap;"></div>
+
                             <input type="hidden" id="deliveryLat" value="">
                             <input type="hidden" id="deliveryLng" value="">
                             <input type="hidden" id="deliveryDistanceKm" value="0">
@@ -1055,4 +1075,16 @@
         updateCheckoutButton();
     });
 </script>
-<script src="~/js/map.js"></script>
+<script src="~/js/map1.js"></script>
+<script>
+    // Инициализируем карту с данными офиса поставщика из ViewBag
+    if (typeof initMap === 'function') {
+        var officeData = @Html.Raw(Json.Serialize(new { 
+            lat = ViewBag.SupplierOffice?.Latitude ?? 0,
+            lng = ViewBag.SupplierOffice?.Longitude ?? 0,
+            name = ViewBag.SupplierOffice?.Name ?? "",
+            address = ViewBag.SupplierOffice?.Address ?? ""
+        }));
+        initMap(officeData.lat, officeData.lng, officeData.name, officeData.address);
+    }
+</script>
