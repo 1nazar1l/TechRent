@@ -468,8 +468,23 @@
 }
 
 .map-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
     padding: 1.25rem 1.5rem;
     border-bottom: 1px solid var(--border);
+}
+
+@media (min-width: 768px) {
+    .map-header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+.map-header div:first-child {
+    flex: 1;
 }
 
 .map-title {
@@ -490,12 +505,64 @@
     color: var(--text-muted);
 }
 
-.supplier-map {
-    height: 350px;
-    width: 100%;
-    background-color: var(--hover);
+/* Кнопки управления офисом */
+.add-office-button,
+.edit-office-button,
+.delete-office-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
 }
 
+.add-office-button {
+    background-color: var(--primary);
+    color: white;
+}
+
+    .add-office-button:hover {
+        background-color: #e05e0e;
+        transform: translateY(-1px);
+    }
+
+.edit-office-button {
+    background-color: var(--hover);
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+    .edit-office-button:hover {
+        background-color: var(--border);
+        border-color: var(--primary);
+        color: var(--primary);
+    }
+
+.delete-office-button {
+    background-color: #ef4444;
+    color: white;
+}
+
+    .delete-office-button:hover {
+        background-color: #dc2626;
+        transform: translateY(-1px);
+    }
+
+/* Map Container */
+.supplier-map-container {
+    width: 100%;
+    height: 300px;
+    border-radius: 12px;
+    margin-top: 16px;
+    overflow: hidden;
+}
+
+/* Map Info */
 .map-info {
     display: flex;
     flex-direction: column;
@@ -537,47 +604,6 @@
         font-size: 0.75rem;
         color: var(--text-muted);
     }
-
-/* Custom Marker Styles */
-.custom-marker-wrapper {
-    background: transparent;
-}
-
-.custom-marker {
-    position: relative;
-}
-
-    .custom-marker .material-symbols-outlined {
-        font-size: 2rem;
-        color: var(--primary);
-        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-        animation: markerBounce 2s infinite;
-    }
-
-@keyframes markerBounce {
-    0%, 100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-5px);
-    }
-}
-
-/* Map Popup */
-.map-popup {
-    font-family: 'Inter', sans-serif;
-    padding: 0.25rem;
-}
-
-    .map-popup strong {
-        font-size: 0.875rem;
-    }
-
-.map-popup-hours {
-    font-size: 0.75rem;
-    color: #64748b;
-}
 
 /* ===== Адаптивные стили ===== */
 
@@ -670,12 +696,31 @@
             font-size: 1rem;
         }
 
-    .supplier-map {
-        height: 250px;
+    /* Map Section Mobile */
+    .map-header {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 1rem;
     }
 
-    .map-header {
-        padding: 1rem;
+        .map-header div:first-child {
+            text-align: center;
+        }
+
+    .map-title {
+        justify-content: center;
+    }
+
+    .add-office-button,
+    .edit-office-button,
+    .delete-office-button {
+        width: 100%;
+        justify-content: center;
+        padding: 0.625rem;
+    }
+
+    .supplier-map-container {
+        height: 250px;
     }
 
     .map-info {
@@ -742,7 +787,10 @@
 /* Сенсорные устройства */
 @media (hover: none) and (pointer: coarse) {
     .add-equipment-button,
-    .action-button {
+    .action-button,
+    .add-office-button,
+    .edit-office-button,
+    .delete-office-button {
         cursor: default;
     }
 
@@ -752,5 +800,39 @@
 
         .action-button:active {
             background-color: var(--hover);
+        }
+
+        .add-office-button:active {
+            background-color: #e05e0e;
+            transform: scale(0.98);
+        }
+
+        .edit-office-button:active {
+            background-color: var(--border);
+        }
+
+        .delete-office-button:active {
+            background-color: #dc2626;
+            transform: scale(0.98);
+        }
+}
+
+/* Retina экраны */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .supplier-table-wrapper,
+    .map-section {
+        border-width: 0.5px;
+    }
+}
+
+/* Темная тема */
+@media (prefers-color-scheme: dark) {
+    .edit-office-button {
+        background-color: var(--hover);
+        border-color: var(--border);
+    }
+
+        .edit-office-button:hover {
+            background-color: var(--border);
         }
 }
