@@ -33,6 +33,7 @@
                                 <th>Адрес</th>
                                 <th>Широта</th>
                                 <th>Долгота</th>
+                                <th>Поставщик</th>
                                 <th>Действия</th>
                             </tr>
                         </thead>
@@ -45,6 +46,7 @@
                                     <td>@(office.Address ?? "—")</td>
                                     <td>@office.Latitude.ToString("F6")</td>
                                     <td>@office.Longitude.ToString("F6")</td>
+                                    <td>@(office.Supplier?.Email?.Split('@')[0] ?? "—")</td>
                                     <td class="actions-cell">
                                         <div class="action-buttons">
                                             <button class="action-button edit-button" title="Редактировать"
@@ -69,24 +71,94 @@
 
 <script src="https://api-maps.yandex.ru/2.1/?apikey=0d3a4764-1b1f-41ba-bc00-42c76b73e45f&lang=ru_RU" type="text/javascript"></script>
 <script>
-    const officesData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Select(o => new {
-        o.Id, o.Name, o.Latitude, o.Longitude, o.Address
+    // Сериализуем данные офисов в JavaScript
+    var officesData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Select(o => new {
+        id = o.Id,
+        name = o.Name,
+        latitude = o.Latitude,
+        longitude = o.Longitude,
+        address = o.Address ?? "",
+        supplier = o.Supplier != null ? o.Supplier.Email?.Split('@')[0] : ""
     })));
 
-    ymaps.ready(function () {
-        const map = new ymaps.Map("officesMap", {
-            center: officesData.length > 0 ? [officesData[0].latitude, officesData[0].longitude] : [55.751574, 37.573856],
-            zoom: 10,
-            controls: ['zoomControl']
-        });
+    function initOfficesMap() {
+        if (typeof ymaps === 'undefined') {
+            setTimeout(initOfficesMap, 500);
+            return;
+        }
 
-        officesData.forEach(function (office) {
-            const mark = new ymaps.Placemark(
-                [office.latitude, office.longitude],
-                { balloonContent: `<strong>${office.name}</strong><br>${office.address ?? ''}` },
-                { preset: 'islands#blueHomeCircleIcon' }
-            );
-            map.geoObjects.add(mark);
+        ymaps.ready(function () {
+            // Определяем центр карты
+            var centerLat = 53.9045;
+            var centerLng = 27.5615;
+            var zoom = 10;
+
+            // Если есть офисы, центрируем на первом
+            if (officesData && officesData.length > 0 && officesData[0].latitude && officesData[0].longitude) {
+                centerLat = officesData[0].latitude;
+                centerLng = officesData[0].longitude;
+                zoom = 11;
+            }
+
+            var map = new ymaps.Map("officesMap", {
+                center: [centerLat, centerLng],
+                zoom: zoom,
+                controls: ['zoomControl', 'fullscreenControl']
+            });
+
+            // Добавляем метки для всех офисов
+            if (officesData && officesData.length > 0) {
+                officesData.forEach(function (office) {
+                    if (office.latitude && office.longitude && office.latitude !== 0 && office.longitude !== 0) {
+                        var balloonContent = '<strong>' + escapeHtml(office.name) + '</strong>';
+                        if (office.address) balloonContent += '<br>' + escapeHtml(office.address);
+                        if (office.supplier) balloonContent += '<br><span style="color:#64748b;">Поставщик: ' + escapeHtml(office.supplier) + '</span>';
+                        
+                        var placemark = new ymaps.Placemark(
+                            [office.latitude, office.longitude],
+                            {
+                                balloonContent: balloonContent,
+                                hintContent: office.name
+                            },
+                            {
+                                preset: 'islands#blueHomeCircleIcon'
+                            }
+                        );
+                        map.geoObjects.add(placemark);
+                    }
+                });
+            } else {
+                // Если нет офисов, показываем сообщение
+                var messagePlacemark = new ymaps.Placemark(
+                    [centerLat, centerLng],
+                    {
+                        balloonContent: '<strong>Нет добавленных офисов</strong><br>Нажмите "Добавить офис" чтобы создать первый офис.',
+                        hintContent: 'Нет офисов'
+                    },
+                    {
+                        preset: 'islands#grayStretchyIcon',
+                        draggable: false
+                    }
+                );
+                map.geoObjects.add(messagePlacemark);
+                messagePlacemark.balloon.open();
+            }
         });
+    }
+
+    // Функция для экранирования HTML
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    // Запускаем инициализацию карты
+    document.addEventListener('DOMContentLoaded', function() {
+        initOfficesMap();
     });
 </script>

@@ -910,7 +910,10 @@ namespace TechRent.Controllers
         // GET: Admin/Offices
         public async Task<IActionResult> Offices()
         {
-            var offices = await _context.Offices.OrderBy(o => o.Name).ToListAsync();
+            var offices = await _context.Offices
+                .Include(o => o.Supplier)
+                .OrderBy(o => o.Name)
+                .ToListAsync();
             return View(offices);
         }
 
