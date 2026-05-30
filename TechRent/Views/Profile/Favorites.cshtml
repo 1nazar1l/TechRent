@@ -144,7 +144,7 @@
                                     <a asp-controller="Product" asp-action="Index" asp-route-id="@equipment?.Id" class="view-button">
                                         Подробнее
                                     </a>
-                                    @if (equipment?.AvailableQuantity > 0)
+                                    @* @if (equipment?.AvailableQuantity > 0)
                                     {
                                         <a asp-controller="Product" asp-action="Index" asp-route-id="@equipment?.Id" class="book-button">
                                             Арендовать
@@ -153,7 +153,7 @@
                                     else
                                     {
                                         <button class="book-button disabled" disabled>Нет в наличии</button>
-                                    }
+                                    } *@
                                 </div>
                             </div>
                         </div>

@@ -3,7 +3,7 @@
 /* Profile Layout */
 .profile-layout {
     display: flex;
-    min-height: calc(100vh - 72px); /* Высота header'а */
+    min-height: calc(100vh - 72px);
     background-color: var(--background-light);
 }
 
@@ -660,28 +660,29 @@
         font-size: 0.875rem;
     }
 
-
+/* ===== Favorites Page Styles ===== */
 .empty-state-favorites {
     text-align: center;
     padding: 60px 20px;
-    background: white;
+    background: var(--surface);
     border-radius: 24px;
     margin-top: 40px;
+    border: 1px solid var(--border);
 }
 
     .empty-state-favorites .material-symbols-outlined {
         font-size: 64px;
-        color: #94a3b8;
+        color: var(--text-muted);
     }
 
     .empty-state-favorites h2 {
         font-size: 24px;
-        color: #1e293b;
+        color: var(--text);
         margin: 16px 0 8px;
     }
 
     .empty-state-favorites p {
-        color: #64748b;
+        color: var(--text-muted);
         margin-bottom: 24px;
     }
 
@@ -689,7 +690,7 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: #3b82f6;
+    background: var(--primary);
     color: white;
     text-decoration: none;
     padding: 12px 24px;
@@ -699,7 +700,7 @@
 }
 
     .browse-button:hover {
-        background: #2563eb;
+        background: #e05e0e;
     }
 
 .favorites-grid {
@@ -711,15 +712,15 @@
 
 .favorite-card {
     position: relative;
-    background: white;
+    background: var(--surface);
     border-radius: 16px;
     overflow: hidden;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--border);
     transition: box-shadow 0.2s;
 }
 
     .favorite-card:hover {
-        box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        box-shadow: 0 8px 24px var(--shadow);
     }
 
 @keyframes fadeOut {
@@ -741,8 +742,8 @@
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: white;
-    border: 1px solid #e2e8f0;
+    background: var(--surface);
+    border: 1px solid var(--border);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -764,7 +765,7 @@
 .favorite-image {
     height: 200px;
     overflow: hidden;
-    background: #f8fafc;
+    background: var(--hover);
 }
 
     .favorite-image img {
@@ -779,12 +780,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #f1f5f9;
+    background: var(--hover);
 }
 
     .image-placeholder .material-symbols-outlined {
         font-size: 64px;
-        color: #94a3b8;
+        color: var(--text-muted);
     }
 
 .favorite-info {
@@ -794,13 +795,13 @@
 .favorite-title {
     font-size: 16px;
     font-weight: 600;
-    color: #1e293b;
+    color: var(--text);
     margin-bottom: 4px;
 }
 
 .favorite-category {
     font-size: 13px;
-    color: #64748b;
+    color: var(--text-muted);
     margin-bottom: 8px;
 }
 
@@ -814,12 +815,12 @@
 .rating-value {
     font-size: 14px;
     font-weight: 500;
-    color: #1e293b;
+    color: var(--text);
 }
 
 .rating-count {
     font-size: 12px;
-    color: #94a3b8;
+    color: var(--text-muted);
 }
 
 .favorite-price {
@@ -828,20 +829,23 @@
 
 .price-label {
     font-size: 12px;
-    color: #64748b;
+    color: var(--text-muted);
     display: block;
 }
 
 .price-value {
     font-size: 20px;
     font-weight: 700;
-    color: #3b82f6;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 2px;
 }
 
 .price-period {
     font-size: 12px;
     font-weight: 400;
-    color: #64748b;
+    color: var(--text-muted);
 }
 
 .favorite-actions {
@@ -857,13 +861,13 @@
     text-decoration: none;
     font-size: 14px;
     font-weight: 500;
-    background: #f1f5f9;
-    color: #1e293b;
+    background: var(--hover);
+    color: var(--text);
     transition: background 0.2s;
 }
 
     .view-button:hover {
-        background: #e2e8f0;
+        background: var(--border);
     }
 
 .book-button {
@@ -874,7 +878,7 @@
     text-decoration: none;
     font-size: 14px;
     font-weight: 500;
-    background: #3b82f6;
+    background: var(--primary);
     color: white;
     border: none;
     cursor: pointer;
@@ -882,29 +886,29 @@
 }
 
     .book-button:hover {
-        background: #2563eb;
+        background: #e05e0e;
     }
 
     .book-button.disabled {
-        background: #cbd5e1;
+        background: var(--border-strong);
         cursor: not-allowed;
     }
 
 .empty-state {
     text-align: center;
     padding: 40px 20px;
-    background: #f8fafc;
+    background: var(--hover);
     border-radius: 12px;
 }
 
     .empty-state .material-symbols-outlined {
         font-size: 48px;
-        color: #94a3b8;
+        color: var(--text-muted);
         margin-bottom: 12px;
     }
 
     .empty-state p {
-        color: #64748b;
+        color: var(--text-muted);
         margin-bottom: 16px;
     }
 
@@ -912,7 +916,7 @@
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    color: #3b82f6;
+    color: var(--primary);
     text-decoration: none;
     font-weight: 500;
 }
@@ -924,7 +928,7 @@
 .avatar-placeholder {
     width: 100%;
     height: 100%;
-    background: #3b82f6;
+    background: var(--primary);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -936,14 +940,10 @@
         font-size: 32px;
     }
 
-
-
-
 /* ===== Адаптивные стили для страниц профиля ===== */
 
 /* Планшеты (768px - 1023px) */
 @media (min-width: 768px) and (max-width: 1023px) {
-    /* Sidebar */
     .profile-sidebar {
         width: 240px;
     }
@@ -965,7 +965,6 @@
         font-size: 0.8125rem;
     }
 
-    /* Main Content */
     .profile-content {
         padding: 1.5rem;
     }
@@ -974,7 +973,6 @@
         max-width: 100%;
     }
 
-    /* Active Rental */
     .active-image {
         width: 280px;
         height: 200px;
@@ -989,12 +987,10 @@
         gap: 1rem;
     }
 
-    /* Two Columns */
     .two-column-section {
         gap: 1.5rem;
     }
 
-    /* Favorites Grid */
     .favorites-grid {
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 1.25rem;
@@ -1003,13 +999,11 @@
 
 /* Мобильные устройства (до 767px) */
 @media (max-width: 767px) {
-    /* Layout */
     .profile-layout {
         flex-direction: column;
         min-height: auto;
     }
 
-    /* Sidebar - выезжающее меню */
     .profile-sidebar {
         position: fixed;
         top: 0;
@@ -1019,14 +1013,13 @@
         z-index: 1000;
         transition: left 0.3s ease;
         display: block;
-        box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+        box-shadow: 2px 0 8px var(--shadow);
     }
 
         .profile-sidebar.open {
             left: 0;
         }
 
-    /* Затемнение для мобильного меню */
     .sidebar-overlay {
         position: fixed;
         top: 0;
@@ -1045,7 +1038,6 @@
             visibility: visible;
         }
 
-    /* Кнопка открытия меню на мобильных */
     .mobile-menu-trigger {
         display: flex;
         align-items: center;
@@ -1064,7 +1056,6 @@
             color: var(--text);
         }
 
-    /* Main Content */
     .profile-content {
         padding: 1rem;
         overflow-y: visible;
@@ -1074,7 +1065,6 @@
         gap: 1.5rem;
     }
 
-    /* Page Header */
     .page-title {
         font-size: 1.5rem;
     }
@@ -1083,7 +1073,6 @@
         font-size: 0.875rem;
     }
 
-    /* Active Rental */
     .active-rental {
         margin-bottom: 0.5rem;
     }
@@ -1150,18 +1139,15 @@
         font-size: 0.8125rem;
     }
 
-    /* Two Columns */
     .two-column-section {
         grid-template-columns: 1fr;
         gap: 1.5rem;
     }
 
-    /* Section Header */
     .section-title {
         font-size: 1rem;
     }
 
-    /* Booking Items */
     .booking-item {
         padding: 0.75rem;
     }
@@ -1184,7 +1170,6 @@
         height: 28px;
     }
 
-    /* History Items */
     .history-item {
         padding: 0.75rem;
         flex-wrap: wrap;
@@ -1222,7 +1207,6 @@
         font-size: 0.8125rem;
     }
 
-    /* Favorites Page */
     .favorites-grid {
         grid-template-columns: 1fr;
         gap: 1rem;
@@ -1283,7 +1267,6 @@
             font-size: 16px;
         }
 
-    /* Empty State */
     .empty-state-favorites {
         padding: 2rem 1rem;
         margin-top: 1rem;
@@ -1462,7 +1445,7 @@
     }
 }
 
-/* Мобильное меню (добавить в HTML) */
+/* Мобильное меню */
 .mobile-menu-trigger {
     display: none;
 }
