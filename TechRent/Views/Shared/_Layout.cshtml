@@ -52,12 +52,11 @@
                         <nav class="main-nav">
                             <a asp-controller="Equipment" asp-action="Index" class="nav-link">Каталог</a>
                             <a href="#" class="nav-link">Как арендовать</a>
-                            <a href="#" class="nav-link">Цены</a>
+                            <a href="#" class="nav-link">Поддержка</a>
                             @if (User.IsInRole("Supplier") || User.IsInRole("Admin"))
                             {
                                 <a asp-controller="Supplier" asp-action="Index" class="nav-link">Поставщикам</a>
                             }
-                            <a href="#" class="nav-link">Поддержка</a>
                             @if (User.IsInRole("Admin"))
                             {
                                 <a asp-controller="Admin" asp-action="Index" class="nav-link">Админ</a>
@@ -77,12 +76,11 @@
                     <nav class="main-nav">
                         <a asp-controller="Equipment" asp-action="Index" class="nav-link">Каталог</a>
                         <a href="#" class="nav-link">Как арендовать</a>
-                        <a href="#" class="nav-link">Цены</a>
+                        <a href="#" class="nav-link">Поддержка</a>
                         @if (User.IsInRole("Supplier") || User.IsInRole("Admin"))
                         {
                             <a asp-controller="Supplier" asp-action="Index" class="nav-link">Поставщикам</a>
                         }
-                        <a href="#" class="nav-link">Поддержка</a>
                         @if (User.IsInRole("Admin"))
                         {
                             <a asp-controller="Admin" asp-action="Index" class="nav-link">Админ</a>
@@ -183,7 +181,7 @@
 
                 <!-- Footer Bottom -->
                 <div class="footer-bottom">
-                    <p class="copyright">© 2023 TechRent Inc. Все права защищены.</p>
+                    <p class="copyright">© 2026 TechRent Inc. Все права защищены.</p>
                     <div class="legal-links">
                         <a href="#" class="legal-link">Конфиденциальность</a>
                         <a href="#" class="legal-link">Условия</a>

@@ -32,8 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Header show/hide on scroll
 function initHeaderScroll() {
-    //const header = document.querySelector('.header');
-    const header = document.getElementsByTagName("header")[0]
+    const header = document.getElementsByTagName("header")[0];
     let lastScrollY = window.scrollY;
     let ticking = false;
 
@@ -81,7 +80,11 @@ function initHeaderScroll() {
     });
 }
 
-
+// Функция для получения anti-forgery token
+function getAntiForgeryToken() {
+    const tokenInput = document.querySelector('input[name="__RequestVerificationToken"]');
+    return tokenInput ? tokenInput.value : '';
+}
 
 // Mobile Menu functionality
 function initMobileMenu() {
@@ -95,53 +98,79 @@ function initMobileMenu() {
     const menuPanel = document.createElement('div');
     menuPanel.className = 'mobile-menu-panel';
 
-    // Build menu panel content
+    // Проверяем авторизацию
     const isAuthenticated = document.querySelector('.user-button') !== null ||
-        document.querySelector('.icon-button[href*="/Profile"]') !== null;
+        document.querySelector('.icon-button[href*="/Profile"]') !== null ||
+        document.querySelector('a.icon-button[asp-controller="Profile"]') !== null;
 
-    // Get navigation links from desktop menu
-    const desktopNavLinks = document.querySelectorAll('.main-nav .nav-link, .nav .nav-link');
+    // Проверяем роль администратора
+    const isAdmin = document.querySelector('.nav-link[href*="/Admin"]') !== null;
+
+    // Проверяем роль поставщика
+    const isSupplier = document.querySelector('.nav-link[href*="/Supplier"]') !== null;
+
+    // Определяем активную страницу
+    const currentPath = window.location.pathname;
+
+    // Список пунктов меню в правильном порядке (как в десктопной версии)
+    const menuItems = [
+        { name: 'Каталог', url: '/Equipment', icon: 'grid_view' },
+        { name: 'Как арендовать', url: '#', icon: 'help' },
+        { name: 'Поддержка', url: '#', icon: 'support_agent' }
+    ];
+
+    // Добавляем пункт "Поставщикам" если есть права
+    if (isSupplier || isAdmin) {
+        menuItems.push({ name: 'Поставщикам', url: '/Supplier', icon: 'business' });
+    }
+
+    // Добавляем пункт "Админ" если есть права
+    if (isAdmin) {
+        menuItems.push({ name: 'Админ', url: '/Admin', icon: 'admin_panel_settings' });
+    }
+
+    // Строим HTML для навигации (только пункты, которые есть в десктопе)
     let navLinksHtml = '';
 
-    desktopNavLinks.forEach(link => {
-        const href = link.getAttribute('href');
-        const text = link.textContent;
-        const isActive = link.classList.contains('active') || link.classList.contains('nav-link-active');
+    menuItems.forEach(item => {
+        const isActive = currentPath === item.url ||
+            (item.url !== '/' && item.url !== '#' && currentPath.startsWith(item.url));
         navLinksHtml += `
-            <a href="${href}" class="mobile-nav-link ${isActive ? 'active' : ''}">
-                <span class="material-symbols-outlined">${getIconForLink(text)}</span>
-                <span>${text}</span>
+            <a href="${item.url}" class="mobile-nav-link ${isActive ? 'active' : ''}">
+                <span class="material-symbols-outlined">${item.icon}</span>
+                <span>${item.name}</span>
             </a>
         `;
     });
 
-    // Build user section
+    // Строим пользовательскую секцию
     let userSectionHtml = '';
     if (isAuthenticated) {
-        const userName = document.querySelector('.user-name')?.textContent || 'Пользователь';
-        const userEmail = document.querySelector('.user-email')?.textContent || 'user@example.com';
+        // Получаем имя пользователя
+        let userName = 'Пользователь';
+        const userNameElement = document.querySelector('.user-name') ||
+            document.querySelector('.user-details .user-name');
+        if (userNameElement) {
+            userName = userNameElement.textContent;
+        }
+
+        // Используем форму для выхода как в десктопной версии
         userSectionHtml = `
             <div class="mobile-user-section">
-                <div class="mobile-user-info">
-                    <div class="mobile-user-avatar">
-                        <img src="/images/default-avatar.png" alt="User Avatar">
-                    </div>
-                    <div class="mobile-user-details">
-                        <div class="mobile-user-name">${userName}</div>
-                        <div class="mobile-user-email">${userEmail}</div>
-                    </div>
-                </div>
-                <button class="mobile-logout" onclick="logout()">
-                    <span class="material-symbols-outlined">logout</span>
-                    Выйти
-                </button>
+                <form action="/Account/Logout" method="post" style="width: 100%;">
+                    <input type="hidden" name="__RequestVerificationToken" value="${getAntiForgeryToken()}">
+                    <button type="submit" class="mobile-logout">
+                        <span class="material-symbols-outlined">logout</span>
+                        Выйти
+                    </button>
+                </form>
             </div>
         `;
     } else {
         userSectionHtml = `
             <div class="mobile-auth-section">
                 <div class="mobile-auth-buttons">
-                    <a href="/Account/Login" class="mobile-login-btn">
+                    <a href="/Account/Auth" class="mobile-login-btn">
                         <span class="material-symbols-outlined">login</span>
                         Войти
                     </a>
@@ -154,6 +183,7 @@ function initMobileMenu() {
         `;
     }
 
+    // Собираем панель меню (без лишних элементов)
     menuPanel.innerHTML = `
         <div class="mobile-menu-header">
             <div class="mobile-menu-logo">
@@ -169,16 +199,6 @@ function initMobileMenu() {
         <div class="mobile-nav">
             <div class="mobile-nav-links">
                 ${navLinksHtml}
-                <div class="mobile-divider"></div>
-                <a href="/Cart" class="mobile-nav-link">
-                    <span class="material-symbols-outlined">shopping_cart</span>
-                    <span>Корзина</span>
-                    <span class="cart-count">0</span>
-                </a>
-                <a href="/Favorites" class="mobile-nav-link">
-                    <span class="material-symbols-outlined">favorite</span>
-                    <span>Избранное</span>
-                </a>
             </div>
         </div>
         ${userSectionHtml}
@@ -187,63 +207,39 @@ function initMobileMenu() {
     document.body.appendChild(overlay);
     document.body.appendChild(menuPanel);
 
-    // Helper function to get icon based on link text
-    function getIconForLink(text) {
-        const textLower = text.toLowerCase();
-        if (textLower.includes('каталог') || textLower.includes('catalog')) return 'grid_view';
-        if (textLower.includes('как арендовать')) return 'help';
-        if (textLower.includes('цены') || textLower.includes('pricing')) return 'price_check';
-        if (textLower.includes('поставщикам')) return 'business';
-        if (textLower.includes('поддержка') || textLower.includes('support')) return 'support_agent';
-        if (textLower.includes('оборудование')) return 'precision_manufacturing';
-        if (textLower.includes('категории')) return 'category';
-        if (textLower.includes('пользователи')) return 'people';
-        if (textLower.includes('отзывы')) return 'reviews';
-        return 'chevron_right';
-    }
-
-    // Open menu
+    // Открытие меню
     function openMenu() {
         overlay.classList.add('active');
         menuPanel.classList.add('active');
         body.classList.add('menu-open');
     }
 
-    // Close menu
+    // Закрытие меню
     function closeMenu() {
         overlay.classList.remove('active');
         menuPanel.classList.remove('active');
         body.classList.remove('menu-open');
     }
 
-    // Event listeners
+    // Обработчики событий
     if (mobileMenuButton) {
         mobileMenuButton.addEventListener('click', openMenu);
     }
 
     overlay.addEventListener('click', closeMenu);
-    menuPanel.querySelector('.mobile-menu-close').addEventListener('click', closeMenu);
 
-    // Close menu on link click
+    const closeButton = menuPanel.querySelector('.mobile-menu-close');
+    if (closeButton) {
+        closeButton.addEventListener('click', closeMenu);
+    }
+
+    // Закрытие меню при клике на ссылку
     menuPanel.querySelectorAll('.mobile-nav-link').forEach(link => {
         link.addEventListener('click', closeMenu);
     });
 }
 
-// Logout function
-function logout() {
-    // Add your logout logic here
-    window.location.href = '/Account/Logout';
-}
-
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', function () {
-    initMobileMenu();
-
-    // Update cart count from localStorage or API
-    updateCartCount();
-});
-
+// Update cart count
 function updateCartCount() {
     const cartCount = localStorage.getItem('cartCount') || 0;
     const cartBadges = document.querySelectorAll('.cart-badge, .cart-count');
@@ -256,3 +252,12 @@ function updateCartCount() {
         }
     });
 }
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', function () {
+    // Инициализируем мобильное меню
+    initMobileMenu();
+
+    // Обновляем счетчик корзины
+    updateCartCount();
+});
