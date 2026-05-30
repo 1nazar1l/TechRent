@@ -1,4 +1,5 @@
-﻿@using TechRent.Models.Entities
+﻿@using System.Globalization
+@using TechRent.Models.Entities
 @model SupplierViewModel
 @{
     ViewData["Title"] = "Панель поставщика";
@@ -235,13 +236,8 @@
                 }
             </div>
 
-            <!-- Только один контейнер для карты -->
-            <div id="supplierMapContainer" style="height: 300px; width: 100%; border-radius: 12px; margin-top: 16px;"
-                 data-lat="@(Model.Office?.Latitude ?? 0)"
-                 data-lng="@(Model.Office?.Longitude ?? 0)"
-                 data-address="@(Model.Office?.Address ?? "")"
-                 data-has-office="@(Model.Office != null ? "true" : "false")">
-            </div>
+            <!-- Контейнер для карты -->
+            <div id="supplierMap" style="height: 300px; width: 100%; border-radius: 12px; margin-top: 16px;"></div>
 
             <div class="map-info">
                 <div class="map-info-item">
@@ -290,7 +286,6 @@
                 }
             });
 
-            // Обновляем счётчик
             const visibleRows = Array.from(tableRows).filter(row => row.style.display !== 'none').length;
             const resultsSpan = document.querySelector('.results .results-number');
             if (resultsSpan) {
@@ -306,74 +301,71 @@
         }
     }
 
-    // Инициализация карты с Яндекс.Картами
-    function initMap() {
-        const mapContainer = document.getElementById('supplierMapContainer');
+    // Инициализация карты
+    function initSupplierMap() {
+        const mapContainer = document.getElementById('supplierMap');
         if (!mapContainer) return;
 
-        // Получаем координаты из data-атрибутов контейнера
-        const lat = parseFloat(mapContainer.dataset.lat);
-        const lng = parseFloat(mapContainer.dataset.lng);
-        const address = mapContainer.dataset.address;
-
-        // Проверяем, есть ли реальные координаты (не дефолтные или не нулевые)
-        const hasValidOffice = mapContainer.dataset.hasOffice === 'true';
+        @if (Model.Office != null)
+        {
+                <text>
+                var officeLat = @Model.Office.Latitude.ToString(CultureInfo.InvariantCulture);
+                var officeLng = @Model.Office.Longitude.ToString(CultureInfo.InvariantCulture);
+                var officeAddress = '@Html.Raw(Model.Office.Address?.Replace("'", "\\'") ?? "")';
+                var officeName = '@Html.Raw(Model.Office.Name?.Replace("'", "\\'") ?? "Мой офис")';
+                var hasOffice = true;
+                </text>
+        }
+        else
+        {
+                <text>
+                var officeLat = 53.9045;
+                var officeLng = 27.5615;
+                var officeAddress = '';
+                var officeName = '';
+                var hasOffice = false;
+                </text>
+        }
 
         if (typeof ymaps === 'undefined') {
-            setTimeout(initMap, 500);
+            setTimeout(initSupplierMap, 500);
             return;
         }
 
         ymaps.ready(function () {
-            // Если нет офиса, показываем карту без метки или с сообщением
-            if (!hasValidOffice || isNaN(lat) || isNaN(lng) || (lat === 53.9045 && lng === 27.5615 && !address.includes('Промышленная'))) {
-                const map = new ymaps.Map("supplierMapContainer", {
-                    center: [53.9045, 27.5615],
-                    zoom: 12,
-                    controls: ['zoomControl', 'fullscreenControl']
-                });
-
-                // Добавляем метку с сообщением, что офис не добавлен
-                const placemark = new ymaps.Placemark([53.9045, 27.5615], {
-                    balloonContent: `<strong>Офис не добавлен</strong><br>Добавьте информацию о вашем офисе через кнопку "Добавить офис"`,
-                    hintContent: 'Офис не добавлен'
-                }, {
-                    preset: 'islands#grayHomeCircleIcon',
-                    draggable: false
-                });
-
-                map.geoObjects.add(placemark);
-                return;
-            }
-
-            // Если есть офис, показываем его
-            const map = new ymaps.Map("supplierMapContainer", {
-                center: [lat, lng],
-                zoom: 15,
+            var map = new ymaps.Map("supplierMap", {
+                center: [officeLat, officeLng],
+                zoom: hasOffice ? 15 : 12,
                 controls: ['zoomControl', 'fullscreenControl']
             });
 
-            const placemark = new ymaps.Placemark([lat, lng], {
-                balloonContent: `<strong>${address || 'Мой офис'}</strong><br><span style="color:#64748b;">🕐 Пн-Пт: 9:00 - 18:00</span>`
-            }, {
-                preset: 'islands#redHomeCircleIcon',
-                draggable: false
-            });
-
-            map.geoObjects.add(placemark);
-            placemark.balloon.open();
+            if (hasOffice && officeLat && officeLng) {
+                var placemark = new ymaps.Placemark([officeLat, officeLng], {
+                    balloonContent: '<strong>' + officeName + '</strong>' + (officeAddress ? '<br>' + officeAddress : '') + '<br><span style="color:#64748b;">🕐 Пн-Пт: 9:00 - 18:00</span>',
+                    hintContent: officeName
+                }, {
+                    preset: 'islands#redHomeCircleIcon',
+                    draggable: false
+                });
+                map.geoObjects.add(placemark);
+                placemark.balloon.open();
+            } else {
+                var messagePlacemark = new ymaps.Placemark([officeLat, officeLng], {
+                    balloonContent: '<strong>Офис не добавлен</strong><br>Добавьте информацию о вашем офисе через кнопку "Добавить офис"',
+                    hintContent: 'Офис не добавлен'
+                }, {
+                    preset: 'islands#grayStretchyIcon',
+                    draggable: false
+                });
+                map.geoObjects.add(messagePlacemark);
+                messagePlacemark.balloon.open();
+            }
         });
     }
 
     // Запускаем инициализацию после загрузки страницы
     document.addEventListener('DOMContentLoaded', function() {
         initTableFilters();
-        // Используем Яндекс.Карты вместо Leaflet
-        if (typeof ymaps !== 'undefined') {
-            initMap();
-        } else {
-            // Ждем загрузки Яндекс.Карт
-            setTimeout(initMap, 1000);
-        }
+        initSupplierMap();
     });
 </script>
