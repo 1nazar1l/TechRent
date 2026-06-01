@@ -66,18 +66,18 @@
     --text-secondary: #94a3b8;
     --text-tertiary: #94a3b8;
     --text: #ffffff;
-    --text-muted: #94a3b8;
+    --text-muted: #9ca3af;
     --text-soft: #cbd5e1;
     /* Backgrounds */
-    --background-light: #23170f;
-    --background-dark: #23170f;
-    --background: #0F172A;
-    --surface: #1E293B;
+    --background-light: #0f172a;
+    --background-dark: #0f172a;
+    --background: #0f172a;
+    --surface: #1e293b;
     --card-background: #1e293b;
-    --card-bg: #1E293B;
-    --header-background: rgba(26, 17, 10, 0.95);
+    --card-bg: #1e293b;
+    --header-background: rgba(15, 23, 42, 0.95);
     --header-bg: rgba(15, 23, 42, 0.95);
-    --footer-background: #1a110a;
+    --footer-background: #0f172a;
     --hover-background: #334155;
     --hover: #334155;
     /* Borders */
@@ -86,18 +86,18 @@
     --border-strong: #475569;
     --card-border: #334155;
     /* Effects */
-    --shadow-color: rgba(0, 0, 0, 0.3);
-    --shadow: rgba(0, 0, 0, 0.3);
-    --ring-color: rgba(255, 255, 255, 0.1);
+    --shadow-color: rgba(0, 0, 0, 0.4);
+    --shadow: rgba(0, 0, 0, 0.4);
+    --ring-color: rgba(255, 255, 255, 0.08);
     /* Scrollbar */
-    --scrollbar-track: #0F172A;
+    --scrollbar-track: #0f172a;
     --scrollbar-thumb: #334155;
     /* Badges */
     --badge-green-text: #4ade80;
     --badge-blue-text: #60a5fa;
     --badge-orange-text: #fb923c;
     /* Steps */
-    --step-background: #151c27;
+    --step-background: #1e293b;
     --step-border: #0f172a;
     --connector-color: #334155;
 }
