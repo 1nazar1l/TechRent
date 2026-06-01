@@ -13,9 +13,9 @@
             <!-- Logo (mobile visible) -->
             <div class="sidebar-logo">
                 <div class="logo-icon">
-                    <span class="material-symbols-outlined">precision_manufacturing</span>
+                    <span class="material-symbols-outlined">handyman</span>
                 </div>
-                <h2 class="logo-text">TECHRENT</h2>
+                <h2 class="logo-text">RENTOFFICE</h2>
             </div>
 
             <!-- Navigation -->
@@ -120,11 +120,11 @@
                                     {
                                         if (i < roundedRating)
                                         {
-                                            <span class="star-icon material-symbols-outlined" style="color: #fbbf24; font-size: 16px; font-variation-settings: 'FILL' 1;">star</span>
+                                            <span class="star-icon material-symbols-outlined">star</span>
                                         }
                                         else
                                         {
-                                            <span class="star-icon material-symbols-outlined" style="color: #cbd5e1; font-size: 16px; font-variation-settings: 'FILL' 1;">star</span>
+                                            <span class="star-icon material-symbols-outlined empty">star</span>
                                         }
                                     }
                                     <span class="rating-value">@averageRating</span>
@@ -133,7 +133,7 @@
 
                                 <div class="favorite-price">
                                     <span class="price-label">Цена за день</span>
-                                    <span class="price-value">@equipment?.PricePerDay бел. руб.<span class="price-period">/день</span></span>
+                                    <span class="price-value">@equipment?.PricePerDay <span class="br-icon2"></span> <span class="price-period">/день</span></span>
                                 </div>
 
                                 <div class="favorite-actions">
@@ -165,19 +165,15 @@
         .then(response => response.json())
         .then(data => {
             if (data.success && !data.isFavorite) {
-                // Удаляем карточку из DOM
                 const card = button.closest('.favorite-card');
                 card.style.animation = 'fadeOut 0.3s ease';
                 setTimeout(() => {
                     card.remove();
-
-                    // Если больше нет избранных, показываем пустое состояние
                     const grid = document.querySelector('.favorites-grid');
                     if (grid.children.length === 0) {
                         location.reload();
                     }
                 }, 300);
-
                 showNotification('Удалено из избранного', 'success');
             } else {
                 showNotification('Ошибка при удалении из избранного', 'error');
@@ -196,7 +192,6 @@
             <span class="material-symbols-outlined">${type === 'success' ? 'check_circle' : 'error'}</span>
             <span>${message}</span>
         `;
-
         notification.style.position = 'fixed';
         notification.style.top = '20px';
         notification.style.right = '-400px';
@@ -221,7 +216,9 @@
         setTimeout(() => {
             notification.style.right = '-400px';
             setTimeout(() => {
-                document.body.removeChild(notification);
+                if (document.body.contains(notification)) {
+                    document.body.removeChild(notification);
+                }
             }, 300);
         }, 3000);
     }

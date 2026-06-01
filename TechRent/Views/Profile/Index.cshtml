@@ -13,9 +13,9 @@
             <!-- Logo (mobile visible) -->
             <div class="sidebar-logo">
                 <div class="logo-icon">
-                    <span class="material-symbols-outlined">precision_manufacturing</span>
+                    <span class="material-symbols-outlined">handyman</span>
                 </div>
-                <h2 class="logo-text">TECHRENT</h2>
+                <h2 class="logo-text">RENTOFFICE</h2>
             </div>
 
             <!-- Navigation -->
@@ -104,8 +104,8 @@
                                 }
                                 else
                                 {
-                                    <div style="width: 100%; height: 100%; background: #f1f5f9; display: flex; align-items: center; justify-content: center;">
-                                        <span class="material-symbols-outlined" style="font-size: 48px; color: #94a3b8;">construction</span>
+                                    <div class="image-placeholder">
+                                        <span class="material-symbols-outlined">construction</span>
                                     </div>
                                 }
                             </div>
@@ -115,7 +115,7 @@
                                 <div class="active-info">
                                     <div class="active-header">
                                         <span class="status-badge status-active">Активна</span>
-                                        <span class="booking-id">ID: #TR-@Model.ActiveBooking.Id.ToString("D4")</span>
+                                        <span class="booking-id">ID: #RO-@Model.ActiveBooking.Id.ToString("D4")</span>
                                     </div>
                                     <h3 class="active-title">@Model.ActiveBooking.Equipment?.Name</h3>
                                     <p class="active-description">@(Model.ActiveBooking.Equipment?.Description ?? "Описание недоступно")</p>
@@ -170,8 +170,8 @@
                                         }
                                         else
                                         {
-                                            <div style="width: 100%; height: 100%; background: #f1f5f9; display: flex; align-items: center; justify-content: center;">
-                                                <span class="material-symbols-outlined" style="font-size: 24px; color: #94a3b8;">construction</span>
+                                            <div class="image-placeholder-small">
+                                                <span class="material-symbols-outlined">construction</span>
                                             </div>
                                         }
                                     </div>
@@ -215,8 +215,8 @@
                                         }
                                         else
                                         {
-                                            <div style="width: 100%; height: 100%; background: #f1f5f9; display: flex; align-items: center; justify-content: center;">
-                                                <span class="material-symbols-outlined" style="font-size: 24px; color: #94a3b8;">construction</span>
+                                            <div class="image-placeholder-small">
+                                                <span class="material-symbols-outlined">construction</span>
                                             </div>
                                         }
                                     </div>
@@ -226,7 +226,7 @@
                                             <p class="history-item-meta">Возвращено @booking.EndDate.ToString("MMM dd")</p>
                                         </div>
                                         <div class="history-item-right">
-                                            <span class="history-item-price history-item-price-custom">@booking.TotalPrice.ToString("F0") <span class="br-icon2"></span></span>
+                                            <span class="history-item-price">@booking.TotalPrice.ToString("F0") <span class="br-icon2"></span></span>
                                             <span class="payment-status paid">
                                                 <span class="material-symbols-outlined">check_circle</span>
                                                 Оплачено
