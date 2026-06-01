@@ -1,149 +1,118 @@
 ﻿@model IEnumerable<TechRent.Models.Entities.Equipment>
 @{
-    ViewData["Title"] = "Главная";
+    ViewData["Title"] = "Аренда офисного оборудования | RentOffice";
     ViewData["css"] = "index";
     ViewData["header"] = "base_header";
 }
 
 <!-- Hero Section -->
-<section class="hero-section" style='background-image: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.85)), url("https://lh3.googleusercontent.com/aida-public/AB6AXuAiyPSmWrRWtNQgmoevRsKItl86Qo_KSq4dSrM2Jmi23O5LUlWr1s1GcidzcqJLTbtX2yf5nvFOdBgnsZBcL48jxpXCcL5_gEukPCuZB1NrzouxiLnkH11CyB4vR95TNdGBk7SR0F4QwletoRPay8uDolRSc6pEfVNNoN6oH3UM6iujbAB1BuUAzO4z0WIbgpnofGFDNEkqBqjwOfZLbw4jnxOOFVdP8Jnuz25lm3USr8gfGoRlcA8Rr-qSEqduvf-f-3mqfp3yo38");'>
+<section class="hero-rent">
+    <div class="hero-overlay"></div>
     <div class="hero-content">
-        <div class="live-badge">
+        <span class="hero-badge">
             <span class="live-dot"></span>
-            <span class="live-text">Инвентарь обновляется в реальном времени</span>
-        </div>
-
+            Бронирование за 2 минуты
+        </span>
         <h1 class="hero-title">
-            Арендуйте оборудование без простоев. <span class="highlight">Доставка</span> на объект за 2 часа.
+            Аренда офисного оборудования<br><span class="highlight">без скрытых платежей</span>
         </h1>
-
         <p class="hero-description">
-            Более 5 000 активных объявлений от проверенных поставщиков. Мгновенное бронирование, прозрачные цены и гарантированные сроки доставки.
+            Более 3000 единиц оргтехники от проверенных поставщиков. Доставка в офис за 2 часа.
         </p>
+        <div class="hero-buttons">
+            <a href="@Url.Action("Index", "Equipment")" class="btn btn-primary">Выбрать оборудование</a>
+            <a href="#" class="btn btn-outline">Как это работает</a>
+        </div>
     </div>
 </section>
 
-<!-- Main Content -->
 <main class="content-container">
     <!-- Popular Categories -->
-    <section class="mb-20">
-        <div class="section-title-wrapper">
+    <section class="categories-section">
+        <div class="section-header">
             <h2 class="section-title">Популярные категории</h2>
-            <a href="#" class="view-all-link">
-                Все категории
-                <span class="material-symbols-outlined">arrow_forward</span>
-            </a>
+            <a href="#" class="link-arrow">Все категории →</a>
         </div>
-
         <div class="categories-grid">
-            <!-- Category 1 -->
             <a href="#" class="category-card">
-                <div class="category-circle">
-                    <span class="category-icon material-symbols-outlined">agriculture</span>
+                <div class="category-icon-circle">
+                    <span class="material-symbols-outlined category-icon">print</span>
                 </div>
-                <span class="category-name">Земляные работы</span>
+                <span class="category-title">Принтеры и МФУ</span>
             </a>
-
-            <!-- Category 2 -->
             <a href="#" class="category-card">
-                <div class="category-circle">
-                    <span class="category-icon material-symbols-outlined">foundation</span>
+                <div class="category-icon-circle">
+                    <span class="material-symbols-outlined category-icon">computer</span>
                 </div>
-                <span class="category-name">Бетонные работы</span>
+                <span class="category-title">Компьютеры</span>
             </a>
-
-            <!-- Category 3 -->
             <a href="#" class="category-card">
-                <div class="category-circle">
-                    <span class="category-icon material-symbols-outlined">construction</span>
+                <div class="category-icon-circle">
+                    <span class="material-symbols-outlined category-icon">videocam</span>
                 </div>
-                <span class="category-name">Электроинструменты</span>
+                <span class="category-title">Видеоконференции</span>
             </a>
-
-            <!-- Category 4 -->
             <a href="#" class="category-card">
-                <div class="category-circle">
-                    <span class="category-icon material-symbols-outlined">forklift</span>
+                <div class="category-icon-circle">
+                    <span class="material-symbols-outlined category-icon">chair</span>
                 </div>
-                <span class="category-name">Подъёмники</span>
+                <span class="category-title">Офисная мебель</span>
             </a>
-
-            <!-- Category 5 -->
             <a href="#" class="category-card">
-                <div class="category-circle">
-                    <span class="category-icon material-symbols-outlined">wb_incandescent</span>
+                <div class="category-icon-circle">
+                    <span class="material-symbols-outlined category-icon">kitchen</span>
                 </div>
-                <span class="category-name">Освещение</span>
+                <span class="category-title">Кухонное оборудование</span>
             </a>
-
-            <!-- Category 6 -->
             <a href="#" class="category-card">
-                <div class="category-circle">
-                    <span class="category-icon material-symbols-outlined">grid_view</span>
+                <div class="category-icon-circle">
+                    <span class="material-symbols-outlined category-icon">grid_view</span>
                 </div>
-                <span class="category-name">Все категории</span>
+                <span class="category-title">Все категории</span>
             </a>
         </div>
     </section>
 
     <!-- How It Works -->
-    <section class="how-it-works-section">
-        <div class="section-header">
-            <h2 class="section-title">Как работает TechRent</h2>
-            <p class="section-subtitle">Получите оборудование за 4 простых шага</p>
+    <section class="steps-section">
+        <div class="section-header centered">
+            <h2 class="section-title">Начните работу за 4 шага</h2>
+            <p class="section-subtitle">Прозрачная аренда без лишних документов</p>
         </div>
-
-        <div class="steps-container">
-            <!-- Connector Line -->
-            <div class="connector-line"></div>
-
-            <!-- Step 1 -->
+        <div class="steps-grid">
             <div class="step-card">
-                <div class="step-icon-wrapper">
-                    <span class="step-icon material-symbols-outlined">search</span>
-                </div>
-                <h3 class="step-title">1. Выберите технику</h3>
-                <p class="step-description">Просматривайте тысячи инструментов и тяжёлой техники рядом с вами.</p>
+                <div class="step-number">01</div>
+                <span class="step-icon material-symbols-outlined">search</span>
+                <h3>Выберите оборудование</h3>
+                <p>Каталог с фильтрами по цене, производителю и типу техники</p>
             </div>
-
-            <!-- Step 2 -->
             <div class="step-card">
-                <div class="step-icon-wrapper">
-                    <span class="step-icon material-symbols-outlined">calendar_today</span>
-                </div>
-                <h3 class="step-title">2. Выберите даты</h3>
-                <p class="step-description">Укажите период аренды. Гибкие почасовые, суточные и недельные тарифы.</p>
+                <div class="step-number">02</div>
+                <span class="step-icon material-symbols-outlined">calendar_month</span>
+                <h3>Укажите даты</h3>
+                <p>Гибкие тарифы: почасовая, посуточная, на месяц</p>
             </div>
-
-            <!-- Step 3 -->
             <div class="step-card">
-                <div class="step-icon-wrapper">
-                    <span class="step-icon material-symbols-outlined">verified_user</span>
-                </div>
-                <h3 class="step-title">3. Быстрая проверка</h3>
-                <p class="step-description">Безопасная онлайн-верификация и оплата. Никакой бумажной волокиты.</p>
+                <div class="step-number">03</div>
+                <span class="step-icon material-symbols-outlined">verified</span>
+                <h3>Подтверждение</h3>
+                <p>Онлайн‑договор и безопасная оплата</p>
             </div>
-
-            <!-- Step 4 -->
             <div class="step-card">
-                <div class="step-icon-wrapper">
-                    <span class="step-icon material-symbols-outlined">local_shipping</span>
-                </div>
-                <h3 class="step-title">4. Доставка на объект</h3>
-                <p class="step-description">Оборудование доставляется на ваш объект в течение 2 часов или в назначенное время.</p>
+                <div class="step-number">04</div>
+                <span class="step-icon material-symbols-outlined">local_shipping</span>
+                <h3>Доставка</h3>
+                <p>Привезём в офис в течение 2 часов</p>
             </div>
         </div>
     </section>
 
-    <!-- Popular Products -->
-    <section class="mb-20">
-        <div class="products-header">
-            <div class="products-title-wrapper">
-                <h2 class="section-title">Популярное сейчас</h2>
-                <p class="products-subtitle">Оборудование с высоким рейтингом, которое арендуют профессионалы на этой неделе.</p>
-            </div>
+    <!-- Popular Products (динамические) -->
+    <section class="products-section">
+        <div class="section-header">
+            <h2 class="section-title">Популярное сейчас</h2>
+            <a href="@Url.Action("Index", "Equipment")" class="link-arrow">Смотреть всё →</a>
         </div>
-
         <div class="products-grid">
             @foreach (var item in Model.Take(4))
             {
@@ -178,38 +147,33 @@
                         else
                         {
                             <div class="product-image" style="background: #f1f5f9; display: flex; align-items: center; justify-content: center;">
-                                <span class="material-symbols-outlined" style="font-size: 48px; color: #94a3b8;">construction</span>
+                                <span class="material-symbols-outlined" style="font-size: 48px; color: #94a3b8;">print</span>
                             </div>
                         }
                     </div>
-
                     <div class="product-details">
                         <div class="rating">
                             @for (int i = 0; i < 5; i++)
                             {
                                 if (i < roundedRating)
                                 {
-                                    <span class="material-symbols-outlined" style="color: #fbbf24; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
+                                    <span class="material-symbols-outlined filled-star">star</span>
                                 }
                                 else
                                 {
-                                    <span class="material-symbols-outlined" style="color: #cbd5e1; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
+                                    <span class="material-symbols-outlined empty-star">star</span>
                                 }
                             }
+                            <span class="rating-value">@averageRating</span>
+                            <span class="rating-count">(@reviewCount)</span>
                         </div>
-
                         <h3 class="product-name">@item.Name</h3>
-
                         <div class="product-footer">
                             <div class="price-wrapper">
-                                <span class="price-label">От</span>
-                                <span class="price">
-                                    @item.PricePerDay
-                                    <span class="br-icon"></span>
-                                    <span class="price-period">/день</span>
-                                </span>
+                                <span class="price">@item.PricePerDay<span class="br-icon"></span></span>
+                                <span class="price-period">/день</span>
                             </div>
-                            <a href="@Url.Action("Index", "Product", new { id = item.Id })" class="add-to-cart-button" style="text-decoration: none;">
+                            <a href="@Url.Action("Index", "Product", new { id = item.Id })" class="add-to-cart-button">
                                 <span class="material-symbols-outlined">add</span>
                             </a>
                         </div>
@@ -219,85 +183,53 @@
         </div>
     </section>
 
-    <!-- Two Column Section: Delivery & Testimonials -->
-    <div class="two-column-grid">
-        <!-- Delivery Calculator -->
+    <!-- Две колонки: доставка + отзыв -->
+    <div class="double-grid">
         <div class="delivery-card">
-            <div class="delivery-background">
-                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKVUj6uDZIfB_mAF6RkwQXq2rO--OQRigfBCeyWCj6Yjo_o08WKzoIH3smRDbVCRhyptOiAr48pS3DXULlD0dkaGfpSka0LtrHYEdts-gJ-bs7-W2X5xVLgcyEma-UFhadOPAIfv5I2aCq4bmotKH5K1ON3vAVMfL4WFRRH_-GqbEdQN9mwe3C3YxkW_HKf9JATryZ8CRAbPaGVUlgmTM9yeMoc6-HF2jsm9M0TuJHqOZ5nfRSrpF42SWr77JHxQX5eKzSwPvu8nk" alt="Map">
-                <div class="delivery-gradient"></div>
-            </div>
-
+            <div class="delivery-bg"></div>
             <div class="delivery-content">
-                <h3 class="delivery-title">Проверить доставку на объект</h3>
-                <p class="delivery-text">Введите адрес объекта, чтобы проверить наличие в реальном времени и рассчитать стоимость доставки.</p>
-
-                <div class="address-input-wrapper">
-                    <input class="address-input" type="text" placeholder="Введите адрес доставки">
-                    <button class="address-submit">
-                        <span class="material-symbols-outlined">arrow_forward</span>
-                    </button>
+                <h3>Рассчитать доставку</h3>
+                <p>Введите адрес офиса – узнайте точную стоимость и время прибытия</p>
+                <div class="address-input">
+                    <input type="text" placeholder="Адрес офиса">
+                    <button><span class="material-symbols-outlined">arrow_forward</span></button>
                 </div>
-            </div>
-
-            <div class="drivers-info">
-                <div class="drivers-avatars">
-                    <img class="driver-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9ut4cNnjxzUstTLxH-qy72qYk6kh5UmGmrWGfFqbzMhCEhZAtB9pH_8R-L5MjRGKZOdGEvZ8DAmtlWVAOxlmJK2sO6E-0Xm1OYUWBgH4fScoTP-9NUcwBSDGafFmqFWe6NmyEp0QO6SCJO_98ZzSEXAbV2H5TQA-VtZmIGvpEPcR49ngCKyih87X1SyQoFonbaBt5C_0PhKpIM5mmdmQQPc4-yr0TqqrMVd3LvMgKDsm_IjJcVioBN3fdiejR98xWeHK3Nm177pA" alt="Driver">
-                    <img class="driver-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq0U_qTtCzsk9nCTTeNC3ZQ1czXraCKDj9s5ArIJUZJBBILNOb9A_Mw0p4S0W-k5fU8oJkdJJWN4-R6hKOfZDs7I5z3-90P-14MEDkXINZAKgL_OnqPs_1SmMaMZDJOH2RD81EeyQ0x-eUvOZ9XyVRFtG-_jn1QtUqPttwPkzdvB-PexyMnGEyZ8jpUOU2ThjywqTXkdaCsl8LBk8OSfFEPOUvLL6H4XnJyVgS02Cg6Zi2PhpUj3y8ZRFydBXV9T1dUd1z6GPJ2Po" alt="Driver">
-                    <div class="drivers-count">+24</div>
-                </div>
-                <div class="drivers-text">
-                    <span class="drivers-highlight">26 водителей</span> рядом с вами
+                <div class="drivers">
+                    <div class="driver-avatars">
+                        <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="">
+                        <img src="https://randomuser.me/api/portraits/men/2.jpg" alt="">
+                        <span>+24</span>
+                    </div>
+                    <span><strong>26 курьеров</strong> рядом с вами</span>
                 </div>
             </div>
         </div>
-
-        <!-- Testimonial -->
         <div class="testimonial-card">
-            <div class="testimonial-header">
-                <h3 class="testimonial-title">Доверяют профессионалы</h3>
-                <div class="testimonial-rating">
-                    <span class="material-symbols-outlined" style="color: #fbbf24; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
-                    <span class="material-symbols-outlined" style="color: #fbbf24; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
-                    <span class="material-symbols-outlined" style="color: #fbbf24; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
-                    <span class="material-symbols-outlined" style="color: #fbbf24; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
-                    <span class="material-symbols-outlined" style="color: #fbbf24; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
-                </div>
+            <div class="testimonial-rating">
+                <span class="material-symbols-outlined filled-star">star</span>
+                <span class="material-symbols-outlined filled-star">star</span>
+                <span class="material-symbols-outlined filled-star">star</span>
+                <span class="material-symbols-outlined filled-star">star</span>
+                <span class="material-symbols-outlined filled-star">star</span>
             </div>
-
-            <blockquote class="testimonial-text">
-                "TechRent спас наш проект. Экскаватор прибыл менее чем за 90 минут, точно как описано. Прозрачное ценообразование — это настоящий прорыв для подрядчиков."
-            </blockquote>
-
+            <p class="testimonial-text">«Заказали МФУ на время ремонта – привезли на следующий день, установили и настроили. Отличный сервис!»</p>
             <div class="testimonial-author">
-                <img class="author-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxvoStbK06kDy0GJBAarhTQ-xUkA6kEGOBxfgmRBUnPXJiih22jZLN8z3x4G0KcT5vg-lvP5dmEL3UtRuY7c37xdxOzeuVMmqoDVHY5GejH2TAQ3cSfnSI-Dv6COT43uxgay5IlnQH6XD0nnOIms31eqbaOfLM4ppHSAkG0gbYJerwqxWJrH_gN6-FHVtRjZMIKLJA_Ljvq9Zh4b00AfeJPwaYZ_SVmPrVKgIn6V53EwgOSdtx9WuSuR59VBUj0t3dt8nuBqpbgyY" alt="Аватар пользователя">
+                <img src="https://randomuser.me/api/portraits/men/42.jpg" alt="">
                 <div>
-                    <div class="author-name">Михаил Торрес</div>
-                    <div class="author-title">Прораб, ConstructCo</div>
-                </div>
-                <div class="author-company">
-                    <div class="company-logo">
-                        <span class="material-symbols-outlined">apartment</span> BUILD
-                    </div>
+                    <strong>Алексей Ковалёв</strong>
+                    <span>IT-директор, ООО "ТехноСервис"</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <h2 class="cta-title">Готовы начать проект?</h2>
-        <p class="cta-text">Присоединяйтесь к 10 000+ подрядчиков, которые доверяют TechRent. Никаких скрытых платежей.</p>
+    <!-- CTA -->
+    <section class="cta-block">
+        <h2>Готовы оснастить офис?</h2>
+        <p>Присоединяйтесь к 5000+ компаний, которые арендуют оборудование с RentOffice.</p>
         <div class="cta-buttons">
-            <a href="@Url.Action("Index", "Equipment")" class="button-primary-light" style="text-decoration: none;">Перейти в каталог</a>
-            <button class="button-outline-light">Стать поставщиком</button>
+            <a href="@Url.Action("Index", "Equipment")" class="btn btn-primary-light">Перейти в каталог</a>
+            <a href="#" class="btn btn-outline-light">Стать поставщиком</a>
         </div>
     </section>
 </main>
-
-<style>
-    .badge-outofstock {
-        background-color: #ef4444;
-        color: white;
-    }
-</style>

@@ -91,6 +91,12 @@ function initMobileMenu() {
     const mobileMenuButton = document.querySelector('.mobile-menu-button');
     const body = document.body;
 
+    // Удаляем существующее меню, если оно есть (чтобы не создавать дубликаты)
+    const existingOverlay = document.querySelector('.mobile-menu-overlay');
+    const existingPanel = document.querySelector('.mobile-menu-panel');
+    if (existingOverlay) existingOverlay.remove();
+    if (existingPanel) existingPanel.remove();
+
     // Create mobile menu elements
     const overlay = document.createElement('div');
     overlay.className = 'mobile-menu-overlay';
@@ -146,15 +152,6 @@ function initMobileMenu() {
     // Строим пользовательскую секцию
     let userSectionHtml = '';
     if (isAuthenticated) {
-        // Получаем имя пользователя
-        let userName = 'Пользователь';
-        const userNameElement = document.querySelector('.user-name') ||
-            document.querySelector('.user-details .user-name');
-        if (userNameElement) {
-            userName = userNameElement.textContent;
-        }
-
-        // Используем форму для выхода как в десктопной версии
         userSectionHtml = `
             <div class="mobile-user-section">
                 <form action="/Account/Logout" method="post" style="width: 100%;">
@@ -183,14 +180,14 @@ function initMobileMenu() {
         `;
     }
 
-    // Собираем панель меню (без лишних элементов)
+    // Собираем панель меню - ИСПРАВЛЕН ЛОГОТИП
     menuPanel.innerHTML = `
         <div class="mobile-menu-header">
             <div class="mobile-menu-logo">
                 <div class="logo-icon">
-                    <span class="material-symbols-outlined">precision_manufacturing</span>
+                    <span class="material-symbols-outlined">handyman</span>
                 </div>
-                <span class="logo-text">TECHRENT</span>
+                <span class="logo-text">RENTOFFICE</span>
             </div>
             <button class="mobile-menu-close">
                 <span class="material-symbols-outlined">close</span>
@@ -223,7 +220,10 @@ function initMobileMenu() {
 
     // Обработчики событий
     if (mobileMenuButton) {
-        mobileMenuButton.addEventListener('click', openMenu);
+        // Удаляем старый обработчик, если есть
+        const newButton = mobileMenuButton.cloneNode(true);
+        mobileMenuButton.parentNode.replaceChild(newButton, mobileMenuButton);
+        newButton.addEventListener('click', openMenu);
     }
 
     overlay.addEventListener('click', closeMenu);

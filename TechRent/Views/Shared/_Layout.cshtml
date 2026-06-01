@@ -7,12 +7,9 @@
     <title>@ViewData["Title"]</title>
 
     <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=family=Inter:opsz,wght@14..32,300..700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/base.css" />
     <link rel="stylesheet" href="~/css/crud_forms.css" />
     <link rel="stylesheet" href="~/css/@(ViewData["css"]).css" />
@@ -24,9 +21,9 @@
             {
                 <a asp-controller="Home" asp-action="Index" class="logo-area">
                     <div class="logo-icon">
-                        <span class="material-symbols-outlined">precision_manufacturing</span>
+                        <span class="material-symbols-outlined">handyman</span>
                     </div>
-                    <h2 class="logo-text">TECHRENT</h2>
+                    <h2 class="logo-text">RENTOFFICE</h2>
                 </a>
 
                 <nav class="main-nav">
@@ -44,9 +41,9 @@
                     <div class="header-left">
                         <a asp-controller="Home" asp-action="Index" class="logo-area">
                             <div class="logo-icon">
-                                <span class="material-symbols-outlined">precision_manufacturing</span>
+                                <span class="material-symbols-outlined">handyman</span>
                             </div>
-                            <h2 class="logo-text">TECHRENT</h2>
+                            <h2 class="logo-text">RENTOFFICE</h2>
                         </a>
 
                         <nav class="main-nav">
@@ -68,9 +65,9 @@
                 {
                     <a asp-controller="Home" asp-action="Index" class="logo-area">
                         <div class="logo-icon">
-                            <span class="material-symbols-outlined">precision_manufacturing</span>
+                            <span class="material-symbols-outlined">handyman</span>
                         </div>
-                        <h2 class="logo-text">TECHRENT</h2>
+                        <h2 class="logo-text">RENTOFFICE</h2>
                     </a>
 
                     <nav class="main-nav">
@@ -132,11 +129,11 @@
                     <!-- About Section -->
                     <div class="footer-about">
                         <div class="footer-logo">
-                            <span class="footer-logo-icon material-symbols-outlined">precision_manufacturing</span>
-                            <span class="footer-logo-text">TECHRENT</span>
+                            <span class="footer-logo-icon material-symbols-outlined">handyman</span>
+                            <span class="footer-logo-text">RENTOFFICE</span>
                         </div>
                         <p class="footer-description">
-                            Современный способ аренды строительного оборудования. Быстро, надёжно и прозрачно.
+                            Профессиональная аренда офисного оборудования. Надёжно, выгодно, с доставкой в офис.
                         </p>
                         <div class="social-links">
                             <a href="#" class="social-link"><span class="material-symbols-outlined">public</span></a>
@@ -167,21 +164,22 @@
                         </ul>
                     </div>
 
-                    <!-- Categories -->
+                    <!-- Categories (ОФИСНЫЕ) -->
                     <div>
                         <h4 class="footer-heading">Категории</h4>
                         <ul class="footer-links">
-                            <li><a href="#" class="footer-link">Земляные работы</a></li>
-                            <li><a href="#" class="footer-link">Подъёмники</a></li>
-                            <li><a href="#" class="footer-link">Электроинструменты</a></li>
-                            <li><a href="#" class="footer-link">Погрузочная техника</a></li>
+                            <li><a href="#" class="footer-link">Принтеры и МФУ</a></li>
+                            <li><a href="#" class="footer-link">Компьютеры</a></li>
+                            <li><a href="#" class="footer-link">Видеоконференции</a></li>
+                            <li><a href="#" class="footer-link">Офисная мебель</a></li>
+                            <li><a href="#" class="footer-link">Кухонное оборудование</a></li>
                         </ul>
                     </div>
                 </div>
 
                 <!-- Footer Bottom -->
                 <div class="footer-bottom">
-                    <p class="copyright">© 2026 TechRent Inc. Все права защищены.</p>
+                    <p class="copyright">© 2026 RentOffice Inc. Все права защищены.</p>
                     <div class="legal-links">
                         <a href="#" class="legal-link">Конфиденциальность</a>
                         <a href="#" class="legal-link">Условия</a>
@@ -190,14 +188,11 @@
                 </div>
             </div>
         </footer>
-
     </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
     <script src="~/js/base.js"></script>
-
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
