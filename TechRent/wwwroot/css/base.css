@@ -984,3 +984,57 @@ body.menu-open {
 .content-container {
     margin-bottom: 3rem;
 }
+
+
+/* ===== Универсальный отступ под фиксированный header ===== */
+
+/* Все основные контейнеры страниц получают отступ */
+.content-container,
+.main-content,
+.auth-main,
+.catalog-container,
+.page-container {
+    padding-top: 80px;
+}
+
+    /* Убираем двойной отступ для вложенных элементов */
+    .content-container .wrapper,
+    .main-content .wrapper {
+        padding-top: 0;
+    }
+
+/* Для страницы каталога */
+.catalog .filters,
+.catalog .products {
+    margin-top: 0;
+}
+
+/* Адаптив */
+@media (max-width: 768px) {
+    .content-container,
+    .main-content,
+    .auth-main {
+        padding-top: 70px;
+    }
+}
+
+@media (max-width: 480px) {
+    .content-container,
+    .main-content,
+    .auth-main {
+        padding-top: 60px;
+    }
+}
+
+/* Дополнительно: гарантируем что header не перекрывает контент */
+.site-wrapper {
+    position: relative;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
