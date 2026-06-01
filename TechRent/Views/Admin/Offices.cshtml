@@ -78,7 +78,8 @@
         latitude = o.Latitude,
         longitude = o.Longitude,
         address = o.Address ?? "",
-        supplier = o.Supplier != null ? o.Supplier.Email?.Split('@')[0] : ""
+        supplierName = o.Supplier != null ? o.Supplier.Email.Split('@')[0] : "",
+        supplierId = o.SupplierId ?? ""
     })));
 
     function initOfficesMap() {
@@ -87,7 +88,7 @@
             return;
         }
 
-        ymaps.ready(function () {
+        ymaps.ready(function() {
             // Определяем центр карты
             var centerLat = 53.9045;
             var centerLng = 27.5615;
@@ -108,11 +109,31 @@
 
             // Добавляем метки для всех офисов
             if (officesData && officesData.length > 0) {
-                officesData.forEach(function (office) {
+                for (var i = 0; i < officesData.length; i++) {
+                    var office = officesData[i];
                     if (office.latitude && office.longitude && office.latitude !== 0 && office.longitude !== 0) {
-                        var balloonContent = '<strong>' + escapeHtml(office.name) + '</strong>';
-                        if (office.address) balloonContent += '<br>' + escapeHtml(office.address);
-                        if (office.supplier) balloonContent += '<br><span style="color:#64748b;">Поставщик: ' + escapeHtml(office.supplier) + '</span>';
+                        var supplierDisplay = office.supplierName || "Не указан";
+                        var supplierIdDisplay = office.supplierId ? office.supplierId.substring(0, 8) : "";
+                        
+                        // Формируем содержимое балуна
+                        var balloonContent = '<div style="font-family: Arial, sans-serif; min-width: 220px;">' +
+                            '<div style="margin-bottom: 10px;">' +
+                            '<span style="color: #3b82f6; font-weight: 600;">Поставщик:</span> ' +
+                            '<span>' + escapeHtml(supplierDisplay) + (supplierIdDisplay ? ' (' + escapeHtml(supplierIdDisplay) + '...)' : '') + '</span>' +
+                            '</div>' +
+                            '<div style="margin-bottom: 8px;">' +
+                            '<span style="color: #3b82f6; font-weight: 600;">Название офиса:</span> ' +
+                            '<span>' + escapeHtml(office.name) + '</span>' +
+                            '</div>';
+                        
+                        if (office.address) {
+                            balloonContent += '<div style="margin-bottom: 4px;">' +
+                                '<span style="color: #3b82f6; font-weight: 600;">Адрес:</span> ' +
+                                '<span>' + escapeHtml(office.address) + '</span>' +
+                                '</div>';
+                        }
+                        
+                        balloonContent += '</div>';
                         
                         var placemark = new ymaps.Placemark(
                             [office.latitude, office.longitude],
@@ -126,9 +147,8 @@
                         );
                         map.geoObjects.add(placemark);
                     }
-                });
+                }
             } else {
-                // Если нет офисов, показываем сообщение
                 var messagePlacemark = new ymaps.Placemark(
                     [centerLat, centerLng],
                     {
