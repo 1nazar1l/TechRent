@@ -880,3 +880,107 @@ body.menu-open {
 .shadow-lg {
     box-shadow: var(--shadow-lg);
 }
+
+
+/* ===== Общие контейнеры для страниц ===== */
+.wrapper,
+.catalog-wrapper,
+.page-wrapper {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    width: 100%;
+}
+
+@media (min-width: 640px) {
+    .wrapper,
+    .catalog-wrapper,
+    .page-wrapper {
+        padding: 0 2rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .wrapper,
+    .catalog-wrapper,
+    .page-wrapper {
+        padding: 0 1rem;
+    }
+}
+
+/* Убеждаемся что main-content правильно центрируется */
+.main-content {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    .main-content > .wrapper,
+    .main-content > .content-container {
+        width: 100%;
+    }
+
+/* Для страницы каталога */
+.catalog {
+    width: 100%;
+}
+
+
+/* ===== Общие контейнеры для страниц ===== */
+.wrapper,
+.catalog-wrapper,
+.page-wrapper {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    width: 100%;
+}
+
+@media (min-width: 640px) {
+    .wrapper,
+    .catalog-wrapper,
+    .page-wrapper {
+        padding: 0 2rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .wrapper,
+    .catalog-wrapper,
+    .page-wrapper {
+        padding: 0 1rem;
+    }
+}
+
+/* Убеждаемся что main-content правильно центрируется */
+.main-content {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Отступ снизу перед футером */
+    margin-bottom: 3rem;
+}
+
+    .main-content > .wrapper,
+    .main-content > .content-container {
+        width: 100%;
+    }
+
+/* Для страницы каталога */
+.catalog {
+    width: 100%;
+}
+
+/* Дополнительный отступ для последнего элемента перед футером */
+.site-wrapper > :not(header):not(footer):last-child {
+    margin-bottom: 3rem;
+}
+
+/* Для content-container тоже добавляем отступ снизу */
+.content-container {
+    margin-bottom: 3rem;
+}
