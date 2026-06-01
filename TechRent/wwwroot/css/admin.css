@@ -875,3 +875,158 @@
         transition: max-height 0.3s ease-out;
     }
 }
+
+
+/* Стили для сортировки и выбора количества записей в админ-панели */
+.sort-field {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sort-label {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+.sort-select {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    padding: 0.375rem 1.5rem 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text);
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    background-size: 1rem;
+    transition: border-color 0.2s;
+    min-width: 120px;
+}
+
+    .sort-select:hover {
+        border-color: var(--primary);
+    }
+
+    .sort-select:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.1);
+    }
+
+    .sort-select option {
+        background-color: var(--surface);
+        color: var(--text);
+    }
+
+/* Divider */
+.divider {
+    height: 1.5rem;
+    width: 1px;
+    background-color: var(--border);
+}
+
+/* Экспорт кнопки */
+.export-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+    .export-buttons .icon-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 0.375rem;
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+        .export-buttons .icon-button:hover {
+            background-color: var(--hover);
+            color: var(--text);
+            border-color: var(--primary);
+        }
+
+
+
+/* ===== Исправление для чекбоксов в фильтрах админ-панели ===== */
+
+/* Убеждаемся, что чекбокс и текст на одной строке */
+.admin-filters .checkbox-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.admin-filters .checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    min-height: 24px;
+}
+
+.admin-filters .checkbox-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.admin-filters .checkbox-input {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    padding: 0;
+    appearance: none;
+    border-radius: 0.25rem;
+    border: 1px solid var(--text-muted);
+    background-color: transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+    .admin-filters .checkbox-input:checked {
+        border-color: var(--primary);
+        background-color: var(--primary);
+    }
+
+.admin-filters .checkbox-check {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.75rem;
+    color: white;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.admin-filters .checkbox-input:checked ~ .checkbox-check {
+    opacity: 1;
+}
+
+.admin-filters .checkbox-text {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    transition: color 0.2s;
+    line-height: 1.4;
+    flex: 1;
+}
+
+.admin-filters .checkbox-item:hover .checkbox-text {
+    color: var(--text);
+}

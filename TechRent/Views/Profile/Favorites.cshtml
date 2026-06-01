@@ -28,10 +28,6 @@
                     <span class="material-symbols-outlined">favorite</span>
                     <span>Избранное</span>
                 </a>
-                <a asp-controller="Profile" asp-action="Settings" class="sidebar-link">
-                    <span class="material-symbols-outlined">settings</span>
-                    <span>Настройки</span>
-                </a>
             </nav>
 
             <!-- User Profile & Logout -->
@@ -144,16 +140,6 @@
                                     <a asp-controller="Product" asp-action="Index" asp-route-id="@equipment?.Id" class="view-button">
                                         Подробнее
                                     </a>
-                                    @* @if (equipment?.AvailableQuantity > 0)
-                                    {
-                                        <a asp-controller="Product" asp-action="Index" asp-route-id="@equipment?.Id" class="book-button">
-                                            Арендовать
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <button class="book-button disabled" disabled>Нет в наличии</button>
-                                    } *@
                                 </div>
                             </div>
                         </div>
@@ -192,14 +178,14 @@
                     }
                 }, 300);
 
-                showNotification('Removed from favorites', 'success');
+                showNotification('Удалено из избранного', 'success');
             } else {
-                showNotification('Error removing from favorites', 'error');
+                showNotification('Ошибка при удалении из избранного', 'error');
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            showNotification('An error occurred', 'error');
+            showNotification('Произошла ошибка', 'error');
         });
     }
 
