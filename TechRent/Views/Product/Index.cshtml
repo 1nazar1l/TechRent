@@ -30,7 +30,7 @@
             <span class="material-symbols-outlined">chevron_right</span>
             <a href="@Url.Action("Index", "Equipment")" class="breadcrumb-link">Каталог</a>
             <span class="material-symbols-outlined">chevron_right</span>
-            <span class="breadcrumb-current">@Model?.Category?.Name</span>
+            <span class="breadcrumb-current">@(Model?.Category?.Name ?? "Товар")</span>
         </nav>
 
         @if (Model != null)
@@ -476,6 +476,7 @@
         {
             <text>
             const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+            const returnUrl = encodeURIComponent(window.location.pathname + window.location.search);
 
             fetch('/Favorites/ToggleFavorite', {
                 method: 'POST',
@@ -485,12 +486,7 @@
                 },
                 body: JSON.stringify({ equipmentId: equipmentId })
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     const icon = button.querySelector('.material-symbols-outlined');
@@ -501,18 +497,15 @@
                         icon.textContent = 'favorite_border';
                         button.classList.remove('favorite-active');
                     }
-                } else {
-                    console.error('Error:', data.message);
                 }
             })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+            .catch(error => console.error('Error:', error));
             </text>
         }
         else
         {
             <text>
+            const returnUrl = encodeURIComponent(window.location.pathname + window.location.search);
             window.location.href = '/Account/Auth?returnUrl=' + returnUrl;
             </text>
         }
@@ -534,6 +527,8 @@
             const response = await fetch(`/Booking/GetBookedDates?equipmentId=${equipmentId}`);
             if (response.ok) {
                 bookedDates = await response.json();
+                renderCalendar();
+            } else {
                 renderCalendar();
             }
         } catch (error) {
@@ -765,7 +760,7 @@
         }
 
         if (!selectedStartDate || !selectedEndDate) {
-            showNotification('Выберите дату начала и окончания аренды', 'error');
+            alert('Выберите дату начала и окончания аренды');
             return;
         }
 
@@ -795,66 +790,19 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                button.innerHTML = `
-                    <span>Детали бронирования</span>
-                    <span class="material-symbols-outlined">visibility</span>
-                `;
-                button.disabled = false;
-                button.onclick = function() {
-                    window.location.href = `/Booking/Details/${data.bookingId}`;
-                };
-                showNotification('Бронирование подтверждено! Итого: ' + data.totalAmount.toLocaleString() + ' Br', 'success');
+                window.location.href = `/Booking/Details/${data.bookingId}`;
             } else {
                 button.innerHTML = originalText;
                 button.disabled = false;
-                showNotification('Ошибка: ' + data.message, 'error');
+                alert('Ошибка: ' + data.message);
             }
         })
         .catch(error => {
             console.error('Error:', error);
             button.innerHTML = originalText;
             button.disabled = false;
-            showNotification('Произошла ошибка при создании бронирования', 'error');
+            alert('Произошла ошибка при создании бронирования');
         });
-    }
-
-    function showNotification(message, type) {
-        const notification = document.createElement('div');
-        notification.className = `notification ${type}`;
-        notification.innerHTML = `
-            <span class="material-symbols-outlined">${type === 'success' ? 'check_circle' : 'error'}</span>
-            <span>${message}</span>
-        `;
-
-        notification.style.position = 'fixed';
-        notification.style.top = '20px';
-        notification.style.right = '-400px';
-        notification.style.padding = '12px 24px';
-        notification.style.borderRadius = '8px';
-        notification.style.backgroundColor = type === 'success' ? '#10b981' : '#ef4444';
-        notification.style.color = 'white';
-        notification.style.display = 'flex';
-        notification.style.alignItems = 'center';
-        notification.style.gap = '8px';
-        notification.style.zIndex = '1000';
-        notification.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
-        notification.style.transition = 'right 0.3s ease-in-out';
-        notification.style.fontWeight = '500';
-        notification.style.minWidth = '300px';
-        notification.style.maxWidth = '400px';
-
-        document.body.appendChild(notification);
-
-        setTimeout(() => {
-            notification.style.right = '20px';
-        }, 10);
-
-        setTimeout(() => {
-            notification.style.right = '-400px';
-            setTimeout(() => {
-                document.body.removeChild(notification);
-            }, 300);
-        }, 3000);
     }
 
     function updatePriceCalculation() {
@@ -900,6 +848,11 @@
         }
         updateCheckoutButton();
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        loadBookedDates();
+        updateCheckoutButton();
+    });
 </script>
 
 <script>
@@ -908,14 +861,13 @@
         const comment = document.getElementById('reviewComment').value.trim();
 
         if (!rating) {
-            showNotification('Пожалуйста, выберите оценку', 'error');
+            alert('Пожалуйста, выберите оценку');
             return;
         }
 
         const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
 
         const submitButton = document.querySelector('.submit-review-button');
-        const originalText = submitButton.innerHTML;
         submitButton.innerHTML = '<span>Отправка...</span>';
         submitButton.disabled = true;
 
@@ -936,21 +888,17 @@
             const data = await response.json();
 
             if (data.success) {
-                showNotification('Отзыв успешно отправлен!', 'success');
-                document.getElementById('reviewForm').style.display = 'none';
-                document.getElementById('reviewSubmittedMessage').style.display = 'block';
-                setTimeout(() => {
-                    location.reload();
-                }, 2000);
+                alert('Отзыв успешно отправлен!');
+                location.reload();
             } else {
-                showNotification('Ошибка: ' + data.message, 'error');
-                submitButton.innerHTML = originalText;
+                alert('Ошибка: ' + data.message);
+                submitButton.innerHTML = '<span class="material-symbols-outlined">rate_review</span> Отправить отзыв';
                 submitButton.disabled = false;
             }
         } catch (error) {
             console.error('Error:', error);
-            showNotification('Произошла ошибка при отправке отзыва', 'error');
-            submitButton.innerHTML = originalText;
+            alert('Произошла ошибка при отправке отзыва');
+            submitButton.innerHTML = '<span class="material-symbols-outlined">rate_review</span> Отправить отзыв';
             submitButton.disabled = false;
         }
     }
@@ -989,11 +937,6 @@
         if (radio) radio.checked = true;
         highlightStars(rating);
     }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        loadBookedDates();
-        updateCheckoutButton();
-    });
 </script>
 
 <script src="~/js/map1.js"></script>
