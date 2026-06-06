@@ -578,6 +578,7 @@
             if (isPast) classes += ' disabled';
             if (isBooked) classes += ' booked';
 
+            // Проверяем, является ли этот день выбранным
             if (selectedStartDate && selectedEndDate) {
                 const startParts = selectedStartDate.split('-');
                 const endParts = selectedEndDate.split('-');
@@ -587,6 +588,7 @@
                 start.setHours(0, 0, 0, 0);
                 end.setHours(0, 0, 0, 0);
 
+                // Сравниваем даты правильно
                 if (date >= start && date <= end) {
                     if (dateString === selectedStartDate) {
                         classes += ' selected-start';
@@ -949,6 +951,6 @@
             name = ViewBag.SupplierOffice?.Name ?? "",
             address = ViewBag.SupplierOffice?.Address ?? ""
         }));
-        initMap(officeData.lat, officeData.lng, officeData.name, officeData.address);
+        initMap(officeData.lat, officeData.lng, officeData.name, officeData.address); 
     }
 </script>

@@ -443,20 +443,30 @@
     gap: 0.5rem;
     width: 100%;
     height: 48px;
-    background-color: var(--primary);
-    color: white;
-    border: none;
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary);
     border-radius: 0.5rem;
     font-weight: 600;
     font-size: 1rem;
     cursor: pointer;
-    box-shadow: 0 4px 6px -1px var(--shadow);
     transition: all 0.2s;
 }
 
     .checkout-button:hover {
-        background-color: #e05e0e;
-        box-shadow: 0 10px 15px -3px var(--shadow);
+        background-color: var(--primary-color);
+        color: white;
+        border-color: var(--primary);
+    }
+
+    .checkout-button:active {
+        transform: translateY(1px);
+    }
+
+    .checkout-button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
     }
 
     .checkout-button .material-symbols-outlined {
@@ -2076,3 +2086,79 @@
         border-width: 0.5px;
     }
 }
+
+/* Календарь - стили для выделения дат */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    text-align: center;
+}
+
+.weekday {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    padding: 8px 4px;
+}
+
+.day {
+    padding: 8px 4px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+    .day:hover:not(.disabled):not(.booked) {
+        background-color: var(--hover);
+    }
+
+    .day.disabled {
+        color: var(--text-muted);
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .day.booked {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: #dc2626;
+        cursor: not-allowed;
+        text-decoration: line-through;
+        position: relative;
+    }
+
+        .day.booked::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 4px;
+            height: 4px;
+            background-color: #ef4444;
+            border-radius: 50%;
+        }
+
+    /* Яркие синие цвета для выделения дат */
+    .day.selected-start {
+        background-color: #2563eb !important;
+        color: white !important;
+        border-radius: 8px 0 0 8px;
+        font-weight: bold;
+    }
+
+    .day.selected-end {
+        background-color: #2563eb !important;
+        color: white !important;
+        border-radius: 0 8px 8px 0;
+        font-weight: bold;
+    }
+
+    .day.selected {
+        background-color: #3b82f6 !important;
+        color: white !important;
+        border-radius: 0;
+        font-weight: 500;
+    }
