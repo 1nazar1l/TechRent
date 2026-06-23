@@ -92,11 +92,11 @@
                                         {
                                             if (i < roundedRating)
                                             {
-                                                <span class="star-icon material-symbols-outlined">star</span>
+                                                <span class="material-symbols-outlined" style="color: #fbbf24; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
                                             }
                                             else
                                             {
-                                                <span class="star-icon material-symbols-outlined">star</span>
+                                                <span class="material-symbols-outlined" style="color: #cbd5e1; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
                                             }
                                         }
                                         <span class="rating-value">@averageRating</span>
@@ -298,15 +298,11 @@
                                     {
                                         if (i < roundedRating)
                                         {
-                                            <span class="star-icon material-symbols-outlined">star</span>
-                                        }
-                                        else if (i == roundedRating && averageRating.Contains("."))
-                                        {
-                                            <span class="star-icon material-symbols-outlined">star_half</span>
+                                            <span class="material-symbols-outlined" style="color: #fbbf24; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
                                         }
                                         else
                                         {
-                                            <span class="star-icon material-symbols-outlined">star</span>
+                                            <span class="material-symbols-outlined" style="color: #cbd5e1; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
                                         }
                                     }
                                 </div>
@@ -410,13 +406,13 @@
                                             <div class="rating">
                                                 @for (int i = 0; i < 5; i++)
                                                 {
-                                                    if (i < review.Rating)
+                                                   if (i < roundedRating)
                                                     {
-                                                        <span class="star-icon material-symbols-outlined">star</span>
+                                                        <span class="material-symbols-outlined" style="color: #fbbf24; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
                                                     }
                                                     else
                                                     {
-                                                        <span class="star-icon material-symbols-outlined">star</span>
+                                                        <span class="material-symbols-outlined" style="color: #cbd5e1; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
                                                     }
                                                 }
                                             </div>
