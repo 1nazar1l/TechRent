@@ -74,6 +74,18 @@ namespace TechRent.Controllers
             // Передаем офис в ViewBag
             ViewBag.SupplierOffice = supplierOffice;
 
+            // Проверяем, может ли пользователь оставить отзыв (есть ли завершенные аренды)
+            if (user != null)
+            {
+                var hasCompletedRentals = await _context.Bookings
+                    .AnyAsync(b => b.UserId == user.Id && b.Status == "Подтверждено" && b.EndDate < DateTime.Now);
+                ViewBag.CanReview = hasCompletedRentals;
+            }
+            else
+            {
+                ViewBag.CanReview = false;
+            }
+
             // Get related equipment (same category)
             var relatedEquipment = await _context.Equipments
                 .Where(e => e.CategoryId == equipment.CategoryId && e.Id != equipment.Id)

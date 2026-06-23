@@ -310,55 +310,67 @@
                             </div>
                         </div>
 
-                        <!-- Форма для отзыва (только для авторизованных пользователей) -->
+                        <!-- Форма для отзыва (только для авторизованных пользователей с завершенными арендами) -->
                         @if (SignInManager.IsSignedIn(User))
                         {
                             <div id="reviewFormContainer">
                                 @{
                                     var userHasReviewed = Model.Reviews != null && Model.Reviews.Any(r => r.UserId == UserManager.GetUserId(User));
+                                    var canReview = ViewBag.CanReview ?? false;
                                 }
 
-                                @if (!userHasReviewed)
+                                @if (canReview)
                                 {
-                                    <div class="review-form" id="reviewForm">
-                                        <h4 class="form-title">Написать отзыв</h4>
+                                    @if (!userHasReviewed)
+                                    {
+                                        <div class="review-form" id="reviewForm">
+                                            <h4 class="form-title">Написать отзыв</h4>
 
-                                        <div class="rating-selector">
-                                            <label class="rating-label">Ваша оценка</label>
-                                            <div class="stars">
-                                                @for (int i = 1; i <= 5; i++)
-                                                {
-                                                    <label class="star-label">
-                                                        <input type="radio" name="rating" value="@i" style="display: none;">
-                                                        <span class="star-icon material-symbols-outlined" onmouseover="highlightStars(@i)" onmouseleave="resetStars()" onclick="setRating(@i)">star</span>
-                                                    </label>
-                                                }
+                                            <div class="rating-selector">
+                                                <label class="rating-label">Ваша оценка</label>
+                                                <div class="stars">
+                                                    @for (int i = 1; i <= 5; i++)
+                                                    {
+                                                        <label class="star-label">
+                                                            <input type="radio" name="rating" value="@i" style="display: none;">
+                                                            <span class="star-icon material-symbols-outlined" onmouseover="highlightStars(@i)" onmouseleave="resetStars()" onclick="setRating(@i)">star</span>
+                                                        </label>
+                                                    }
+                                                </div>
                                             </div>
+
+                                            <div class="comment-field">
+                                                <label for="reviewComment" class="comment-label">Ваш комментарий (необязательно)</label>
+                                                <textarea id="reviewComment" class="comment-input" rows="4" placeholder="Поделитесь впечатлениями об оборудовании..."></textarea>
+                                            </div>
+
+                                            <button class="submit-review-button" onclick="submitReview()">
+                                                <span class="material-symbols-outlined">rate_review</span>
+                                                Отправить отзыв
+                                            </button>
                                         </div>
 
-                                        <div class="comment-field">
-                                            <label for="reviewComment" class="comment-label">Ваш комментарий (необязательно)</label>
-                                            <textarea id="reviewComment" class="comment-input" rows="4" placeholder="Поделитесь впечатлениями об оборудовании..."></textarea>
+                                        <div id="reviewSubmittedMessage" class="review-submitted-message" style="display: none;">
+                                            <span class="material-symbols-outlined">check_circle</span>
+                                            <h4>Спасибо за ваш отзыв!</h4>
+                                            <p>Ваше мнение помогает другим покупателям принимать решения.</p>
                                         </div>
-
-                                        <button class="submit-review-button" onclick="submitReview()">
+                                    }
+                                    else
+                                    {
+                                        <div class="already-reviewed">
                                             <span class="material-symbols-outlined">rate_review</span>
-                                            Отправить отзыв
-                                        </button>
-                                    </div>
-
-                                    <div id="reviewSubmittedMessage" class="review-submitted-message" style="display: none;">
-                                        <span class="material-symbols-outlined">check_circle</span>
-                                        <h4>Спасибо за ваш отзыв!</h4>
-                                        <p>Ваше мнение помогает другим покупателям принимать решения.</p>
-                                    </div>
+                                            <h4>Вы уже оставили отзыв</h4>
+                                            <p>Спасибо, что поделились своим мнением!</p>
+                                        </div>
+                                    }
                                 }
                                 else
                                 {
-                                    <div class="already-reviewed">
-                                        <span class="material-symbols-outlined">rate_review</span>
-                                        <h4>Вы уже оставили отзыв</h4>
-                                        <p>Спасибо, что поделились своим мнением!</p>
+                                    <div class="no-rentals-to-review">
+                                        <span class="material-symbols-outlined">lock</span>
+                                        <h4>Оставьте отзыв после аренды</h4>
+                                        <p>Вы сможете написать отзыв только после того, как завершите хотя бы одну аренду.</p>
                                     </div>
                                 }
                             </div>
@@ -859,13 +871,14 @@
         const comment = document.getElementById('reviewComment').value.trim();
 
         if (!rating) {
-            alert('Пожалуйста, выберите оценку');
+            showNotification('Пожалуйста, выберите оценку', 'error');
             return;
         }
 
         const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
 
         const submitButton = document.querySelector('.submit-review-button');
+        const originalText = submitButton.innerHTML;
         submitButton.innerHTML = '<span>Отправка...</span>';
         submitButton.disabled = true;
 
@@ -886,17 +899,21 @@
             const data = await response.json();
 
             if (data.success) {
-                alert('Отзыв успешно отправлен!');
-                location.reload();
+                showNotification('Отзыв успешно отправлен!', 'success');
+                document.getElementById('reviewForm').style.display = 'none';
+                document.getElementById('reviewSubmittedMessage').style.display = 'block';
+                setTimeout(() => {
+                    location.reload();
+                }, 2000);
             } else {
-                alert('Ошибка: ' + data.message);
-                submitButton.innerHTML = '<span class="material-symbols-outlined">rate_review</span> Отправить отзыв';
+                showNotification('Ошибка: ' + data.message, 'error');
+                submitButton.innerHTML = originalText;
                 submitButton.disabled = false;
             }
         } catch (error) {
             console.error('Error:', error);
-            alert('Произошла ошибка при отправке отзыва');
-            submitButton.innerHTML = '<span class="material-symbols-outlined">rate_review</span> Отправить отзыв';
+            showNotification('Произошла ошибка при отправке отзыва', 'error');
+            submitButton.innerHTML = originalText;
             submitButton.disabled = false;
         }
     }
