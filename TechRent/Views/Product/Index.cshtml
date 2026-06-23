@@ -92,11 +92,11 @@
                                         {
                                             if (i < roundedRating)
                                             {
-                                                <span class="star-icon material-symbols-outlined">star</span>
+                                                <span class="material-symbols-outlined" style="color: #fbbf24; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
                                             }
                                             else
                                             {
-                                                <span class="star-icon material-symbols-outlined">star</span>
+                                                <span class="material-symbols-outlined" style="color: #cbd5e1; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
                                             }
                                         }
                                         <span class="rating-value">@averageRating</span>
@@ -298,15 +298,11 @@
                                     {
                                         if (i < roundedRating)
                                         {
-                                            <span class="star-icon material-symbols-outlined">star</span>
-                                        }
-                                        else if (i == roundedRating && averageRating.Contains("."))
-                                        {
-                                            <span class="star-icon material-symbols-outlined">star_half</span>
+                                            <span class="material-symbols-outlined" style="color: #fbbf24; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
                                         }
                                         else
                                         {
-                                            <span class="star-icon material-symbols-outlined">star</span>
+                                            <span class="material-symbols-outlined" style="color: #cbd5e1; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
                                         }
                                     }
                                 </div>
@@ -374,7 +370,7 @@
                                 <h4>Войдите, чтобы оставить отзыв</h4>
                                 <p>Поделитесь своим опытом с другими покупателями</p>
                                 <a href="/Account/Auth?returnUrl=@Context.Request.Path" class="login-button">
-                                    <span class="material-symbols-outlined">login</span>
+                                    <span class="material-symbols-outlined material-symbols-outlined1">login</span>
                                     Войти
                                 </a>
                             </div>
@@ -412,11 +408,11 @@
                                                 {
                                                     if (i < review.Rating)
                                                     {
-                                                        <span class="star-icon material-symbols-outlined">star</span>
+                                                        <span class="material-symbols-outlined" style="color: #fbbf24; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
                                                     }
                                                     else
                                                     {
-                                                        <span class="star-icon material-symbols-outlined">star</span>
+                                                        <span class="material-symbols-outlined" style="color: #cbd5e1; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
                                                     }
                                                 }
                                             </div>

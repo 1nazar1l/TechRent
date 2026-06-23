@@ -995,6 +995,10 @@
         color: var(--text-muted);
     }
 
+.material-symbols-outlined.material-symbols-outlined1 {
+    font-size: 24px;
+}
+
     .already-reviewed h4,
     .login-to-review h4 {
         margin: 16px 0 8px;
