@@ -1,4 +1,4 @@
-﻿﻿@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.AspNetCore.Identity
 @model IdentityUser
 @{
     ViewData["Title"] = "Редактировать пользователя";
@@ -22,7 +22,7 @@
         </div>
 
         <div class="form-container">
-            <div class="form-card" style="max-width: 600px;">
+            <div class="form-card">
                 <div class="form-header">
                     <h1 class="form-title">Редактировать пользователя</h1>
                     <p class="form-subtitle">Обновите данные и роль пользователя</p>
@@ -33,12 +33,12 @@
 
                     <div class="form-group">
                         <label class="form-label">Email</label>
-                        <input class="form-input" value="@Model.Email" readonly disabled style="background: #f1f5f9;" />
+                        <input class="form-input" value="@Model.Email" readonly disabled />
                     </div>
 
                     <div class="form-group">
                         <label class="form-label">Имя пользователя</label>
-                        <input class="form-input" value="@Model.UserName" readonly disabled style="background: #f1f5f9;" />
+                        <input class="form-input" value="@Model.UserName" readonly disabled />
                     </div>
 
                     <div class="form-group">
@@ -64,8 +64,8 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label class="toggle" style="justify-content: space-between; width: 100%;">
+                    <div class="form-group toggle-wrapper">
+                        <label class="toggle">
                             <span class="toggle-text">Email подтверждён</span>
                             <div class="relative">
                                 <input type="checkbox" class="toggle-input" name="emailConfirmed" value="true" @(Model.EmailConfirmed ? "checked" : "") />
@@ -74,8 +74,8 @@
                         </label>
                     </div>
 
-                    <div class="form-group">
-                        <label class="toggle" style="justify-content: space-between; width: 100%;">
+                    <div class="form-group toggle-wrapper">
+                        <label class="toggle">
                             <span class="toggle-text">Телефон подтверждён</span>
                             <div class="relative">
                                 <input type="checkbox" class="toggle-input" name="phoneNumberConfirmed" value="true" @(Model.PhoneNumberConfirmed ? "checked" : "") />
@@ -84,8 +84,8 @@
                         </label>
                     </div>
 
-                    <div class="form-group">
-                        <label class="toggle" style="justify-content: space-between; width: 100%;">
+                    <div class="form-group toggle-wrapper">
+                        <label class="toggle">
                             <span class="toggle-text">Двухфакторная аутентификация</span>
                             <div class="relative">
                                 <input type="checkbox" class="toggle-input" name="twoFactorEnabled" value="true" @(Model.TwoFactorEnabled ? "checked" : "") />

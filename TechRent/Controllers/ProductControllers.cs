@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TechRent.Data;
-using TechRent.Models.Entities; // Добавьте эту строку
+using TechRent.Models.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace TechRent.Controllers

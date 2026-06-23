@@ -481,6 +481,12 @@
         margin-bottom: 1rem;
     }
 
+        .empty-supplier-state .material-symbols-outlined.material-symbols-outlined1 {
+            font-size: 2rem;
+            color: var(--text-muted);
+            margin-bottom: 0;
+        }
+
     .empty-supplier-state h3 {
         font-size: 1.25rem;
         font-weight: 700;
