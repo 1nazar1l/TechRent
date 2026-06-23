@@ -362,6 +362,12 @@ main.content-container,
         outline: none;
     }
 
+@media (max-width: 768px) {
+    .search {
+        display: none;
+    }
+}
+
 .search-icon {
     position: absolute;
     left: 0.75rem;
