@@ -109,7 +109,18 @@
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--text);
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
 }
+
+    .stat-value .br-icon1 {
+        width: 14px;
+        height: 16px;
+        background-color: var(--text);
+        color: var(--text);
+    }
 
 .stat-label {
     font-size: 0.75rem;
