@@ -57,7 +57,7 @@
                     <span class="material-symbols-outlined">attach_money</span>
                 </div>
                 <div class="stat-info">
-                    <span class="stat-value">$@Model.TotalEarnings.ToString("N0")</span>
+                    <span class="stat-value">@Model.TotalEarnings.ToString("N0") <span class="br-icon1"></span></span>
                     <span class="stat-label">Общий доход</span>
                 </div>
             </div>
@@ -137,8 +137,8 @@
                                 </div>
                             </td>
                             <td>@(item.Category?.Name ?? "—")</td>
-                            <td class="price-cell">$@item.PricePerDay.ToString("F0")</td>
-                            <td class="deposit-cell">$@item.Deposit.ToString("F0")</td>
+                            <td class="price-cell">@item.PricePerDay.ToString("F0") <span class="br-icon1"></span></td>
+                            <td class="deposit-cell">@item.Deposit.ToString("F0") <span class="br-icon1"></span></td>
                             <td class="stock-cell">
                                 @if (item.AvailableQuantity > 5)
                                 {
