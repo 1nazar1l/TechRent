@@ -914,7 +914,7 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background-color: var(--primary);
+    background-color: var(--primary-color);
     color: white;
     border: none;
     border-radius: 40px;
@@ -922,16 +922,28 @@
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s ease;
 }
 
     .submit-review-button:hover {
-        background-color: #e05e0e;
+        background-color: var(--primary-dark);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(var(--primary-color-rgb), 0.3);
+    }
+
+    .submit-review-button:active {
+        transform: translateY(0);
     }
 
     .submit-review-button:disabled {
         opacity: 0.5;
         cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+
+    .submit-review-button .material-symbols-outlined {
+        font-size: 18px;
     }
 
 .login-button {
