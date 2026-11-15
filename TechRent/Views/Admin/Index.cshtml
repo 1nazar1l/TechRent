@@ -10,14 +10,14 @@
         <div class="breadcrumb">
             <a href="#" class="breadcrumb-link">Админ</a>
             <span class="material-symbols-outlined">chevron_right</span>
-            <span class="breadcrumb-current">Управление оборудованием</span>
+            <span class="breadcrumb-current">Управление инвентарём</span>
         </div>
 
         <div class="page-header">
-            <h1 class="page-title">Управление оборудованием</h1>
+            <h1 class="page-title">Управление инвентарём</h1>
             <button class="add-button" onclick="location.href='@Url.Action("Create", "Admin")'">
                 <span class="material-symbols-outlined">add</span>
-                Добавить оборудование
+                Добавить инвентарь
             </button>
         </div>
 
@@ -88,12 +88,12 @@
                         <label class="filter-label">Диапазон цен (<span class="br-icon1"></span>)</label>
                         <div class="price-inputs">
                             <div class="price-field">
-                                <span class="price-currency">р.</span>
+                                <span class="price-currency"><span class="br-icon1"></span></span>
                                 <input type="number" name="minPrice" class="price-input" value="@ViewBag.MinPrice" placeholder="Мин">
                             </div>
                             <span class="price-separator">-</span>
                             <div class="price-field">
-                                <span class="price-currency">р.</span>
+                                <span class="price-currency"><span class="br-icon1"></span></span>
                                 <input type="number" name="maxPrice" class="price-input" value="@ViewBag.MaxPrice" placeholder="Макс">
                             </div>
                         </div>
@@ -257,9 +257,9 @@
                                             @if (averageRating != "—")
                                             {
                                                 <div style="display: flex; align-items: center; gap: 4px;">
-                                                    <span class="star-icon material-symbols-outlined" style="color: #fbbf24;">star</span>
+                                                    <span class="star-icon material-symbols-outlined" style="color: var(--rating-color);">star</span>
                                                     <span style="font-weight: 600;">@averageRating</span>
-                                                    <span style="color: #64748b; font-size: 12px;">(@reviewCount)</span>
+                                                    <span style="color: var(--text-muted); font-size: 12px;">(@reviewCount)</span>
                                                 </div>
                                             }
                                             else
@@ -359,7 +359,7 @@
 
 <style>
     .text-muted {
-        color: #94a3b8;
+        color: var(--text-muted);
         font-style: italic;
     }
 

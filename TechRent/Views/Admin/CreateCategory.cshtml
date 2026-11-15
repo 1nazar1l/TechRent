@@ -16,7 +16,7 @@
             <div class="form-card" style="max-width: 600px;">
                 <div class="form-header">
                     <h1 class="form-title">Создать новую категорию</h1>
-                    <p class="form-subtitle">Добавьте новую категорию оборудования</p>
+                    <p class="form-subtitle">Добавьте новую категорию инвентаря</p>
                 </div>
 
                 <form asp-action="CreateCategory" method="post" class="edit-form">
@@ -36,7 +36,7 @@
                         <label asp-for="DisplayOrder" class="form-label">Порядок отображения</label>
                         <input asp-for="DisplayOrder" class="form-input" type="number" min="0" value="0" placeholder="Введите порядок отображения" />
                         <span asp-validation-for="DisplayOrder" class="text-danger"></span>
-                        <small class="form-text text-muted" style="display: block; margin-top: 4px; color: #64748b;">Меньшие числа отображаются первыми</small>
+                        <small class="form-text text-muted" style="display: block; margin-top: 4px;">Меньшие числа отображаются первыми</small>
                     </div>
 
                     <div class="form-actions">

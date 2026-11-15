@@ -1,6 +1,6 @@
 ﻿@model TechRent.Models.Entities.Equipment
 @{
-    ViewData["Title"] = "Удалить оборудование";
+    ViewData["Title"] = "Удалить инвентарь";
     ViewData["css"] = "supplier";
 }
 
@@ -9,16 +9,16 @@
         <div class="breadcrumb">
             <a asp-action="Index" class="breadcrumb-link">Панель поставщика</a>
             <span class="material-symbols-outlined">chevron_right</span>
-            <span class="breadcrumb-current">Удалить оборудование</span>
+            <span class="breadcrumb-current">Удалить инвентарь</span>
         </div>
 
         <div class="delete-container">
             <div class="delete-card">
                 <div class="delete-icon">
-                    <span class="material-symbols-outlined" style="font-size: 48px; color: #ef4444;">warning</span>
+                    <span class="material-symbols-outlined">warning</span>
                 </div>
 
-                <h1 class="delete-title">Удалить оборудование</h1>
+                <h1 class="delete-title">Удалить инвентарь</h1>
 
                 <p class="delete-text">
                     Вы уверены, что хотите удалить <strong>"@Model.Name"</strong>?
@@ -43,7 +43,7 @@
                     </div>
                     <div class="detail-item">
                         <span class="detail-label">Цена:</span>
-                        <span class="detail-value">@Model.PricePerDay <span class="br-icon1"></span>/день</span>
+                        <span class="detail-value">@Model.PricePerDay.ToString("0.##") <span class="br-icon1"></span>/день</span>
                     </div>
                     <div class="detail-item">
                         <span class="detail-label">Склад:</span>

@@ -1,13 +1,14 @@
 ﻿@Html.AntiForgeryToken()
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewData["Title"]</title>
 
-    <!-- Material Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=family=Inter:opsz,wght@14..32,300..700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="~/css/base.css" />
@@ -21,13 +22,13 @@
             {
                 <a asp-controller="Home" asp-action="Index" class="logo-area">
                     <div class="logo-icon">
-                        <span class="material-symbols-outlined">handyman</span>
+                        <span class="material-symbols-outlined">sports_soccer</span>
                     </div>
-                    <h2 class="logo-text">RENTOFFICE</h2>
+                    <h2 class="logo-text">RENTSPORT</h2>
                 </a>
 
                 <nav class="main-nav">
-                    <a asp-controller="Admin" asp-action="Index" class="nav-link">Оборудование</a>
+                    <a asp-controller="Admin" asp-action="Index" class="nav-link">Инвентарь</a>
                     <a asp-controller="Admin" asp-action="Categories" class="nav-link">Категории</a>
                     <a asp-controller="Admin" asp-action="Users" class="nav-link">Пользователи</a>
                     <a asp-controller="Admin" asp-action="Reviews" class="nav-link">Отзывы</a>
@@ -41,9 +42,9 @@
                     <div class="header-left">
                         <a asp-controller="Home" asp-action="Index" class="logo-area">
                             <div class="logo-icon">
-                                <span class="material-symbols-outlined">handyman</span>
+                                <span class="material-symbols-outlined">sports_soccer</span>
                             </div>
-                            <h2 class="logo-text">RENTOFFICE</h2>
+                            <h2 class="logo-text">RENTSPORT</h2>
                         </a>
 
                         <nav class="main-nav">
@@ -65,9 +66,9 @@
                 {
                     <a asp-controller="Home" asp-action="Index" class="logo-area">
                         <div class="logo-icon">
-                            <span class="material-symbols-outlined">handyman</span>
+                            <span class="material-symbols-outlined">sports_soccer</span>
                         </div>
-                        <h2 class="logo-text">RENTOFFICE</h2>
+                        <h2 class="logo-text">RENTSPORT</h2>
                     </a>
 
                     <nav class="main-nav">
@@ -91,27 +92,27 @@
                 {
                     <div class="search">
                         <span class="search-icon material-symbols-outlined">search</span>
-                        <input type="text" class="search-input" placeholder="Поиск...">
+                        <input type="text" class="search-input" placeholder="Поиск по каталогу...">
                     </div>
                 }
 
-                <button class="icon-button" onclick="toggleTheme()" id="theme-toggle">
+                <button class="icon-button" onclick="toggleTheme()" id="theme-toggle" aria-label="Переключить тему">
                     <span class="material-symbols-outlined" id="theme-icon">light_mode</span>
                 </button>
 
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <a class="icon-button" asp-controller="Profile" asp-action="Index">
+                    <a class="icon-button" asp-controller="Profile" asp-action="Index" aria-label="Профиль">
                         <span class="material-symbols-outlined">person</span>
                     </a>
                 }
                 else
                 {
-                    <a class="icon-button" asp-controller="Account" asp-action="Auth">
+                    <a class="icon-button" asp-controller="Account" asp-action="Auth" aria-label="Войти">
                         <span class="material-symbols-outlined">person</span>
                     </a>
                 }
-                <button class="mobile-menu-button icon-button">
+                <button class="mobile-menu-button icon-button" aria-label="Меню">
                     <span class="material-symbols-outlined">menu</span>
                 </button>
             </div>
@@ -122,60 +123,55 @@
         <footer class="site-footer">
             <div class="content-container">
                 <div class="footer-grid">
-                    <!-- About Section -->
                     <div class="footer-about">
                         <div class="footer-logo">
-                            <span class="footer-logo-icon material-symbols-outlined">handyman</span>
-                            <span class="footer-logo-text">RENTOFFICE</span>
+                            <span class="footer-logo-icon material-symbols-outlined">sports_soccer</span>
+                            <span class="footer-logo-text">RENTSPORT</span>
                         </div>
                         <p class="footer-description">
-                            Профессиональная аренда офисного оборудования. Надёжно, выгодно, с доставкой в офис.
+                            Аренда спортивного инвентаря для активных людей. Готовься к старту, остальное — на нас.
                         </p>
                         <div class="social-links">
-                            <a href="#" class="social-link"><span class="material-symbols-outlined">public</span></a>
-                            <a href="#" class="social-link"><span class="material-symbols-outlined">mail</span></a>
-                            <a href="#" class="social-link"><span class="material-symbols-outlined">call</span></a>
+                            <a href="#" class="social-link" aria-label="Сайт"><span class="material-symbols-outlined">public</span></a>
+                            <a href="#" class="social-link" aria-label="Почта"><span class="material-symbols-outlined">mail</span></a>
+                            <a href="#" class="social-link" aria-label="Телефон"><span class="material-symbols-outlined">call</span></a>
                         </div>
                     </div>
 
-                    <!-- Platform Links -->
                     <div>
                         <h4 class="footer-heading">Платформа</h4>
                         <ul class="footer-links">
                             <li><a href="#" class="footer-link">Каталог</a></li>
                             <li><a href="#" class="footer-link">Как это работает</a></li>
-                            <li><a href="#" class="footer-link">Цены</a></li>
+                            <li><a href="#" class="footer-link">Тарифы</a></li>
                             <li><a href="#" class="footer-link">Поставщикам</a></li>
                         </ul>
                     </div>
 
-                    <!-- Support Links -->
                     <div>
                         <h4 class="footer-heading">Поддержка</h4>
                         <ul class="footer-links">
                             <li><a href="#" class="footer-link">Центр помощи</a></li>
-                            <li><a href="#" class="footer-link">Условия использования</a></li>
+                            <li><a href="#" class="footer-link">Условия аренды</a></li>
                             <li><a href="#" class="footer-link">Политика конфиденциальности</a></li>
                             <li><a href="#" class="footer-link">Связаться с нами</a></li>
                         </ul>
                     </div>
 
-                    <!-- Categories (ОФИСНЫЕ) -->
                     <div>
                         <h4 class="footer-heading">Категории</h4>
                         <ul class="footer-links">
-                            <li><a href="#" class="footer-link">Принтеры и МФУ</a></li>
-                            <li><a href="#" class="footer-link">Компьютеры</a></li>
-                            <li><a href="#" class="footer-link">Видеоконференции</a></li>
-                            <li><a href="#" class="footer-link">Офисная мебель</a></li>
-                            <li><a href="#" class="footer-link">Кухонное оборудование</a></li>
+                            <li><a href="#" class="footer-link">Велосипеды</a></li>
+                            <li><a href="#" class="footer-link">Тренажёры и фитнес</a></li>
+                            <li><a href="#" class="footer-link">Туризм и кемпинг</a></li>
+                            <li><a href="#" class="footer-link">Зимний спорт</a></li>
+                            <li><a href="#" class="footer-link">Водный спорт</a></li>
                         </ul>
                     </div>
                 </div>
 
-                <!-- Footer Bottom -->
                 <div class="footer-bottom">
-                    <p class="copyright">© 2026 RentOffice Inc. Все права защищены.</p>
+                    <p class="copyright">© 2026 RentSport. Все права защищены.</p>
                     <div class="legal-links">
                         <a href="#" class="legal-link">Конфиденциальность</a>
                         <a href="#" class="legal-link">Условия</a>

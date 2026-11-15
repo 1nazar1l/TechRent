@@ -15,7 +15,7 @@
         <div class="delete-container">
             <div class="delete-card" style="max-width: 500px;">
                 <div class="delete-icon">
-                    <span class="material-symbols-outlined" style="font-size: 48px; color: #ef4444;">warning</span>
+                    <span class="material-symbols-outlined">warning</span>
                 </div>
 
                 <h1 class="delete-title">Удалить категорию</h1>
@@ -27,12 +27,12 @@
 
                 @if (Model.Equipments != null && Model.Equipments.Any())
                 {
-                    <div class="delete-warning" style="background: #fee2e2; border: 1px solid #fecaca; border-radius: 12px; padding: 16px; margin-bottom: 24px; color: #991b1b;">
+                    <div class="delete-warning" style="background: var(--danger-bg); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px; padding: 16px; margin-bottom: 24px; color: var(--badge-red-text);">
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
                             <span class="material-symbols-outlined">error</span>
                             <strong>Внимание:</strong>
                         </div>
-                        <p>Эта категория содержит @Model.Equipments.Count единиц оборудования. Сначала переназначьте или удалите их.</p>
+                        <p>Эта категория содержит @Model.Equipments.Count единиц инвентаря. Сначала переназначьте или удалите их.</p>
                     </div>
                 }
 
@@ -50,7 +50,7 @@
                         <span class="detail-value">@Model.DisplayOrder</span>
                     </div>
                     <div class="detail-item">
-                        <span class="detail-label">Кол-во оборудования:</span>
+                        <span class="detail-label">Кол-во инвентаря:</span>
                         <span class="detail-value">@(Model.Equipments?.Count ?? 0)</span>
                     </div>
                     @if (!string.IsNullOrEmpty(Model.Description))

@@ -185,9 +185,9 @@ function initMobileMenu() {
         <div class="mobile-menu-header">
             <div class="mobile-menu-logo">
                 <div class="logo-icon">
-                    <span class="material-symbols-outlined">handyman</span>
+                    <span class="material-symbols-outlined">sports_soccer</span>
                 </div>
-                <span class="logo-text">RENTOFFICE</span>
+                <span class="logo-text">RENTSPORT</span>
             </div>
             <button class="mobile-menu-close">
                 <span class="material-symbols-outlined">close</span>

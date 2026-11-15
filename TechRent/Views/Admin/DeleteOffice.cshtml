@@ -1,4 +1,4 @@
-@model TechRent.Models.Entities.Office
+﻿@model TechRent.Models.Entities.Office
 @{
     ViewData["Title"] = "Удалить офис";
     ViewData["css"] = "admin";
@@ -21,13 +21,13 @@
 
             @if (!string.IsNullOrEmpty(Model.Address))
             {
-                <p style="color:#64748b; margin-bottom:24px;">@Model.Address</p>
+                <p style="color: var(--text-muted); margin-bottom:24px;">@Model.Address</p>
             }
 
             <form asp-action="DeleteOffice" method="post">
                 <input type="hidden" asp-for="Id" />
                 <div class="form-actions">
-                    <button type="submit" class="delete-confirm-button" style="background:#ef4444; color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; display:flex; align-items:center; gap:8px;">
+                    <button type="submit" class="delete-confirm-button">
                         <span class="material-symbols-outlined">delete</span>
                         Удалить
                     </button>

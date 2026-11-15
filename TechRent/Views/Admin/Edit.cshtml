@@ -1,6 +1,6 @@
 ﻿@model TechRent.Models.Entities.Equipment
 @{
-    ViewData["Title"] = "Редактировать оборудование";
+    ViewData["Title"] = "Редактировать инвентарь";
     ViewData["css"] = "admin";
 }
 
@@ -9,14 +9,14 @@
         <div class="breadcrumb">
             <a asp-action="Index" class="breadcrumb-link">Админ</a>
             <span class="material-symbols-outlined">chevron_right</span>
-            <span class="breadcrumb-current">Редактировать оборудование</span>
+            <span class="breadcrumb-current">Редактировать инвентарь</span>
         </div>
 
         <div class="form-container">
             <div class="form-card">
                 <div class="form-header">
-                    <h1 class="form-title">Редактировать оборудование</h1>
-                    <p class="form-subtitle">Обновите информацию об оборудовании</p>
+                    <h1 class="form-title">Редактировать инвентарь</h1>
+                    <p class="form-subtitle">Обновите информацию об инвентаре</p>
                 </div>
 
                 <form asp-action="Edit" method="post" class="edit-form">
@@ -27,7 +27,7 @@
                         <div class="form-column">
                             <div class="form-group">
                                 <label asp-for="Name" class="form-label"></label>
-                                <input asp-for="Name" class="form-input" placeholder="Введите название оборудования" />
+                                <input asp-for="Name" class="form-input" placeholder="Введите название инвентаря" />
                                 <span asp-validation-for="Name" class="text-danger"></span>
                             </div>
 
@@ -41,7 +41,7 @@
 
                             <div class="form-group">
                                 <label asp-for="Description" class="form-label"></label>
-                                <textarea asp-for="Description" class="form-textarea" rows="4" placeholder="Введите описание оборудования"></textarea>
+                                <textarea asp-for="Description" class="form-textarea" rows="4" placeholder="Введите описание инвентаря"></textarea>
                                 <span asp-validation-for="Description" class="text-danger"></span>
                             </div>
                         </div>

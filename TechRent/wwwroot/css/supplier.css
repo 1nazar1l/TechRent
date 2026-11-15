@@ -1,4 +1,4 @@
-﻿/* ===== supplier.css - панель поставщика RentOffice ===== */
+﻿/* ===== supplier.css - панель поставщика RentSport ===== */
 
 /* Container */
 .supplier-container {
@@ -765,4 +765,287 @@
 /* Фикс отступа под header */
 .main-content {
     padding-top: 0;
+}
+
+/* ============================================================
+   RentSport — supplier theme layer
+   ============================================================ */
+
+.supplier-container {
+    padding: 96px 1.5rem 0 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .supplier-container {
+        padding: 84px 1rem 0 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .supplier-container {
+        padding: 76px 0.9rem 0 0.9rem;
+    }
+}
+
+.breadcrumb-link:hover {
+    color: var(--primary-dark);
+}
+
+.breadcrumb-current {
+    font-weight: 700;
+}
+
+.supplier-container .page-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 1.1;
+    margin-bottom: 0.3rem;
+}
+
+.supplier-container .page-description {
+    font-size: 0.875rem;
+}
+
+.add-equipment-button {
+    background: var(--primary-color);
+    color: var(--graphite-900);
+    border-radius: var(--radius-pill);
+    font-weight: 800;
+    font-size: 0.84rem;
+    box-shadow: var(--shadow-lime);
+}
+
+.add-equipment-button:hover {
+    background: var(--primary-light);
+    transform: translateY(-2px);
+}
+
+.stat-card {
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+    border-color: rgba(var(--primary-color-rgb), 0.55);
+}
+
+.stat-icon {
+    background: var(--graphite-900);
+    border-radius: 14px;
+    color: var(--primary-color);
+    flex-shrink: 0;
+}
+
+.stat-value {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 600;
+    line-height: 1.1;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.stat-value .br-icon1 {
+    color: var(--primary-dark);
+}
+
+.stat-label {
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    font-size: 0.66rem;
+}
+
+.supplier-toolbar {
+    border-radius: var(--radius-md);
+}
+
+.results-number {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.4rem;
+    line-height: 1;
+    color: var(--text-primary);
+}
+
+.search-equipment-input,
+.category-filter-select {
+    border-radius: var(--radius-sm);
+    background: var(--background-light);
+    font-weight: 600;
+}
+
+.search-equipment-input:focus,
+.category-filter-select:focus {
+    border-color: var(--primary-dark);
+    box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.2);
+}
+
+.supplier-table-wrapper {
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.supplier-table th {
+    background: var(--surface-soft);
+    font-weight: 800;
+    letter-spacing: 0.07em;
+}
+
+.supplier-table tbody tr:hover {
+    background: var(--surface-soft);
+}
+
+.equipment-thumb {
+    border-radius: var(--radius-sm);
+    background: var(--surface-soft);
+}
+
+.thumb-placeholder {
+    color: var(--text-tertiary);
+}
+
+.price-cell,
+.deposit-cell {
+    color: var(--text-primary);
+    font-weight: 800;
+}
+
+.price-cell .br-icon1,
+.deposit-cell .br-icon1 {
+    color: var(--primary-dark);
+}
+
+.stock-badge,
+.status-badge {
+    border-radius: var(--radius-pill);
+    font-weight: 800;
+    letter-spacing: 0.03em;
+}
+
+.stock-high,
+.status-active {
+    background: var(--badge-green-bg);
+    color: var(--badge-green-text);
+    border: 1px solid rgba(22, 163, 74, 0.3);
+}
+
+.stock-low {
+    background: var(--badge-orange-bg);
+    color: var(--badge-orange-text);
+    border: 1px solid rgba(255, 122, 26, 0.35);
+}
+
+.stock-out {
+    background: var(--badge-red-bg);
+    color: var(--badge-red-text);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.status-inactive {
+    background: rgba(107, 114, 128, 0.14);
+    color: var(--text-muted);
+    border: 1px solid rgba(107, 114, 128, 0.3);
+}
+
+.rentals-cell {
+    color: var(--text-primary);
+    font-weight: 800;
+}
+
+.action-button {
+    border-radius: var(--radius-sm);
+    background: var(--background-light);
+}
+
+.action-button:hover {
+    background: var(--surface-soft);
+}
+
+.view-button:hover,
+.edit-button:hover {
+    border-color: var(--primary-dark);
+    color: var(--primary-dark);
+    background: rgba(var(--primary-color-rgb), 0.16);
+}
+
+.empty-supplier-state {
+    border-radius: var(--radius-lg);
+    border-style: dashed;
+    border-color: var(--border-strong);
+}
+
+.empty-supplier-state .material-symbols-outlined {
+    color: var(--text-tertiary);
+}
+
+.map-section {
+    border-radius: var(--radius-lg);
+}
+
+.map-title {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.map-title .material-symbols-outlined {
+    color: var(--primary-dark);
+}
+
+.add-office-button,
+.edit-office-button,
+.delete-office-button {
+    border-radius: var(--radius-pill);
+    font-weight: 800;
+}
+
+.add-office-button {
+    background: var(--primary-color);
+    color: var(--graphite-900);
+}
+
+.add-office-button:hover {
+    background: var(--primary-light);
+}
+
+.edit-office-button {
+    background: var(--surface-soft);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+}
+
+.edit-office-button:hover {
+    border-color: var(--primary-dark);
+    color: var(--primary-dark);
+    background: var(--surface-soft);
+}
+
+.delete-office-button {
+    background: var(--danger);
+}
+
+.delete-office-button:hover {
+    background: #b91c1c;
+}
+
+.map-info-item .material-symbols-outlined {
+    color: var(--primary-dark);
+}
+
+[data-theme="dark"] .equipment-thumb {
+    background: var(--surface-soft);
+}
+
+[data-theme="dark"] .stat-icon {
+    background: var(--graphite-950);
+    border: 1px solid var(--border-dark);
 }

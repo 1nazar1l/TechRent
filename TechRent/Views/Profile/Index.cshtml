@@ -13,9 +13,9 @@
             <!-- Logo (mobile visible) -->
             <div class="sidebar-logo">
                 <div class="logo-icon">
-                    <span class="material-symbols-outlined">handyman</span>
+                    <span class="material-symbols-outlined">sports_soccer</span>
                 </div>
-                <h2 class="logo-text">RENTOFFICE</h2>
+                <h2 class="logo-text">RENTSPORT</h2>
             </div>
 
             <!-- Navigation -->
@@ -91,7 +91,7 @@
                         {
                             <div class="alert-banner">
                                 <span class="material-symbols-outlined">alarm</span>
-                                <span class="alert-text">@daysLeft дней осталось! Необходимо вернуть оборудование @Model.ActiveBooking.EndDate.ToString("MMM dd")</span>
+                                <span class="alert-text">@daysLeft дней осталось! Необходимо вернуть инвентарь @Model.ActiveBooking.EndDate.ToString("MMM dd")</span>
                             </div>
                         }
 
@@ -105,7 +105,7 @@
                                 else
                                 {
                                     <div class="image-placeholder">
-                                        <span class="material-symbols-outlined">construction</span>
+                                        <span class="material-symbols-outlined">sports_tennis</span>
                                     </div>
                                 }
                             </div>
@@ -115,7 +115,7 @@
                                 <div class="active-info">
                                     <div class="active-header">
                                         <span class="status-badge status-active">Активна</span>
-                                        <span class="booking-id">ID: #RO-@Model.ActiveBooking.Id.ToString("D4")</span>
+                                        <span class="booking-id">ID: #RS-@Model.ActiveBooking.Id.ToString("D4")</span>
                                     </div>
                                     <h3 class="active-title">@Model.ActiveBooking.Equipment?.Name</h3>
                                     <p class="active-description">@(Model.ActiveBooking.Equipment?.Description ?? "Описание недоступно")</p>
@@ -171,7 +171,7 @@
                                         else
                                         {
                                             <div class="image-placeholder-small">
-                                                <span class="material-symbols-outlined">construction</span>
+                                                <span class="material-symbols-outlined">sports_tennis</span>
                                             </div>
                                         }
                                     </div>
@@ -216,7 +216,7 @@
                                         else
                                         {
                                             <div class="image-placeholder-small">
-                                                <span class="material-symbols-outlined">construction</span>
+                                                <span class="material-symbols-outlined">sports_tennis</span>
                                             </div>
                                         }
                                     </div>

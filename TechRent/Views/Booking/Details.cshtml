@@ -1,6 +1,6 @@
 ﻿@model TechRent.Models.Entities.Booking
 @{
-    ViewData["Title"] = "Детали аренды - TECHRENT";
+    ViewData["Title"] = "Детали аренды | RentSport";
     ViewData["css"] = "booking";
 }
 @using Microsoft.AspNetCore.Identity
@@ -16,7 +16,7 @@
             <span class="material-symbols-outlined">chevron_right</span>
             <a href="@Url.Action("Index", "Booking")" class="breadcrumb-link">Мои аренды</a>
             <span class="material-symbols-outlined">chevron_right</span>
-            <span class="breadcrumb-current">Детали аренды #TR-@Model.Id.ToString("D4")</span>
+            <span class="breadcrumb-current">Детали аренды #RS-@Model.Id.ToString("D4")</span>
         </nav>
 
         @{
@@ -35,7 +35,7 @@
         <div class="details-header">
             <div>
                 <h1 class="page-title">Детали аренды</h1>
-                <p class="booking-reference">Номер бронирования: <strong>#TR-@Model.Id.ToString("D4")</strong></p>
+                <p class="booking-reference">Номер бронирования: <strong>#RS-@Model.Id.ToString("D4")</strong></p>
             </div>
             <div class="status-badge-group">
                 @if (isActive)
@@ -71,13 +71,13 @@
                         }
                         else
                         {
-                            <div style="width:100%;height:100%;background:#f1f5f9;display:flex;align-items:center;justify-content:center;">
-                                <span class="material-symbols-outlined" style="font-size:48px;color:#94a3b8;">construction</span>
+                            <div style="width:100%;height:100%;background:var(--surface-soft);display:flex;align-items:center;justify-content:center;">
+                                <span class="material-symbols-outlined" style="font-size:48px;color:var(--text-tertiary);">sports_tennis</span>
                             </div>
                         }
                     </div>
                     <div class="equipment-info">
-                        <h2 class="equipment-title">@(Model.Equipment?.Name ?? "Оборудование")</h2>
+                        <h2 class="equipment-title">@(Model.Equipment?.Name ?? "Инвентарь")</h2>
                         <p class="equipment-category">@(Model.Equipment?.Category?.Name ?? "")</p>
                         <p class="equipment-description">@(Model.Equipment?.Description ?? "Описание недоступно")</p>
                         <div class="equipment-specs">
@@ -250,8 +250,8 @@
                 <h3 class="terms-title">Условия аренды</h3>
                 <ul class="terms-list">
                     <li>Просрочка возврата облагается дополнительной суточной платой</li>
-                    <li>Оборудование должно быть возвращено чистым и в рабочем состоянии</li>
-                    <li>Возраст оператора — от 18 лет, при наличии удостоверения личности</li>
+                    <li>Инвентарь должен быть возвращён чистым и в рабочем состоянии</li>
+                    <li>Возраст арендатора — от 18 лет, при наличии удостоверения личности</li>
                     <li>Залог возвращается в течение 5–7 рабочих дней после возврата</li>
                     <li>Страховка от повреждений включена в сервисный сбор</li>
                 </ul>
@@ -264,9 +264,9 @@
                         <span class="material-symbols-outlined">call</span>
                         <span>+375 (29) 123-45-67</span>
                     </a>
-                    <a href="mailto:support@techrent.by" class="contact-method">
+                    <a href="mailto:support@rentsport.by" class="contact-method">
                         <span class="material-symbols-outlined">email</span>
-                        <span>support@techrent.by</span>
+                        <span>support@rentsport.by</span>
                     </a>
                 </div>
             </div>
@@ -275,58 +275,58 @@
 </main>
 
 <div id="pdfContent" data-id="@Model.Id.ToString("D4")" style="display:none; font-family: Arial, sans-serif; padding: 20px; color: #1e293b; max-width: 700px;">
-    <div style="background:#f97316; color:white; padding:16px 20px; border-radius:8px; margin-bottom:20px;">
-        <div style="font-size:22px; font-weight:bold;">TECHRENT</div>
-        <div style="font-size:12px; margin-top:4px;">Договор аренды оборудования &nbsp;|&nbsp; #TR-@Model.Id.ToString("D4")</div>
+    <div style="background:#0d1218; color:#b8f135; padding:16px 20px; border-radius:8px; margin-bottom:20px;">
+        <div style="font-size:22px; font-weight:bold;">RENTSPORT</div>
+        <div style="font-size:12px; margin-top:4px; color:#f7f8f4;">Договор аренды инвентаря &nbsp;|&nbsp; #RS-@Model.Id.ToString("D4")</div>
     </div>
 
     <div style="background:#f8fafc; border-radius:8px; padding:16px; margin-bottom:16px;">
-        <div style="font-weight:bold; margin-bottom:8px; font-size:14px;">Оборудование</div>
+        <div style="font-weight:bold; margin-bottom:8px; font-size:14px;">Инвентарь</div>
         <div style="font-size:13px;">@(Model.Equipment?.Name ?? "")</div>
-        <div style="font-size:12px; color:#64748b;">@(Model.Equipment?.Category?.Name ?? "")</div>
+        <div style="font-size:12px; color: var(--text-muted);">@(Model.Equipment?.Category?.Name ?? "")</div>
     </div>
 
     <div style="background:#f8fafc; border-radius:8px; padding:16px; margin-bottom:16px;">
         <div style="font-weight:bold; margin-bottom:10px; font-size:14px;">Период аренды</div>
         <table style="width:100%; font-size:13px; border-collapse:collapse;">
-            <tr><td style="color:#64748b; padding:3px 0; width:140px;">Дата начала</td><td>@Model.StartDate.ToString("dd.MM.yyyy")</td></tr>
-            <tr><td style="color:#64748b; padding:3px 0;">Дата окончания</td><td>@Model.EndDate.ToString("dd.MM.yyyy")</td></tr>
-            <tr><td style="color:#64748b; padding:3px 0;">Длительность</td><td>@totalDays дн.</td></tr>
-            <tr><td style="color:#64748b; padding:3px 0;">Статус</td><td>@Model.Status</td></tr>
+            <tr><td style="color: var(--text-muted); padding:3px 0; width:140px;">Дата начала</td><td>@Model.StartDate.ToString("dd.MM.yyyy")</td></tr>
+            <tr><td style="color: var(--text-muted); padding:3px 0;">Дата окончания</td><td>@Model.EndDate.ToString("dd.MM.yyyy")</td></tr>
+            <tr><td style="color: var(--text-muted); padding:3px 0;">Длительность</td><td>@totalDays дн.</td></tr>
+            <tr><td style="color: var(--text-muted); padding:3px 0;">Статус</td><td>@Model.Status</td></tr>
         </table>
     </div>
 
     <div style="background:#f8fafc; border-radius:8px; padding:16px; margin-bottom:16px;">
         <div style="font-weight:bold; margin-bottom:10px; font-size:14px;">Адреса</div>
         <table style="width:100%; font-size:13px; border-collapse:collapse;">
-            <tr><td style="color:#64748b; padding:3px 0; width:140px;">Склад (выдача)</td><td>@officeAddress</td></tr>
-            <tr><td style="color:#64748b; padding:3px 0;">Адрес доставки</td><td>@(Model.DeliveryAddress ?? "Самовывоз")</td></tr>
+            <tr><td style="color: var(--text-muted); padding:3px 0; width:140px;">Склад (выдача)</td><td>@officeAddress</td></tr>
+            <tr><td style="color: var(--text-muted); padding:3px 0;">Адрес доставки</td><td>@(Model.DeliveryAddress ?? "Самовывоз")</td></tr>
         </table>
     </div>
 
     <div style="background:#f8fafc; border-radius:8px; padding:16px; margin-bottom:16px;">
         <div style="font-weight:bold; margin-bottom:10px; font-size:14px;">Расчёт стоимости</div>
         <table style="width:100%; font-size:13px; border-collapse:collapse;">
-            <tr><td style="color:#64748b; padding:3px 0;">Аренда (@totalDays дн.)</td><td style="text-align:right;">@Model.TotalPrice.ToString("F2") <span class="br-icon2"></span></td></tr>
-            <tr><td style="color:#64748b; padding:3px 0;">Сервисный сбор</td><td style="text-align:right;">@serviceFee.ToString("F2") <span class="br-icon2"></span></td></tr>
+            <tr><td style="color: var(--text-muted); padding:3px 0;">Аренда (@totalDays дн.)</td><td style="text-align:right;">@Model.TotalPrice.ToString("F2") <span class="br-icon2"></span></td></tr>
+            <tr><td style="color: var(--text-muted); padding:3px 0;">Сервисный сбор</td><td style="text-align:right;">@serviceFee.ToString("F2") <span class="br-icon2"></span></td></tr>
             @if (Model.DeliveryCost > 0)
             {
-                <tr><td style="color:#64748b; padding:3px 0;">Доставка</td><td style="text-align:right;">@Model.DeliveryCost.ToString("F2") <span class="br-icon2"></span></td></tr>
+                <tr><td style="color: var(--text-muted); padding:3px 0;">Доставка</td><td style="text-align:right;">@Model.DeliveryCost.ToString("F2") <span class="br-icon2"></span></td></tr>
             }
-            <tr><td style="color:#64748b; padding:3px 0;">Возвратный залог</td><td style="text-align:right;">@Model.DepositPaid.ToString("F2") <span class="br-icon2"></span></td></tr>
+            <tr><td style="color: var(--text-muted); padding:3px 0;">Возвратный залог</td><td style="text-align:right;">@Model.DepositPaid.ToString("F2") <span class="br-icon2"></span></td></tr>
             @if (Model.Fine > 0)
             {
-                <tr><td style="color:#64748b; padding:3px 0;">Штраф</td><td style="text-align:right;">@Model.Fine.ToString("F2") <span class="br-icon2"></span></td></tr>
+                <tr><td style="color: var(--text-muted); padding:3px 0;">Штраф</td><td style="text-align:right;">@Model.Fine.ToString("F2") <span class="br-icon2"></span></td></tr>
             }
             <tr style="border-top:2px solid #e2e8f0;">
                 <td style="font-weight:bold; padding-top:8px; font-size:14px;">Итого</td>
-                <td style="text-align:right; font-weight:bold; color:#f97316; font-size:14px; padding-top:8px;">@totalAmount.ToString("F2") <span class="br-icon"></span></td>
+                <td style="text-align:right; font-weight:bold; color:#0d1218; font-size:14px; padding-top:8px;">@totalAmount.ToString("F2") <span class="br-icon"></span></td>
             </tr>
         </table>
     </div>
 
-    <div style="font-size:11px; color:#94a3b8; text-align:center; margin-top:20px;">
-        Документ сформирован автоматически &nbsp;|&nbsp; TechRent — аренда строительного оборудования
+    <div style="font-size:11px; color: var(--text-muted); text-align:center; margin-top:20px;">
+        Документ сформирован автоматически &nbsp;|&nbsp; RentSport — аренда спортивного инвентаря
     </div>
 </div>
 

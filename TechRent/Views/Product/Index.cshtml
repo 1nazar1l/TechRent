@@ -56,7 +56,7 @@
                             else
                             {
                                 <div class="image-placeholder">
-                                    <span class="material-symbols-outlined">construction</span>
+                                    <span class="material-symbols-outlined">sports_tennis</span>
                                 </div>
                             }
                         </div>
@@ -85,18 +85,18 @@
                             <div>
                                 <h1 class="product-title-large">@Model.Name</h1>
                                 <div class="product-meta">
-                                    <span class="sku">SKU: EQ-@Model.Id.ToString("D4")</span>
+                                    <span class="sku">SKU: RS-@Model.Id.ToString("D4")</span>
                                     <span class="separator">|</span>
                                     <div class="rating">
                                         @for (int i = 0; i < 5; i++)
                                         {
                                             if (i < roundedRating)
                                             {
-                                                <span class="material-symbols-outlined" style="color: #fbbf24; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
+                                                <span class="material-symbols-outlined" style="color: var(--rating-color); font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
                                             }
                                             else
                                             {
-                                                <span class="material-symbols-outlined" style="color: #cbd5e1; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
+                                                <span class="material-symbols-outlined" style="color: var(--border-strong); font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
                                             }
                                         }
                                         <span class="rating-value">@averageRating</span>
@@ -183,7 +183,7 @@
                             {
                                 <div class="alert alert-warning">
                                     <span class="material-symbols-outlined">info</span>
-                                    <span>У поставщика этого оборудования еще не добавлен офис. Выберите адрес доставки на карте.</span>
+                                    <span>У поставщика этого инвентаря еще не добавлен офис. Выберите адрес доставки на карте.</span>
                                 </div>
                             }
 
@@ -248,9 +248,9 @@
                 <div class="tab-content">
                     <!-- Description Tab -->
                     <div id="description-tab" class="description-tab active">
-                        <h3 class="tab-title">Об оборудовании @Model.Name</h3>
+                        <h3 class="tab-title">Об инвентаре @Model.Name</h3>
                         <p class="tab-text">
-                            @(!string.IsNullOrEmpty(Model.Description) ? Model.Description : "Описание для этого оборудования недоступно.")
+                            @(!string.IsNullOrEmpty(Model.Description) ? Model.Description : "Описание для этого инвентаря пока недоступно.")
                         </p>
                     </div>
 
@@ -280,8 +280,8 @@
                             <li>Минимальный срок аренды: 1 день</li>
                             <li>Бесплатная отмена за 24 часа до получения</li>
                             <li>Просрочка возврата облагается дополнительной дневной платой</li>
-                            <li>Оборудование должно быть возвращено чистым и в рабочем состоянии</li>
-                            <li>Возраст оператора — от 18 лет</li>
+                            <li>Инвентарь должен быть возвращён чистым и в рабочем состоянии</li>
+                            <li>Возраст арендатора — от 18 лет</li>
                             <li>Требуется удостоверение личности и залог</li>
                         </ul>
                     </div>
@@ -298,11 +298,11 @@
                                     {
                                         if (i < roundedRating)
                                         {
-                                            <span class="material-symbols-outlined" style="color: #fbbf24; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
+                                            <span class="material-symbols-outlined" style="color: var(--rating-color); font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
                                         }
                                         else
                                         {
-                                            <span class="material-symbols-outlined" style="color: #cbd5e1; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
+                                            <span class="material-symbols-outlined" style="color: var(--border-strong); font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
                                         }
                                     }
                                 </div>
@@ -341,7 +341,7 @@
 
                                             <div class="comment-field">
                                                 <label for="reviewComment" class="comment-label">Ваш комментарий (необязательно)</label>
-                                                <textarea id="reviewComment" class="comment-input" rows="4" placeholder="Поделитесь впечатлениями об оборудовании..."></textarea>
+                                                <textarea id="reviewComment" class="comment-input" rows="4" placeholder="Поделитесь впечатлениями об инвентаре..."></textarea>
                                             </div>
 
                                             <button class="submit-review-button" onclick="submitReview()">
@@ -420,11 +420,11 @@
                                                 {
                                                    if (i < roundedRating)
                                                     {
-                                                        <span class="material-symbols-outlined" style="color: #fbbf24; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
+                                                        <span class="material-symbols-outlined" style="color: var(--rating-color); font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
                                                     }
                                                     else
                                                     {
-                                                        <span class="material-symbols-outlined" style="color: #cbd5e1; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
+                                                        <span class="material-symbols-outlined" style="color: var(--border-strong); font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
                                                     }
                                                 }
                                             </div>
@@ -835,25 +835,25 @@
             const serviceFee = 250;
             const rentalTotal = pricePerDay * diffDays;
             const totalDue = rentalTotal + serviceFee + deposit + deliveryCost;
-            const deliveryRow = deliveryCost > 0 ? '<div class="calculation-row"><span>Доставка</span><span>' + deliveryCost.toLocaleString() + ' Br</span></div>' : '';
+            const deliveryRow = deliveryCost > 0 ? '<div class="calculation-row"><span>Доставка</span><span>' + deliveryCost.toLocaleString() + ' <span class="br-icon1"></span></span></div>' : '';
             calculationDiv.innerHTML =
-                '<div class="calculation-row"><span>' + pricePerDay.toLocaleString() + ' Br x ' + diffDays + ' дн.</span><span>' + rentalTotal.toLocaleString() + ' Br</span></div>' +
-                '<div class="calculation-row"><span>Сервисный сбор</span><span>' + serviceFee.toLocaleString() + ' Br</span></div>' +
+                '<div class="calculation-row"><span>' + pricePerDay.toLocaleString() + ' <span class="br-icon1"></span> x ' + diffDays + ' дн.</span><span>' + rentalTotal.toLocaleString() + ' <span class="br-icon1"></span></span></div>' +
+                '<div class="calculation-row"><span>Сервисный сбор</span><span>' + serviceFee.toLocaleString() + ' <span class="br-icon1"></span></span></div>' +
                 deliveryRow +
-                '<div class="calculation-row total"><span>Итого к оплате</span><span class="total-amount">' + totalDue.toLocaleString() + ' Br</span></div>' +
-                '<p class="calculation-note">(Включая залог ' + deposit.toLocaleString() + ' Br, возвращается)</p>';
+                '<div class="calculation-row total"><span>Итого к оплате</span><span class="total-amount">' + totalDue.toLocaleString() + ' <span class="br-icon1"></span></span></div>' +
+                '<p class="calculation-note">(Включая залог ' + deposit.toLocaleString() + ' <span class="br-icon1"></span>, возвращается)</p>';
         } else if (selectedStartDate) {
             const pricePerDay = @Model.PricePerDay;
             const deposit = @Model.Deposit;
             const serviceFee = 250;
             const totalMin = pricePerDay + serviceFee + deposit + deliveryCost;
-            const deliveryRow = deliveryCost > 0 ? '<div class="calculation-row"><span>Доставка</span><span>' + deliveryCost.toLocaleString() + ' Br</span></div>' : '';
+            const deliveryRow = deliveryCost > 0 ? '<div class="calculation-row"><span>Доставка</span><span>' + deliveryCost.toLocaleString() + ' <span class="br-icon1"></span></span></div>' : '';
             calculationDiv.innerHTML =
-                '<div class="calculation-row"><span>' + pricePerDay.toLocaleString() + ' Br x 1 дн. (мин.)</span><span>' + pricePerDay.toLocaleString() + ' Br</span></div>' +
-                '<div class="calculation-row"><span>Сервисный сбор</span><span>' + serviceFee.toLocaleString() + ' Br</span></div>' +
+                '<div class="calculation-row"><span>' + pricePerDay.toLocaleString() + ' <span class="br-icon1"></span> x 1 дн. (мин.)</span><span>' + pricePerDay.toLocaleString() + ' <span class="br-icon1"></span></span></div>' +
+                '<div class="calculation-row"><span>Сервисный сбор</span><span>' + serviceFee.toLocaleString() + ' <span class="br-icon1"></span></span></div>' +
                 deliveryRow +
-                '<div class="calculation-row total"><span>Итого к оплате</span><span class="total-amount">' + totalMin.toLocaleString() + ' Br</span></div>' +
-                '<p class="calculation-note">(Включая залог ' + deposit.toLocaleString() + ' Br, возвращается)</p>' +
+                '<div class="calculation-row total"><span>Итого к оплате</span><span class="total-amount">' + totalMin.toLocaleString() + ' <span class="br-icon1"></span></span></div>' +
+                '<p class="calculation-note">(Включая залог ' + deposit.toLocaleString() + ' <span class="br-icon1"></span>, возвращается)</p>' +
                 '<p class="calculation-note hint">Используйте правый клик или долгое нажатие для выбора конечной даты</p>';
         }
         updateCheckoutButton();
@@ -924,10 +924,10 @@
         const stars = document.querySelectorAll('.rating-selector .star-icon');
         stars.forEach((star, index) => {
             if (index < rating) {
-                star.style.color = '#fbbf24';
+                star.style.color = 'var(--rating-color)';
                 star.style.fontVariationSettings = "'FILL' 1";
             } else {
-                star.style.color = '#cbd5e1';
+                star.style.color = 'var(--border-strong)';
                 star.style.fontVariationSettings = "'FILL' 0";
             }
         });
@@ -937,10 +937,10 @@
         const stars = document.querySelectorAll('.rating-selector .star-icon');
         stars.forEach((star, index) => {
             if (index < currentRating) {
-                star.style.color = '#fbbf24';
+                star.style.color = 'var(--rating-color)';
                 star.style.fontVariationSettings = "'FILL' 1";
             } else {
-                star.style.color = '#cbd5e1';
+                star.style.color = 'var(--border-strong)';
                 star.style.fontVariationSettings = "'FILL' 0";
             }
         });

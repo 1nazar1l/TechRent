@@ -1,6 +1,8 @@
-﻿/* ===== crud_forms.css - формы админ-панели RentOffice ===== */
+﻿/* ============================================================
+   RentSport — shared CRUD forms & delete pages
+   ============================================================ */
 
-/* Form Container */
+/* ===== Form layout ===== */
 .form-container {
     display: flex;
     justify-content: center;
@@ -9,17 +11,29 @@
 
 .form-card {
     background: var(--surface);
-    border-radius: 1.5rem;
+    border-radius: var(--radius-xl);
     padding: 2rem;
     max-width: 1000px;
     width: 100%;
     box-shadow: var(--shadow-lg);
     border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+}
+
+.form-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
 }
 
 @media (min-width: 768px) {
     .form-card {
-        padding: 3rem;
+        padding: 2.75rem;
     }
 }
 
@@ -29,12 +43,14 @@
 }
 
 .form-title {
-    font-size: 1.75rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, var(--text-primary), var(--primary-color));
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    background: none;
+    -webkit-text-fill-color: currentColor;
     margin-bottom: 0.5rem;
 }
 
@@ -63,9 +79,11 @@
 
 .form-label {
     display: block;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--text-primary);
+    font-size: 0.74rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
     margin-bottom: 0.5rem;
 }
 
@@ -73,22 +91,24 @@
 .form-select,
 .form-textarea {
     width: 100%;
-    padding: 0.75rem 1rem;
+    padding: 0.8rem 1rem;
     border: 1px solid var(--border);
-    border-radius: 0.75rem;
+    border-radius: var(--radius-sm);
     font-size: 0.875rem;
+    font-weight: 600;
     transition: all 0.2s;
-    background: var(--surface);
+    background: var(--background-light);
     color: var(--text-primary);
 }
 
-    .form-input:focus,
-    .form-select:focus,
-    .form-textarea:focus {
-        outline: none;
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-    }
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--primary-dark);
+    background: var(--surface);
+    box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.2);
+}
 
 .form-textarea {
     resize: vertical;
@@ -106,6 +126,8 @@
     position: absolute;
     left: 1rem;
     color: var(--text-muted);
+    display: inline-flex;
+    align-items: center;
 }
 
 .price-input {
@@ -115,16 +137,16 @@
 .image-preview {
     margin-top: 1rem;
     border: 1px solid var(--border);
-    border-radius: 0.75rem;
+    border-radius: var(--radius-md);
     padding: 0.75rem;
     text-align: center;
-    background: var(--border);
+    background: var(--surface-soft);
 }
 
 .preview-img {
     max-width: 100%;
     max-height: 150px;
-    border-radius: 0.5rem;
+    border-radius: var(--radius-sm);
 }
 
 .form-actions {
@@ -140,44 +162,46 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    border-radius: 2rem;
-    font-size: 0.875rem;
-    font-weight: 600;
+    padding: 0.8rem 1.5rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.84rem;
+    font-weight: 800;
     cursor: pointer;
     transition: all 0.2s;
 }
 
 .save-button {
     background: var(--primary-color);
-    color: white;
+    color: var(--graphite-900);
     border: none;
+    box-shadow: var(--shadow-lime);
 }
 
-    .save-button:hover {
-        background: var(--primary-dark);
-        transform: translateY(-1px);
-    }
+.save-button:hover {
+    background: var(--primary-light);
+    transform: translateY(-1px);
+}
 
 .cancel-button {
     background: transparent;
     color: var(--text-primary);
     text-decoration: none;
-    border: 1px solid var(--border);
+    border: 1px solid var(--border-strong);
 }
 
-    .cancel-button:hover {
-        background: var(--border);
-    }
+.cancel-button:hover {
+    background: var(--surface-soft);
+    border-color: var(--primary-dark);
+}
 
 .text-danger {
-    color: #dc2626;
+    color: var(--danger);
     font-size: 0.75rem;
     margin-top: 0.25rem;
     display: block;
 }
 
-/* Delete Page */
+/* ===== Delete Page ===== */
 .delete-container {
     display: flex;
     justify-content: center;
@@ -188,27 +212,49 @@
 
 .delete-card {
     background: var(--surface);
-    border-radius: 1.5rem;
+    border-radius: var(--radius-xl);
     padding: 2rem;
     max-width: 500px;
     width: 100%;
     text-align: center;
     box-shadow: var(--shadow-lg);
     border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+}
+
+.delete-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-color), var(--danger));
 }
 
 .delete-icon {
     margin-bottom: 1.5rem;
 }
 
-    .delete-icon .material-symbols-outlined {
-        font-size: 3rem;
-        color: #dc2626;
-    }
+.delete-icon .material-symbols-outlined {
+    font-size: 3rem;
+    color: var(--danger);
+    width: 76px;
+    height: 76px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--danger-bg);
+}
 
 .delete-title {
+    font-family: var(--font-display);
     font-size: 1.5rem;
-    font-weight: 700;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
     color: var(--text-primary);
     margin-bottom: 1rem;
 }
@@ -224,14 +270,15 @@
     margin-bottom: 1.5rem;
 }
 
-    .delete-image img {
-        max-width: 150px;
-        border-radius: 0.75rem;
-    }
+.delete-image img {
+    max-width: 150px;
+    border-radius: var(--radius-md);
+}
 
 .delete-details {
-    background: var(--border);
-    border-radius: 1rem;
+    background: var(--background-light);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
     padding: 1rem;
     margin-bottom: 1.5rem;
     text-align: left;
@@ -240,24 +287,29 @@
 .detail-item {
     display: flex;
     justify-content: space-between;
+    gap: 1rem;
     padding: 0.5rem 0;
     border-bottom: 1px solid var(--border);
 }
 
-    .detail-item:last-child {
-        border-bottom: none;
-    }
+.detail-item:last-child {
+    border-bottom: none;
+}
 
 .detail-label {
     color: var(--text-muted);
-    font-weight: 500;
+    font-weight: 600;
     font-size: 0.75rem;
 }
 
 .detail-value {
     color: var(--text-primary);
-    font-weight: 600;
+    font-weight: 800;
     font-size: 0.875rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    text-align: right;
 }
 
 .delete-actions {
@@ -267,13 +319,13 @@
 }
 
 .delete-button-confirm {
-    background: #dc2626;
-    color: white;
+    background: var(--danger);
+    color: #fff;
     border: none;
-    border-radius: 2rem;
-    padding: 0.75rem 1.5rem;
-    font-size: 0.875rem;
-    font-weight: 600;
+    border-radius: var(--radius-pill);
+    padding: 0.8rem 1.5rem;
+    font-size: 0.84rem;
+    font-weight: 800;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
@@ -282,20 +334,15 @@
     transition: all 0.2s;
 }
 
-    .delete-button-confirm:hover {
-        background: #b91c1c;
-        transform: translateY(-1px);
-    }
-
-.delete-button-cancel {
-    background: transparent;
-    color: var(--text-primary);
-    text-decoration: none;
-    border: 1px solid var(--border);
-    border-radius: 2rem;
-    padding: 0.75rem 1.5rem;
-    font-size: 0.875rem;
-    font-weight: 500;
+.delete-confirm-button {
+    background: var(--danger);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-pill);
+    padding: 0.8rem 1.5rem;
+    font-size: 0.84rem;
+    font-weight: 800;
+    cursor: pointer;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -303,11 +350,38 @@
     transition: all 0.2s;
 }
 
-    .delete-button-cancel:hover {
-        background: var(--border);
-    }
+.delete-confirm-button:hover {
+    background: #b91c1c;
+    transform: translateY(-1px);
+}
 
-/* Responsive */
+.delete-button-confirm:hover {
+    background: #b91c1c;
+    transform: translateY(-1px);
+}
+
+.delete-button-cancel {
+    background: transparent;
+    color: var(--text-primary);
+    text-decoration: none;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-pill);
+    padding: 0.8rem 1.5rem;
+    font-size: 0.84rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.2s;
+}
+
+.delete-button-cancel:hover {
+    background: var(--surface-soft);
+    border-color: var(--primary-dark);
+}
+
+/* ===== Responsive ===== */
 @media (max-width: 768px) {
     .form-container {
         padding: 1rem;
@@ -315,10 +389,11 @@
 
     .form-card {
         padding: 1.25rem;
+        border-radius: var(--radius-lg);
     }
 
     .form-title {
-        font-size: 1.25rem;
+        font-size: 1.3rem;
     }
 
     .form-actions {
@@ -340,11 +415,15 @@
     }
 }
 
-/* Dark Theme */
-[data-theme="dark"] .delete-button-confirm {
-    background: #dc2626;
+/* ===== Dark Theme ===== */
+[data-theme="dark"] .text-danger {
+    color: #fca5a5;
 }
 
-[data-theme="dark"] .text-danger {
-    color: #f87171;
+[data-theme="dark"] .delete-details {
+    background: var(--surface-soft);
+}
+
+[data-theme="dark"] .image-preview {
+    background: var(--surface-soft);
 }

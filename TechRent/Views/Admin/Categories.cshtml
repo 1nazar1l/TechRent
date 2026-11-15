@@ -56,14 +56,14 @@
 
                     <!-- Equipment Count Filter -->
                     <div class="filters-group">
-                        <label class="filter-label">Количество оборудования</label>
+                        <label class="filter-label">Количество инвентаря</label>
                         <div class="checkbox-list">
                             <label class="checkbox-item">
                                 <span class="checkbox-box">
                                     <input type="checkbox" name="hasEquipment" class="checkbox-input" value="true" @(ViewBag.HasEquipment == true ? "checked" : "")>
                                     <span class="checkbox-check material-symbols-outlined">check</span>
                                 </span>
-                                <span class="checkbox-text">Есть оборудование</span>
+                                <span class="checkbox-text">Есть инвентарь</span>
                             </label>
                             <label class="checkbox-item">
                                 <span class="checkbox-box">
@@ -124,7 +124,7 @@
                                 <th>Название</th>
                                 <th>Описание</th>
                                 <th>Порядок</th>
-                                <th>Кол-во оборудования</th>
+                                <th>Кол-во инвентаря</th>
                                 <th>Действия</th>
                             </tr>
                         </thead>
@@ -155,7 +155,7 @@
                                         }
                                     </td>
                                     <td>
-                                        <span class="badge" style="background: #e2e8f0; color: #1e293b; padding: 4px 8px; border-radius: 20px;">
+                                        <span class="badge" style="background: var(--surface-soft); color: var(--text-primary); padding: 4px 8px; border-radius: 20px;">
                                             @item.DisplayOrder
                                         </span>
                                     </td>
@@ -166,7 +166,7 @@
                                         }
                                         else
                                         {
-                                            <span class="stock-badge stock-out">Нет оборудования</span>
+                                            <span class="stock-badge stock-out">Нет инвентаря</span>
                                         }
                                     </td>
                                     <td class="actions-cell">
@@ -177,7 +177,7 @@
                                             <button class="action-button delete-button" title="Удалить" onclick="location.href='@Url.Action("DeleteCategory", "Admin", new { id = item.Id })'">
                                                 <span class="material-symbols-outlined">delete</span>
                                             </button>
-                                            <button class="action-button view-button" title="Просмотр оборудования" onclick="location.href='@Url.Action("Index", "Admin", new { categoryId = item.Id })'">
+                                            <button class="action-button view-button" title="Просмотр инвентаря" onclick="location.href='@Url.Action("Index", "Admin", new { categoryId = item.Id })'">
                                                 <span class="material-symbols-outlined">visibility</span>
                                             </button>
                                         </div>
@@ -251,7 +251,7 @@
 
 <style>
     .text-muted {
-        color: #94a3b8;
+        color: var(--text-muted);
         font-style: italic;
     }
 </style>

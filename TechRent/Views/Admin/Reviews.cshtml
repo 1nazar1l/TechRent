@@ -37,7 +37,7 @@
                         <label class="filter-label">Поиск</label>
                         <div class="filter-search">
                             <span class="filter-search-icon material-symbols-outlined">search</span>
-                            <input type="text" name="searchString" class="filter-search-input" placeholder="Комментарий, пользователь или оборудование..." value="@ViewBag.SearchString">
+                            <input type="text" name="searchString" class="filter-search-input" placeholder="Комментарий, пользователь или инвентарь..." value="@ViewBag.SearchString">
                         </div>
                     </div>
 
@@ -140,7 +140,7 @@
                                 </th>
                                 <th>ID</th>
                                 <th>Пользователь</th>
-                                <th>Оборудование</th>
+                                <th>Инвентарь</th>
                                 <th>Рейтинг</th>
                                 <th>Комментарий</th>
                                 <th>Статус</th>
@@ -174,11 +174,11 @@
                                             {
                                                 if (i < item.Rating)
                                                 {
-                                                    <span class="star-icon material-symbols-outlined" style="color: #fbbf24;">star</span>
+                                                    <span class="star-icon material-symbols-outlined" style="color: var(--rating-color);">star</span>
                                                 }
                                                 else
                                                 {
-                                                    <span class="star-icon material-symbols-outlined" style="color: #cbd5e1;">star</span>
+                                                    <span class="star-icon material-symbols-outlined" style="color: var(--border-strong);">star</span>
                                                 }
                                             }
                                             <span style="margin-left: 4px;">@item.Rating/5</span>
@@ -199,14 +199,14 @@
                                     <td>
                                         @if (item.IsApproved)
                                         {
-                                            <span style="display:inline-flex;align-items:center;gap:4px;background:#dcfce7;color:#166534;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:500;">
+                                            <span style="display:inline-flex;align-items:center;gap:4px;background:var(--badge-green-bg);color:var(--badge-green-text);padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700;">
                                                 <span class="material-symbols-outlined" style="font-size:14px;">check_circle</span>
                                                 Проверен
                                             </span>
                                         }
                                         else
                                         {
-                                            <span style="display:inline-flex;align-items:center;gap:4px;background:#fef9c3;color:#854d0e;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:500;">
+                                            <span style="display:inline-flex;align-items:center;gap:4px;background:var(--warning-bg);color:var(--badge-orange-text);padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700;">
                                                 <span class="material-symbols-outlined" style="font-size:14px;">hourglass_empty</span>
                                                 На проверке
                                             </span>
@@ -219,7 +219,7 @@
                                             {
                                                 <form method="post" action="@Url.Action("ApproveReview", "Admin", new { id = item.Id })" style="display:inline;">
                                                     @Html.AntiForgeryToken()
-                                                    <button type="submit" class="action-button" title="Одобрить" style="color: #10b981;">
+                                                    <button type="submit" class="action-button" title="Одобрить" style="color: var(--success);">
                                                         <span class="material-symbols-outlined">check_circle</span>
                                                     </button>
                                                 </form>
@@ -307,7 +307,7 @@
 
 <style>
     .text-muted {
-        color: #94a3b8;
+        color: var(--text-muted);
         font-style: italic;
     }
     .rating {

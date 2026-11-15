@@ -35,8 +35,8 @@
                         <span class="detail-value">@(Model.User?.Email ?? "Неизвестный пользователь")</span>
                     </div>
                     <div class="detail-item">
-                        <span class="detail-label">Оборудование:</span>
-                        <span class="detail-value">@(Model.Equipment?.Name ?? $"Оборудование #{Model.EquipmentId}")</span>
+                        <span class="detail-label">Инвентарь:</span>
+                        <span class="detail-value">@(Model.Equipment?.Name ?? $"Инвентарь #{Model.EquipmentId}")</span>
                     </div>
                     <div class="detail-item">
                         <span class="detail-label">Рейтинг:</span>
@@ -46,11 +46,11 @@
                                 {
                                     if (i < Model.Rating)
                                     {
-                                        <span class="star-icon material-symbols-outlined" style="color: #fbbf24;">star</span>
+                                        <span class="star-icon material-symbols-outlined" style="color: var(--rating-color);">star</span>
                                     }
                                     else
                                     {
-                                        <span class="star-icon material-symbols-outlined" style="color: #cbd5e1;">star</span>
+                                        <span class="star-icon material-symbols-outlined" style="color: var(--border-strong);">star</span>
                                     }
                                 }
                                 <span class="rating-value">@Model.Rating/5</span>

@@ -1,4 +1,4 @@
-@model IEnumerable<TechRent.Models.Entities.Office>
+﻿@model IEnumerable<TechRent.Models.Entities.Office>
 @{
     ViewData["Title"] = "Офисы";
     ViewData["css"] = "admin";
@@ -118,17 +118,17 @@
                         // Формируем содержимое балуна
                         var balloonContent = '<div style="font-family: Arial, sans-serif; min-width: 220px;">' +
                             '<div style="margin-bottom: 10px;">' +
-                            '<span style="color: #3b82f6; font-weight: 600;">Поставщик:</span> ' +
+                            '<span style="color: var(--primary-dark); font-weight: 600;">Поставщик:</span> ' +
                             '<span>' + escapeHtml(supplierDisplay) + (supplierIdDisplay ? ' (' + escapeHtml(supplierIdDisplay) + '...)' : '') + '</span>' +
                             '</div>' +
                             '<div style="margin-bottom: 8px;">' +
-                            '<span style="color: #3b82f6; font-weight: 600;">Название офиса:</span> ' +
+                            '<span style="color: var(--primary-dark); font-weight: 600;">Название офиса:</span> ' +
                             '<span>' + escapeHtml(office.name) + '</span>' +
                             '</div>';
                         
                         if (office.address) {
                             balloonContent += '<div style="margin-bottom: 4px;">' +
-                                '<span style="color: #3b82f6; font-weight: 600;">Адрес:</span> ' +
+                                '<span style="color: var(--primary-dark); font-weight: 600;">Адрес:</span> ' +
                                 '<span>' + escapeHtml(office.address) + '</span>' +
                                 '</div>';
                         }

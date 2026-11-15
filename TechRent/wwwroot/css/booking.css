@@ -1,32 +1,34 @@
-﻿/* ===== booking.css - страницы бронирований RentOffice ===== */
+﻿/* ============================================================
+   RentSport — bookings list & details
+   ============================================================ */
 
-/* ===== Общие контейнеры ===== */
+/* ===== Containers ===== */
 .rentals-container,
 .rental-details-container {
-    max-width: 1280px;
+    max-width: 1180px;
     margin: 0 auto;
-    padding: 80px 1.5rem 0 1.5rem;
-}
-
-@media (max-width: 768px) {
-    .rentals-container,
-    .rental-details-container {
-        padding: 70px 1rem 0 1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .rentals-container,
-    .rental-details-container {
-        padding: 60px 0.75rem 0 0.75rem;
-    }
+    padding: 96px 1.5rem 0 1.5rem;
 }
 
 .rentals-container {
     max-width: 1024px;
 }
 
-/* ===== Хлебные крошки ===== */
+@media (max-width: 768px) {
+    .rentals-container,
+    .rental-details-container {
+        padding: 84px 1rem 0 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .rentals-container,
+    .rental-details-container {
+        padding: 76px 0.9rem 0 0.9rem;
+    }
+}
+
+/* ===== Breadcrumbs ===== */
 .breadcrumb {
     display: flex;
     align-items: center;
@@ -37,35 +39,48 @@
     flex-wrap: wrap;
 }
 
+.breadcrumb .material-symbols-outlined {
+    font-size: 1rem;
+}
+
 .breadcrumb-link {
     color: var(--text-muted);
     text-decoration: none;
     transition: color 0.2s;
 }
 
-    .breadcrumb-link:hover {
-        color: var(--primary-color);
-    }
+.breadcrumb-link:hover {
+    color: var(--primary-dark);
+}
 
 .breadcrumb-current {
     color: var(--text-primary);
-    font-weight: 500;
+    font-weight: 700;
 }
 
-/* ===== Заголовки страниц ===== */
-.page-title {
-    font-size: 1.75rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    margin-bottom: 0.25rem;
+/* ===== Page headings ===== */
+.rentals-container .page-header {
+    margin-bottom: 1.75rem;
 }
 
-.page-description {
+.rentals-container .page-title,
+.rental-details-container .page-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 1.1;
+    margin-bottom: 0.3rem;
+}
+
+.rentals-container .page-description {
     color: var(--text-muted);
-    margin-bottom: 1.5rem;
+    margin-bottom: 0;
+    font-size: 0.875rem;
 }
 
-/* ===== Статус бейджи ===== */
+/* ===== Status badges ===== */
 .status-badge-group {
     display: flex;
     align-items: center;
@@ -75,90 +90,94 @@
 
 .status-badge {
     display: inline-block;
-    padding: 0.375rem 0.875rem;
-    border-radius: 9999px;
-    font-size: 0.7rem;
-    font-weight: 700;
+    padding: 0.35rem 0.85rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.68rem;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.05em;
 }
 
 .status-urgent {
-    background: rgba(249, 115, 22, 0.15);
-    color: #ea580c;
-    border: 1px solid rgba(249, 115, 22, 0.3);
+    background: var(--badge-orange-bg);
+    color: var(--badge-orange-text);
+    border: 1px solid rgba(255, 122, 26, 0.4);
 }
 
 .status-active {
-    background: rgba(34, 197, 94, 0.15);
-    color: #16a34a;
-    border: 1px solid rgba(34, 197, 94, 0.3);
+    background: var(--badge-green-bg);
+    color: var(--badge-green-text);
+    border: 1px solid rgba(22, 163, 74, 0.3);
 }
 
 .status-upcoming {
-    background: rgba(37, 99, 235, 0.15);
-    color: var(--primary-color);
-    border: 1px solid rgba(37, 99, 235, 0.3);
+    background: var(--badge-blue-bg);
+    color: var(--badge-blue-text);
+    border: 1px solid rgba(59, 130, 246, 0.3);
 }
 
 .status-completed {
-    background: rgba(139, 92, 246, 0.15);
+    background: rgba(139, 92, 246, 0.14);
     color: #7c3aed;
     border: 1px solid rgba(139, 92, 246, 0.3);
 }
 
 .status-cancelled {
-    background: rgba(107, 114, 128, 0.15);
-    color: #6b7280;
+    background: rgba(107, 114, 128, 0.12);
+    color: var(--text-muted);
     border: 1px solid rgba(107, 114, 128, 0.3);
 }
 
-/* ===== Вкладки ===== */
+[data-theme="dark"] .status-completed {
+    color: #c4b5fd;
+}
+
+/* ===== Tabs ===== */
 .rentals-tabs {
     display: flex;
     gap: 0.25rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
     border-bottom: 1px solid var(--border);
     overflow-x: auto;
     scrollbar-width: none;
 }
 
-    .rentals-tabs::-webkit-scrollbar {
-        display: none;
-    }
+.rentals-tabs::-webkit-scrollbar {
+    display: none;
+}
 
-.tab-button {
-    padding: 0.75rem 1.25rem;
+.rentals-tabs .tab-button {
+    padding: 0.75rem 1.1rem;
     background: none;
     border: none;
-    font-size: 0.875rem;
-    font-weight: 600;
+    font-size: 0.84rem;
+    font-weight: 700;
     color: var(--text-muted);
     cursor: pointer;
     white-space: nowrap;
-    border-bottom: 2px solid transparent;
+    border-bottom: 3px solid transparent;
     transition: all 0.2s;
 }
 
-    .tab-button:hover {
-        color: var(--text-primary);
-    }
+.rentals-tabs .tab-button:hover {
+    color: var(--text-primary);
+}
 
-    .tab-button.active {
-        color: var(--primary-color);
-        border-bottom-color: var(--primary-color);
-    }
+.rentals-tabs .tab-button.active {
+    color: var(--text-primary);
+    border-bottom-color: var(--primary-color);
+}
 
-/* ===== Панель инструментов ===== */
+/* ===== Toolbar ===== */
 .rentals-toolbar {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    margin-bottom: 1.5rem;
-    padding: 1rem 1.25rem;
+    margin-bottom: 1.4rem;
+    padding: 0.9rem 1.15rem;
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 0.75rem;
+    border-radius: var(--radius-md);
 }
 
 @media (min-width: 768px) {
@@ -176,50 +195,52 @@
 }
 
 .count-number {
-    font-weight: 700;
-    font-size: 1rem;
-    color: var(--primary-color);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--text-primary);
 }
 
 .count-text {
-    font-size: 0.875rem;
+    font-size: 0.82rem;
     color: var(--text-muted);
 }
 
 .sort-control {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.6rem;
     position: relative;
 }
 
 .sort-label {
-    font-size: 0.875rem;
+    font-size: 0.8rem;
     color: var(--text-muted);
 }
 
 .sort-select {
-    padding: 0.5rem 2rem 0.5rem 1rem;
-    border-radius: 0.5rem;
+    padding: 0.5rem 2.2rem 0.5rem 0.9rem;
+    border-radius: var(--radius-sm);
     border: 1px solid var(--border);
-    background: var(--surface);
+    background: var(--background-light);
     color: var(--text-primary);
-    font-size: 0.875rem;
-    font-weight: 500;
+    font-size: 0.82rem;
+    font-weight: 700;
     cursor: pointer;
     appearance: none;
     outline: none;
     transition: all 0.2s;
 }
 
-    .sort-select:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
-    }
+.sort-select:focus {
+    border-color: var(--primary-dark);
+    box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.2);
+}
 
 .sort-icon {
     position: absolute;
-    right: 0.75rem;
+    right: 0.65rem;
     top: 50%;
     transform: translateY(-50%);
     color: var(--text-muted);
@@ -227,63 +248,65 @@
     font-size: 1rem;
 }
 
-/* ===== Список аренд ===== */
+/* ===== Rentals list ===== */
 .rentals-list {
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
 
-/* Карточка аренды */
 .rental-card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 1rem;
+    border-radius: var(--radius-lg);
     overflow: hidden;
-    transition: all 0.2s;
+    transition: all 0.22s;
+    border-left: 4px solid transparent;
 }
 
-    .rental-card:hover {
-        box-shadow: var(--shadow-lg);
-        transform: translateY(-2px);
-    }
+.rental-card:hover {
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+}
 
-    .rental-card.active {
-        border-left: 4px solid var(--primary-color);
-    }
+.rental-card.active {
+    border-left-color: var(--primary-color);
+}
 
-    .rental-card.upcoming {
-        border-left: 4px solid #3b82f6;
-    }
+.rental-card.upcoming {
+    border-left-color: #3b82f6;
+}
 
-    .rental-card.completed {
-        border-left: 4px solid #16a34a;
-    }
+.rental-card.completed {
+    border-left-color: #16a34a;
+}
 
-    .rental-card.cancelled {
-        border-left: 4px solid #6b7280;
-        opacity: 0.8;
-    }
+.rental-card.cancelled {
+    border-left-color: var(--text-tertiary);
+    opacity: 0.85;
+}
 
 .rental-status-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.75rem 1.25rem;
-    background: var(--surface);
+    gap: 0.75rem;
+    padding: 0.65rem 1.15rem;
+    background: var(--surface-soft);
     border-bottom: 1px solid var(--border);
 }
 
 .rental-id {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     color: var(--text-muted);
-    font-weight: 500;
+    font-weight: 700;
+    letter-spacing: 0.04em;
 }
 
 .rental-content {
     display: flex;
     flex-direction: column;
-    padding: 1.25rem;
+    padding: 1.15rem;
     gap: 1rem;
 }
 
@@ -297,9 +320,9 @@
 .rental-image {
     width: 100%;
     height: 160px;
-    border-radius: 0.75rem;
+    border-radius: var(--radius-md);
     overflow: hidden;
-    background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+    background: var(--surface-soft);
     flex-shrink: 0;
 }
 
@@ -323,6 +346,7 @@
 
 .rental-info {
     flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
 }
@@ -337,42 +361,47 @@
 }
 
 .rental-title {
-    font-size: 1.125rem;
-    font-weight: 700;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
     transition: color 0.2s;
 }
 
 .rental-card:hover .rental-title {
-    color: var(--primary-color);
+    color: var(--primary-dark);
 }
 
 .rental-category {
-    font-size: 0.7rem;
-    padding: 0.25rem 0.625rem;
-    background: var(--border);
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 0.22rem 0.6rem;
+    background: var(--surface-soft);
     color: var(--text-muted);
-    border-radius: 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
 }
 
 .rental-description {
-    font-size: 0.8125rem;
+    font-size: 0.8rem;
     color: var(--text-muted);
-    margin-bottom: 1rem;
+    margin-bottom: 0.9rem;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
-/* Даты аренды */
+/* Rental dates */
 .rental-dates {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    margin-bottom: 1rem;
-    padding: 0.75rem 0;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
+    gap: 0.9rem;
+    margin-bottom: 0.9rem;
+    padding: 0.7rem 0;
+    border-top: 1px dashed var(--border);
+    border-bottom: 1px dashed var(--border);
 }
 
 @media (max-width: 480px) {
@@ -382,44 +411,47 @@
     }
 }
 
-.date-item {
+.rental-dates .date-item {
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
 
 .date-icon {
-    color: var(--primary-color);
-    font-size: 1.125rem;
+    color: var(--primary-dark);
+    font-size: 1.1rem;
 }
 
-.date-item div {
+.rental-dates .date-item > div {
     display: flex;
     flex-direction: column;
 }
 
-.date-label {
-    font-size: 0.65rem;
+.rental-dates .date-label {
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.07em;
     color: var(--text-muted);
     text-transform: uppercase;
 }
 
-.date-value {
-    font-size: 0.8125rem;
-    font-weight: 600;
+.rental-dates .date-value {
+    font-size: 0.8rem;
+    font-weight: 700;
 }
 
-    .date-value.highlight {
-        color: #ea580c;
-    }
+.rental-dates .date-value.highlight {
+    color: var(--accent-dark);
+}
 
-/* Футер карточки */
+/* Card footer */
 .rental-footer {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
+    margin-top: auto;
 }
 
 .rental-price {
@@ -427,19 +459,25 @@
     flex-direction: column;
 }
 
-.price-label {
-    font-size: 0.65rem;
+.rental-price .price-label {
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.07em;
     color: var(--text-muted);
     text-transform: uppercase;
 }
 
-.price-value {
+.rental-price .price-value {
     font-size: 1.25rem;
     font-weight: 800;
-    color: var(--primary-color);
+    color: var(--text-primary);
     display: inline-flex;
     align-items: center;
     gap: 2px;
+}
+
+.rental-price .price-value .br-icon {
+    color: var(--primary-dark);
 }
 
 .rental-actions {
@@ -449,68 +487,74 @@
 }
 
 .action-link {
-    color: var(--primary-color);
-    font-size: 0.875rem;
-    font-weight: 600;
+    color: var(--graphite-900);
+    background: var(--primary-color);
+    font-size: 0.8rem;
+    font-weight: 800;
     text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    border: 1px solid var(--border);
+    padding: 0.55rem 1.1rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--primary-color);
     transition: all 0.2s;
 }
 
-    .action-link:hover {
-        background: var(--primary-color);
-        color: white;
-        border-color: var(--primary-color);
-    }
-
-/* ===== Пустое состояние ===== */
-.empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    background: var(--surface);
-    border-radius: 24px;
-    margin-top: 40px;
-    border: 1px solid var(--border);
+.action-link:hover {
+    background: var(--primary-light);
+    border-color: var(--primary-light);
+    transform: translateY(-1px);
 }
 
-    .empty-state .material-symbols-outlined {
-        font-size: 4rem;
-        color: var(--text-muted);
-        margin-bottom: 1rem;
-    }
+/* ===== Empty state ===== */
+.empty-state {
+    text-align: center;
+    padding: 3.5rem 1.5rem;
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    margin-top: 2rem;
+    border: 1px dashed var(--border-strong);
+}
 
-    .empty-state h2 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-    }
+.empty-state .material-symbols-outlined {
+    font-size: 3.4rem;
+    color: var(--text-tertiary);
+    margin-bottom: 1rem;
+}
 
-    .empty-state p {
-        color: var(--text-muted);
-        margin-bottom: 1.5rem;
-    }
+.empty-state h2 {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    font-size: 0.88rem;
+}
 
 .button-primary {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
     background: var(--primary-color);
-    color: white;
+    color: var(--graphite-900);
     text-decoration: none;
     padding: 0.75rem 1.5rem;
-    border-radius: 2rem;
-    font-weight: 600;
+    border-radius: var(--radius-pill);
+    font-size: 0.84rem;
+    font-weight: 800;
     transition: all 0.2s;
+    box-shadow: var(--shadow-lime);
 }
 
-    .button-primary:hover {
-        background: var(--primary-dark);
-        transform: translateY(-2px);
-    }
+.button-primary:hover {
+    background: var(--primary-light);
+    transform: translateY(-2px);
+}
 
-/* ===== Страница деталей аренды ===== */
+/* ===== Details page ===== */
 .details-header {
     display: flex;
     flex-direction: column;
@@ -527,15 +571,14 @@
 }
 
 .booking-reference {
-    font-size: 0.8125rem;
+    font-size: 0.8rem;
     color: var(--text-muted);
 }
 
-    .booking-reference strong {
-        color: var(--text-primary);
-    }
+.booking-reference strong {
+    color: var(--text-primary);
+}
 
-/* Сетка деталей */
 .details-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -547,24 +590,24 @@
     .details-grid {
         grid-template-columns: 1fr 1fr;
         gap: 2rem;
+        align-items: start;
     }
 }
 
-/* Карточка оборудования */
 .equipment-section {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.25rem;
 }
 
 .equipment-card {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    padding: 1.25rem;
+    padding: 1.15rem;
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 1rem;
+    border-radius: var(--radius-lg);
 }
 
 @media (min-width: 640px) {
@@ -577,9 +620,9 @@
 .equipment-image {
     width: 100%;
     height: 180px;
-    border-radius: 0.75rem;
+    border-radius: var(--radius-md);
     overflow: hidden;
-    background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+    background: var(--surface-soft);
     flex-shrink: 0;
 }
 
@@ -598,25 +641,33 @@
 
 .equipment-info {
     flex: 1;
+    min-width: 0;
 }
 
 .equipment-title {
-    font-size: 1.25rem;
-    font-weight: 700;
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
     margin-bottom: 0.25rem;
 }
 
 .equipment-category {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     color: var(--text-muted);
     margin-bottom: 0.75rem;
 }
 
 .equipment-description {
-    font-size: 0.8125rem;
+    font-size: 0.8rem;
     color: var(--text-muted);
     margin-bottom: 1rem;
-    line-height: 1.5;
+    line-height: 1.55;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .equipment-specs {
@@ -625,109 +676,121 @@
     gap: 0.75rem;
 }
 
-.spec-item {
+.equipment-specs .spec-item {
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
 
 .spec-icon {
-    color: var(--primary-color);
-    font-size: 1.125rem;
+    color: var(--primary-dark);
+    font-size: 1.1rem;
 }
 
-.spec-item div {
+.equipment-specs .spec-item > div {
     display: flex;
     flex-direction: column;
 }
 
 .spec-label {
-    font-size: 0.65rem;
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.07em;
     color: var(--text-muted);
     text-transform: uppercase;
 }
 
 .spec-value {
-    font-size: 0.8125rem;
-    font-weight: 600;
+    font-size: 0.8rem;
+    font-weight: 700;
     display: inline-flex;
     align-items: center;
     gap: 2px;
 }
 
-/* Карточка сводки */
+.spec-value .br-icon2 {
+    color: var(--primary-dark);
+}
+
+/* Summary card */
 .summary-card {
-    padding: 1.25rem;
+    padding: 1.15rem;
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 1rem;
+    border-radius: var(--radius-lg);
 }
 
 .summary-title {
+    font-family: var(--font-display);
     font-size: 1rem;
-    font-weight: 700;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
     margin-bottom: 1rem;
 }
 
 .summary-grid {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.7rem;
 }
 
 .summary-row {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    gap: 1rem;
     padding-bottom: 0.5rem;
     border-bottom: 1px dashed var(--border);
 }
 
-    .summary-row:last-child {
-        border-bottom: none;
-        padding-bottom: 0;
-    }
+.summary-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
 
 .summary-label {
-    font-size: 0.8125rem;
+    font-size: 0.8rem;
     color: var(--text-muted);
 }
 
 .summary-value {
-    font-size: 0.8125rem;
-    font-weight: 500;
+    font-size: 0.8rem;
+    font-weight: 700;
     text-align: right;
 }
 
-    .summary-value.highlight {
-        color: var(--primary-color);
-        font-weight: 700;
-    }
+.summary-value.highlight {
+    color: var(--accent-dark);
+}
 
-    .summary-value .time {
-        display: block;
-        font-size: 0.6875rem;
-        color: var(--text-muted);
-        font-weight: 400;
-    }
+.summary-value .time {
+    display: block;
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
 
-/* Карточка платежа */
+/* Payment */
 .payment-section {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.25rem;
 }
 
 .payment-card {
-    padding: 1.25rem;
+    padding: 1.15rem;
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 1rem;
+    border-radius: var(--radius-lg);
 }
 
 .payment-title {
+    font-family: var(--font-display);
     font-size: 1rem;
-    font-weight: 700;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
     margin-bottom: 1rem;
 }
 
@@ -742,39 +805,50 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.8125rem;
+    gap: 1rem;
+    font-size: 0.8rem;
     color: var(--text-muted);
 }
 
-    .breakdown-item span {
-        display: inline-flex;
-        align-items: center;
-        gap: 2px;
-    }
+.breakdown-item span {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+}
 
-    .breakdown-item.deposit {
-        padding-top: 0.5rem;
-        margin-top: 0.25rem;
-        border-top: 1px dashed var(--border);
-        color: var(--text-primary);
-        font-weight: 500;
-    }
+.breakdown-item.deposit {
+    padding-top: 0.5rem;
+    margin-top: 0.25rem;
+    border-top: 1px dashed var(--border);
+    color: var(--text-primary);
+    font-weight: 600;
+}
 
-    .breakdown-item.total {
-        padding-top: 0.75rem;
-        margin-top: 0.25rem;
-        border-top: 2px solid var(--border);
-        font-size: 0.9375rem;
-        font-weight: 800;
-        color: var(--text-primary);
-    }
+.breakdown-item.deposit .br-icon2 {
+    color: var(--primary-dark);
+}
 
-        .breakdown-item.total span:last-child {
-            color: var(--primary-color);
-        }
+.breakdown-item.total {
+    padding-top: 0.75rem;
+    margin-top: 0.25rem;
+    border-top: 2px solid var(--border);
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.breakdown-item.total span:last-child {
+    color: var(--text-primary);
+}
+
+.breakdown-item.total .br-icon {
+    color: var(--primary-dark);
+}
 
 .payment-status {
     display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
     justify-content: center;
     padding-top: 1rem;
     border-top: 1px solid var(--border);
@@ -784,33 +858,45 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    border-radius: 2rem;
-    font-size: 0.75rem;
-    font-weight: 600;
+    padding: 0.45rem 0.95rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.72rem;
+    font-weight: 800;
 }
 
-    .payment-badge.paid {
-        background: rgba(34, 197, 94, 0.15);
-        color: #16a34a;
-    }
+.payment-badge .material-symbols-outlined {
+    font-size: 1rem;
+}
 
-    .payment-badge.fine {
-        background: rgba(239, 68, 68, 0.15);
-        color: #dc2626;
-    }
+.payment-badge.paid {
+    background: var(--badge-green-bg);
+    color: var(--badge-green-text);
+}
 
-/* Карточка доставки */
+.payment-badge.fine {
+    background: var(--badge-red-bg);
+    color: var(--badge-red-text);
+}
+
+.payment-badge.cancelled {
+    background: rgba(107, 114, 128, 0.14);
+    color: var(--text-muted);
+}
+
+/* Delivery */
 .delivery-card {
-    padding: 1.25rem;
+    padding: 1.15rem;
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 1rem;
+    border-radius: var(--radius-lg);
 }
 
 .delivery-title {
+    font-family: var(--font-display);
     font-size: 1rem;
-    font-weight: 700;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
     margin-bottom: 1rem;
 }
 
@@ -828,47 +914,50 @@
 }
 
 .step-dot {
-    width: 0.875rem;
-    height: 0.875rem;
+    width: 0.85rem;
+    height: 0.85rem;
     border-radius: 50%;
-    margin-top: 0.125rem;
+    margin-top: 0.2rem;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
 }
 
 .delivery-step.completed .step-dot {
-    background: #16a34a;
-    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+    background: var(--success);
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.18);
 }
 
 .delivery-step.active .step-dot {
     background: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.25);
     animation: pulse 2s infinite;
 }
 
 .delivery-step.pending .step-dot {
-    background: var(--border);
+    background: var(--border-strong);
 }
 
 .delivery-step:not(:last-child)::before {
     content: '';
     position: absolute;
-    left: 0.375rem;
-    top: 1.25rem;
+    left: 0.36rem;
+    top: 1.2rem;
     width: 2px;
-    height: calc(100% + 0.5rem);
+    height: calc(100% + 0.55rem);
     background: var(--border);
 }
 
 .step-label {
     display: block;
-    font-size: 0.8125rem;
-    font-weight: 600;
+    font-size: 0.8rem;
+    font-weight: 700;
     margin-bottom: 0.125rem;
 }
 
 .step-date {
     display: block;
-    font-size: 0.6875rem;
+    font-size: 0.68rem;
     color: var(--text-muted);
 }
 
@@ -883,16 +972,16 @@
     color: var(--text-muted);
 }
 
-    .delivery-address .material-symbols-outlined {
-        color: var(--primary-color);
-        font-size: 1rem;
-    }
+.delivery-address .material-symbols-outlined {
+    color: var(--primary-dark);
+    font-size: 1rem;
+}
 
-/* Кнопки действий */
+/* Buttons */
 .action-buttons {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.6rem;
 }
 
 .button-secondary {
@@ -902,26 +991,27 @@
     gap: 0.5rem;
     width: 100%;
     padding: 0.75rem;
-    background: transparent;
+    background: var(--surface);
     color: var(--text-primary);
-    border: 1px solid var(--border);
-    border-radius: 0.75rem;
-    font-size: 0.8125rem;
-    font-weight: 600;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-pill);
+    font-size: 0.8rem;
+    font-weight: 800;
     cursor: pointer;
     transition: all 0.2s;
 }
 
-    .button-secondary:hover {
-        background: var(--border);
-        transform: translateY(-1px);
-    }
+.button-secondary:hover {
+    background: var(--surface-soft);
+    border-color: var(--primary-dark);
+    transform: translateY(-1px);
+}
 
-/* Дополнительные секции */
+/* Additional sections */
 .additional-section {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 1.25rem;
     margin-top: 1.5rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--border);
@@ -935,16 +1025,19 @@
 
 .terms-card,
 .contact-card {
-    padding: 1.25rem;
+    padding: 1.15rem;
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 1rem;
+    border-radius: var(--radius-lg);
 }
 
 .terms-title,
 .contact-title {
-    font-size: 0.9375rem;
-    font-weight: 700;
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
     margin-bottom: 1rem;
 }
 
@@ -953,20 +1046,25 @@
     padding: 0;
 }
 
-    .terms-list li {
-        display: flex;
-        align-items: flex-start;
-        gap: 0.5rem;
-        font-size: 0.75rem;
-        color: var(--text-muted);
-        margin-bottom: 0.5rem;
-    }
+.terms-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: 0.55rem;
+    line-height: 1.5;
+}
 
-        .terms-list li::before {
-            content: "•";
-            color: var(--primary-color);
-            font-weight: bold;
-        }
+.terms-list li::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    margin-top: 0.45em;
+    border-radius: 50%;
+    background: var(--primary-color);
+    flex-shrink: 0;
+}
 
 .contact-text {
     font-size: 0.75rem;
@@ -977,49 +1075,51 @@
 .contact-methods {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.4rem;
 }
 
 .contact-method {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 0.5rem;
+    padding: 0.55rem;
     color: var(--text-primary);
     text-decoration: none;
-    border-radius: 0.5rem;
+    border-radius: var(--radius-sm);
     transition: all 0.2s;
 }
 
-    .contact-method:hover {
-        background: var(--border);
-    }
+.contact-method:hover {
+    background: var(--surface-soft);
+}
 
-    .contact-method .material-symbols-outlined {
-        color: var(--primary-color);
-        font-size: 1.125rem;
-    }
+.contact-method .material-symbols-outlined {
+    color: var(--primary-dark);
+    font-size: 1.1rem;
+}
 
-    .contact-method span:last-child {
-        font-size: 0.75rem;
-    }
+.contact-method span:last-child {
+    font-size: 0.78rem;
+    font-weight: 600;
+}
 
-/* Анимации */
+/* ===== Animations ===== */
 @keyframes pulse {
     0%, 100% {
         opacity: 1;
     }
 
     50% {
-        opacity: 0.5;
+        opacity: 0.45;
     }
 }
 
-/* Тёмная тема */
-[data-theme="dark"] .rental-image {
-    background: linear-gradient(135deg, #1e293b, #0f172a);
+/* ===== Dark theme ===== */
+[data-theme="dark"] .rental-image,
+[data-theme="dark"] .equipment-image {
+    background: var(--surface-soft);
 }
 
 [data-theme="dark"] .empty-state .material-symbols-outlined {
-    color: var(--text-muted);
+    color: var(--text-tertiary);
 }

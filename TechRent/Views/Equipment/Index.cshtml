@@ -3,7 +3,7 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 @{
-    ViewData["Title"] = "Каталог";
+    ViewData["Title"] = "Каталог инвентаря";
     ViewData["css"] = "catalog";
     ViewData["nav_pos"] = "left";
     ViewData["header"] = "with_search";
@@ -17,8 +17,8 @@
             <span class="material-symbols-outlined">chevron_right</span>
             <span class="breadcrumb-current">Каталог</span>
         </div>
-        <h1 class="page-title">Каталог оборудования</h1>
-        <p class="page-description">Просматривайте наш широкий выбор строительной техники.</p>
+        <h1 class="page-title">Каталог инвентаря</h1>
+        <p class="page-description">Спортивное снаряжение для активного отдыха, тренировок и соревнований.</p>
 
         <!-- Catalog -->
         <div class="catalog">
@@ -35,7 +35,7 @@
                         <label class="filter-label">Ключевые слова</label>
                         <div class="filter-search">
                             <span class="filter-search-icon material-symbols-outlined">search</span>
-                            <input type="text" name="searchString" class="filter-search-input" placeholder="Модель, ID или тип" value="@ViewBag.SearchString">
+                            <input type="text" name="searchString" class="filter-search-input" placeholder="Название, ID или вид спорта" value="@ViewBag.SearchString">
                         </div>
                     </div>
 
@@ -153,7 +153,8 @@
                             </div>
                             <button class="favorite-button @(item.IsFavorite ? "favorite-active" : "")" 
                                     data-equipment-id="@item.Id"
-                                    onclick="toggleFavorite(this, @item.Id)">
+                                    onclick="toggleFavorite(this, @item.Id)"
+                                    aria-label="В избранное">
                                 <span class="material-symbols-outlined">@(item.IsFavorite ? "favorite" : "favorite_border")</span>
                             </button>
                             <div class="product-image">
@@ -163,8 +164,8 @@
                                 }
                                 else
                                 {
-                                    <div style="width: 100%; height: 100%; background: #f1f5f9; display: flex; align-items: center; justify-content: center;">
-                                        <span class="material-symbols-outlined" style="font-size: 48px; color: #94a3b8;">construction</span>
+                                    <div style="width: 100%; height: 100%; background: var(--surface-soft); display: flex; align-items: center; justify-content: center;">
+                                        <span class="material-symbols-outlined" style="font-size: 52px; color: var(--text-tertiary);">sports_tennis</span>
                                     </div>
                                 }
                                 <div class="image-overlay"></div>
@@ -172,7 +173,7 @@
                             <div class="product-details">
                                 <div class="product-header">
                                     <h3 class="product-title">@item.Name</h3>
-                                    <p class="product-description">@(item.Description ?? "Описание недоступно")</p>
+                                    <p class="product-description">@(item.Description ?? "Описание скоро появится")</p>
                                 </div>
                                 
                                 <!-- Rating -->
@@ -190,14 +191,14 @@
                                     {
                                         if (i < roundedRating)
                                         {
-                                            <span class="material-symbols-outlined" style="color: #fbbf24; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
+                                            <span class="material-symbols-outlined filled-star" style="font-size: 17px;">star</span>
                                         }
                                         else
                                         {
-                                            <span class="material-symbols-outlined" style="color: #cbd5e1; font-size: 18px; font-variation-settings: 'FILL' 1;">star</span>
+                                            <span class="material-symbols-outlined empty-star" style="font-size: 17px;">star</span>
                                         }
                                     }
-                                    <span style="font-size: 14px; color: #64748b; margin-left: 4px;">(@(item.Reviews?.Count ?? 0) отзывов)</span>
+                                    <span style="font-size: 13px; color: var(--text-muted); margin-left: 4px;">(@(item.Reviews?.Count ?? 0) отзывов)</span>
                                 </div>
                                 
                                 <div class="specs">

@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<TechRent.Models.Entities.Booking>
 @{
-    ViewData["Title"] = "Мои аренды - TECHRENT";
+    ViewData["Title"] = "Мои аренды | RentSport";
     ViewData["css"] = "booking";
 }
 
@@ -22,16 +22,16 @@
         <div class="page-header">
             <div>
                 <h1 class="page-title">Мои аренды</h1>
-                <p class="page-description">Просматривайте все ваши аренды оборудования</p>
+                <p class="page-description">Просматривайте все ваши аренды спортивного инвентаря</p>
             </div>
         </div>
 
         @if (!Model.Any())
         {
             <div class="empty-state">
-                <span class="material-symbols-outlined" style="font-size: 64px; color: #94a3b8;">inbox</span>
+                <span class="material-symbols-outlined" style="font-size: 64px; color: var(--text-muted);">inbox</span>
                 <h2>Аренды не найдены</h2>
-                <p>Вы ещё не арендовали никакого оборудования.</p>
+                <p>Вы ещё не арендовали никакого инвентаря.</p>
                 <a href="@Url.Action("Index", "Equipment")" class="button-primary">Перейти в каталог</a>
             </div>
         }
@@ -103,7 +103,7 @@
                             {
                                 <span class="status-badge status-cancelled">Отменена</span>
                             }
-                            <span class="rental-id">#TR-@booking.Id.ToString("D4")</span>
+                            <span class="rental-id">#RS-@booking.Id.ToString("D4")</span>
                         </div>
 
                         <div class="rental-content">
@@ -114,16 +114,16 @@
                                 }
                                 else
                                 {
-                                    <div style="width: 100%; height: 100%; background: #f1f5f9; display: flex; align-items: center; justify-content: center;">
-                                        <span class="material-symbols-outlined" style="font-size: 48px; color: #94a3b8;">construction</span>
+                                    <div style="width: 100%; height: 100%; background: var(--surface-soft); display: flex; align-items: center; justify-content: center;">
+                                        <span class="material-symbols-outlined" style="font-size: 48px; color: var(--text-tertiary);">sports_tennis</span>
                                     </div>
                                 }
                             </div>
 
                             <div class="rental-info">
                                 <div class="rental-header">
-                                    <h3 class="rental-title">@(booking.Equipment?.Name ?? "Unknown Equipment")</h3>
-                                    <span class="rental-category">@(booking.Equipment?.Category?.Name ?? "Equipment")</span>
+                                    <h3 class="rental-title">@(booking.Equipment?.Name ?? "Инвентарь")</h3>
+                                    <span class="rental-category">@(booking.Equipment?.Category?.Name ?? "Спорт")</span>
                                 </div>
                                 <p class="rental-description">@(booking.Equipment?.Description ?? "Описание недоступно")</p>
 

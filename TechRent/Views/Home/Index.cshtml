@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<TechRent.Models.Entities.Equipment>
 @{
-    ViewData["Title"] = "Аренда офисного оборудования | RentOffice";
+    ViewData["Title"] = "Аренда спортивного инвентаря | RentSport";
     ViewData["css"] = "index";
     ViewData["header"] = "base_header";
 }
@@ -9,19 +9,60 @@
 <section class="hero-rent">
     <div class="hero-overlay"></div>
     <div class="hero-content">
-        <span class="hero-badge">
-            <span class="live-dot"></span>
-            Бронирование за 2 минуты
-        </span>
-        <h1 class="hero-title">
-            Аренда офисного оборудования<br><span class="highlight">без скрытых платежей</span>
-        </h1>
-        <p class="hero-description">
-            Более 3000 единиц оргтехники от проверенных поставщиков. Доставка в офис за 2 часа.
-        </p>
-        <div class="hero-buttons">
-            <a href="@Url.Action("Index", "Equipment")" class="btn btn-primary">Выбрать оборудование</a>
-            <a href="#" class="btn btn-outline">Как это работает</a>
+        <div class="hero-copy">
+            <span class="hero-badge">
+                <span class="live-dot"></span>
+                Бронирование за 2 минуты
+            </span>
+            <h1 class="hero-title">
+                Аренда спорта<br><span class="highlight">без лишних хлопот</span>
+            </h1>
+            <p class="hero-description">
+                Велосипеды, тренажёры, туристическое снаряжение и инвентарь для зимнего отдыха.
+                Выбирай, бронируй и выходи на старт — доставка по Минску за 2 часа.
+            </p>
+            <div class="hero-buttons">
+                <a href="@Url.Action("Index", "Equipment")" class="btn btn-primary">Выбрать инвентарь</a>
+                <a href="#" class="btn btn-outline">Как это работает</a>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <strong>3000+</strong>
+                    <span>единиц инвентаря</span>
+                </div>
+                <div class="hero-stat">
+                    <strong>2 ч</strong>
+                    <span>доставка по городу</span>
+                </div>
+                <div class="hero-stat">
+                    <strong>24/7</strong>
+                    <span>поддержка</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-panel">
+            <div class="hero-panel-top">
+                <span><span class="live-dot"></span> Доступно сегодня</span>
+                <small>Минск</small>
+            </div>
+            <div class="hero-panel-visual">
+                <span class="material-symbols-outlined">directions_bike</span>
+                <span class="hero-panel-tag">
+                    <span class="material-symbols-outlined">verified</span>
+                    Проверено перед выдачей
+                </span>
+            </div>
+            <div class="hero-panel-info">
+                <div>
+                    <span>Популярное</span>
+                    <strong>Горные велосипеды</strong>
+                </div>
+                <div>
+                    <span>От</span>
+                    <strong>35 <span class="br-icon1"></span> / день</strong>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -30,41 +71,44 @@
     <!-- Popular Categories -->
     <section class="categories-section">
         <div class="section-header">
-            <h2 class="section-title">Популярные категории</h2>
-            <a href="#" class="link-arrow">Все категории →</a>
+            <div>
+                <h2 class="section-title">Спорт под твой ритм</h2>
+                <p class="section-subtitle">Выбери направление — остальное найдётся в каталоге</p>
+            </div>
+            <a href="@Url.Action("Index", "Equipment")" class="link-arrow">Все категории →</a>
         </div>
         <div class="categories-grid">
-            <a href="#" class="category-card">
+            <a href="@Url.Action("Index", "Equipment")" class="category-card">
                 <div class="category-icon-circle">
-                    <span class="material-symbols-outlined category-icon">print</span>
+                    <span class="material-symbols-outlined category-icon">directions_bike</span>
                 </div>
-                <span class="category-title">Принтеры и МФУ</span>
+                <span class="category-title">Велосипеды</span>
             </a>
-            <a href="#" class="category-card">
+            <a href="@Url.Action("Index", "Equipment")" class="category-card">
                 <div class="category-icon-circle">
-                    <span class="material-symbols-outlined category-icon">computer</span>
+                    <span class="material-symbols-outlined category-icon">fitness_center</span>
                 </div>
-                <span class="category-title">Компьютеры</span>
+                <span class="category-title">Тренажёры и фитнес</span>
             </a>
-            <a href="#" class="category-card">
+            <a href="@Url.Action("Index", "Equipment")" class="category-card">
                 <div class="category-icon-circle">
-                    <span class="material-symbols-outlined category-icon">videocam</span>
+                    <span class="material-symbols-outlined category-icon">hiking</span>
                 </div>
-                <span class="category-title">Видеоконференции</span>
+                <span class="category-title">Туризм и кемпинг</span>
             </a>
-            <a href="#" class="category-card">
+            <a href="@Url.Action("Index", "Equipment")" class="category-card">
                 <div class="category-icon-circle">
-                    <span class="material-symbols-outlined category-icon">chair</span>
+                    <span class="material-symbols-outlined category-icon">downhill_skiing</span>
                 </div>
-                <span class="category-title">Офисная мебель</span>
+                <span class="category-title">Зимний спорт</span>
             </a>
-            <a href="#" class="category-card">
+            <a href="@Url.Action("Index", "Equipment")" class="category-card">
                 <div class="category-icon-circle">
-                    <span class="material-symbols-outlined category-icon">kitchen</span>
+                    <span class="material-symbols-outlined category-icon">surfing</span>
                 </div>
-                <span class="category-title">Кухонное оборудование</span>
+                <span class="category-title">Водный спорт</span>
             </a>
-            <a href="#" class="category-card">
+            <a href="@Url.Action("Index", "Equipment")" class="category-card">
                 <div class="category-icon-circle">
                     <span class="material-symbols-outlined category-icon">grid_view</span>
                 </div>
@@ -76,33 +120,33 @@
     <!-- How It Works -->
     <section class="steps-section">
         <div class="section-header centered">
-            <h2 class="section-title">Начните работу за 4 шага</h2>
+            <h2 class="section-title">Выйди на старт за 4 шага</h2>
             <p class="section-subtitle">Прозрачная аренда без лишних документов</p>
         </div>
         <div class="steps-grid">
             <div class="step-card">
                 <div class="step-number">01</div>
                 <span class="step-icon material-symbols-outlined">search</span>
-                <h3>Выберите оборудование</h3>
-                <p>Каталог с фильтрами по цене, производителю и типу техники</p>
+                <h3>Выбери инвентарь</h3>
+                <p>Каталог с фильтрами по виду спорта, цене и наличию</p>
             </div>
             <div class="step-card">
                 <div class="step-number">02</div>
                 <span class="step-icon material-symbols-outlined">calendar_month</span>
-                <h3>Укажите даты</h3>
-                <p>Гибкие тарифы: почасовая, посуточная, на месяц</p>
+                <h3>Укажи даты</h3>
+                <p>Гибкие тарифы: на день, на выходные или на весь сезон</p>
             </div>
             <div class="step-card">
                 <div class="step-number">03</div>
                 <span class="step-icon material-symbols-outlined">verified</span>
-                <h3>Подтверждение</h3>
-                <p>Онлайн‑договор и безопасная оплата</p>
+                <h3>Подтверди бронь</h3>
+                <p>Онлайн-договор и безопасная оплата</p>
             </div>
             <div class="step-card">
                 <div class="step-number">04</div>
                 <span class="step-icon material-symbols-outlined">local_shipping</span>
-                <h3>Доставка</h3>
-                <p>Привезём в офис в течение 2 часов</p>
+                <h3>Получи инвентарь</h3>
+                <p>Привезём по адресу или подготовим к самовывозу</p>
             </div>
         </div>
     </section>
@@ -110,7 +154,10 @@
     <!-- Popular Products (динамические) -->
     <section class="products-section">
         <div class="section-header">
-            <h2 class="section-title">Популярное сейчас</h2>
+            <div>
+                <h2 class="section-title">Популярное сейчас</h2>
+                <p class="section-subtitle">Инвентарь, который выбирают чаще всего</p>
+            </div>
             <a href="@Url.Action("Index", "Equipment")" class="link-arrow">Смотреть всё →</a>
         </div>
         <div class="products-grid">
@@ -146,8 +193,8 @@
                         }
                         else
                         {
-                            <div class="product-image" style="background: #f1f5f9; display: flex; align-items: center; justify-content: center;">
-                                <span class="material-symbols-outlined" style="font-size: 48px; color: #94a3b8;">print</span>
+                            <div class="product-image" style="background: var(--surface-soft); display: flex; align-items: center; justify-content: center;">
+                                <span class="material-symbols-outlined" style="font-size: 52px; color: var(--text-tertiary);">sports_tennis</span>
                             </div>
                         }
                     </div>
@@ -173,8 +220,8 @@
                                 <span class="price">@item.PricePerDay<span class="br-icon"></span></span>
                                 <span class="price-period">/день</span>
                             </div>
-                            <a href="@Url.Action("Index", "Product", new { id = item.Id })" class="add-to-cart-button">
-                                <span class="material-symbols-outlined">add</span>
+                            <a href="@Url.Action("Index", "Product", new { id = item.Id })" class="add-to-cart-button" aria-label="Подробнее">
+                                <span class="material-symbols-outlined">arrow_forward</span>
                             </a>
                         </div>
                     </div>
@@ -188,16 +235,16 @@
         <div class="delivery-card">
             <div class="delivery-bg"></div>
             <div class="delivery-content">
-                <h3>Рассчитать доставку</h3>
-                <p>Введите адрес офиса – узнайте точную стоимость и время прибытия</p>
+                <h3>Рассчитай доставку</h3>
+                <p>Укажи адрес — покажем стоимость и ближайшее время прибытия.</p>
                 <div class="address-input">
-                    <input type="text" placeholder="Адрес офиса">
-                    <button><span class="material-symbols-outlined">arrow_forward</span></button>
+                    <input type="text" placeholder="Адрес доставки">
+                    <button aria-label="Рассчитать"><span class="material-symbols-outlined">arrow_forward</span></button>
                 </div>
                 <div class="drivers">
                     <div class="driver-avatars">
-                        <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="">
-                        <img src="https://randomuser.me/api/portraits/men/2.jpg" alt="">
+                        <span class="driver-avatar material-symbols-outlined">person</span>
+                        <span class="driver-avatar material-symbols-outlined">person</span>
                         <span>+24</span>
                     </div>
                     <span><strong>26 курьеров</strong> рядом с вами</span>
@@ -212,12 +259,12 @@
                 <span class="material-symbols-outlined filled-star">star</span>
                 <span class="material-symbols-outlined filled-star">star</span>
             </div>
-            <p class="testimonial-text">«Заказали МФУ на время ремонта – привезли на следующий день, установили и настроили. Отличный сервис!»</p>
+            <p class="testimonial-text">«Брали велосипеды на выходные — привезли накануне, всё проверили и настроили под рост. Отличный сервис!»</p>
             <div class="testimonial-author">
-                <img src="https://randomuser.me/api/portraits/men/42.jpg" alt="">
+                <span class="author-avatar material-symbols-outlined">person</span>
                 <div>
                     <strong>Алексей Ковалёв</strong>
-                    <span>IT-директор, ООО "ТехноСервис"</span>
+                    <span>Любительский велоклуб «Ветер»</span>
                 </div>
             </div>
         </div>
@@ -225,8 +272,8 @@
 
     <!-- CTA -->
     <section class="cta-block">
-        <h2>Готовы оснастить офис?</h2>
-        <p>Присоединяйтесь к 5000+ компаний, которые арендуют оборудование с RentOffice.</p>
+        <h2>Готов к следующему старту?</h2>
+        <p>Присоединяйся к 5000+ спортсменам и командам, которые арендуют инвентарь с RentSport.</p>
         <div class="cta-buttons">
             <a href="@Url.Action("Index", "Equipment")" class="btn btn-primary-light">Перейти в каталог</a>
             <a href="#" class="btn btn-outline-light">Стать поставщиком</a>
