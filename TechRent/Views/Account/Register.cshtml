@@ -1,23 +1,52 @@
-﻿@{
+﻿@model TechRent.Models.Entities.RegisterViewModel
+@{
     ViewData["Title"] = "Регистрация";
     ViewData["css"] = "auth";
-}
 
-@if (ViewData.ModelState.Any(x => x.Value.Errors.Any()))
-{
-    <div class="alert alert-danger">
-        <ul>
-            @foreach (var error in ViewData.ModelState.Values.SelectMany(x => x.Errors))
-            {
-                <li>@error.ErrorMessage</li>
-            }
-        </ul>
-    </div>
+    var successMessage = TempData["SuccessMessage"] as string;
+    var errorMessage = TempData["ErrorMessage"] as string;
+    var validationErrors = ViewData.ModelState
+        .Where(x => x.Value.Errors.Any())
+        .SelectMany(x => x.Value.Errors)
+        .Select(e => e.ErrorMessage)
+        .Where(m => !string.IsNullOrWhiteSpace(m))
+        .Distinct()
+        .ToList();
 }
 
 <main class="auth-main">
     <div class="auth-container">
         <div class="auth-card">
+            @if (!string.IsNullOrEmpty(successMessage))
+            {
+                <div class="alert alert-success" role="status">
+                    <ul>
+                        <li>@successMessage</li>
+                    </ul>
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger" role="alert">
+                    <ul>
+                        <li>@errorMessage</li>
+                    </ul>
+                </div>
+            }
+
+            @if (validationErrors.Any())
+            {
+                <div class="alert alert-danger" role="alert">
+                    <ul>
+                        @foreach (var error in validationErrors)
+                        {
+                            <li>@error</li>
+                        }
+                    </ul>
+                </div>
+            }
+
             <!-- Header -->
             <div class="auth-header">
                 <h1 class="auth-title">Создать аккаунт</h1>
@@ -29,21 +58,19 @@
                 @Html.AntiForgeryToken()
                 <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
 
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
                 <div class="form-row">
                     <div class="form-group half">
                         <label class="form-label" for="FirstName">Имя</label>
                         <div class="input-wrapper">
                             <span class="input-icon material-symbols-outlined">person</span>
-                            <input type="text" id="FirstName" name="FirstName" class="form-input" placeholder="Введите ваше имя" required>
+                            <input type="text" id="FirstName" name="FirstName" class="form-input" placeholder="Введите ваше имя" value="@(Model?.FirstName)" autocomplete="given-name" required>
                         </div>
                     </div>
                     <div class="form-group half">
                         <label class="form-label" for="LastName">Фамилия</label>
                         <div class="input-wrapper">
                             <span class="input-icon material-symbols-outlined">person</span>
-                            <input type="text" id="LastName" name="LastName" class="form-input" placeholder="Введите вашу фамилию" required>
+                            <input type="text" id="LastName" name="LastName" class="form-input" placeholder="Введите вашу фамилию" value="@(Model?.LastName)" autocomplete="family-name" required>
                         </div>
                     </div>
                 </div>
@@ -52,7 +79,7 @@
                     <label class="form-label" for="Email">Электронная почта</label>
                     <div class="input-wrapper">
                         <span class="input-icon material-symbols-outlined">mail</span>
-                        <input type="email" id="Email" name="Email" class="form-input" placeholder="Введите вашу почту" required>
+                        <input type="email" id="Email" name="Email" class="form-input" placeholder="Введите вашу почту" value="@(Model?.Email)" autocomplete="username" required>
                     </div>
                 </div>
 
@@ -60,7 +87,7 @@
                     <label class="form-label" for="Phone">Номер телефона</label>
                     <div class="input-wrapper">
                         <span class="input-icon material-symbols-outlined">call</span>
-                        <input type="tel" id="Phone" name="Phone" class="form-input" placeholder="Введите ваш номер телефона">
+                        <input type="tel" id="Phone" name="Phone" class="form-input" placeholder="Введите ваш номер телефона" value="@(Model?.Phone)" autocomplete="tel">
                     </div>
                 </div>
 
@@ -69,7 +96,7 @@
                     <label class="form-label" for="Password">Пароль</label>
                     <div class="input-wrapper">
                         <span class="input-icon material-symbols-outlined">lock</span>
-                        <input type="password" id="Password" name="Password" class="form-input" placeholder="Придумайте пароль" required>
+                        <input type="password" id="Password" name="Password" class="form-input" placeholder="Придумайте пароль" autocomplete="new-password" required>
                         <button type="button" class="password-toggle" onclick="togglePassword('Password')">
                             <span class="material-symbols-outlined">visibility_off</span>
                         </button>
@@ -79,7 +106,7 @@
                     <label class="form-label" for="ConfirmPassword">Подтвердите пароль</label>
                     <div class="input-wrapper">
                         <span class="input-icon material-symbols-outlined">lock</span>
-                        <input type="password" id="ConfirmPassword" name="ConfirmPassword" class="form-input" placeholder="Повторите пароль" required>
+                        <input type="password" id="ConfirmPassword" name="ConfirmPassword" class="form-input" placeholder="Повторите пароль" autocomplete="new-password" required>
                         <button type="button" class="password-toggle" onclick="togglePassword('ConfirmPassword')">
                             <span class="material-symbols-outlined">visibility_off</span>
                         </button>
@@ -90,7 +117,7 @@
                 <!-- Чекбокс "Стать поставщиком" -->
                 <div class="form-options">
                     <label class="checkbox-label">
-                        <input type="checkbox" name="IsSupplier" class="checkbox-input" value="true">
+                        <input type="checkbox" name="IsSupplier" class="checkbox-input" value="true" checked="@(Model?.IsSupplier == true)">
                         <span class="checkbox-custom"></span>
                         <span class="checkbox-text">
                             <strong>Стать поставщиком</strong>
@@ -101,7 +128,7 @@
 
                 <div class="form-options">
                     <label class="checkbox-label">
-                        <input type="checkbox" name="TermsAccepted" class="checkbox-input" value="true" required>
+                        <input type="checkbox" name="TermsAccepted" class="checkbox-input" value="true" checked="@(Model?.TermsAccepted == true)" required>
                         <span class="checkbox-custom"></span>
                         <span class="checkbox-text">
                             Я согласен с <a href="#" class="terms-link">Условиями использования</a> и <a href="#" class="terms-link">Политикой конфиденциальности</a>

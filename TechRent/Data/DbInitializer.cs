@@ -10,6 +10,10 @@ namespace TechRent.Data
         {
             using var scope = serviceProvider.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+            // Применяем миграции, чтобы на чистой БД сначала создалась схема
+            await context.Database.MigrateAsync();
+
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
@@ -26,7 +30,7 @@ namespace TechRent.Data
 
             // ===== 2. СОЗДАНИЕ ТЕСТОВЫХ ПОЛЬЗОВАТЕЛЕЙ =====
 
-            // Администратор
+            // Администратор (логин и пароль не меняем)
             string adminEmail = "admin@rentoffice.com";
             string adminPassword = "Admin123!";
 
@@ -86,6 +90,9 @@ namespace TechRent.Data
                 }
             }
 
+            var supplierUser = await userManager.FindByEmailAsync(supplierEmail);
+            var supplierId = supplierUser?.Id;
+
             // ===== 3. ДОБАВЛЕНИЕ КАТЕГОРИЙ (если их нет) =====
             if (!context.Categories.Any())
             {
@@ -93,51 +100,39 @@ namespace TechRent.Data
                 {
                     new Category
                     {
-                        Name = "Принтеры и МФУ",
-                        Description = "Лазерные и струйные принтеры, многофункциональные устройства для печати, сканирования и копирования",
+                        Name = "Велосипеды",
+                        Description = "Горные, городские и электровелосипеды для поездок и тренировок",
                         DisplayOrder = 1
                     },
                     new Category
                     {
-                        Name = "Компьютеры",
-                        Description = "Ноутбуки, моноблоки, системные блоки для любых задач",
+                        Name = "Тренажёры и фитнес",
+                        Description = "Беговые дорожки, гребные и эллиптические тренажёры для дома и зала",
                         DisplayOrder = 2
                     },
                     new Category
                     {
-                        Name = "Видеоконференции",
-                        Description = "Камеры, микрофоны, спикерфоны для проведения онлайн-встреч",
+                        Name = "Туризм и кемпинг",
+                        Description = "Палатки, спальники, рюкзаки и всё необходимое для похода",
                         DisplayOrder = 3
                     },
                     new Category
                     {
-                        Name = "Офисная мебель",
-                        Description = "Эргономичные кресла, столы, переговорные зоны",
+                        Name = "Зимний спорт",
+                        Description = "Горные лыжи, сноуборды и защитная экипировка для сезона",
                         DisplayOrder = 4
                     },
                     new Category
                     {
-                        Name = "Кухонное оборудование",
-                        Description = "Кофемашины, чайники, микроволновые печи для офиса",
+                        Name = "Водный спорт",
+                        Description = "Сапборды, каяки и аксессуары для отдыха на воде",
                         DisplayOrder = 5
                     },
                     new Category
                     {
-                        Name = "Проекторы и экраны",
-                        Description = "Проекторы для презентаций, интерактивные доски, экраны",
+                        Name = "Командные виды спорта",
+                        Description = "Инвентарь для футбола, волейбола и активных игр на свежем воздухе",
                         DisplayOrder = 6
-                    },
-                    new Category
-                    {
-                        Name = "Серверное оборудование",
-                        Description = "Серверы, сетевое оборудование, системы хранения данных",
-                        DisplayOrder = 7
-                    },
-                    new Category
-                    {
-                        Name = "Расходные материалы",
-                        Description = "Картриджи, бумага, канцелярские принадлежности",
-                        DisplayOrder = 8
                     }
                 };
 
@@ -146,157 +141,200 @@ namespace TechRent.Data
                 Console.WriteLine($"Добавлено {categories.Count} категорий.");
             }
 
-            // ===== 4. ДОБАВЛЕНИЕ ОБОРУДОВАНИЯ (если его нет) =====
+            // ===== 4. ДОБАВЛЕНИЕ СПОРТИВНОГО ИНВЕНТАРЯ (если его нет) =====
             if (!context.Equipments.Any())
             {
-                var printersCategory = await context.Categories.FirstOrDefaultAsync(c => c.Name == "Принтеры и МФУ");
-                var computersCategory = await context.Categories.FirstOrDefaultAsync(c => c.Name == "Компьютеры");
-                var videoCategory = await context.Categories.FirstOrDefaultAsync(c => c.Name == "Видеоконференции");
-                var furnitureCategory = await context.Categories.FirstOrDefaultAsync(c => c.Name == "Офисная мебель");
-                var kitchenCategory = await context.Categories.FirstOrDefaultAsync(c => c.Name == "Кухонное оборудование");
-                var projectorsCategory = await context.Categories.FirstOrDefaultAsync(c => c.Name == "Проекторы и экраны");
+                var bikesCategory = await context.Categories.FirstOrDefaultAsync(c => c.Name == "Велосипеды");
+                var fitnessCategory = await context.Categories.FirstOrDefaultAsync(c => c.Name == "Тренажёры и фитнес");
+                var campingCategory = await context.Categories.FirstOrDefaultAsync(c => c.Name == "Туризм и кемпинг");
+                var winterCategory = await context.Categories.FirstOrDefaultAsync(c => c.Name == "Зимний спорт");
+                var waterCategory = await context.Categories.FirstOrDefaultAsync(c => c.Name == "Водный спорт");
+                var teamCategory = await context.Categories.FirstOrDefaultAsync(c => c.Name == "Командные виды спорта");
 
                 var equipments = new List<Equipment>
                 {
-                    // Принтеры и МФУ
+                    // Велосипеды
                     new Equipment
                     {
-                        Name = "МФУ Canon i-SENSYS MF445dw",
-                        CategoryId = printersCategory?.Id ?? 1,
-                        Description = "Лазерное МФУ формата A4 с печатью, сканированием и копированием. Поддержка Wi-Fi и двусторонней печати.",
-                        PricePerDay = 45,
-                        Deposit = 200,
-                        ImageUrl = "https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=400&auto=format",
-                        AvailableQuantity = 8
-                    },
-                    new Equipment
-                    {
-                        Name = "Принтер HP LaserJet Pro",
-                        CategoryId = printersCategory?.Id ?? 1,
-                        Description = "Монохромный лазерный принтер с быстрой печатью до 40 страниц в минуту.",
+                        Name = "Горный велосипед Trek Marlin 7",
+                        CategoryId = bikesCategory?.Id ?? 1,
+                        Description = "Горный велосипед с алюминиевой рамой, 21 скоростью и гидравлическими тормозами. Подходит для города и лёгкого бездорожья.",
                         PricePerDay = 35,
-                        Deposit = 150,
-                        ImageUrl = "https://images.unsplash.com/photo-1563206767-5b18f218e8d0?w=400&auto=format",
-                        AvailableQuantity = 12
-                    },
-            
-                    // Компьютеры
-                    new Equipment
-                    {
-                        Name = "Ноутбук Apple MacBook Pro 14",
-                        CategoryId = computersCategory?.Id ?? 2,
-                        Description = "Ноутбук с процессором M3, 16GB RAM, 512GB SSD. Идеален для работы и дизайна.",
-                        PricePerDay = 120,
-                        Deposit = 1500,
-                        ImageUrl = "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&auto=format",
-                        AvailableQuantity = 5
+                        Deposit = 300,
+                        AvailableQuantity = 6,
+                        SupplierId = supplierId
                     },
                     new Equipment
                     {
-                        Name = "Моноблок iMac 24",
-                        CategoryId = computersCategory?.Id ?? 2,
-                        Description = "24-дюймовый моноблок с дисплеем Retina, процессор M3.",
-                        PricePerDay = 150,
-                        Deposit = 1800,
-                        ImageUrl = "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=400&auto=format",
-                        AvailableQuantity = 3
-                    },
-                    new Equipment
-                    {
-                        Name = "Ноутбук Dell XPS 15",
-                        CategoryId = computersCategory?.Id ?? 2,
-                        Description = "Мощный ноутбук для бизнеса, 32GB RAM, 1TB SSD, Intel Core i7.",
-                        PricePerDay = 100,
-                        Deposit = 1200,
-                        ImageUrl = "https://images.unsplash.com/photo-1593642702749-b7d2a804fbcf?w=400&auto=format",
-                        AvailableQuantity = 6
-                    },
-            
-                    // Видеоконференции
-                    new Equipment
-                    {
-                        Name = "Камера Logitech Brio 4K",
-                        CategoryId = videoCategory?.Id ?? 3,
-                        Description = "Веб-камера 4K для конференций, с шумоподавлением и автофокусом.",
+                        Name = "Городской велосипед City Cruiser 28",
+                        CategoryId = bikesCategory?.Id ?? 1,
+                        Description = "Комфортный городской велосипед с корзиной и багажником. Идеален для прогулок по городу.",
                         PricePerDay = 25,
-                        Deposit = 100,
-                        ImageUrl = "https://images.unsplash.com/photo-1587825140708-dfaf72ae4f04?w=400&auto=format",
-                        AvailableQuantity = 15
-                    },
-                    new Equipment
-                    {
-                        Name = "Комплект для конференций Logitech Rally",
-                        CategoryId = videoCategory?.Id ?? 3,
-                        Description = "Полный комплект для переговорных комнат: камера, микрофон, спикерфон.",
-                        PricePerDay = 180,
-                        Deposit = 1000,
-                        ImageUrl = "https://images.unsplash.com/photo-1573164713988-8665fc963095?w=400&auto=format",
-                        AvailableQuantity = 2
-                    },
-            
-                    // Офисная мебель
-                    new Equipment
-                    {
-                        Name = "Кресло офисное эргономичное",
-                        CategoryId = furnitureCategory?.Id ?? 4,
-                        Description = "Эргономичное кресло с поддержкой поясницы и регулировкой высоты.",
-                        PricePerDay = 30,
                         Deposit = 200,
-                        ImageUrl = "https://images.unsplash.com/photo-1580480055273-228ff5388ef8?w=400&auto=format",
-                        AvailableQuantity = 10
+                        AvailableQuantity = 8,
+                        SupplierId = supplierId
                     },
                     new Equipment
                     {
-                        Name = "Стол для переговоров",
-                        CategoryId = furnitureCategory?.Id ?? 4,
-                        Description = "Стол для переговорной комнаты на 8 персон.",
-                        PricePerDay = 80,
+                        Name = "Электровелосипед Himo C26",
+                        CategoryId = bikesCategory?.Id ?? 1,
+                        Description = "Электровелосипед с запасом хода до 100 км, съёмной батареей и семискоростной трансмиссией.",
+                        PricePerDay = 55,
                         Deposit = 500,
-                        ImageUrl = "https://images.unsplash.com/photo-1542471028-78b7f0cf65c1?w=400&auto=format",
-                        AvailableQuantity = 4
+                        AvailableQuantity = 4,
+                        SupplierId = supplierId
                     },
-            
-                    // Кухонное оборудование
+
+                    // Тренажёры и фитнес
                     new Equipment
                     {
-                        Name = "Кофемашина Jura E8",
-                        CategoryId = kitchenCategory?.Id ?? 5,
-                        Description = "Автоматическая кофемашина для офиса. Приготовление любых кофейных напитков.",
-                        PricePerDay = 50,
-                        Deposit = 400,
-                        ImageUrl = "https://images.unsplash.com/photo-1578601127250-46f4e83c65e9?w=400&auto=format",
-                        AvailableQuantity = 6
-                    },
-                    new Equipment
-                    {
-                        Name = "Микроволновая печь Samsung",
-                        CategoryId = kitchenCategory?.Id ?? 5,
-                        Description = "Микроволновая печь с грилем, объем 23 литра.",
-                        PricePerDay = 15,
-                        Deposit = 80,
-                        ImageUrl = "https://images.unsplash.com/photo-1575023782549-62ca0d244b39?w=400&auto=format",
-                        AvailableQuantity = 8
-                    },
-            
-                    // Проекторы
-                    new Equipment
-                    {
-                        Name = "Проектор Epson EB-695Wi",
-                        CategoryId = projectorsCategory?.Id ?? 6,
-                        Description = "Интерактивный проектор для презентаций и обучения.",
-                        PricePerDay = 90,
+                        Name = "Беговая дорожка NordicTrack T 6.5 S",
+                        CategoryId = fitnessCategory?.Id ?? 2,
+                        Description = "Складная беговая дорожка с электроприводом, 12 программами тренировок и амортизацией бегового полотна.",
+                        PricePerDay = 40,
                         Deposit = 600,
-                        ImageUrl = "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=400&auto=format",
-                        AvailableQuantity = 3
+                        AvailableQuantity = 3,
+                        SupplierId = supplierId
+                    },
+                    new Equipment
+                    {
+                        Name = "Гребной тренажёр Concept2 RowErg",
+                        CategoryId = fitnessCategory?.Id ?? 2,
+                        Description = "Профессиональный гребной тренажёр с воздушным сопротивлением и точным измерением нагрузки.",
+                        PricePerDay = 30,
+                        Deposit = 400,
+                        AvailableQuantity = 5,
+                        SupplierId = supplierId
+                    },
+                    new Equipment
+                    {
+                        Name = "Эллиптический тренажёр Sole E35",
+                        CategoryId = fitnessCategory?.Id ?? 2,
+                        Description = "Эллиптический тренажёр с плавным ходом, регулируемым сопротивлением и встроенными программами.",
+                        PricePerDay = 45,
+                        Deposit = 550,
+                        AvailableQuantity = 2,
+                        SupplierId = supplierId
+                    },
+
+                    // Туризм и кемпинг
+                    new Equipment
+                    {
+                        Name = "Палатка Naturehike Cloud Up 4",
+                        CategoryId = campingCategory?.Id ?? 3,
+                        Description = "Четырёхместная лёгкая палатка с усиленным тентом и быстрой сборкой. Для походов и кемпинга.",
+                        PricePerDay = 20,
+                        Deposit = 150,
+                        AvailableQuantity = 10,
+                        SupplierId = supplierId
+                    },
+                    new Equipment
+                    {
+                        Name = "Спальный мешок Deuter Orbit -5",
+                        CategoryId = campingCategory?.Id ?? 3,
+                        Description = "Тёплый спальный мешок для температур до −5 °C. Компактно складывается в чехол.",
+                        PricePerDay = 12,
+                        Deposit = 80,
+                        AvailableQuantity = 15,
+                        SupplierId = supplierId
+                    },
+                    new Equipment
+                    {
+                        Name = "Туристический рюкзак Osprey 60 л",
+                        CategoryId = campingCategory?.Id ?? 3,
+                        Description = "Анатомический рюкзак на 60 литров с дождевым чехлом и системой вентиляции спины.",
+                        PricePerDay = 10,
+                        Deposit = 70,
+                        AvailableQuantity = 12,
+                        SupplierId = supplierId
+                    },
+
+                    // Зимний спорт
+                    new Equipment
+                    {
+                        Name = "Горные лыжи Atomic Redster + ботинки",
+                        CategoryId = winterCategory?.Id ?? 4,
+                        Description = "Комплект горных лыж с креплениями и ботинками. Подготовлены и заточены под карвинг.",
+                        PricePerDay = 50,
+                        Deposit = 500,
+                        AvailableQuantity = 6,
+                        SupplierId = supplierId
+                    },
+                    new Equipment
+                    {
+                        Name = "Сноуборд Burton Custom",
+                        CategoryId = winterCategory?.Id ?? 4,
+                        Description = "Универсальный сноуборд с креплениями для трасс любого уровня сложности.",
+                        PricePerDay = 45,
+                        Deposit = 450,
+                        AvailableQuantity = 5,
+                        SupplierId = supplierId
+                    },
+                    new Equipment
+                    {
+                        Name = "Сапборд Aqua Marina 10'6\"",
+                        CategoryId = waterCategory?.Id ?? 5,
+                        Description = "Надувной SUP-борд с веслом, насосом и гермомешком. Устойчив на воде и легко перевозится.",
+                        PricePerDay = 40,
+                        Deposit = 350,
+                        AvailableQuantity = 7,
+                        SupplierId = supplierId
+                    },
+                    new Equipment
+                    {
+                        Name = "Каяк двухместный Intex Explorer K2",
+                        CategoryId = waterCategory?.Id ?? 5,
+                        Description = "Надувной двухместный каяк с вёслами и ремонтным набором. Для спокойной воды и прогулок.",
+                        PricePerDay = 35,
+                        Deposit = 300,
+                        AvailableQuantity = 4,
+                        SupplierId = supplierId
+                    },
+
+                    // Командные виды спорта
+                    new Equipment
+                    {
+                        Name = "Волейбольный набор (сетка + мяч)",
+                        CategoryId = teamCategory?.Id ?? 6,
+                        Description = "Комплект для пляжного и паркового волейбола: сетка с креплениями и мяч.",
+                        PricePerDay = 15,
+                        Deposit = 100,
+                        AvailableQuantity = 8,
+                        SupplierId = supplierId
+                    },
+                    new Equipment
+                    {
+                        Name = "Футбольные ворота складные",
+                        CategoryId = teamCategory?.Id ?? 6,
+                        Description = "Пара складных ворот из алюминия с сеткой и креплениями. Быстро собираются на поле.",
+                        PricePerDay = 18,
+                        Deposit = 120,
+                        AvailableQuantity = 6,
+                        SupplierId = supplierId
                     }
                 };
 
                 context.Equipments.AddRange(equipments);
                 await context.SaveChangesAsync();
-                Console.WriteLine($"Добавлено {equipments.Count} единиц оборудования.");
+                Console.WriteLine($"Добавлено {equipments.Count} единиц спортивного инвентаря.");
             }
 
-            // ===== 5. ДОБАВЛЕНИЕ ОТЗЫВОВ (если их нет) =====
+            // ===== 5. ПУНКТ ВЫДАЧИ ПОСТАВЩИКА (если его нет) =====
+            if (supplierId != null && !context.Offices.Any(o => o.SupplierId == supplierId))
+            {
+                context.Offices.Add(new Office
+                {
+                    Name = "Пункт выдачи RentSport",
+                    Address = "г. Минск, пр-т Победителей, 84",
+                    Latitude = 53.9384,
+                    Longitude = 27.4849,
+                    SupplierId = supplierId
+                });
+                await context.SaveChangesAsync();
+                Console.WriteLine("Добавлен пункт выдачи поставщика.");
+            }
+
+            // ===== 6. ДОБАВЛЕНИЕ ОТЗЫВОВ (если их нет) =====
             if (!context.Reviews.Any())
             {
                 var existingUser = await userManager.FindByEmailAsync("user@rentoffice.com");
@@ -309,33 +347,33 @@ namespace TechRent.Data
                         new Review
                         {
                             UserId = existingUser.Id,
-                            EquipmentId = equipments[0].Id, // МФУ Canon
+                            EquipmentId = equipments[0].Id, // Горный велосипед Trek Marlin 7
                             Rating = 5,
-                            Comment = "Отличное устройство! Быстрая печать, удобное сканирование. Доставили вовремя, установили и настроили.",
+                            Comment = "Брал велосипед на выходные — всё в отличном состоянии, передачи переключаются плавно. Доставили вовремя.",
                             CreatedAt = DateTime.Now.AddDays(-7)
                         },
                         new Review
                         {
                             UserId = existingUser.Id,
-                            EquipmentId = equipments[2].Id, // MacBook Pro
+                            EquipmentId = equipments[2].Id, // Электровелосипед Himo C26
                             Rating = 5,
-                            Comment = "Отличный ноутбук для работы. Все приложения летают. Рекомендую!",
+                            Comment = "Электровелосипед просто огонь! Батареи хватило на весь день, очень удобно для поездок по городу.",
                             CreatedAt = DateTime.Now.AddDays(-5)
                         },
                         new Review
                         {
                             UserId = existingUser.Id,
-                            EquipmentId = equipments[9].Id, // Кофемашина
+                            EquipmentId = equipments[9].Id, // Горные лыжи Atomic Redster
                             Rating = 4,
-                            Comment = "Отличная кофемашина, офис теперь счастливее. Немного дороговата аренда, но качество оправдывает.",
+                            Comment = "Лыжи подготовлены хорошо, ботинки подошли по размеру. Немного поцарапаны, но на катание не влияет.",
                             CreatedAt = DateTime.Now.AddDays(-3)
                         },
                         new Review
                         {
                             UserId = existingUser.Id,
-                            EquipmentId = equipments[5].Id, // Камера Logitech
+                            EquipmentId = equipments[5].Id, // Эллиптический тренажёр Sole E35
                             Rating = 5,
-                            Comment = "Качество видео отличное, звук чистый. Провели конференцию без проблем.",
+                            Comment = "Тренажёр тихий и плавный, собрали за пару минут. Отличная альтернатива спортзалу дома.",
                             CreatedAt = DateTime.Now.AddDays(-1)
                         }
                     };
@@ -346,7 +384,7 @@ namespace TechRent.Data
                 }
             }
 
-            Console.WriteLine("База данных успешно инициализирована для RentOffice!");
+            Console.WriteLine("База данных успешно инициализирована для RentSport!");
         }
     }
 }

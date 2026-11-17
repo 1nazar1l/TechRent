@@ -832,7 +832,7 @@
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
             const pricePerDay = @Model.PricePerDay;
             const deposit = @Model.Deposit;
-            const serviceFee = 250;
+            const serviceFee = 10;
             const rentalTotal = pricePerDay * diffDays;
             const totalDue = rentalTotal + serviceFee + deposit + deliveryCost;
             const deliveryRow = deliveryCost > 0 ? '<div class="calculation-row"><span>Доставка</span><span>' + deliveryCost.toLocaleString() + ' <span class="br-icon1"></span></span></div>' : '';
@@ -845,7 +845,7 @@
         } else if (selectedStartDate) {
             const pricePerDay = @Model.PricePerDay;
             const deposit = @Model.Deposit;
-            const serviceFee = 250;
+            const serviceFee = 10;
             const totalMin = pricePerDay + serviceFee + deposit + deliveryCost;
             const deliveryRow = deliveryCost > 0 ? '<div class="calculation-row"><span>Доставка</span><span>' + deliveryCost.toLocaleString() + ' <span class="br-icon1"></span></span></div>' : '';
             calculationDiv.innerHTML =

@@ -132,7 +132,7 @@ namespace TechRent.Controllers
                 // Calculate days
                 var days = (endDate - startDate).Days + 1;
                 var totalPrice = equipment.PricePerDay * days;
-                var serviceFee = 250;
+                var serviceFee = 10;
                 var totalDue = totalPrice + serviceFee + equipment.Deposit;
 
                 // Create booking

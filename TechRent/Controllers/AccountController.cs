@@ -46,15 +46,32 @@ namespace TechRent.Controllers
             if (ModelState.IsValid)
             {
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+
                 if (result.Succeeded)
                 {
-                    if (!string.IsNullOrEmpty(returnUrl))
+                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                     {
                         return LocalRedirect(returnUrl);
                     }
                     return RedirectToAction("Index", "Home");
                 }
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+
+                if (result.IsNotAllowed)
+                {
+                    ModelState.AddModelError(string.Empty, "Аккаунт ещё не подтверждён. Проверьте почту и перейдите по ссылке из письма.");
+                }
+                else if (result.IsLockedOut)
+                {
+                    ModelState.AddModelError(string.Empty, "Аккаунт временно заблокирован из-за большого числа попыток входа. Попробуйте позже.");
+                }
+                else if (result.RequiresTwoFactor)
+                {
+                    ModelState.AddModelError(string.Empty, "Для входа требуется двухфакторная аутентификация.");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Неверный email или пароль. Проверьте введённые данные.");
+                }
             }
             return View(model);
         }
@@ -76,6 +93,19 @@ namespace TechRent.Controllers
 
             if (ModelState.IsValid)
             {
+                if (!model.TermsAccepted)
+                {
+                    ModelState.AddModelError(string.Empty, "Необходимо согласиться с условиями использования и политикой конфиденциальности.");
+                    return View(model);
+                }
+
+                var existingUser = await _userManager.FindByEmailAsync(model.Email);
+                if (existingUser != null)
+                {
+                    ModelState.AddModelError(string.Empty, "Пользователь с таким email уже зарегистрирован. Войдите в аккаунт или восстановите пароль.");
+                    return View(model);
+                }
+
                 var user = new IdentityUser
                 {
                     UserName = model.Email,
@@ -104,24 +134,24 @@ namespace TechRent.Controllers
                     {
                         await _emailSender.SendEmailAsync(
                             model.Email,
-                            "Добро пожаловать в TechRent! Подтвердите email",
+                            "Добро пожаловать в RentSport! Подтвердите email",
                             $@"
                     <html>
                     <body style='font-family: Arial, sans-serif;'>
-                        <h2>Добро пожаловать в TechRent, {model.FirstName}!</h2>
+                        <h2>Добро пожаловать в RentSport, {model.FirstName}!</h2>
                         <p>Спасибо за регистрацию. Пожалуйста, подтвердите ваш email адрес, нажав на ссылку ниже:</p>
-                        <p><a href='{confirmationLink}' style='background-color: #3b82f6; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>Подтвердить email</a></p>
+                        <p><a href='{confirmationLink}' style='background-color: #ff7a1a; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>Подтвердить email</a></p>
                         <p>Если кнопка не работает, скопируйте и вставьте эту ссылку в браузер:</p>
                         <p>{confirmationLink}</p>
-                        <p>С уважением,<br>Команда TechRent</p>
+                        <p>С уважением,<br>Команда RentSport</p>
                     </body>
                     </html>"
                         );
-                        TempData["SuccessMessage"] = "Регистрация успешна! Проверьте вашу почту для подтверждения аккаунта.";
+                        TempData["SuccessMessage"] = "Регистрация успешна! Проверьте вашу почту и подтвердите аккаунт по ссылке из письма.";
                     }
                     catch (Exception ex)
                     {
-                        TempData["SuccessMessage"] = "Регистрация успешна! Пожалуйста, свяжитесь с поддержкой для подтверждения аккаунта.";
+                        TempData["SuccessMessage"] = "Регистрация успешна! Не удалось отправить письмо с подтверждением — обратитесь в поддержку support@rentsport.by.";
                         Console.WriteLine($"Email error: {ex.Message}");
                     }
                     return RedirectToAction("Auth", "Account");
@@ -129,7 +159,7 @@ namespace TechRent.Controllers
 
                 foreach (var error in result.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    ModelState.AddModelError(string.Empty, GetIdentityErrorMessage(error));
                 }
             }
             return View(model);
@@ -141,25 +171,43 @@ namespace TechRent.Controllers
         {
             if (userId == null || token == null)
             {
-                return RedirectToAction("Index", "Home");
+                TempData["ErrorMessage"] = "Ссылка подтверждения недействительна. Зарегистрируйтесь заново или обратитесь в поддержку.";
+                return RedirectToAction("Auth", "Account");
             }
 
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "Пользователь не найден. Возможно, аккаунт был удалён.";
+                return RedirectToAction("Auth", "Account");
             }
 
             var result = await _userManager.ConfirmEmailAsync(user, token);
 
             if (result.Succeeded)
             {
-                TempData["SuccessMessage"] = "Email confirmed successfully! You can now log in.";
+                TempData["SuccessMessage"] = "Email успешно подтверждён! Теперь вы можете войти в аккаунт.";
                 return RedirectToAction("Auth", "Account");
             }
 
-            TempData["ErrorMessage"] = "Error confirming email. Please try again.";
+            TempData["ErrorMessage"] = "Не удалось подтвердить email. Возможно, срок действия ссылки истёк — запросите новое письмо.";
             return RedirectToAction("Auth", "Account");
+        }
+
+        private static string GetIdentityErrorMessage(IdentityError error)
+        {
+            return error.Code switch
+            {
+                "DuplicateEmail" or "DuplicateUserName" => "Пользователь с таким email уже зарегистрирован.",
+                "InvalidEmail" or "InvalidUserName" => "Введите корректный адрес электронной почты.",
+                "PasswordTooShort" => "Пароль слишком короткий — минимум 6 символов.",
+                "PasswordRequiresNonAlphanumeric" => "Пароль должен содержать хотя бы один специальный символ.",
+                "PasswordRequiresDigit" => "Пароль должен содержать хотя бы одну цифру.",
+                "PasswordRequiresLower" => "Пароль должен содержать хотя бы одну строчную букву.",
+                "PasswordRequiresUpper" => "Пароль должен содержать хотя бы одну заглавную букву.",
+                "PasswordRequiresUniqueChars" => "Пароль должен содержать больше уникальных символов.",
+                _ => error.Description
+            };
         }
 
         // POST: Account/Logout

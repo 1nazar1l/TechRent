@@ -26,7 +26,7 @@
             var isCompleted = Model.Status == "Подтверждено" && Model.EndDate < DateTime.Now;
             var isCancelled = Model.Status == "Отменено";
             var totalDays = (Model.EndDate - Model.StartDate).Days + 1;
-            var serviceFee = 250m;
+            var serviceFee = 10m;
             var totalAmount = Model.TotalPrice + serviceFee + Model.DepositPaid + Model.DeliveryCost;
             var hasDelivery = Model.DeliveryLat.HasValue && Model.DeliveryLng.HasValue;
             var officeAddress = Model.Office?.Address ?? Model.Office?.Name ?? "Не указан";
